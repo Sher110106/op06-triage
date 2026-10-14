@@ -116,6 +116,40 @@
    "api_cost_usd": 0.0
   },
   {
+   "run_id": "dev-http-llm",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/dev-http-llm/predictions.jsonl",
+   "created": "2026-10-14T17:10:39+0530",
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8365,
+    "action_acc_clean": 0.8395,
+    "action_acc_noisy": 0.8167,
+    "noisy_gap": 0.0228,
+    "matched_noisy_gap": 0.0066,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.433,
+    "distinct_confidences": 2221,
+    "policy_violation": 0.0848,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
    "run_id": "dev-pipeline-cpu",
    "seed": 0,
    "model": "pipeline@c007c7a3769a",
