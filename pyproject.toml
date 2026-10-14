@@ -1,0 +1,19 @@
+[project]
+name = "op06-triage"
+version = "0.1.0"
+description = "OP-06 Triage the Inbox: POST /triage over ABCD conversation prefixes"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy==2.5.4",
+    "scipy==1.18.1",
+    "scikit-learn==1.9.1",
+    "joblib==1.6.0",
+    "threadpoolctl>=3.5",
+]
+
+[dependency-groups]
+# Only the LLM experiments need these; the CPU service does not.
+llm = ["anthropic==1.13.0", "openai==3.29.0"]
+
+[tool.uv]
+package = false
