@@ -188,6 +188,8 @@ class Triage:
         self.llm, self.llm_error = load_llm(self.llm_cfg, retrieval_path)
         self._pool: cf.ThreadPoolExecutor | None = None
         self._pool_lock = threading.Lock()
+        self._cpu_thread: threading.Thread | None = None
+        self._cpu_exec = cf.ThreadPoolExecutor(1, thread_name_prefix="triage-cpu", initializer=self._cpu_init)
 
     @classmethod
     def from_env(cls, env=None) -> "Triage":
@@ -197,6 +199,7 @@ class Triage:
                    llm_cfg=LLMConfig.from_env(env), settings=Settings.from_env(env))
 
     def close(self) -> None:
+        self._cpu_exec.shutdown(wait=False, cancel_futures=True)
         if self._pool is not None:
             self._pool.shutdown(wait=False, cancel_futures=True)
         if self.llm is not None and hasattr(self.llm, "close"):
@@ -239,13 +242,30 @@ class Triage:
 
     def _run(self, objs: list, rids: list) -> list[tuple[dict, dict]]:
         policy = self.store.current()                             # one policy for the whole batch
+        work, ask = self._on_cpu(self._front, objs, rids, policy)
+        if ask:
+            self._ask_llm(ask)                                    # LLM waits overlap on other threads
+        return self._on_cpu(self._back, work)
+
+    def _on_cpu(self, fn, *args):
+        """Run CPU-bound stages on one dedicated thread. On a two-socket Linux box, CPU work handed between
+        threads on different cores ran at about 40 req/s against 130 on one thread (cold caches each hop),
+        even when a lock let only one thread work at a time; see EXPERIMENT_LOG P3-2."""
+        if threading.current_thread() is self._cpu_thread:
+            return fn(*args)
+        return self._cpu_exec.submit(fn, *args).result()
+
+    def _cpu_init(self) -> None:
+        self._cpu_thread = threading.current_thread()
+
+    def _front(self, objs: list, rids: list, policy: Policy):
         work = [self._gate(o, r, policy) for o, r in zip(objs, rids)]
         live = [w for w in work if w.out is None]
         if live:
             self._cpu(live, policy)
-        ask = [w for w in live if self._wants_llm(w)]
-        if ask:
-            self._ask_llm(ask)
+        return work, [w for w in live if self._wants_llm(w)]
+
+    def _back(self, work: list) -> list[tuple[dict, dict]]:
         return [w.out if w.out is not None else self._finish(w) for w in work]
 
     def _gate(self, obj, request_id: str, policy: Policy) -> _Work:

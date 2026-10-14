@@ -1,21 +1,29 @@
 """Tests for triage/pipeline.py: parity with dev-classical-v0 with the LLM off, the hostile pack, the LLM step
-through a fake, the policy file wired into the prior and the routing, batch against single calls, garbage input."""
+through a fake, the policy file wired into the prior and the routing, batch against single calls, garbage input,
+and the shipped routing points.
+
+Most tests use `triage_off`, which routes at v0's point so its answers can be checked against dev-classical-v0;
+the tests at the end use `triage_shipped`, with policy/policy.toml as shipped."""
 from __future__ import annotations
 
+import dataclasses
 import hashlib
 import importlib.util
 import json
 import os
 import random
+import re
 from collections import Counter
 
+import numpy as np
 import pytest
+from conftest import V0_ROUTE_THRESHOLD, v0_policy_text
 
 from triage import gate
 from triage.data import DATA, ROOT, project
 from triage.llm_action import LLMConfig, LLMResult
 from triage.pipeline import Settings, Triage, intent_flows, load_llm
-from triage.policy import DEFAULT_POLICY, PolicyStore
+from triage.policy import DEFAULT_POLICY, PolicyStore, load
 from triage.text import ACTIONS30, observed_actions
 
 V0 = ROOT / "results" / "raw" / "dev-classical-v0" / "predictions.jsonl"
@@ -40,8 +48,9 @@ def same_trace(a: dict, b: dict) -> bool:
 
 
 def write_policy(path, rules: str = "", flows: dict | None = None, version: str = "t.1") -> PolicyStore:
-    """The shipped policy with extra [[rules]] text, optionally with every flow's list replaced."""
-    text = DEFAULT_POLICY.read_text(encoding="utf-8").replace('version = "2026-10-14.1"', f'version = "{version}"')
+    """The v0-routing copy of the shipped policy (v0_policy_text) with extra [[rules]] text, optionally with every
+    flow's list replaced."""
+    text = v0_policy_text(version)
     if flows is not None:
         head, rest = text.split("[flows]", 1)
         text = head + "[flows]\n" + "\n".join(f"{f} = {json.dumps(a)}" for f, a in flows.items()) + \
@@ -86,7 +95,7 @@ def labelled(split):
 
 @pytest.fixture(scope="session")
 def dev_out(triage_off, labelled):
-    """handle_many over dev + dev_noisy (projected), LLM off, shipped policy."""
+    """handle_many over dev + dev_noisy (projected), LLM off, shipped policy with v0's routing points."""
     return triage_off.handle_many([project(r) for r in labelled])
 
 
@@ -136,11 +145,22 @@ def test_parity_with_classical_v0(dev_out, labelled, v0):
     assert set(why) <= {"no_dialogue", "off_policy"}
 
 
-def test_responses_are_schema_valid(dev_out, labelled):
+def test_responses_are_schema_valid(dev_out, labelled, v0_policy):
+    version = load(v0_policy).version
     for r, (resp, tr) in zip(labelled, dev_out):
         assert schema_valid(resp, None) and resp["id"] == r["id"]
         assert set(tr) == TRACE_KEYS and tr["error"] is None
-        assert tr["policy_version"] == "2026-10-14.1"
+        assert tr["policy_version"] == version
+
+
+def test_v0_policy_is_the_shipped_file_with_v0_points(triage_off):
+    """The parity tests run on the shipped flows, alias, risk tiers and rules, with both points at the bundle's
+    route_threshold. Written in full: a rounded 0.8498 routes confidences in [0.8498, 0.8498168) unlike v0."""
+    shipped, v0p = load(DEFAULT_POLICY), triage_off.store.current()
+    assert V0_ROUTE_THRESHOLD == triage_off.cpu.b["route_threshold"]
+    assert v0p.thresholds == {"high": V0_ROUTE_THRESHOLD, "low": V0_ROUTE_THRESHOLD}
+    assert v0p.version != shipped.version
+    assert dataclasses.replace(v0p, version=shipped.version, thresholds=shipped.thresholds) == shipped
 
 
 # ----------------------------------------------------------------------------- hostile pack, garbage, traces
@@ -444,15 +464,17 @@ def test_second_intent_flag_and_switch(triage_off, dev_out, labelled, monkeypatc
 
 # ----------------------------------------------------------------------------- set-up and health
 
-def test_health(triage_off):
-    h = triage_off.health()
+def test_health(triage_shipped, triage_off, v0_policy):
+    h = triage_shipped.health()
     assert h["status"] == "ok" and h["bundle"] == "models/classical_v0.joblib"
-    assert h["bundle_sha256"] == hashlib.sha256(triage_off.bundle_path.read_bytes()).hexdigest()
-    assert h["policy"] == {"version": "2026-10-14.1", "path": "policy/policy.toml", "last_error": None,
+    assert h["bundle_sha256"] == hashlib.sha256(triage_shipped.bundle_path.read_bytes()).hexdigest()
+    assert h["policy"] == {"version": load(DEFAULT_POLICY).version, "path": "policy/policy.toml", "last_error": None,
                            "loaded_at": h["policy"]["loaded_at"]}
     assert h["llm"]["enabled"] is False and h["llm"]["breaker_open"] is False
     assert h["llm"]["base_url_host"] == "openrouter.ai" and h["started_at"]
     json.dumps(h)
+    other = triage_off.health()["policy"]                          # a policy outside the repo shows its full path
+    assert other["version"] == load(v0_policy).version and other["path"] == str(v0_policy.resolve())
 
 
 def test_intent_flow_map(triage_off):
@@ -485,3 +507,78 @@ def test_from_env_reads_paths(monkeypatch):
                      "TRIAGE_FLAG_CONF_CAP": "0.3"})
     assert str(seen["bundle"]) == "b.joblib" and str(seen["policy_path"]) == "p.toml"
     assert seen["llm_cfg"].enabled is False and seen["settings"].flag_conf_cap == 0.3
+
+
+# ----------------------------------------------------------------------------- the shipped routing points
+
+@pytest.fixture(scope="session")
+def shipped_out(triage_shipped, labelled):
+    """handle_many over dev + dev_noisy (projected), LLM off, policy/policy.toml as shipped."""
+    return triage_shipped.handle_many([project(r) for r in labelled])
+
+
+def _flag_routes(tr: dict) -> list[str]:
+    return [x for x in tr["route_reasons"] if x != "low_confidence"]
+
+
+def test_shipped_points_change_routing_only(triage_shipped, dev_out, shipped_out):
+    """Against v0's single point, the shipped points move needs_human and the "low_confidence" reason, and nothing
+    else: the high point is higher, so only high-risk rows start going to a person; the low point is lower, so
+    only low-risk rows stop."""
+    policy = triage_shipped.store.current()
+    assert policy.thresholds["low"] < V0_ROUTE_THRESHOLD < policy.thresholds["high"]
+    changed = Counter()
+    for (a, ta), (b, tb) in zip(dev_out, shipped_out):
+        assert {**a, "needs_human": None} == {**b, "needs_human": None}
+        assert (ta["flags"], ta["cpu"], _flag_routes(ta)) == (tb["flags"], tb["cpu"], _flag_routes(tb))
+        if a["needs_human"] != b["needs_human"]:
+            changed[(policy.risk.get(b["action"], "low"), "now routed" if b["needs_human"] else "not routed")] += 1
+    print(f"\nneeds_human, v0 points -> shipped points: {dict(changed)}")
+    assert set(changed) == {("high", "now routed"), ("low", "not routed")}
+
+
+def test_shipped_points_route_by_tier(triage_shipped, shipped_out, labelled):
+    """Every row gets "low_confidence" exactly when its confidence is under its tier's point. Between the low
+    point (0.7104) and the high one (0.8883) a high-risk action goes to a person and any other action does not."""
+    policy = triage_shipped.store.current()
+    lo, hi = policy.thresholds["low"], policy.thresholds["high"]
+    assert lo < hi
+    band = {"high": [], "low": []}
+    for r, (resp, tr) in zip(labelled, shipped_out):
+        conf, tier = tr["cpu"]["confidence"], policy.risk.get(resp["action"], "low")
+        assert ("low_confidence" in tr["route_reasons"]) == (conf < policy.thresholds[tier]), r["id"]
+        if lo <= conf < hi and not _flag_routes(tr):
+            band[tier].append(r["id"])
+            assert tr["route_reasons"] == (["low_confidence"] if tier == "high" else []), r["id"]
+            assert resp["needs_human"] is (tier == "high") and resp["confidence"] == conf, r["id"]
+    assert len(band["high"]) >= 5 and len(band["low"]) >= 5, {k: len(v) for k, v in band.items()}
+
+
+@pytest.mark.parametrize("tier,conf,routed", [
+    ("high", 0.7104, True), ("high", 0.8882, True), ("high", 0.8883, False),
+    ("low", 0.7103, True), ("low", 0.7104, False), ("low", 0.8882, False),
+])
+def test_shipped_points_at_the_edges(triage_shipped, shipped_out, labelled, monkeypatch, tier, conf, routed):
+    """A real dev row with no routing flag, its confidence forced: a row routes when its confidence is strictly
+    under its tier's point."""
+    policy = triage_shipped.store.current()
+    k = next(i for i, (resp, tr) in enumerate(shipped_out)
+             if policy.risk.get(resp["action"], "low") == tier and not _flag_routes(tr))
+    row, action = project(labelled[k]), shipped_out[k][0]["action"]
+    monkeypatch.setattr(triage_shipped.cpu, "confidence", lambda pa, *a, **kw: np.full(len(pa), conf))
+    resp, tr = triage_shipped.handle(row, "r")
+    assert resp["action"] == action and resp["confidence"] == conf
+    assert resp["needs_human"] is routed
+    assert tr["route_reasons"] == (["low_confidence"] if routed else [])
+
+
+def test_policy_note_matches_llm_off_routing(shipped_out, labelled):
+    """The [thresholds] note in policy/policy.toml gives the LLM-off dev share sent to a person, and the action
+    accuracy on the rest; both must hold for the shipped file."""
+    note = DEFAULT_POLICY.read_text(encoding="utf-8")
+    m = re.search(r"with it off, the service sends ([0-9.]+)% of dev cases and gets ([0-9.]+)% of the rest right",
+                  note)
+    assert m, "the [thresholds] note no longer gives the LLM-off figures"
+    routed = [resp["needs_human"] for resp, _ in shipped_out]
+    auto_ok = [resp["action"] == r["action"] for r, (resp, _) in zip(labelled, shipped_out) if not resp["needs_human"]]
+    assert f"{100 * np.mean(routed):.1f}" == m[1] and f"{100 * np.mean(auto_ok):.1f}" == m[2]

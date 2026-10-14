@@ -549,21 +549,21 @@ def test_bad_llm_cost_is_not_counted(make_client):
         assert c.get("/metrics").json()["llm"]["cost_usd"] == 0
 
 
-def test_policy_reload_without_version_change_reaches_cached_body(tmp_path, triage_off, split, monkeypatch):
+def test_policy_reload_without_version_change_reaches_cached_body(tmp_path, triage_shipped, split, monkeypatch):
     """Real Triage and PolicyStore: raise the thresholds without a new version; the same body routes at once."""
     from triage.policy import DEFAULT_POLICY, PolicyStore
     path = tmp_path / "policy.toml"
     shutil.copy(DEFAULT_POLICY, path)
-    monkeypatch.setattr(triage_off, "store", PolicyStore(path, check_every_s=0.0))
+    monkeypatch.setattr(triage_shipped, "store", PolicyStore(path, check_every_s=0.0))
     rows = [project(r) for r in split("dev")[:200]]
-    row = next(r for r, (resp, tr) in zip(rows, triage_off.handle_many(rows))
+    row = next(r for r, (resp, tr) in zip(rows, triage_shipped.handle_many(rows))
                if not resp["needs_human"] and resp["confidence"] < 0.99)
-    with TestClient(create_app(triage_off)) as c:
+    with TestClient(create_app(triage_shipped)) as c:
         assert post(c, row).json()["needs_human"] is False
         assert post(c, row).headers.get("x-idempotent-replay") == "true"
         text = path.read_text()
         path.write_text(re.sub(r"(?m)^(high|low) = [0-9.]+$", r"\1 = 0.99", text))
-        assert path.read_text() != text and triage_off.store.current().thresholds == {"high": 0.99, "low": 0.99}
+        assert path.read_text() != text and triage_shipped.store.current().thresholds == {"high": 0.99, "low": 0.99}
         r = post(c, row)
         assert "x-idempotent-replay" not in r.headers and r.json()["needs_human"] is True
 

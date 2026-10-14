@@ -7,9 +7,11 @@
 #   scripts/reproduce.sh verify             check data/op06 against data/SHA256SUMS
 #   scripts/reproduce.sh test [ARGS]        run the tests (pytest -q; API keys removed from the environment)
 #   scripts/reproduce.sh baseline           rerun the published lexical baseline and grade it
-#   scripts/reproduce.sh train              train the CPU model (about 2 min on an Apple M1), build the retrieval
-#                                           index for the LLM step (about 15 s), and check that
-#                                           policy/policy.toml still matches the published permitted lists
+#   scripts/reproduce.sh train [--replace]  retrain the CPU model from train data (about 2 min on an Apple M1)
+#                                           into models/retrained/ and compare it with the shipped model on dev;
+#                                           --replace overwrites the shipped models/classical_v0.joblib instead.
+#                                           Also builds the retrieval index for the LLM step if missing (about
+#                                           15 s) and checks policy/policy.toml against the published lists
 #   scripts/reproduce.sh eval [RUN]         run the pipeline in-process over dev + dev_noisy + hostile, LLM step
 #                                           as the environment says, grade with the official grader, and
 #                                           rebuild results/manifest.json
@@ -22,13 +24,17 @@
 #                                           predictions.jsonl and latency_bench.json, grade, stop the service,
 #                                           rebuild results/manifest.json
 #   scripts/reproduce.sh loadtest [ARGS]    load-test a service already running at $URL (scripts/loadtest.py)
-#   scripts/reproduce.sh all                setup, verify, baseline, train, test, eval, smoke; never blocks
+#   scripts/reproduce.sh all                setup, verify, baseline, test, eval, smoke, train; never blocks
 #                                           (http-eval is separate: it rewrites the committed results/*.jsonl)
 #   scripts/reproduce.sh help               print this text
 #
 # With no subcommand the script starts the service, as the OP-06 contract asks (same as serve).
-# serve, eval, smoke and http-eval train the CPU model first if models/classical_v0.joblib is missing, and
-# build models/retrieval.joblib first if the LLM step is on and the index is missing.
+# The trained CPU model ships in the repo (models/classical_v0.joblib, the exact model every result was
+# measured with). Retraining is not bit-for-bit across platforms: the action model's solver stops at its
+# iteration cap, so on Linux 5 of 2,309 dev actions differ (EXPERIMENT_LOG P3-1). "train" therefore writes a
+# fresh model beside the shipped one and reports the difference. serve, eval, smoke and http-eval train only if
+# the shipped model is missing, and build models/retrieval.joblib (120 MB, too big for git, rebuilt in about
+# 15 s) first if the LLM step is on and the index is missing.
 # Default RUN: dev-pipeline-cpu or dev-pipeline-llm (eval), dev-http-cpu or dev-http-llm (http-eval).
 # Each run writes results/raw/<RUN>/: predictions.jsonl, report.json (harness summary) and report_official.json
 # (grader.py output, unchanged); eval adds details.jsonl and meta.json, http-eval adds meta.json and
@@ -234,8 +240,14 @@ EOF
 
 cmd_train() {
   need_venv
-  "$PY" -m triage.classical train
-  "$PY" scripts/build_retrieval.py
+  if [ "${1:-}" = "--replace" ]; then
+    "$PY" -m triage.classical train
+  else
+    mkdir -p models/retrained
+    "$PY" -m triage.classical train --out models/retrained/classical_v0.joblib
+    "$PY" scripts/compare_models.py "$BUNDLE" models/retrained/classical_v0.joblib
+  fi
+  [ -f "$RETRIEVAL" ] || "$PY" scripts/build_retrieval.py
   check_policy
 }
 
@@ -368,10 +380,10 @@ cmd_all() {
   cmd_setup
   cmd_verify
   cmd_baseline
-  cmd_train
   cmd_test
   cmd_eval
   cmd_smoke
+  cmd_train
 }
 
 cmd="${1:-serve}"
@@ -381,7 +393,7 @@ case "$cmd" in
   verify) cmd_verify ;;
   test) cmd_test "$@" ;;
   baseline) cmd_baseline ;;
-  train) cmd_train ;;
+  train) cmd_train "$@" ;;
   eval) cmd_eval "$@" ;;
   serve) cmd_serve ;;
   smoke) cmd_smoke ;;

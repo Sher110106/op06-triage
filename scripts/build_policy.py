@@ -1,11 +1,11 @@
 """Write policy/policy.toml from the permitted-action lists published in train (one list per flow).
 
 Every train row carries its flow's published list; the script checks that all rows of a flow agree, writes
-the lists sorted, adds the alias, risk tiers and placeholder thresholds, then loads the file back to check it.
-Both thresholds are the CPU model's own routing point (`route_threshold` in the bundle, written in full), so with
-the LLM step off the service routes exactly as the v0 model does.
+the lists sorted, adds the alias, risk tiers and routing points, then loads the file back to check it.
+The routing points are a recorded decision, not a model output: experiments/routing/analyse_routing.py chose
+them on train fold B by cost (experiments/routing/results_routing.json, "thresholds_from_fold_B").
 
-  python scripts/build_policy.py [--out policy/policy.toml] [--bundle models/classical_v0.joblib]
+  python scripts/build_policy.py [--out policy/policy.toml]
 """
 from __future__ import annotations
 
@@ -17,13 +17,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from triage import policy as P                                       # noqa: E402
-from triage.classical import DEFAULT_BUNDLE                          # noqa: E402
 from triage.data import load_split                                   # noqa: E402
 
-VERSION = "2026-10-14.1"
+VERSION = "2026-10-14.2"
 ALIAS = {"membership-privileges": "membership"}
 HIGH_RISK = ["offer-refund", "update-order", "update-account", "make-purchase", "promo-code", "make-password"]
-ROUTE_THRESHOLD = 0.8498168103175511     # route_threshold of the reference bundle; used when no bundle is built
+THRESHOLDS = {"high": 0.8883, "low": 0.7104}     # Phase 2, experiments/routing/results_routing.json
 
 HEADER = """\
 # Support policy for the triage service.
@@ -56,9 +55,26 @@ RISK_NOTE = """\
 """
 
 THRESHOLD_NOTE = """\
-# The service sends a case to a person when its confidence is below the point for the action's tier.
-# Phase 2 will set real values. For now both tiers use the v0 model's routing point (written in full, so the
-# service routes exactly as that model does), and high-risk actions get no extra care yet.
+# The service sends a case to a person when its confidence is below the point for the action's tier:
+# 0.8883 for a high-risk action, 0.7104 for any other.
+#
+# How we chose them: we priced each outcome. A person reading a case costs 1. A wrong answer that goes out on
+# its own costs 10 for a high-risk action and 3 for any other. For each tier we took the point with the lowest
+# total cost on 3,966 training cases that the model did not learn from. On those cases the service sends
+# 20.5% to a person, and 92.1% of the answers it gives on its own are right (97.1% for high-risk actions).
+# On the 2,300 dev cases it sends 24.0%, and 91.4% of the rest are right. These figures have the LLM step on;
+# with it off, the service sends 28.2% of dev cases and gets 92.0% of the rest right. Each share counts every
+# case sent to a person, for any reason.
+#
+# Other prices give other points. On the same 3,966 cases, with reading a case at 1:
+#   wrong answer costs (high-risk, other)   high     low      sent to a person   right when not sent
+#   3, 2                                    0.6661   0.1295    6.2%              88.0%
+#   5, 3                                    0.6661   0.7104   16.4%              91.8%
+#   10, 3 (in use)                          0.8883   0.7104   20.5%              92.1%
+#   10, 5                                   0.8883   0.8495   31.8%              94.9%
+#   20, 10                                  0.9094   0.9071   40.2%              96.1%
+# Full analysis: experiments/routing/analyse_routing.py, with its results in results_routing.json next to it.
+# The LLM-off figures come from the eval run in results/raw/dev-pipeline-cpu.
 """
 
 RULES_NOTE = """\
@@ -99,15 +115,7 @@ def _toml_list(items: list[str], indent: str = "    ", width: int = 100) -> str:
     return "[\n" + "\n".join(lines) + "\n]"
 
 
-def route_threshold(bundle: Path = DEFAULT_BUNDLE) -> float:
-    """The CPU model's routing point: from the bundle when it is built, else the reference bundle's value."""
-    if not Path(bundle).exists():
-        return ROUTE_THRESHOLD
-    import joblib
-    return float(joblib.load(bundle)["route_threshold"])
-
-
-def render(flows: dict[str, list[str]], threshold: float = ROUTE_THRESHOLD) -> str:
+def render(flows: dict[str, list[str]]) -> str:
     alias = ", ".join(f"{json.dumps(k)} = {json.dumps(v)}" for k, v in ALIAS.items())
     out = [HEADER, f'version = "{VERSION}"', "",
            '# One action, two names: the published lists say "membership-privileges", the service says "membership".',
@@ -116,23 +124,22 @@ def render(flows: dict[str, list[str]], threshold: float = ROUTE_THRESHOLD) -> s
     out += [f"{f} = {_toml_list(acts)}" for f, acts in flows.items()]
     out += ["", "[risk]", RISK_NOTE.rstrip(), f"high = {_toml_list(HIGH_RISK)}",
             "", "[thresholds]", THRESHOLD_NOTE.rstrip()]
-    out += [f"{tier} = {threshold!r}" for tier in ("high", "low")]
+    out += [f"{tier} = {value!r}" for tier, value in THRESHOLDS.items()]
     out += ["", RULES_NOTE.rstrip(), ""]
     return "\n".join(out)
 
 
-def build(out: Path = P.DEFAULT_POLICY, bundle: Path = DEFAULT_BUNDLE) -> P.Policy:
+def build(out: Path = P.DEFAULT_POLICY) -> P.Policy:
     flows = published_lists(load_split("train"))
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render(flows, route_threshold(bundle)), encoding="utf-8")
+    out.write_text(render(flows), encoding="utf-8")
     return P.load(out)
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=P.DEFAULT_POLICY)
-    ap.add_argument("--bundle", type=Path, default=DEFAULT_BUNDLE)
     a = ap.parse_args()
-    pol = build(a.out, a.bundle)
+    pol = build(a.out)
     print(f"wrote {a.out}: version {pol.version}, {len(pol.flow_permitted)} flows, "
           f"{sum(len(v) for v in pol.flow_permitted.values())} flow-action pairs, {len(pol.rules)} rules")

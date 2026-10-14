@@ -126,7 +126,7 @@ def test_ready_with_llm_off(server):
     assert "LLM step: off" in server.text()
 
 
-def test_hostile_pack(server, triage_off, split):
+def test_hostile_pack(server, triage_shipped, split):
     for row in map(project, split("hostile")):
         t = time.perf_counter()
         resp = server.post(row, timeout=2.0)
@@ -139,17 +139,17 @@ def test_hostile_pack(server, triage_off, split):
             assert body["error"]["code"] == "invalid_input"
         else:
             assert "error" not in body and body["confidence"] <= 0.5, row["id"]
-        assert body == triage_off.handle(row, "e2e")[0]
+        assert body == triage_shipped.handle(row, "e2e")[0]
 
 
-def test_dev_rows_match_in_process(server, triage_off, split):
+def test_dev_rows_match_in_process(server, triage_shipped, split):
     rows = [project(r) for r in split("dev")[::40]]
     assert len(rows) == 50
     for row in rows:
         rid = "e2e-" + row["id"]
         resp = server.post(row, headers={"X-Request-ID": rid})
         assert resp.status_code == 200 and resp.headers["x-request-id"] == rid
-        assert resp.json() == triage_off.handle(row, rid)[0], row["id"]
+        assert resp.json() == triage_shipped.handle(row, rid)[0], row["id"]
 
 
 PROBES = [  # name, body, HTTP status, error code
@@ -196,10 +196,10 @@ def test_chunked_body_over_limit(server):
     assert resp.status_code == 413 and resp.json()["error"]["code"] == "body_too_large"
 
 
-def test_100_requests_at_once(server, triage_off, split):
+def test_100_requests_at_once(server, triage_shipped, split):
     """100 clients, one connection each, released together."""
     rows = [project(r) for r in split("dev")[1000:1100]]
-    expected = {r["id"]: triage_off.handle(r, "e2e")[0] for r in rows}
+    expected = {r["id"]: triage_shipped.handle(r, "e2e")[0] for r in rows}
     start = threading.Barrier(len(rows))
 
     def one(row):
@@ -232,10 +232,10 @@ def test_logs_one_json_line_per_request_without_text(server, split):
                 assert t["text"] not in text
 
 
-def test_policy_hot_reload(tmp_path, triage_off, split):
+def test_policy_hot_reload(tmp_path, triage_shipped, split):
     rows = [project(r) for r in split("dev")]
     need = {"verify-identity", "validate-purchase"}
-    target = next(r for r, (resp, _) in zip(rows, triage_off.handle_many(rows))
+    target = next(r for r, (resp, _) in zip(rows, triage_shipped.handle_many(rows))
                   if resp["action"] == "offer-refund" and not need & set(T.observed_actions(r)))
     policy = tmp_path / "policy.toml"
     shutil.copy(DEFAULT_POLICY, policy)

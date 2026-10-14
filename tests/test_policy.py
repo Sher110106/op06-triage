@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
 import re
 import threading
@@ -12,10 +13,12 @@ import pytest
 
 from triage import policy as P
 from triage.data import ROOT, load_split
+from triage.pipeline import Settings
 from triage.policy import Policy, PolicyError, PolicyStore, load, loads
 
 BUNDLE = ROOT / "models" / "classical_v0.joblib"
 POLICY = ROOT / "policy" / "policy.toml"
+ROUTING = ROOT / "experiments" / "routing" / "results_routing.json"
 
 FLOW_LINES = {f: '["pull-up-account", "verify-identity"]' for f in sorted(P.FLOWS)}
 FLOW_LINES["order_issue"] = '["membership-privileges", "offer-refund", "pull-up-account", "verify-identity"]'
@@ -60,6 +63,12 @@ def shipped() -> Policy:
     return load(POLICY)
 
 
+@pytest.fixture(scope="session")
+def routing() -> dict:
+    """The Phase 2 results that chose the shipped routing points."""
+    return json.loads(ROUTING.read_text(encoding="utf-8"))
+
+
 @pytest.fixture()
 def tmp_policy(tmp_path):
     p = tmp_path / "policy.toml"
@@ -70,20 +79,53 @@ def tmp_policy(tmp_path):
 # ----------------------------------------------------------------------------- the shipped file
 
 def test_shipped_file_loads(shipped):
-    assert shipped.version == "2026-10-14.1"
+    assert shipped.version == _build_module().VERSION
     assert set(shipped.flow_permitted) == P.FLOWS
     assert shipped.alias == {"membership-privileges": "membership"}
     assert set(shipped.risk) == {"offer-refund", "update-order", "update-account", "make-purchase", "promo-code",
                                  "make-password"}
     assert set(shipped.risk.values()) == {"high"}
-    assert shipped.thresholds == {"high": 0.8498168103175511, "low": 0.8498168103175511}
+    assert shipped.thresholds == {"high": 0.8883, "low": 0.7104}
     assert shipped.rules == ()
 
 
-def test_shipped_thresholds_equal_the_bundle_routing_point(shipped, bundle):
-    """Written in full: a rounded 0.8498 routed confidences in [0.8498, 0.8498168) differently from v0."""
-    assert set(shipped.thresholds.values()) == {bundle["route_threshold"]}
-    assert _build_module().ROUTE_THRESHOLD == bundle["route_threshold"]
+def test_shipped_thresholds_are_the_phase2_choice(shipped, routing):
+    """The routing points are the ones Phase 2 chose on train fold B, for the routing the service runs by
+    default: off_policy routes (decision D1), second_intent does not."""
+    assert shipped.thresholds == routing["thresholds_from_fold_B"] == _build_module().THRESHOLDS
+    assert routing["cost_ratio"] == {"high": 10.0, "low": 3.0}
+    chosen = routing["routing_configs_fold_B"][routing["chosen_config"]]
+    assert chosen["thresholds"] == shipped.thresholds
+    assert chosen["cfg"] == {"off_policy": Settings().route_off_policy, "second_intent": Settings().route_second_intent}
+    assert routing["sweep_fold_B"]["R_high=10,R_low=3"]["thresholds"] == shipped.thresholds
+
+
+def _pct(x: float) -> str:
+    return f"{100 * x:.1f}%"
+
+
+def test_threshold_note_matches_phase2_results(routing):
+    """The [thresholds] note gives the fold B and dev figures and a table of other costs; every number in them
+    must be the one in results_routing.json."""
+    text = POLICY.read_text(encoding="utf-8")
+    note = text[text.index("[thresholds]"):text.index("# Rules")]
+    b = routing["fold_B"]["with_chosen_thresholds"]
+    dev = routing["dev"]["routing"]
+    assert f"total cost on {b['rows']:,} training cases" in note and f"the {dev['rows']:,} dev cases" in note
+    for want in (f"sends\n# {_pct(b['routed_share'])} to a person",
+                 f"{_pct(b['auto_action_acc'])} of the answers",
+                 f"({_pct(b['by_tier']['high']['auto_action_acc'])} for high-risk",
+                 f"sends {_pct(dev['routed_share'])}",
+                 f"{_pct(dev['auto_action_acc'])} of the rest are right. These figures have the LLM step on"):
+        assert want in note, want
+    rows = re.findall(r"^#   (\d+), (\d+)( \(in use\))? +([0-9.]+) +([0-9.]+) +([0-9.]+%) +([0-9.]+%)$", note, re.M)
+    assert 4 <= len(rows) <= 6
+    in_use = [(h, lo) for h, lo, mark, *_ in rows if mark]
+    assert in_use == [(f"{routing['cost_ratio']['high']:g}", f"{routing['cost_ratio']['low']:g}")]
+    for h, lo, _, t_high, t_low, share, acc in rows:
+        sw = routing["sweep_fold_B"][f"R_high={h},R_low={lo}"]
+        assert (float(t_high), float(t_low)) == (sw["thresholds"]["high"], sw["thresholds"]["low"]), (h, lo)
+        assert (share, acc) == (_pct(sw["fold_B"]["routed_share"]), _pct(sw["fold_B"]["auto_action_acc"])), (h, lo)
 
 
 def test_prior_matrix_equals_bundle_table(shipped, bundle):
@@ -316,8 +358,7 @@ def test_build_script(tmp_path, train_rows, bundle):
     mod = _build_module()
     pol = mod.build(tmp_path / "policy.toml")
     assert (tmp_path / "policy.toml").read_bytes() == P.DEFAULT_POLICY.read_bytes()      # the shipped file, unedited
-    assert set(pol.thresholds.values()) == {bundle["route_threshold"]}
-    assert set(mod.build(tmp_path / "nb.toml", tmp_path / "none.joblib").thresholds.values()) == {mod.ROUTE_THRESHOLD}
+    assert pol.version == mod.VERSION and pol.thresholds == mod.THRESHOLDS
     assert np.array_equal(pol.prior_matrix(bundle["fsvc"].classes_, bundle["acts"]), bundle["perm"])
     published = {r["flow"]: frozenset(r["permitted_actions"]) for r in train_rows}
     expected = {f: v | ({"membership"} if "membership-privileges" in v else set()) for f, v in published.items()}

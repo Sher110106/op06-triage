@@ -1,0 +1,15 @@
+{
+ "run_id": "dev-pipeline-llm-replay",
+ "system": "pipeline with recorded GPT-6 Luna answers replayed (no API calls)",
+ "llm_answers": "experiments/llm_tail/runs/luna_V3_none.jsonl",
+ "policy_thresholds": {
+  "high": 0.8883,
+  "low": 0.7104
+ },
+ "llm_gate": 0.642841,
+ "routing": {
+  "off_policy": true,
+  "second_intent": false
+ },
+ "llm_rows_called": 460
+}

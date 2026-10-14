@@ -173,6 +173,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--r-high", type=float, default=10.0)
     ap.add_argument("--r-low", type=float, default=3.0)
+    ap.add_argument("--route-off-policy", choices=["cost", "on", "off"], default="on",
+                    help="'on' (default, decision D1: never act outside the written procedure), 'off', or 'cost' "
+                         "(pick whichever routing configuration has the lower fold-B cost)")
     a = ap.parse_args()
     from triage.policy import load
     policy = load(POLICY)
@@ -199,6 +202,11 @@ def main():
             configs[f"off_policy={op},second_intent={si}"] = {"cfg": cfg, "thresholds": t,
                                                                "fold_B": summarise(info_b, policy, t, cfg, R)}
     best_name = min(configs, key=lambda k: configs[k]["fold_B"]["cost_per_100"])
+    res_cost_best = best_name
+    if a.route_off_policy != "cost":                  # D1: off-policy routing is a policy rule, not a cost choice
+        want = a.route_off_policy == "on"
+        best_name = min((k for k in configs if configs[k]["cfg"]["off_policy"] == want),
+                        key=lambda k: configs[k]["fold_B"]["cost_per_100"])
     cfg, thr = configs[best_name]["cfg"], configs[best_name]["thresholds"]
     sweep = {}
     for rh, rl in ((3, 2), (5, 2), (5, 3), (10, 3), (10, 5), (20, 5), (20, 10)):
@@ -207,6 +215,7 @@ def main():
         sweep[f"R_high={rh},R_low={rl}"] = {"thresholds": t2, "fold_B": summarise(info_b, policy, t2, cfg, Rx)}
 
     res = {"cost_ratio": R, "routing_configs_fold_B": configs, "chosen_config": best_name,
+           "lowest_cost_config": res_cost_best, "off_policy_mode": a.route_off_policy,
            "thresholds_from_fold_B": thr, "llm_gate": gate,
            "fold_B": {"with_chosen_thresholds": summarise(info_b, policy, thr, cfg, R),
                       "v0_threshold_0.8498": summarise(info_b, policy, {"high": 0.8498, "low": 0.8498}, cfg, R),

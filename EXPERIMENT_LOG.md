@@ -219,3 +219,90 @@ The decision is in `DECISIONS.md` D2.
 - **Latency with the action step:** p50 15 ms, p95 about 1.8 s, p99 about 2.7 s. This is an offline estimate: single calls at concurrency 8, not yet a load test.
 - **Reading:** dev's 20% share gave +0.024 on dev, and fold B gives +0.025 on rows no choice had seen. The intent combination helps, but by less than the bar fixed in advance.
 - **Decision:** `DECISIONS.md` D2.
+
+## 14 Oct 2026: Phases 1–3
+
+### P1-1. The v1 service is built (commit `fe221d1`)
+
+- **Built by coding-agent workflows** from the contract in `docs/DESIGN.md`. The parts: gate, policy file, LLM step, pipeline, HTTP service, load tester, `reproduce.sh` and 464 tests.
+- **Reviewed** through four lenses: contract, hostile input, production robustness, correctness. 24 findings came back, a second agent tried to refute each one, and 23 held up. All 23 were fixed, each with a test that fails before the fix.
+- **Checked by me:** the full test suite, the smoke run, and parity with v0.
+- **Parity, LLM step off** (`results/raw/dev-pipeline-cpu/`): intent and action are identical to `dev-classical-v0` on all 2,300 labelled rows. The official numbers are unchanged: 0.7091 / 0.7015 / 0.8117. Confidence and routing differ only on rows a flag routes, where confidence is capped at 0.5.
+- **Gate false positives:** zero for injection and junk across train, dev and dev_noisy (22,300 rows). `no_dialogue` fires on 1 dev row, 4432-4, which has no agent turn yet. v0 answered it right, and the gate now routes it.
+- **Hostile pack:** 7 rows answered and routed to a person, 2 abstain (the empty row and the emoji flood). None reaches the LLM step (`tests/test_pipeline.py`).
+- **Over HTTP on the M1** (`results/raw/dev-http-cpu/`, CPU only, concurrency 8): p50 26 ms, p95 38 ms, 302 req/s. No errors. Every body equals the in-process answer.
+
+### P2-1. Routing operating point (`experiments/routing/`)
+
+- **Question:** who should go to a person? v0 routed by one threshold (0.8498), which sends 34.7% of dev to a person. With the LLM step on, an LLM-answered row can never get above 0.821, so the v0 threshold would route every one of them.
+- **Method:** the real pipeline runs with the LLM step replaced by a replay of the recorded Luna answers, so the routing rules are exactly the service's and no API call is made.
+  - Thresholds are chosen on fold B, using out-of-fold CPU confidence.
+  - Results are reported on dev.
+- **Cost model:** a review costs 1. A wrong automatic action costs 10 for high-risk actions (refunds, order and account changes, purchases, promo codes, passwords) and 3 for the rest. Each tier gets the threshold with the lowest cost on fold B.
+
+| Routing configuration (fold B) | Thresholds high / low | Routed | Auto-handled accuracy | Cost per 100 |
+|---|---|---|---|---|
+| v0: one threshold 0.8498 | 0.8498 / 0.8498 | 30.1% | 0.946 | 44.0 |
+| Per tier, off-policy routing off | 0.8883 / 0.7104 | 19.1% | 0.919 | 39.9 |
+| **Per tier, off-policy routing on (shipped)** | 0.8883 / 0.7104 | **20.5%** | 0.921 (high risk 0.971) | 40.5 |
+| Per tier, plus second-intent routing | 0.8883 / 0.7104 | 26.0% | 0.920 | 44.5 |
+
+- **Off-policy routing:** routing these rows costs 0.55 more per 100 messages. It stays on as a policy rule, not a cost choice: the service never acts on its own outside the written procedure (D1). Off-policy rows are 63% right on fold B and 57% on dev.
+- **Second intent:** flagged rows are 87% right on fold B, so routing them costs more than it saves. The flag stays in the logs only. On dev it fires on 19 of the 50 `two_intents` rows, and those are 95% right on action.
+- **Dev result** (`results/raw/dev-pipeline-llm-replay/`, recorded Luna answers, shipped policy):
+
+| Intent | Macro-F1 | Action | Noisy gap | Top-70 ratio | Policy violation (alias) | Routed | Auto-handled accuracy |
+|---|---|---|---|---|---|---|---|
+| 0.7091 | 0.7015 | 0.8361 [0.815, 0.857] | 0.034 | 0.439 | 0.0857 (0.0465), gold 0.0883 | 24.0% | 0.914 |
+
+- **LLM step off, shipped thresholds:** dev routes 28.2%, and auto-handled accuracy is 0.920.
+- **Other cost ratios:** the full table is `sweep_fold_B` in `results_routing.json`.
+  - At 5 / 3, fold B routes 14.8%.
+  - At 20 / 10, fold B routes 39.5%.
+
+### P3-1. Clean-Linux reproduction, and retraining across platforms
+
+- **Run:** `git archive HEAD` copied to a Linux box (Ubuntu, 2× Xeon Gold 6330, Python 3.12.15 from uv), then `scripts/reproduce.sh all`, which trained a new model there.
+- **Setup, verify and baseline** passed. The baseline gives 0.3748 / 0.4508 / 0.3913.
+- **6 parity tests failed:**
+
+| Retrained on Linux, against the M1 model (`results/raw/linux-retrained-cpu/`) | Value |
+|---|---|
+| Intents differing | 0 of 2,309 |
+| Actions differing | 5 |
+| needs_human differing | 4 |
+| Largest confidence difference | 0.036 |
+| Official action accuracy | 0.8104 vs 0.8117 |
+
+- **Cause:** the action model's lbfgs solver stops at its 300-iteration cap without converging, so its result depends on the BLAS library. Retraining on the M1 is stable to about 1e-5.
+- **Fix:** the trained model now ships in the repo. It is 39 MB, and every result was measured with this exact file. `reproduce.sh train` now trains a fresh model beside it and reports the difference (`scripts/compare_models.py`); it fails only above 1% of rows. `train --replace` swaps the model in.
+- **Same model file on Linux:** its HTTP answers equal the M1's on every label. Confidences differ by at most 1e-6, which is rounding.
+- **Not done:** raising the iteration cap until the solver converges. That would change the model behind every pre-registered result.
+
+### P3-2. Throughput on a two-socket Linux box: a found and fixed bottleneck
+
+- **Symptom:** the first Linux load test ran at 35 req/s with p95 354 ms at concurrency 8. The M1 does 302 req/s, and in-process one request takes 7 ms on Linux.
+- **Things that changed nothing:** BLAS threads set to 1; a lock around the CPU stages; the interpreter switch interval at 50 ms; `MALLOC_ARENA_MAX` 1 or 2.
+- **Things that did change it:**
+
+| Configuration (in-process) | Throughput |
+|---|---|
+| 1 worker thread | 105–136 req/s |
+| 2 or more threads | 40–60 req/s, even with the lock |
+| 8 threads, all pinned to one core | 127 req/s |
+
+- **Cause:** CPU work handed between threads on different cores of a two-socket machine starts each time with cold caches. The model's vocabulary tables are large.
+- **Fix:** all CPU stages now run on one dedicated thread, and LLM waits still overlap on other threads (`Triage._on_cpu`). In-process, 8 threads now give 137 req/s.
+
+### P3-3. Load tests on Linux, CPU only
+
+- **Setup:** `results/raw/linux-cpu-c8/` and `linux-cpu-c80/`, with the shipped model (`c007c7a3`) and the LLM step off. The API keys stay on the laptop, so the LLM step cannot run on this box.
+- **The box is shared:** load average 24–38 on 112 cores at the time, CPU at 2.0 GHz. These numbers are an upper bound for a quiet machine.
+
+| Concurrency | p50 | p95 | p99 | Throughput | Errors / non-200 / schema-invalid |
+|---|---|---|---|---|---|
+| 8 | 98 ms | 151 ms | 180 ms | 84 req/s | 0 / 0 / 0 |
+| 80 (10× load) | 825 ms | 1,143 ms | 1,191 ms | 92 req/s | 0 / 0 / 0 |
+
+- **At 10× load** the service queues and does not fail. Throughput holds, and latency grows with the queue.
+- **Next lever for more throughput:** more uvicorn workers, one model copy each, about 250 MB without the LLM index.

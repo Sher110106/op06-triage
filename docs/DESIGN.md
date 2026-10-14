@@ -25,14 +25,17 @@ HTTP POST /triage
 ```
 
 The CPU path must reproduce `dev-classical-v0` exactly when the LLM step is off and the policy file equals
-the bundle's table, with both thresholds equal to the bundle's `route_threshold` (`scripts/build_policy.py`
-writes it in full): same intent and action on all 2,309 rows, and same confidence and `needs_human` on every row
-not routed by a flag. A row routed by a flag may change `needs_human` and has its confidence capped at
+the bundle's table, with both thresholds equal to the bundle's `route_threshold` written in full
+(0.8498168103175511; the shipped file has the Phase 2 points instead, so the tests check parity on a copy of it
+with both points set back): same intent and action on all 2,309 rows, and same confidence and `needs_human` on
+every row not routed by a flag. A row routed by a flag may change `needs_human` and has its confidence capped at
 `TRIAGE_FLAG_CONF_CAP` (0.5). With the default settings two kinds of flag route: a gate ROUTE flag, and
 `off_policy` (`TRIAGE_ROUTE_OFF_POLICY=1`, decision D1 in `DECISIONS.md`). Measured on dev + dev_noisy against
 `dev-classical-v0`: 49 rows with no gate ROUTE flag differ only through `off_policy` (confidence capped on all 49,
 `needs_human` false to true on 25), and the 2 `no_dialogue` rows (4432-4 and its noisy copy) are routed and
-capped. With `TRIAGE_ROUTE_OFF_POLICY=0` the 49 rows match v0 exactly.
+capped. With `TRIAGE_ROUTE_OFF_POLICY=0` the 49 rows match v0 exactly. The shipped points change only
+`needs_human` and the `low_confidence` reason: on dev + dev_noisy 30 high-risk rows start going to a person and
+207 low-risk rows stop.
 
 ## Modules and interfaces
 
@@ -91,15 +94,15 @@ Flags (strings): `truncated_turns`, `turn_capped`, `marks_capped`, `controls_rem
 The policy file is the only place the manager edits. TOML, read with `tomllib` (no extra dependency).
 
 ```toml
-version = "2026-10-14.1"
+version = "2026-10-14.2"
 alias = { "membership-privileges" = "membership" }
 [flows]                         # flow -> permitted actions, as published, before alias
 account_access = ["pull-up-account", ...]
 [risk]                          # action -> tier; tiers set the routing threshold
 high = ["offer-refund", "update-order", "update-account", "make-purchase", "promo-code", "make-password"]
-[thresholds]                    # route when confidence < threshold for the action's tier (Phase 2 sets values)
-high = 0.8498168103175511       # build_policy.py writes the bundle's route_threshold in full
-low = 0.8498168103175511
+[thresholds]                    # route when confidence < threshold for the action's tier
+high = 0.8883                   # Phase 2: chosen by cost on train fold B (below)
+low = 0.7104
 [[rules]]                       # optional procedure rules
 name = "refund-needs-verification"
 action = "offer-refund"
@@ -128,9 +131,18 @@ class PolicyStore:                         # thread-safe; current() reloads when
 ```
 
 `scripts/build_policy.py` writes `policy/policy.toml` from the published `guidelines`-derived permitted lists in
-train (identical to the v0 bundle table), with both thresholds set to the bundle's `route_threshold` written in
-full (a rounded 0.8498 would route confidences in [0.8498, 0.8498168) differently from v0). `scripts/replay_policy.py --policy NEW.toml` re-scores dev + noisy
-with a changed policy and reports how many actions, routes and violations change (the procedure-change drill).
+train (identical to the v0 bundle table), with the Phase 2 routing points: high 0.8883, low 0.7104.
+`experiments/routing/analyse_routing.py` chose them on train fold B (3,966 rows held out from the CPU models,
+out-of-fold CPU confidence, the recorded GPT-6 Luna answers replayed for the LLM step) by cost: a review costs 1,
+and a wrong automatic action costs 10 for a high-risk action and 3 for any other. For each tier it takes the
+confidence cut with the lowest cost among rows no flag routes, with `off_policy` routing on (D1) and
+`second_intent` routing off. On fold B the points route 20.5% of rows, and the actions not routed are right 92.1%
+of the time (97.1% for high-risk ones). On dev + dev_noisy they route 24.0% (0.914 right) with the LLM answers
+replayed, and 28.2% (0.920) with the LLM step off, against 35.9% (0.938) for v0's single point. The results, the
+sweep over other cost ratios and the dev report are in `experiments/routing/results_routing.json`; the policy
+file's `[thresholds]` note shows the sweep for the manager. `scripts/replay_policy.py --policy NEW.toml` re-scores
+dev + noisy with a changed policy and reports how many actions, routes and violations change (the
+procedure-change drill).
 
 ### `triage/prompts.py`, `triage/retrieval.py`, `triage/llm_action.py` (the LLM action step)
 

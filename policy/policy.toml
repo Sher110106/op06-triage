@@ -15,7 +15,7 @@
 # scripts/build_policy.py made this file from the lists published with the training data.
 # Running that script again rewrites the file and drops your edits.
 
-version = "2026-10-14.1"
+version = "2026-10-14.2"
 
 # One action, two names: the published lists say "membership-privileges", the service says "membership".
 # An action allowed under the first name is allowed under the second.
@@ -89,11 +89,28 @@ high = [
 ]
 
 [thresholds]
-# The service sends a case to a person when its confidence is below the point for the action's tier.
-# Phase 2 will set real values. For now both tiers use the v0 model's routing point (written in full, so the
-# service routes exactly as that model does), and high-risk actions get no extra care yet.
-high = 0.8498168103175511
-low = 0.8498168103175511
+# The service sends a case to a person when its confidence is below the point for the action's tier:
+# 0.8883 for a high-risk action, 0.7104 for any other.
+#
+# How we chose them: we priced each outcome. A person reading a case costs 1. A wrong answer that goes out on
+# its own costs 10 for a high-risk action and 3 for any other. For each tier we took the point with the lowest
+# total cost on 3,966 training cases that the model did not learn from. On those cases the service sends
+# 20.5% to a person, and 92.1% of the answers it gives on its own are right (97.1% for high-risk actions).
+# On the 2,300 dev cases it sends 24.0%, and 91.4% of the rest are right. These figures have the LLM step on;
+# with it off, the service sends 28.2% of dev cases and gets 92.0% of the rest right. Each share counts every
+# case sent to a person, for any reason.
+#
+# Other prices give other points. On the same 3,966 cases, with reading a case at 1:
+#   wrong answer costs (high-risk, other)   high     low      sent to a person   right when not sent
+#   3, 2                                    0.6661   0.1295    6.2%              88.0%
+#   5, 3                                    0.6661   0.7104   16.4%              91.8%
+#   10, 3 (in use)                          0.8883   0.7104   20.5%              92.1%
+#   10, 5                                   0.8883   0.8495   31.8%              94.9%
+#   20, 10                                  0.9094   0.9071   40.2%              96.1%
+# Full analysis: experiments/routing/analyse_routing.py, with its results in results_routing.json next to it.
+# The LLM-off figures come from the eval run in results/raw/dev-pipeline-cpu.
+high = 0.8883
+low = 0.7104
 
 # Rules (none yet). A rule says an action needs one of some other actions to have happened earlier in the
 # conversation. effect = "route" sends the case to a person when the rule is broken; effect = "mask" stops
