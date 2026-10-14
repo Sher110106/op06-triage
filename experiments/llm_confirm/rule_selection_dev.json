@@ -1,0 +1,73 @@
+{
+ "cpu": {
+  "oof_intent_acc": 0.7091,
+  "params_all_dev": null,
+  "answers_changed": 0.0,
+  "share_needing_haiku_call": 0.0
+ },
+ "haiku": {
+  "oof_intent_acc": 0.7122,
+  "params_all_dev": null,
+  "answers_changed": 0.2357,
+  "share_needing_haiku_call": 1.0
+ },
+ "flow_switch_cpuflow": {
+  "oof_intent_acc": 0.7304,
+  "params_all_dev": [
+   "manage_account",
+   "order_issue",
+   "product_defect",
+   "purchase_dispute",
+   "single_item_query",
+   "storewide_query",
+   "troubleshoot_site"
+  ],
+  "answers_changed": 0.1548,
+  "share_needing_haiku_call": 1.0
+ },
+ "flow_switch_haikuflow": {
+  "oof_intent_acc": 0.7283,
+  "params_all_dev": [
+   "manage_account",
+   "product_defect",
+   "purchase_dispute",
+   "single_item_query",
+   "troubleshoot_site"
+  ],
+  "answers_changed": 0.107,
+  "share_needing_haiku_call": 1.0
+ },
+ "p_intent_below": {
+  "oof_intent_acc": 0.723,
+  "params_all_dev": 0.75,
+  "answers_changed": 0.1726,
+  "share_needing_haiku_call": 0.3657
+ },
+ "haiku_if_in_cpu_topk": {
+  "oof_intent_acc": 0.747,
+  "params_all_dev": 3,
+  "answers_changed": 0.1165,
+  "share_needing_haiku_call": 1.0
+ },
+ "gated_topk_haiku": {
+  "oof_intent_acc": 0.7504,
+  "params_all_dev": [
+   3,
+   0.95
+  ],
+  "answers_changed": 0.1065,
+  "share_needing_haiku_call": 0.5348
+ },
+ "gated_topk_luna": {
+  "oof_intent_acc": 0.7474,
+  "params_all_dev": [
+   3,
+   0.95
+  ],
+  "answers_changed": 0.1217,
+  "share_needing_haiku_call": 0.5348
+ },
+ "_llm_intent_agreement": 0.8734,
+ "_haiku_in_cpu_top3": 0.8722,
+ "_luna_in_cpu_top3": 0.8665
+}

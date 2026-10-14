@@ -61,19 +61,25 @@ def _conf_features(pa, pi, pf, state, turn_index):
 
 # ----------------------------------------------------------------------------- training
 
+def folds():
+    """Train split by conversation: fold A (80%) fits the models, fold B (20%) tunes them. Seed 0."""
+    from sklearn.model_selection import GroupShuffleSplit
+    train_rows = load_split("train")
+    groups = [conv_id(r["id"]) for r in train_rows]
+    a_idx, b_idx = next(GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=SEED).split(train_rows, groups=groups))
+    return [train_rows[i] for i in a_idx], [train_rows[i] for i in b_idx]
+
+
 def train(out: Path = DEFAULT_BUNDLE, log=print) -> dict:
     import joblib
     from scipy.optimize import minimize_scalar
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.linear_model import LogisticRegression
-    from sklearn.model_selection import GroupKFold, GroupShuffleSplit, cross_val_predict
+    from sklearn.model_selection import GroupKFold, cross_val_predict
     from sklearn.svm import LinearSVC
 
     t_start = time.time()
-    train_rows = load_split("train")
-    groups = [conv_id(r["id"]) for r in train_rows]
-    a_idx, b_idx = next(GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=SEED).split(train_rows, groups=groups))
-    A, B = [train_rows[i] for i in a_idx], [train_rows[i] for i in b_idx]
+    A, B = folds()
     XA, XB = [project(r) for r in A], [project(r) for r in B]          # the model only sees projected inputs
     log(f"fold A {len(A)} rows, fold B {len(B)} rows")
 

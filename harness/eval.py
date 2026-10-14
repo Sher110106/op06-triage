@@ -272,8 +272,11 @@ def cmd_grade(a):
 # ----------------------------------------------------------------------------- compare
 
 def paired(base, new, exclude=None, keys=("intent_acc", "macro_f1", "action_acc", "action_acc_clean",
-                                          "action_acc_noisy", "intent_acc_noisy", "noisy_gap", "top70_error_ratio")):
-    rows, *_ = _rows(exclude)
+                                          "action_acc_noisy", "intent_acc_noisy", "noisy_gap", "top70_error_ratio"),
+           rows=None):
+    """rows: labelled dicts with '_group'; defaults to dev + dev_noisy minus `exclude`."""
+    if rows is None:
+        rows, *_ = _rows(exclude)
     pb, pn = _metrics(rows, base), _metrics(rows, new)
     draws = _boot(rows, [Scored(rows, base), Scored(rows, new)])
     res = {}
