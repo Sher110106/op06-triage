@@ -1,0 +1,486 @@
+{
+ "setting": {
+  "main": "n6_cap2000",
+  "drop": "vdrop_n5",
+  "mode": "single",
+  "w": 1.0
+ },
+ "penalty_search_trainside": {
+  "1.0": 0.627,
+  "0.9": 0.6329,
+  "0.75": 0.6448,
+  "0.6": 0.6591,
+  "0.5": 0.6591
+ },
+ "penalty_chosen": 1.0,
+ "needs_human_low_conf_threshold_from_B": 0.6666,
+ "needs_human_rate_B": 0.2042,
+ "acc_when_auto_B": 0.8175,
+ "acc_when_routed_B": 0.4691,
+ "needs_human_rate_Bsyn": 0.7129,
+ "acc_when_auto_Bsyn": 0.8135,
+ "acc_when_routed_Bsyn": 0.576,
+ "needs_human_rate_dev": 0.2115,
+ "acc_when_auto_dev": 0.7876,
+ "acc_when_routed_dev": 0.4279,
+ "needs_human_rate_noisy": 0.7433,
+ "acc_when_auto_noisy": 0.7273,
+ "acc_when_routed_noisy": 0.5695,
+ "detectors": {
+  "B": {
+   "_base_error": 0.2537,
+   "_n": 3966,
+   "empty_last_cust": {
+    "fires": 6,
+    "traffic_share": 0.0015,
+    "precision_wrong": 0.833,
+    "recall_wrong": 0.005
+   },
+   "very_long_input": {
+    "fires": 0,
+    "traffic_share": 0.0,
+    "precision_wrong": null,
+    "recall_wrong": 0.0
+   },
+   "screenshot_mention": {
+    "fires": 4,
+    "traffic_share": 0.001,
+    "precision_wrong": 0.25,
+    "recall_wrong": 0.001
+   },
+   "two_intent_marker": {
+    "fires": 12,
+    "traffic_share": 0.003,
+    "precision_wrong": 0.333,
+    "recall_wrong": 0.004
+   },
+   "two_questions": {
+    "fires": 7,
+    "traffic_share": 0.0018,
+    "precision_wrong": 0.286,
+    "recall_wrong": 0.002
+   },
+   "hinglish_words": {
+    "fires": 0,
+    "traffic_share": 0.0,
+    "precision_wrong": null,
+    "recall_wrong": 0.0
+   },
+   "injection_pattern": {
+    "fires": 7,
+    "traffic_share": 0.0018,
+    "precision_wrong": 0.143,
+    "recall_wrong": 0.001
+   },
+   "flow_split(2nd>=0.25)": {
+    "fires": 278,
+    "traffic_share": 0.0701,
+    "precision_wrong": 0.45,
+    "recall_wrong": 0.124
+   },
+   "intent_top2_diff_flow(both>=0.2)": {
+    "fires": 87,
+    "traffic_share": 0.0219,
+    "precision_wrong": 0.425,
+    "recall_wrong": 0.037
+   },
+   "low_p_action(<B q10=0.538)": {
+    "fires": 397,
+    "traffic_share": 0.1001,
+    "precision_wrong": 0.622,
+    "recall_wrong": 0.246
+   },
+   "low_p_action(<B q20=0.667)": {
+    "fires": 793,
+    "traffic_share": 0.1999,
+    "precision_wrong": 0.536,
+    "recall_wrong": 0.422
+   },
+   "low_p_action(<B q30=0.782)": {
+    "fires": 1190,
+    "traffic_share": 0.3001,
+    "precision_wrong": 0.478,
+    "recall_wrong": 0.566
+   },
+   "ANY_corruption(empty|long|shot|two)": {
+    "fires": 22,
+    "traffic_share": 0.0055,
+    "precision_wrong": 0.455,
+    "recall_wrong": 0.01
+   },
+   "ANY_corruption|low_p_q20": {
+    "fires": 810,
+    "traffic_share": 0.2042,
+    "precision_wrong": 0.531,
+    "recall_wrong": 0.427
+   }
+  },
+  "Bsyn": {
+   "_base_error": 0.3558,
+   "_n": 3960,
+   "empty_last_cust": {
+    "fires": 662,
+    "traffic_share": 0.1672,
+    "precision_wrong": 0.301,
+    "recall_wrong": 0.141
+   },
+   "very_long_input": {
+    "fires": 658,
+    "traffic_share": 0.1662,
+    "precision_wrong": 0.626,
+    "recall_wrong": 0.292
+   },
+   "screenshot_mention": {
+    "fires": 663,
+    "traffic_share": 0.1674,
+    "precision_wrong": 0.329,
+    "recall_wrong": 0.155
+   },
+   "two_intent_marker": {
+    "fires": 551,
+    "traffic_share": 0.1391,
+    "precision_wrong": 0.399,
+    "recall_wrong": 0.156
+   },
+   "two_questions": {
+    "fires": 22,
+    "traffic_share": 0.0056,
+    "precision_wrong": 0.318,
+    "recall_wrong": 0.005
+   },
+   "hinglish_words": {
+    "fires": 223,
+    "traffic_share": 0.0563,
+    "precision_wrong": 0.193,
+    "recall_wrong": 0.031
+   },
+   "injection_pattern": {
+    "fires": 9,
+    "traffic_share": 0.0023,
+    "precision_wrong": 0.222,
+    "recall_wrong": 0.001
+   },
+   "flow_split(2nd>=0.25)": {
+    "fires": 406,
+    "traffic_share": 0.1025,
+    "precision_wrong": 0.574,
+    "recall_wrong": 0.165
+   },
+   "intent_top2_diff_flow(both>=0.2)": {
+    "fires": 144,
+    "traffic_share": 0.0364,
+    "precision_wrong": 0.493,
+    "recall_wrong": 0.05
+   },
+   "low_p_action(<B q10=0.538)": {
+    "fires": 610,
+    "traffic_share": 0.154,
+    "precision_wrong": 0.746,
+    "recall_wrong": 0.323
+   },
+   "low_p_action(<B q20=0.667)": {
+    "fires": 1025,
+    "traffic_share": 0.2588,
+    "precision_wrong": 0.648,
+    "recall_wrong": 0.471
+   },
+   "low_p_action(<B q30=0.782)": {
+    "fires": 1431,
+    "traffic_share": 0.3614,
+    "precision_wrong": 0.586,
+    "recall_wrong": 0.595
+   },
+   "ANY_corruption(empty|long|shot|two)": {
+    "fires": 2532,
+    "traffic_share": 0.6394,
+    "precision_wrong": 0.414,
+    "recall_wrong": 0.743
+   },
+   "ANY_corruption|low_p_q20": {
+    "fires": 2823,
+    "traffic_share": 0.7129,
+    "precision_wrong": 0.424,
+    "recall_wrong": 0.85
+   }
+  },
+  "dev": {
+   "_base_error": 0.2885,
+   "_n": 2000,
+   "empty_last_cust": {
+    "fires": 5,
+    "traffic_share": 0.0025,
+    "precision_wrong": 1.0,
+    "recall_wrong": 0.009
+   },
+   "very_long_input": {
+    "fires": 0,
+    "traffic_share": 0.0,
+    "precision_wrong": null,
+    "recall_wrong": 0.0
+   },
+   "screenshot_mention": {
+    "fires": 3,
+    "traffic_share": 0.0015,
+    "precision_wrong": 0.333,
+    "recall_wrong": 0.002
+   },
+   "two_intent_marker": {
+    "fires": 4,
+    "traffic_share": 0.002,
+    "precision_wrong": 0.5,
+    "recall_wrong": 0.003
+   },
+   "two_questions": {
+    "fires": 1,
+    "traffic_share": 0.0005,
+    "precision_wrong": 0.0,
+    "recall_wrong": 0.0
+   },
+   "hinglish_words": {
+    "fires": 0,
+    "traffic_share": 0.0,
+    "precision_wrong": null,
+    "recall_wrong": 0.0
+   },
+   "injection_pattern": {
+    "fires": 2,
+    "traffic_share": 0.001,
+    "precision_wrong": 0.0,
+    "recall_wrong": 0.0
+   },
+   "flow_split(2nd>=0.25)": {
+    "fires": 160,
+    "traffic_share": 0.08,
+    "precision_wrong": 0.494,
+    "recall_wrong": 0.137
+   },
+   "intent_top2_diff_flow(both>=0.2)": {
+    "fires": 49,
+    "traffic_share": 0.0245,
+    "precision_wrong": 0.449,
+    "recall_wrong": 0.038
+   },
+   "low_p_action(<B q10=0.538)": {
+    "fires": 210,
+    "traffic_share": 0.105,
+    "precision_wrong": 0.657,
+    "recall_wrong": 0.239
+   },
+   "low_p_action(<B q20=0.667)": {
+    "fires": 416,
+    "traffic_share": 0.208,
+    "precision_wrong": 0.572,
+    "recall_wrong": 0.412
+   },
+   "low_p_action(<B q30=0.782)": {
+    "fires": 600,
+    "traffic_share": 0.3,
+    "precision_wrong": 0.518,
+    "recall_wrong": 0.539
+   },
+   "ANY_corruption(empty|long|shot|two)": {
+    "fires": 12,
+    "traffic_share": 0.006,
+    "precision_wrong": 0.667,
+    "recall_wrong": 0.014
+   },
+   "ANY_corruption|low_p_q20": {
+    "fires": 423,
+    "traffic_share": 0.2115,
+    "precision_wrong": 0.572,
+    "recall_wrong": 0.419
+   }
+  },
+  "noisy": {
+   "_base_error": 0.39,
+   "_n": 300,
+   "empty_last_cust": {
+    "fires": 50,
+    "traffic_share": 0.1667,
+    "precision_wrong": 0.36,
+    "recall_wrong": 0.154
+   },
+   "very_long_input": {
+    "fires": 50,
+    "traffic_share": 0.1667,
+    "precision_wrong": 0.6,
+    "recall_wrong": 0.256
+   },
+   "screenshot_mention": {
+    "fires": 50,
+    "traffic_share": 0.1667,
+    "precision_wrong": 0.46,
+    "recall_wrong": 0.197
+   },
+   "two_intent_marker": {
+    "fires": 50,
+    "traffic_share": 0.1667,
+    "precision_wrong": 0.32,
+    "recall_wrong": 0.137
+   },
+   "two_questions": {
+    "fires": 0,
+    "traffic_share": 0.0,
+    "precision_wrong": null,
+    "recall_wrong": 0.0
+   },
+   "hinglish_words": {
+    "fires": 43,
+    "traffic_share": 0.1433,
+    "precision_wrong": 0.326,
+    "recall_wrong": 0.12
+   },
+   "injection_pattern": {
+    "fires": 1,
+    "traffic_share": 0.0033,
+    "precision_wrong": 0.0,
+    "recall_wrong": 0.0
+   },
+   "flow_split(2nd>=0.25)": {
+    "fires": 35,
+    "traffic_share": 0.1167,
+    "precision_wrong": 0.514,
+    "recall_wrong": 0.154
+   },
+   "intent_top2_diff_flow(both>=0.2)": {
+    "fires": 10,
+    "traffic_share": 0.0333,
+    "precision_wrong": 0.5,
+    "recall_wrong": 0.043
+   },
+   "low_p_action(<B q10=0.538)": {
+    "fires": 39,
+    "traffic_share": 0.13,
+    "precision_wrong": 0.641,
+    "recall_wrong": 0.214
+   },
+   "low_p_action(<B q20=0.667)": {
+    "fires": 77,
+    "traffic_share": 0.2567,
+    "precision_wrong": 0.584,
+    "recall_wrong": 0.385
+   },
+   "low_p_action(<B q30=0.782)": {
+    "fires": 126,
+    "traffic_share": 0.42,
+    "precision_wrong": 0.571,
+    "recall_wrong": 0.615
+   },
+   "ANY_corruption(empty|long|shot|two)": {
+    "fires": 200,
+    "traffic_share": 0.6667,
+    "precision_wrong": 0.435,
+    "recall_wrong": 0.744
+   },
+   "ANY_corruption|low_p_q20": {
+    "fires": 223,
+    "traffic_share": 0.7433,
+    "precision_wrong": 0.43,
+    "recall_wrong": 0.821
+   }
+  },
+  "dev+noisy": {
+   "_base_error": 0.3017,
+   "_n": 2300,
+   "empty_last_cust": {
+    "fires": 55,
+    "traffic_share": 0.0239,
+    "precision_wrong": 0.418,
+    "recall_wrong": 0.033
+   },
+   "very_long_input": {
+    "fires": 50,
+    "traffic_share": 0.0217,
+    "precision_wrong": 0.6,
+    "recall_wrong": 0.043
+   },
+   "screenshot_mention": {
+    "fires": 53,
+    "traffic_share": 0.023,
+    "precision_wrong": 0.453,
+    "recall_wrong": 0.035
+   },
+   "two_intent_marker": {
+    "fires": 54,
+    "traffic_share": 0.0235,
+    "precision_wrong": 0.333,
+    "recall_wrong": 0.026
+   },
+   "two_questions": {
+    "fires": 1,
+    "traffic_share": 0.0004,
+    "precision_wrong": 0.0,
+    "recall_wrong": 0.0
+   },
+   "hinglish_words": {
+    "fires": 43,
+    "traffic_share": 0.0187,
+    "precision_wrong": 0.326,
+    "recall_wrong": 0.02
+   },
+   "injection_pattern": {
+    "fires": 3,
+    "traffic_share": 0.0013,
+    "precision_wrong": 0.0,
+    "recall_wrong": 0.0
+   },
+   "flow_split(2nd>=0.25)": {
+    "fires": 195,
+    "traffic_share": 0.0848,
+    "precision_wrong": 0.497,
+    "recall_wrong": 0.14
+   },
+   "intent_top2_diff_flow(both>=0.2)": {
+    "fires": 59,
+    "traffic_share": 0.0257,
+    "precision_wrong": 0.458,
+    "recall_wrong": 0.039
+   },
+   "low_p_action(<B q10=0.538)": {
+    "fires": 249,
+    "traffic_share": 0.1083,
+    "precision_wrong": 0.655,
+    "recall_wrong": 0.235
+   },
+   "low_p_action(<B q20=0.667)": {
+    "fires": 493,
+    "traffic_share": 0.2143,
+    "precision_wrong": 0.574,
+    "recall_wrong": 0.408
+   },
+   "low_p_action(<B q30=0.782)": {
+    "fires": 726,
+    "traffic_share": 0.3157,
+    "precision_wrong": 0.528,
+    "recall_wrong": 0.552
+   },
+   "ANY_corruption(empty|long|shot|two)": {
+    "fires": 212,
+    "traffic_share": 0.0922,
+    "precision_wrong": 0.448,
+    "recall_wrong": 0.137
+   },
+   "ANY_corruption|low_p_q20": {
+    "fires": 646,
+    "traffic_share": 0.2809,
+    "precision_wrong": 0.523,
+    "recall_wrong": 0.487
+   }
+  }
+ },
+ "grader": {
+  "intent_acc": 0.6978,
+  "intent_acc_clean": 0.718,
+  "intent_acc_noisy": 0.5633,
+  "macro_f1": 0.6962,
+  "action_acc": 0.6983,
+  "action_acc_clean": 0.7115,
+  "action_acc_noisy": 0.61,
+  "noisy_gap": 0.1015,
+  "matched_noisy_gap": 0.0933,
+  "policy_violation": 0.0609,
+  "top70_ratio": 0.6609,
+  "schema_valid": 1.0
+ },
+ "grader_conf_no_penalty_top70": null
+}

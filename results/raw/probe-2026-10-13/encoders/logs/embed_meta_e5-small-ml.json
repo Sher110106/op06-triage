@@ -1,0 +1,26 @@
+{
+  "encode_s": {
+    "cust/hostile": 0.3,
+    "cust/noisy": 3.2,
+    "cust/dev": 7.5,
+    "cust/train": 61.4,
+    "all8/hostile": 0.3,
+    "all8/noisy": 9.2,
+    "all8/dev": 38.0,
+    "all8/train": 335.1
+  },
+  "model": "intfloat/multilingual-e5-small",
+  "load_s": 21.7,
+  "threads": 8,
+  "hostile_errors": [],
+  "latency_all8_bs1": {
+    "threads_1": {
+      "p50_ms": 108.55,
+      "p95_ms": 145.63
+    },
+    "threads_2": {
+      "p50_ms": 76.86,
+      "p95_ms": 99.1
+    }
+  }
+}

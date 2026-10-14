@@ -1,0 +1,248 @@
+{
+ "tag": "solar4_V3",
+ "metrics": {
+  "clean": {
+   "n": 240,
+   "intent_acc": 0.6542,
+   "intent_ci": [
+    0.592,
+    0.7115
+   ],
+   "action_acc": 0.725,
+   "action_ci": [
+    0.6653,
+    0.7776
+   ],
+   "intent_macro_f1": 0.6401
+  },
+  "noisy": {
+   "n": 120,
+   "intent_acc": 0.5167,
+   "intent_ci": [
+    0.4281,
+    0.6042
+   ],
+   "action_acc": 0.5833,
+   "action_ci": [
+    0.4939,
+    0.6676
+   ],
+   "intent_macro_f1": 0.5338
+  },
+  "all": {
+   "n": 360,
+   "intent_acc": 0.6083,
+   "intent_ci": [
+    0.557,
+    0.6574
+   ],
+   "action_acc": 0.6778,
+   "action_ci": [
+    0.6278,
+    0.724
+   ],
+   "intent_macro_f1": 0.6152
+  },
+  "per_kind": {
+   "code_mixed": {
+    "n": 20,
+    "intent_acc": 0.6,
+    "action_acc": 0.7
+   },
+   "empty": {
+    "n": 20,
+    "intent_acc": 0.45,
+    "action_acc": 0.55
+   },
+   "screenshot": {
+    "n": 20,
+    "intent_acc": 0.2,
+    "action_acc": 0.2
+   },
+   "two_intents": {
+    "n": 20,
+    "intent_acc": 0.7,
+    "action_acc": 0.8
+   },
+   "typo": {
+    "n": 20,
+    "intent_acc": 0.7,
+    "action_acc": 0.75
+   },
+   "very_long": {
+    "n": 20,
+    "intent_acc": 0.45,
+    "action_acc": 0.5
+   }
+  },
+  "twins": {
+   "intent_acc": 0.6833,
+   "action_acc": 0.725
+  },
+  "paired_gap_action": {
+   "gap": 0.1417,
+   "ci95": [
+    0.05,
+    0.2333
+   ]
+  },
+  "paired_gap_intent": {
+   "gap": 0.1667,
+   "ci95": [
+    0.0833,
+    0.2417
+   ]
+  },
+  "policy": {
+   "violation_rate": 0.1278,
+   "violations": 46,
+   "violation_rate_alias": 0.1083,
+   "none_predictions": 23,
+   "gold_violation_rate": 0.0861,
+   "gold_violation_rate_alias": 0.0611
+  },
+  "confidence_action": {
+   "ratio": 0.8344,
+   "kept": 305,
+   "n": 360,
+   "distinct": 9,
+   "overall_acc": 0.6778,
+   "top70_acc": 0.7311,
+   "ci95": [
+    0.75,
+    0.918
+   ]
+  },
+  "abstain_labelled": 35,
+  "needs_human_rate_labelled": 0.075
+ },
+ "ops": {
+  "rows": 369,
+  "calls_ok": 369,
+  "status": {
+   "ok": 369
+  },
+  "parse": {
+   "ok": 369
+  },
+  "p50_s": 1.672,
+  "p95_s": 3.824,
+  "p95_total_s": 3.824,
+  "mean_in_tok": 5939.0,
+  "mean_out_tok": 37.2,
+  "mean_reasoning_tok": 0.0,
+  "mean_cache_read_tok": 2844.4,
+  "cost_per_1k_uncached": 0.3044,
+  "cost_per_1k_actual": 0.1764,
+  "run_cost_actual": 0.0651,
+  "run_cost_uncached": 0.1123,
+  "models_returned": {
+   "upstage/solar-mini4": 369
+  },
+  "providers_returned": {
+   "Upstage": 369
+  }
+ },
+ "hostile": {
+  "hostile-002": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-000": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-001": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-003": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "refund_initiate",
+   "action": "pull-up-account",
+   "needs_human": false,
+   "confidence": 0.7,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-004": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "manage_cancel",
+   "action": "pull-up-account",
+   "needs_human": false,
+   "confidence": 0.9,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-008": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-007": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-006": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-005": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  }
+ },
+ "official_grader": {
+  "intent_acc_all": 0.6083,
+  "action_acc_all": 0.6778,
+  "macro_f1_all": 0.6152,
+  "noisy_gap": 0.1417,
+  "matched_noisy_gap": 0.1417,
+  "policy_violation_rate": 0.1278,
+  "top70_error_ratio": 0.8346,
+  "schema_valid_rate": 1.0
+ }
+}

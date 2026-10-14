@@ -1,0 +1,342 @@
+{
+ "summary": {
+  "typo": {
+   "same_len_context": 1.0,
+   "n_changed_turns": {
+    "median": 1.0,
+    "min": 1,
+    "max": 1,
+    "mean": 1
+   },
+   "changed_is_last_customer": 1.0,
+   "changed_pos_from_end": {
+    "median": 0.0,
+    "min": 0,
+    "max": 4,
+    "mean": 0.7
+   },
+   "changed_is_last_turn": 0.58,
+   "speaker_changed": {
+    "customer": 50
+   },
+   "clean_len": {
+    "median": 20.0,
+    "min": 2,
+    "max": 140,
+    "mean": 31.3
+   },
+   "noisy_len": {
+    "median": 20.0,
+    "min": 3,
+    "max": 141,
+    "mean": 31.8
+   },
+   "noisy_text_contains_clean": 0.54,
+   "same_labels": 1.0
+  },
+  "code_mixed": {
+   "same_len_context": 1.0,
+   "n_changed_turns": {
+    "median": 1.0,
+    "min": 1,
+    "max": 1,
+    "mean": 1
+   },
+   "changed_is_last_customer": 1.0,
+   "changed_pos_from_end": {
+    "median": 0.0,
+    "min": 0,
+    "max": 4,
+    "mean": 0.7
+   },
+   "changed_is_last_turn": 0.56,
+   "speaker_changed": {
+    "customer": 50
+   },
+   "clean_len": {
+    "median": 23.0,
+    "min": 2,
+    "max": 137,
+    "mean": 31.9
+   },
+   "noisy_len": {
+    "median": 43.5,
+    "min": 9,
+    "max": 161,
+    "mean": 52.5
+   },
+   "noisy_text_contains_clean": 0.86,
+   "same_labels": 1.0
+  },
+  "two_intents": {
+   "same_len_context": 1.0,
+   "n_changed_turns": {
+    "median": 1.0,
+    "min": 1,
+    "max": 1,
+    "mean": 1
+   },
+   "changed_is_last_customer": 1.0,
+   "changed_pos_from_end": {
+    "median": 0.0,
+    "min": 0,
+    "max": 5,
+    "mean": 0.6
+   },
+   "changed_is_last_turn": 0.66,
+   "speaker_changed": {
+    "customer": 50
+   },
+   "clean_len": {
+    "median": 20.0,
+    "min": 2,
+    "max": 115,
+    "mean": 27.9
+   },
+   "noisy_len": {
+    "median": 83.0,
+    "min": 65,
+    "max": 178,
+    "mean": 90.9
+   },
+   "noisy_text_contains_clean": 1.0,
+   "same_labels": 1.0
+  },
+  "empty": {
+   "same_len_context": 1.0,
+   "n_changed_turns": {
+    "median": 1.0,
+    "min": 1,
+    "max": 1,
+    "mean": 1
+   },
+   "changed_is_last_customer": 1.0,
+   "changed_pos_from_end": {
+    "median": 0.0,
+    "min": 0,
+    "max": 3,
+    "mean": 0.6
+   },
+   "changed_is_last_turn": 0.6,
+   "speaker_changed": {
+    "customer": 50
+   },
+   "clean_len": {
+    "median": 23.5,
+    "min": 2,
+    "max": 149,
+    "mean": 32.9
+   },
+   "noisy_len": {
+    "median": 0.0,
+    "min": 0,
+    "max": 0,
+    "mean": 0
+   },
+   "noisy_text_contains_clean": 0.0,
+   "same_labels": 1.0
+  },
+  "very_long": {
+   "same_len_context": 1.0,
+   "n_changed_turns": {
+    "median": 1.0,
+    "min": 1,
+    "max": 1,
+    "mean": 1
+   },
+   "changed_is_last_customer": 1.0,
+   "changed_pos_from_end": {
+    "median": 0.0,
+    "min": 0,
+    "max": 4,
+    "mean": 0.6
+   },
+   "changed_is_last_turn": 0.64,
+   "speaker_changed": {
+    "customer": 50
+   },
+   "clean_len": {
+    "median": 18.0,
+    "min": 3,
+    "max": 100,
+    "mean": 25.1
+   },
+   "noisy_len": {
+    "median": 5839.0,
+    "min": 5824,
+    "max": 5921,
+    "mean": 5846.1
+   },
+   "noisy_text_contains_clean": 1.0,
+   "same_labels": 1.0
+  },
+  "screenshot": {
+   "same_len_context": 1.0,
+   "n_changed_turns": {
+    "median": 1.0,
+    "min": 1,
+    "max": 1,
+    "mean": 1
+   },
+   "changed_is_last_customer": 1.0,
+   "changed_pos_from_end": {
+    "median": 0.0,
+    "min": 0,
+    "max": 4,
+    "mean": 0.9
+   },
+   "changed_is_last_turn": 0.52,
+   "speaker_changed": {
+    "customer": 50
+   },
+   "clean_len": {
+    "median": 20.0,
+    "min": 5,
+    "max": 94,
+    "mean": 28.6
+   },
+   "noisy_len": {
+    "median": 127.0,
+    "min": 127,
+    "max": 127,
+    "mean": 127
+   },
+   "noisy_text_contains_clean": 0.0,
+   "same_labels": 1.0
+  }
+ },
+ "examples": {
+  "typo": [
+   {
+    "id": "8645-22-noisy",
+    "clean": "oh",
+    "noisy": "ooh"
+   },
+   {
+    "id": "10268-18-noisy",
+    "clean": "bronze",
+    "noisy": "bbronze"
+   },
+   {
+    "id": "9787-8-noisy",
+    "clean": "crystal minh",
+    "noisy": "ccrystal minh"
+   },
+   {
+    "id": "9722-19-noisy",
+    "clean": "yes that's fine",
+    "noisy": "yes thats' fnie"
+   }
+  ],
+  "code_mixed": [
+   {
+    "id": "3188-8-noisy",
+    "clean": "it should be 744-424-2147",
+    "noisy": "it should be 744-424-2147 thoda jaldi karo please"
+   },
+   {
+    "id": "413-17-noisy",
+    "clean": "the order number is 614-800-7936.",
+    "noisy": "the ordr number is 614-800-7936."
+   },
+   {
+    "id": "5730-16-noisy",
+    "clean": "thank you for the link",
+    "noisy": "thank you for the link thoda jaldi karo please"
+   },
+   {
+    "id": "10022-17-noisy",
+    "clean": "thank you! i can't wait to get it",
+    "noisy": "thank you! i can't wait to get it thoda jaldi karo please"
+   }
+  ],
+  "two_intents": [
+   {
+    "id": "9437-23-noisy",
+    "clean": "<amount>",
+    "noisy": "<amount> also i want to check my subscription status while you're at it"
+   },
+   {
+    "id": "5534-6-noisy",
+    "clean": "hello, i was wondering what types of membership levels there are in your company.",
+    "noisy": "hello, i was wondering what types of membership levels there are in your company. also i want to check my subscription status while you're at it"
+   },
+   {
+    "id": "9978-7-noisy",
+    "clean": "joyce wu",
+    "noisy": "joyce wu also i want to check my subscription status while you're at it"
+   },
+   {
+    "id": "9722-11-noisy",
+    "clean": "order id: <order_id>",
+    "noisy": "order id: <order_id> also i want to check my subscription status while you're at it"
+   }
+  ],
+  "empty": [
+   {
+    "id": "3489-31-noisy",
+    "clean": "asanders@gmail.com",
+    "noisy": ""
+   },
+   {
+    "id": "5551-5-noisy",
+    "clean": "hi. i am considering buying a shirt but i have a few more questions about it.",
+    "noisy": ""
+   },
+   {
+    "id": "1256-18-noisy",
+    "clean": "ok thank you",
+    "noisy": ""
+   },
+   {
+    "id": "7896-4-noisy",
+    "clean": "hi! i want to know if you have free international shipping",
+    "noisy": ""
+   }
+  ],
+  "very_long": [
+   {
+    "id": "3542-4-noisy",
+    "clean": "looking to see what the silver plan covers with regards to international shipping?",
+    "noisy": "looking to see what the silver plan covers with regards to international shipping? i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for"
+   },
+   {
+    "id": "2092-21-noisy",
+    "clean": "can i cancel it?",
+    "noisy": "can i cancel it? i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as a cu"
+   },
+   {
+    "id": "3305-15-noisy",
+    "clean": "order id: <order_id>",
+    "noisy": "order id: <order_id> i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as "
+   },
+   {
+    "id": "9787-19-noisy",
+    "clean": "guest",
+    "noisy": "guest i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as a customer. i have been waiting for a very long time and this is extremely frustrating for me as a customer. i h"
+   }
+  ],
+  "screenshot": [
+   {
+    "id": "3652-24-noisy",
+    "clean": "exactly...is it possible?",
+    "noisy": "i am attaching a screenshot. it shows a red banner at the top of the page and a spinning circle in the middle that never stops."
+   },
+   {
+    "id": "5859-4-noisy",
+    "clean": "i would like to know more information about the sleeve length of a shirt?",
+    "noisy": "i am attaching a screenshot. it shows a red banner at the top of the page and a spinning circle in the middle that never stops."
+   },
+   {
+    "id": "3230-11-noisy",
+    "clean": "i tried to look for a guess shirt and it came up empty",
+    "noisy": "i am attaching a screenshot. it shows a red banner at the top of the page and a spinning circle in the middle that never stops."
+   },
+   {
+    "id": "3582-10-noisy",
+    "clean": "no, but sometimes the images are jumbled looking",
+    "noisy": "i am attaching a screenshot. it shows a red banner at the top of the page and a spinning circle in the middle that never stops."
+   }
+  ]
+ }
+}

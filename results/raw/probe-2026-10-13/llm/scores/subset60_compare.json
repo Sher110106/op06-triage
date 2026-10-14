@@ -1,0 +1,189 @@
+{
+ "cpu": {
+  "intent_all": 0.6,
+  "intent_ci": [
+   0.4737,
+   0.7143
+  ],
+  "action_all": 0.883,
+  "action_ci": [
+   0.7782,
+   0.9423
+  ],
+  "clean_I": 0.6667,
+  "clean_A": 0.9,
+  "noisy_I": 0.5333,
+  "noisy_A": 0.8667,
+  "paired_gap_A": 0.0333
+ },
+ "haiku_V3_low": {
+  "intent_all": 0.667,
+  "intent_ci": [
+   0.5406,
+   0.7727
+  ],
+  "action_all": 0.817,
+  "action_ci": [
+   0.7008,
+   0.8944
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.8333,
+  "noisy_I": 0.6333,
+  "noisy_A": 0.8,
+  "paired_gap_A": 0.0333
+ },
+ "haiku_V3_thinkoff_sub60": {
+  "intent_all": 0.667,
+  "intent_ci": [
+   0.5406,
+   0.7727
+  ],
+  "action_all": 0.867,
+  "action_ci": [
+   0.7583,
+   0.9309
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.9,
+  "noisy_I": 0.6333,
+  "noisy_A": 0.8333,
+  "paired_gap_A": 0.0667
+ },
+ "haiku_V3_low_sub60": {
+  "intent_all": 0.683,
+  "intent_ci": [
+   0.5577,
+   0.7869
+  ],
+  "action_all": 0.783,
+  "action_ci": [
+   0.6638,
+   0.8688
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.8333,
+  "noisy_I": 0.6667,
+  "noisy_A": 0.7333,
+  "paired_gap_A": 0.1
+ },
+ "haiku_V3_medium_sub60": {
+  "intent_all": 0.683,
+  "intent_ci": [
+   0.5577,
+   0.7869
+  ],
+  "action_all": 0.833,
+  "action_ci": [
+   0.7197,
+   0.9069
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.8667,
+  "noisy_I": 0.6667,
+  "noisy_A": 0.8,
+  "paired_gap_A": 0.0667
+ },
+ "luna_V3_none": {
+  "intent_all": 0.683,
+  "intent_ci": [
+   0.5577,
+   0.7869
+  ],
+  "action_all": 0.817,
+  "action_ci": [
+   0.7008,
+   0.8944
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.8,
+  "noisy_I": 0.6667,
+  "noisy_A": 0.8333,
+  "paired_gap_A": -0.0333
+ },
+ "qwen38_V3_hostfix": {
+  "intent_all": 0.65,
+  "intent_ci": [
+   0.5236,
+   0.7583
+  ],
+  "action_all": 0.833,
+  "action_ci": [
+   0.7197,
+   0.9069
+  ],
+  "clean_I": 0.6667,
+  "clean_A": 0.8333,
+  "noisy_I": 0.6333,
+  "noisy_A": 0.8333,
+  "paired_gap_A": 0.0
+ },
+ "gemma4_V3": {
+  "intent_all": 0.683,
+  "intent_ci": [
+   0.5577,
+   0.7869
+  ],
+  "action_all": 0.833,
+  "action_ci": [
+   0.7197,
+   0.9069
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.8667,
+  "noisy_I": 0.6667,
+  "noisy_A": 0.8,
+  "paired_gap_A": 0.0667
+ },
+ "gem35fl_V3_minimal": {
+  "intent_all": 0.65,
+  "intent_ci": [
+   0.5236,
+   0.7583
+  ],
+  "action_all": 0.8,
+  "action_ci": [
+   0.6822,
+   0.8817
+  ],
+  "clean_I": 0.6667,
+  "clean_A": 0.8333,
+  "noisy_I": 0.6333,
+  "noisy_A": 0.7667,
+  "paired_gap_A": 0.0667
+ },
+ "solar4_V3": {
+  "intent_all": 0.617,
+  "intent_ci": [
+   0.4902,
+   0.7291
+  ],
+  "action_all": 0.75,
+  "action_ci": [
+   0.6277,
+   0.8422
+  ],
+  "clean_I": 0.6667,
+  "clean_A": 0.8,
+  "noisy_I": 0.5667,
+  "noisy_A": 0.7,
+  "paired_gap_A": 0.1
+ },
+ "gem38f_V3_low_sub60h": {
+  "intent_all": 0.683,
+  "intent_ci": [
+   0.5577,
+   0.7869
+  ],
+  "action_all": 0.85,
+  "action_ci": [
+   0.7389,
+   0.919
+  ],
+  "clean_I": 0.7,
+  "clean_A": 0.8667,
+  "noisy_I": 0.6667,
+  "noisy_A": 0.8333,
+  "paired_gap_A": 0.0333
+ }
+}

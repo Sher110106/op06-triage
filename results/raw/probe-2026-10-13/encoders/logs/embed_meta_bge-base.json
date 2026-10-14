@@ -1,0 +1,26 @@
+{
+  "encode_s": {
+    "cust/hostile": 0.1,
+    "cust/noisy": 4.6,
+    "cust/dev": 13.2,
+    "cust/train": 120.2,
+    "all8/hostile": 0.1,
+    "all8/noisy": 18.7,
+    "all8/dev": 95.1,
+    "all8/train": 729.7
+  },
+  "model": "BAAI/bge-base-en-v1.5",
+  "load_s": 23.2,
+  "threads": 8,
+  "hostile_errors": [],
+  "latency_all8_bs1": {
+    "threads_1": {
+      "p50_ms": 157.67,
+      "p95_ms": 223.57
+    },
+    "threads_2": {
+      "p50_ms": 98.54,
+      "p95_ms": 125.7
+    }
+  }
+}

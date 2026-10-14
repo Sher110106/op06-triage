@@ -1,0 +1,536 @@
+{
+ "single:n5_dedup600:argmax": {
+  "B": 0.7468,
+  "Bsyn": 0.6848,
+  "Bsyn_by_kind": {
+   "typo": 0.737,
+   "code_mixed": 0.773,
+   "two_intents": 0.603,
+   "empty": 0.702,
+   "very_long": 0.622,
+   "screenshot": 0.673
+  },
+  "dev": 0.7115,
+  "noisy": 0.6467,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.64,
+   "very_long": 0.62,
+   "screenshot": 0.54
+  },
+  "gap": 0.0648,
+  "syn_gap": 0.062
+ },
+ "single:n5_dedup600:marg": {
+  "B": 0.7534,
+  "Bsyn": 0.7063,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.639,
+   "empty": 0.724,
+   "very_long": 0.646,
+   "screenshot": 0.697
+  },
+  "dev": 0.7195,
+  "noisy": 0.6767,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.6
+  },
+  "gap": 0.0428,
+  "syn_gap": 0.0471
+ },
+ "single:vdrop_n5:argmax": {
+  "B": 0.707,
+  "Bsyn": 0.7078,
+  "Bsyn_by_kind": {
+   "typo": 0.685,
+   "code_mixed": 0.717,
+   "two_intents": 0.721,
+   "empty": 0.712,
+   "very_long": 0.701,
+   "screenshot": 0.711
+  },
+  "dev": 0.6775,
+  "noisy": 0.67,
+  "noisy_by_kind": {
+   "typo": 0.64,
+   "code_mixed": 0.58,
+   "two_intents": 0.74,
+   "empty": 0.64,
+   "very_long": 0.72,
+   "screenshot": 0.7
+  },
+  "gap": 0.0075,
+  "syn_gap": -0.0008
+ },
+ "single:vdrop_n5:marg": {
+  "B": 0.7196,
+  "Bsyn": 0.7202,
+  "Bsyn_by_kind": {
+   "typo": 0.708,
+   "code_mixed": 0.732,
+   "two_intents": 0.733,
+   "empty": 0.723,
+   "very_long": 0.708,
+   "screenshot": 0.717
+  },
+  "dev": 0.6925,
+  "noisy": 0.7033,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.74,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": -0.0108,
+  "syn_gap": -0.0006
+ },
+ "single:vagent_n5:argmax": {
+  "B": 0.6485,
+  "Bsyn": 0.6492,
+  "Bsyn_by_kind": {
+   "typo": 0.643,
+   "code_mixed": 0.646,
+   "two_intents": 0.65,
+   "empty": 0.665,
+   "very_long": 0.646,
+   "screenshot": 0.645
+  },
+  "dev": 0.617,
+  "noisy": 0.61,
+  "noisy_by_kind": {
+   "typo": 0.64,
+   "code_mixed": 0.52,
+   "two_intents": 0.64,
+   "empty": 0.64,
+   "very_long": 0.58,
+   "screenshot": 0.64
+  },
+  "gap": 0.007,
+  "syn_gap": -0.0007
+ },
+ "single:vagent_n5:marg": {
+  "B": 0.6717,
+  "Bsyn": 0.6722,
+  "Bsyn_by_kind": {
+   "typo": 0.666,
+   "code_mixed": 0.666,
+   "two_intents": 0.689,
+   "empty": 0.661,
+   "very_long": 0.678,
+   "screenshot": 0.674
+  },
+  "dev": 0.6415,
+  "noisy": 0.6333,
+  "noisy_by_kind": {
+   "typo": 0.68,
+   "code_mixed": 0.62,
+   "two_intents": 0.62,
+   "empty": 0.66,
+   "very_long": 0.6,
+   "screenshot": 0.62
+  },
+  "gap": 0.0082,
+  "syn_gap": -0.0005
+ },
+ "ens:n5_dedup600+vdrop_n5:w0.8": {
+  "B": 0.7542,
+  "Bsyn": 0.7167,
+  "Bsyn_by_kind": {
+   "typo": 0.746,
+   "code_mixed": 0.779,
+   "two_intents": 0.653,
+   "empty": 0.729,
+   "very_long": 0.685,
+   "screenshot": 0.708
+  },
+  "dev": 0.7185,
+  "noisy": 0.6833,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.62
+  },
+  "gap": 0.0352,
+  "syn_gap": 0.0375
+ },
+ "ens:n5_dedup600+vdrop_n5:w0.7": {
+  "B": 0.7549,
+  "Bsyn": 0.723,
+  "Bsyn_by_kind": {
+   "typo": 0.746,
+   "code_mixed": 0.776,
+   "two_intents": 0.671,
+   "empty": 0.729,
+   "very_long": 0.699,
+   "screenshot": 0.717
+  },
+  "dev": 0.7175,
+  "noisy": 0.6833,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.62
+  },
+  "gap": 0.0342,
+  "syn_gap": 0.0319
+ },
+ "ens:n5_dedup600+vdrop_n5:w0.6": {
+  "B": 0.7542,
+  "Bsyn": 0.727,
+  "Bsyn_by_kind": {
+   "typo": 0.744,
+   "code_mixed": 0.776,
+   "two_intents": 0.691,
+   "empty": 0.729,
+   "very_long": 0.707,
+   "screenshot": 0.715
+  },
+  "dev": 0.72,
+  "noisy": 0.6867,
+  "noisy_by_kind": {
+   "typo": 0.68,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.66
+  },
+  "gap": 0.0333,
+  "syn_gap": 0.0272
+ },
+ "ens:n5_dedup600+vdrop_n5:w0.5": {
+  "B": 0.7534,
+  "Bsyn": 0.7298,
+  "Bsyn_by_kind": {
+   "typo": 0.741,
+   "code_mixed": 0.77,
+   "two_intents": 0.709,
+   "empty": 0.729,
+   "very_long": 0.708,
+   "screenshot": 0.721
+  },
+  "dev": 0.718,
+  "noisy": 0.6933,
+  "noisy_by_kind": {
+   "typo": 0.68,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.7,
+   "very_long": 0.7,
+   "screenshot": 0.68
+  },
+  "gap": 0.0247,
+  "syn_gap": 0.0236
+ },
+ "ens:n5_dedup600+vdrop_n5:w0.3": {
+  "B": 0.7461,
+  "Bsyn": 0.7313,
+  "Bsyn_by_kind": {
+   "typo": 0.732,
+   "code_mixed": 0.758,
+   "two_intents": 0.736,
+   "empty": 0.726,
+   "very_long": 0.713,
+   "screenshot": 0.723
+  },
+  "dev": 0.711,
+  "noisy": 0.7067,
+  "noisy_by_kind": {
+   "typo": 0.68,
+   "code_mixed": 0.72,
+   "two_intents": 0.76,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": 0.0043,
+  "syn_gap": 0.0148
+ },
+ "gated:n5_dedup600+vdrop_n5:w0.5": {
+  "B": 0.7534,
+  "Bsyn": 0.7313,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.698,
+   "empty": 0.729,
+   "very_long": 0.708,
+   "screenshot": 0.721
+  },
+  "dev": 0.7195,
+  "noisy": 0.6967,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.7,
+   "very_long": 0.7,
+   "screenshot": 0.68
+  },
+  "gap": 0.0228,
+  "syn_gap": 0.0221
+ },
+ "gated:n5_dedup600+vdrop_n5:w0.3": {
+  "B": 0.7534,
+  "Bsyn": 0.7351,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.718,
+   "empty": 0.726,
+   "very_long": 0.713,
+   "screenshot": 0.723
+  },
+  "dev": 0.719,
+  "noisy": 0.7067,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.76,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": 0.0123,
+  "syn_gap": 0.0183
+ },
+ "gated:n5_dedup600+vdrop_n5:w0.0": {
+  "B": 0.7534,
+  "Bsyn": 0.7326,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.717,
+   "empty": 0.723,
+   "very_long": 0.708,
+   "screenshot": 0.717
+  },
+  "dev": 0.7185,
+  "noisy": 0.7033,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.74,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": 0.0152,
+  "syn_gap": 0.0208
+ },
+ "ens:n5_dedup600+vagent_n5:w0.8": {
+  "B": 0.7574,
+  "Bsyn": 0.7169,
+  "Bsyn_by_kind": {
+   "typo": 0.749,
+   "code_mixed": 0.784,
+   "two_intents": 0.653,
+   "empty": 0.723,
+   "very_long": 0.675,
+   "screenshot": 0.718
+  },
+  "dev": 0.7225,
+  "noisy": 0.68,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.62
+  },
+  "gap": 0.0425,
+  "syn_gap": 0.0405
+ },
+ "ens:n5_dedup600+vagent_n5:w0.7": {
+  "B": 0.7577,
+  "Bsyn": 0.722,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.782,
+   "two_intents": 0.665,
+   "empty": 0.726,
+   "very_long": 0.696,
+   "screenshot": 0.715
+  },
+  "dev": 0.723,
+  "noisy": 0.6833,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.72,
+   "empty": 0.64,
+   "very_long": 0.7,
+   "screenshot": 0.64
+  },
+  "gap": 0.0397,
+  "syn_gap": 0.0357
+ },
+ "ens:n5_dedup600+vagent_n5:w0.6": {
+  "B": 0.7567,
+  "Bsyn": 0.7227,
+  "Bsyn_by_kind": {
+   "typo": 0.744,
+   "code_mixed": 0.779,
+   "two_intents": 0.671,
+   "empty": 0.718,
+   "very_long": 0.704,
+   "screenshot": 0.72
+  },
+  "dev": 0.722,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.72,
+   "empty": 0.66,
+   "very_long": 0.68,
+   "screenshot": 0.68
+  },
+  "gap": 0.032,
+  "syn_gap": 0.034
+ },
+ "ens:n5_dedup600+vagent_n5:w0.5": {
+  "B": 0.7547,
+  "Bsyn": 0.7227,
+  "Bsyn_by_kind": {
+   "typo": 0.744,
+   "code_mixed": 0.773,
+   "two_intents": 0.683,
+   "empty": 0.714,
+   "very_long": 0.699,
+   "screenshot": 0.723
+  },
+  "dev": 0.726,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.72,
+   "empty": 0.66,
+   "very_long": 0.66,
+   "screenshot": 0.68
+  },
+  "gap": 0.036,
+  "syn_gap": 0.032
+ },
+ "ens:n5_dedup600+vagent_n5:w0.3": {
+  "B": 0.7393,
+  "Bsyn": 0.7162,
+  "Bsyn_by_kind": {
+   "typo": 0.729,
+   "code_mixed": 0.749,
+   "two_intents": 0.711,
+   "empty": 0.698,
+   "very_long": 0.699,
+   "screenshot": 0.711
+  },
+  "dev": 0.713,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.72,
+   "code_mixed": 0.74,
+   "two_intents": 0.74,
+   "empty": 0.64,
+   "very_long": 0.64,
+   "screenshot": 0.66
+  },
+  "gap": 0.023,
+  "syn_gap": 0.0231
+ },
+ "gated:n5_dedup600+vagent_n5:w0.5": {
+  "B": 0.7532,
+  "Bsyn": 0.723,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.671,
+   "empty": 0.714,
+   "very_long": 0.699,
+   "screenshot": 0.723
+  },
+  "dev": 0.7195,
+  "noisy": 0.6867,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.72,
+   "empty": 0.66,
+   "very_long": 0.66,
+   "screenshot": 0.68
+  },
+  "gap": 0.0328,
+  "syn_gap": 0.0302
+ },
+ "gated:n5_dedup600+vagent_n5:w0.3": {
+  "B": 0.7532,
+  "Bsyn": 0.722,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.692,
+   "empty": 0.698,
+   "very_long": 0.699,
+   "screenshot": 0.711
+  },
+  "dev": 0.719,
+  "noisy": 0.68,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.74,
+   "empty": 0.64,
+   "very_long": 0.64,
+   "screenshot": 0.66
+  },
+  "gap": 0.039,
+  "syn_gap": 0.0312
+ },
+ "gated:n5_dedup600+vagent_n5:w0.0": {
+  "B": 0.7529,
+  "Bsyn": 0.7028,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.673,
+   "empty": 0.661,
+   "very_long": 0.678,
+   "screenshot": 0.674
+  },
+  "dev": 0.718,
+  "noisy": 0.65,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.62,
+   "empty": 0.66,
+   "very_long": 0.6,
+   "screenshot": 0.62
+  },
+  "gap": 0.068,
+  "syn_gap": 0.0501
+ },
+ "gate_fire_rate": {
+  "B": 0.0055,
+  "Bsyn": 0.6394,
+  "dev": 0.006,
+  "noisy": 0.6667
+ }
+}

@@ -1,0 +1,250 @@
+{
+ "baseline": {
+  "code_mixed": {
+   "n": 50,
+   "intent_noisy": 0.42,
+   "action_noisy": 0.34,
+   "intent_clean_same_rows": 0.42,
+   "action_clean_same_rows": 0.34,
+   "action_changed_by_noise": 0.02,
+   "mean_conf_noisy": 0.1113,
+   "mean_conf_clean": 0.1177
+  },
+  "empty": {
+   "n": 50,
+   "intent_noisy": 0.26,
+   "action_noisy": 0.36,
+   "intent_clean_same_rows": 0.38,
+   "action_clean_same_rows": 0.38,
+   "action_changed_by_noise": 0.08,
+   "mean_conf_noisy": 0.1411,
+   "mean_conf_clean": 0.1812
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_noisy": 0.36,
+   "action_noisy": 0.32,
+   "intent_clean_same_rows": 0.48,
+   "action_clean_same_rows": 0.34,
+   "action_changed_by_noise": 0.3,
+   "mean_conf_noisy": 0.1036,
+   "mean_conf_clean": 0.1888
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_noisy": 0.34,
+   "action_noisy": 0.38,
+   "intent_clean_same_rows": 0.34,
+   "action_clean_same_rows": 0.42,
+   "action_changed_by_noise": 0.3,
+   "mean_conf_noisy": 0.1288,
+   "mean_conf_clean": 0.1701
+  },
+  "typo": {
+   "n": 50,
+   "intent_noisy": 0.42,
+   "action_noisy": 0.38,
+   "intent_clean_same_rows": 0.46,
+   "action_clean_same_rows": 0.4,
+   "action_changed_by_noise": 0.02,
+   "mean_conf_noisy": 0.1687,
+   "mean_conf_clean": 0.1778
+  },
+  "very_long": {
+   "n": 50,
+   "intent_noisy": 0.0,
+   "action_noisy": 0.18,
+   "intent_clean_same_rows": 0.36,
+   "action_clean_same_rows": 0.42,
+   "action_changed_by_noise": 0.72,
+   "mean_conf_noisy": 0.1153,
+   "mean_conf_clean": 0.1472
+  }
+ },
+ "rule_svc_softalias": {
+  "code_mixed": {
+   "n": 50,
+   "intent_noisy": 0.7,
+   "action_noisy": 0.68,
+   "intent_clean_same_rows": 0.7,
+   "action_clean_same_rows": 0.68,
+   "action_changed_by_noise": 0.02,
+   "mean_conf_noisy": 0.7431,
+   "mean_conf_clean": 0.7501
+  },
+  "empty": {
+   "n": 50,
+   "intent_noisy": 0.62,
+   "action_noisy": 0.68,
+   "intent_clean_same_rows": 0.68,
+   "action_clean_same_rows": 0.74,
+   "action_changed_by_noise": 0.08,
+   "mean_conf_noisy": 0.7304,
+   "mean_conf_clean": 0.7522
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_noisy": 0.5,
+   "action_noisy": 0.54,
+   "intent_clean_same_rows": 0.66,
+   "action_clean_same_rows": 0.7,
+   "action_changed_by_noise": 0.24,
+   "mean_conf_noisy": 0.5943,
+   "mean_conf_clean": 0.7336
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_noisy": 0.68,
+   "action_noisy": 0.68,
+   "intent_clean_same_rows": 0.68,
+   "action_clean_same_rows": 0.74,
+   "action_changed_by_noise": 0.08,
+   "mean_conf_noisy": 0.7322,
+   "mean_conf_clean": 0.7291
+  },
+  "typo": {
+   "n": 50,
+   "intent_noisy": 0.72,
+   "action_noisy": 0.72,
+   "intent_clean_same_rows": 0.72,
+   "action_clean_same_rows": 0.72,
+   "action_changed_by_noise": 0.0,
+   "mean_conf_noisy": 0.7165,
+   "mean_conf_clean": 0.7188
+  },
+  "very_long": {
+   "n": 50,
+   "intent_noisy": 0.16,
+   "action_noisy": 0.38,
+   "intent_clean_same_rows": 0.84,
+   "action_clean_same_rows": 0.74,
+   "action_changed_by_noise": 0.52,
+   "mean_conf_noisy": 0.5283,
+   "mean_conf_clean": 0.7674
+  }
+ },
+ "directLR_softalias": {
+  "code_mixed": {
+   "n": 50,
+   "intent_noisy": 0.7,
+   "action_noisy": 0.76,
+   "intent_clean_same_rows": 0.7,
+   "action_clean_same_rows": 0.76,
+   "action_changed_by_noise": 0.04,
+   "mean_conf_noisy": 0.7743,
+   "mean_conf_clean": 0.7792
+  },
+  "empty": {
+   "n": 50,
+   "intent_noisy": 0.62,
+   "action_noisy": 0.8,
+   "intent_clean_same_rows": 0.68,
+   "action_clean_same_rows": 0.84,
+   "action_changed_by_noise": 0.2,
+   "mean_conf_noisy": 0.7256,
+   "mean_conf_clean": 0.8172
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_noisy": 0.5,
+   "action_noisy": 0.8,
+   "intent_clean_same_rows": 0.66,
+   "action_clean_same_rows": 0.82,
+   "action_changed_by_noise": 0.12,
+   "mean_conf_noisy": 0.6966,
+   "mean_conf_clean": 0.8085
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_noisy": 0.68,
+   "action_noisy": 0.86,
+   "intent_clean_same_rows": 0.68,
+   "action_clean_same_rows": 0.82,
+   "action_changed_by_noise": 0.08,
+   "mean_conf_noisy": 0.7911,
+   "mean_conf_clean": 0.828
+  },
+  "typo": {
+   "n": 50,
+   "intent_noisy": 0.72,
+   "action_noisy": 0.7,
+   "intent_clean_same_rows": 0.72,
+   "action_clean_same_rows": 0.68,
+   "action_changed_by_noise": 0.02,
+   "mean_conf_noisy": 0.797,
+   "mean_conf_clean": 0.8078
+  },
+  "very_long": {
+   "n": 50,
+   "intent_noisy": 0.16,
+   "action_noisy": 0.68,
+   "intent_clean_same_rows": 0.84,
+   "action_clean_same_rows": 0.86,
+   "action_changed_by_noise": 0.24,
+   "mean_conf_noisy": 0.676,
+   "mean_conf_clean": 0.8484
+  }
+ },
+ "abLR_nomask": {
+  "code_mixed": {
+   "n": 50,
+   "intent_noisy": 0.7,
+   "action_noisy": 0.82,
+   "intent_clean_same_rows": 0.7,
+   "action_clean_same_rows": 0.8,
+   "action_changed_by_noise": 0.04,
+   "mean_conf_noisy": 0.7553,
+   "mean_conf_clean": 0.7813
+  },
+  "empty": {
+   "n": 50,
+   "intent_noisy": 0.62,
+   "action_noisy": 0.76,
+   "intent_clean_same_rows": 0.68,
+   "action_clean_same_rows": 0.84,
+   "action_changed_by_noise": 0.18,
+   "mean_conf_noisy": 0.7159,
+   "mean_conf_clean": 0.8049
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_noisy": 0.5,
+   "action_noisy": 0.76,
+   "intent_clean_same_rows": 0.66,
+   "action_clean_same_rows": 0.82,
+   "action_changed_by_noise": 0.14,
+   "mean_conf_noisy": 0.655,
+   "mean_conf_clean": 0.81
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_noisy": 0.68,
+   "action_noisy": 0.76,
+   "intent_clean_same_rows": 0.68,
+   "action_clean_same_rows": 0.86,
+   "action_changed_by_noise": 0.12,
+   "mean_conf_noisy": 0.7914,
+   "mean_conf_clean": 0.8357
+  },
+  "typo": {
+   "n": 50,
+   "intent_noisy": 0.72,
+   "action_noisy": 0.74,
+   "intent_clean_same_rows": 0.72,
+   "action_clean_same_rows": 0.78,
+   "action_changed_by_noise": 0.04,
+   "mean_conf_noisy": 0.7626,
+   "mean_conf_clean": 0.7899
+  },
+  "very_long": {
+   "n": 50,
+   "intent_noisy": 0.16,
+   "action_noisy": 0.6,
+   "intent_clean_same_rows": 0.84,
+   "action_clean_same_rows": 0.84,
+   "action_changed_by_noise": 0.42,
+   "mean_conf_noisy": 0.5321,
+   "mean_conf_clean": 0.852
+  }
+ }
+}

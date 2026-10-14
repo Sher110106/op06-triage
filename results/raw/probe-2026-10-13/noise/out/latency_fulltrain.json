@@ -1,0 +1,96 @@
+{
+ "fit_secs_full_train": 334,
+ "latency_ms_1thread": {
+  "n": 459,
+  "p50": 6.96,
+  "p95": 17.36,
+  "p99": 22.29,
+  "max": 44.53
+ },
+ "latency_ms_2thread": {
+  "n": 459,
+  "p50": 5.5,
+  "p95": 17.58,
+  "p99": 22.79,
+  "max": 40.61
+ },
+ "grader_fulltrain": {
+  "intent_acc": 0.7178,
+  "macro_f1": 0.7001,
+  "action_acc": 0.7209,
+  "action_clean": 0.724,
+  "action_noisy": 0.7,
+  "noisy_gap": 0.024,
+  "matched_gap": 0.0167,
+  "top70_ratio": 0.5898,
+  "policy_violation": 0.0357,
+  "schema_valid": 1.0
+ },
+ "hostile_outputs": [
+  {
+   "id": "hostile-000",
+   "intent": "shirt_how_2",
+   "action": "pull-up-account",
+   "confidence": 0.494298,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-001",
+   "intent": "manage_change_phone",
+   "action": "pull-up-account",
+   "confidence": 0.544676,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-002",
+   "intent": "shirt_how_2",
+   "action": "search-faq",
+   "confidence": 0.651642,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-003",
+   "intent": "refund_update",
+   "action": "pull-up-account",
+   "confidence": 0.830874,
+   "needs_human": false
+  },
+  {
+   "id": "hostile-004",
+   "intent": "policy_3",
+   "action": "search-faq",
+   "confidence": 0.774731,
+   "needs_human": false
+  },
+  {
+   "id": "hostile-005",
+   "intent": "search_results",
+   "action": "pull-up-account",
+   "confidence": 0.481115,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-006",
+   "intent": "reset_2fa",
+   "action": "search-faq",
+   "confidence": 0.714723,
+   "needs_human": false
+  },
+  {
+   "id": "hostile-007",
+   "intent": "promo_code_out_of_date",
+   "action": "pull-up-account",
+   "confidence": 0.53032,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-008",
+   "intent": "promo_code_out_of_date",
+   "action": "search-faq",
+   "confidence": 0.575306,
+   "needs_human": true
+  }
+ ],
+ "needs_human_rate_dev": 0.206,
+ "needs_human_rate_noisy": 0.35
+}

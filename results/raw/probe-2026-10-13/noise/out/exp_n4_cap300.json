@@ -1,0 +1,89 @@
+{
+ "name": "n4_cap300",
+ "cfg": {
+  "nfkc": 1,
+  "rep": 1,
+  "cap": 300
+ },
+ "view": "all",
+ "frac": 0.0,
+ "C": 0.3,
+ "n_fit": 16034,
+ "fit_secs": 122,
+ "vec_secs": 16,
+ "B": {
+  "intent": 0.7453,
+  "flow": 0.8936,
+  "act_argmax_soft": 0.7468,
+  "act_marg_soft": 0.7534
+ },
+ "Bsyn": {
+  "intent": 0.6631,
+  "flow": 0.8399,
+  "act_argmax_soft": 0.6904,
+  "act_argmax_soft_by_kind": {
+   "typo": 0.737,
+   "code_mixed": 0.773,
+   "two_intents": 0.603,
+   "empty": 0.702,
+   "very_long": 0.655,
+   "screenshot": 0.673
+  },
+  "act_marg_soft": 0.7114,
+  "act_marg_soft_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.784,
+   "two_intents": 0.639,
+   "empty": 0.724,
+   "very_long": 0.676,
+   "screenshot": 0.697
+  },
+  "intent_by_kind": {
+   "typo": 0.753,
+   "code_mixed": 0.77,
+   "two_intents": 0.542,
+   "empty": 0.615,
+   "very_long": 0.646,
+   "screenshot": 0.652
+  }
+ },
+ "dev": {
+  "intent": 0.718,
+  "flow": 0.879,
+  "act_argmax_soft": 0.7115,
+  "act_marg_soft": 0.7195
+ },
+ "noisy": {
+  "intent": 0.6467,
+  "flow": 0.8133,
+  "act_argmax_soft": 0.6467,
+  "act_argmax_soft_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.64,
+   "very_long": 0.62,
+   "screenshot": 0.54
+  },
+  "act_marg_soft": 0.67,
+  "act_marg_soft_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.68,
+   "very_long": 0.66,
+   "screenshot": 0.6
+  },
+  "intent_by_kind": {
+   "typo": 0.72,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.62,
+   "very_long": 0.66,
+   "screenshot": 0.5
+  }
+ },
+ "gap_argmax": 0.0648,
+ "gap_marg": 0.0495,
+ "total_secs": 138
+}

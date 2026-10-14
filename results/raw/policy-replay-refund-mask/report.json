@@ -1,0 +1,851 @@
+{
+ "rows": 2300,
+ "llm": "off",
+ "current": {
+  "path": "policy/policy.toml",
+  "version": "2026-10-14.2",
+  "rules": 0
+ },
+ "new": {
+  "path": "experiments/policy_replay/policy_refund_mask.toml",
+  "version": "2026-10-14.3-refund-mask",
+  "rules": 1
+ },
+ "changes": {
+  "actions_changed": 39,
+  "needs_human_changed": 16,
+  "confidence_changed": 1226,
+  "wrong_to_right": 4,
+  "right_to_wrong": 26,
+  "wrong_to_wrong": 9,
+  "newly_routed": 7,
+  "no_longer_routed": 9,
+  "new_violation": 7,
+  "violation_cleared": 1
+ },
+ "metrics": {
+  "current": {
+   "intent_acc": 0.7091,
+   "macro_f1": 0.7015,
+   "action_acc": 0.8117,
+   "action_acc_clean": 0.8145,
+   "action_acc_noisy": 0.7933,
+   "noisy_gap": 0.0212,
+   "top70_error_ratio": 0.376,
+   "schema_valid_pct": 100.0,
+   "policy_violation": 0.0804,
+   "needs_human_rate": 0.2822,
+   "action_acc_not_routed": 0.92,
+   "violations": {
+    "rows_scored": 2300,
+    "literal": 185,
+    "literal_rate": 0.0804,
+    "alias": 103,
+    "alias_rate": 0.0448
+   },
+   "bars_pass": true,
+   "route_reasons": {
+    "low_confidence": 613,
+    "off_policy": 82,
+    "no_dialogue": 2
+   },
+   "rows_with_masked_actions": 0
+  },
+  "new": {
+   "intent_acc": 0.7091,
+   "macro_f1": 0.7015,
+   "action_acc": 0.8022,
+   "action_acc_clean": 0.8045,
+   "action_acc_noisy": 0.7867,
+   "noisy_gap": 0.0178,
+   "top70_error_ratio": 0.3862,
+   "schema_valid_pct": 100.0,
+   "policy_violation": 0.083,
+   "needs_human_rate": 0.2813,
+   "action_acc_not_routed": 0.9189,
+   "violations": {
+    "rows_scored": 2300,
+    "literal": 191,
+    "literal_rate": 0.083,
+    "alias": 109,
+    "alias_rate": 0.0474
+   },
+   "bars_pass": true,
+   "route_reasons": {
+    "low_confidence": 611,
+    "off_policy": 88,
+    "no_dialogue": 2
+   },
+   "rows_with_masked_actions": 1760
+  }
+ },
+ "rule_flags_new": {},
+ "examples": {
+  "wrong_to_right": [
+   {
+    "id": "9437-23",
+    "action": [
+     "offer-refund",
+     "make-purchase"
+    ],
+    "gold_action": "make-purchase",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.707994,
+     0.779355
+    ]
+   },
+   {
+    "id": "3056-23",
+    "action": [
+     "offer-refund",
+     "promo-code"
+    ],
+    "gold_action": "promo-code",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.414177,
+     0.267252
+    ]
+   },
+   {
+    "id": "365-47",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "enter-details",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.866099,
+     0.820415
+    ]
+   },
+   {
+    "id": "4078-19",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "update-order",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.740483,
+     0.246799
+    ]
+   }
+  ],
+  "right_to_wrong": [
+   {
+    "id": "2030-21",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.518225,
+     0.634276
+    ]
+   },
+   {
+    "id": "7205-22",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.863527,
+     0.892173
+    ]
+   },
+   {
+    "id": "756-24",
+    "action": [
+     "offer-refund",
+     "update-account"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.880879,
+     0.13772
+    ]
+   },
+   {
+    "id": "2095-23",
+    "action": [
+     "offer-refund",
+     "search-faq"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.260735,
+     0.519215
+    ]
+   },
+   {
+    "id": "511-24",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.695496,
+     0.874402
+    ]
+   },
+   {
+    "id": "7847-20",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.725822,
+     0.376977
+    ]
+   },
+   {
+    "id": "1245-33",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.333578,
+     0.321525
+    ]
+   },
+   {
+    "id": "4078-20",
+    "action": [
+     "offer-refund",
+     "make-purchase"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.262683,
+     0.5
+    ]
+   },
+   {
+    "id": "5830-38",
+    "action": [
+     "offer-refund",
+     "record-reason"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.540282,
+     0.57795
+    ]
+   },
+   {
+    "id": "5320-21",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.935998,
+     0.762462
+    ]
+   }
+  ],
+  "wrong_to_wrong": [
+   {
+    "id": "365-46",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "record-reason",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.872471,
+     0.263409
+    ]
+   },
+   {
+    "id": "4317-17",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "update-account",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.778536,
+     0.666306
+    ]
+   },
+   {
+    "id": "7503-30",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "update-order",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.353317,
+     0.339813
+    ]
+   },
+   {
+    "id": "3908-26",
+    "action": [
+     "offer-refund",
+     "update-account"
+    ],
+    "gold_action": "notify-team",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.34222,
+     0.356694
+    ]
+   },
+   {
+    "id": "2030-18",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "shipping-status",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.933046,
+     0.835274
+    ]
+   },
+   {
+    "id": "177-35",
+    "action": [
+     "offer-refund",
+     "update-account"
+    ],
+    "gold_action": "membership",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.144193,
+     0.140204
+    ]
+   },
+   {
+    "id": "8799-21",
+    "action": [
+     "offer-refund",
+     "pull-up-account"
+    ],
+    "gold_action": "enter-details",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.455047,
+     0.359381
+    ]
+   },
+   {
+    "id": "9437-23-noisy",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "make-purchase",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.275638,
+     0.321952
+    ]
+   },
+   {
+    "id": "365-46-noisy",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "record-reason",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.677199,
+     0.205167
+    ]
+   }
+  ],
+  "newly_routed": [
+   {
+    "id": "2030-18",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "shipping-status",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.933046,
+     0.835274
+    ]
+   },
+   {
+    "id": "5320-21",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.935998,
+     0.762462
+    ]
+   },
+   {
+    "id": "3484-29",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.916894,
+     0.231656
+    ]
+   },
+   {
+    "id": "7934-26",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.928683,
+     0.797341
+    ]
+   },
+   {
+    "id": "4190-27",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.916366,
+     0.562739
+    ]
+   },
+   {
+    "id": "1829-21",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.94787,
+     0.535858
+    ]
+   },
+   {
+    "id": "365-49",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.893422,
+     0.259726
+    ]
+   }
+  ],
+  "no_longer_routed": [
+   {
+    "id": "7205-22",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.863527,
+     0.892173
+    ]
+   },
+   {
+    "id": "5360-24",
+    "action": [
+     "update-account",
+     "update-account"
+    ],
+    "gold_action": "update-account",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.870012,
+     0.89094
+    ]
+   },
+   {
+    "id": "2996-32",
+    "action": [
+     "make-purchase",
+     "make-purchase"
+    ],
+    "gold_action": "make-purchase",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.861209,
+     0.911787
+    ]
+   },
+   {
+    "id": "6905-19",
+    "action": [
+     "ask-the-oracle",
+     "ask-the-oracle"
+    ],
+    "gold_action": "ask-the-oracle",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.693696,
+     0.712213
+    ]
+   },
+   {
+    "id": "10353-23",
+    "action": [
+     "update-order",
+     "update-order"
+    ],
+    "gold_action": "update-order",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.879263,
+     0.920229
+    ]
+   },
+   {
+    "id": "3605-21",
+    "action": [
+     "make-purchase",
+     "make-purchase"
+    ],
+    "gold_action": "make-purchase",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.878963,
+     0.888772
+    ]
+   },
+   {
+    "id": "2971-28",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.63102,
+     0.802359
+    ]
+   },
+   {
+    "id": "365-47",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "enter-details",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.866099,
+     0.820415
+    ]
+   },
+   {
+    "id": "4516-21-noisy",
+    "action": [
+     "update-account",
+     "update-account"
+    ],
+    "gold_action": "update-account",
+    "needs_human": [
+     true,
+     false
+    ],
+    "confidence": [
+     0.888089,
+     0.893466
+    ]
+   }
+  ],
+  "new_violation": [
+   {
+    "id": "7503-30",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "update-order",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.353317,
+     0.339813
+    ]
+   },
+   {
+    "id": "7847-20",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.725822,
+     0.376977
+    ]
+   },
+   {
+    "id": "4078-20",
+    "action": [
+     "offer-refund",
+     "make-purchase"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.262683,
+     0.5
+    ]
+   },
+   {
+    "id": "6887-19",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.389503,
+     0.438973
+    ]
+   },
+   {
+    "id": "1829-21",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     true
+    ],
+    "confidence": [
+     0.94787,
+     0.535858
+    ]
+   },
+   {
+    "id": "4078-19",
+    "action": [
+     "offer-refund",
+     "update-order"
+    ],
+    "gold_action": "update-order",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.740483,
+     0.246799
+    ]
+   },
+   {
+    "id": "1333-24",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     false,
+     false
+    ],
+    "confidence": [
+     0.934238,
+     0.839247
+    ]
+   }
+  ],
+  "violation_cleared": [
+   {
+    "id": "1245-33",
+    "action": [
+     "offer-refund",
+     "enter-details"
+    ],
+    "gold_action": "offer-refund",
+    "needs_human": [
+     true,
+     true
+    ],
+    "confidence": [
+     0.333578,
+     0.321525
+    ]
+   }
+  ]
+ }
+}

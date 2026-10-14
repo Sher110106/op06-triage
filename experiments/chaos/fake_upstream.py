@@ -21,6 +21,11 @@ Modes (what a call gets back):
   constant        after --delay-s: valid JSON, in the enum, but always the same answer (intent the first in the
                   request's enum, action "offer-refund"): a provider that is up and well-formed but wrong
   huge            at once: HTTP 200, a valid envelope whose content is 1,000,000 characters (a 1 MB body)
+  strict          a gateway that knows only the OpenAI Chat Completions fields the service's openai dialect sends
+                  (STRICT_FIELDS, plus role/content per message and type/json_schema/name/strict/schema in
+                  response_format): any other field gets HTTP 400 at once, OpenAI-style, naming the fields; a body
+                  with none answers as "ok". OpenRouter's names (max_tokens, reasoning, usage, provider) get the 400.
+  ratelimit       at once: HTTP 429, Retry-After: --retry-after-s (1), an OpenAI-style rate_limit_exceeded error
 
 Control and state (for the test driver):
   GET  /_state           JSON: mode, calls by outcome, replay hits and misses, calls in flight now and at most
@@ -44,11 +49,34 @@ from urllib.parse import parse_qs, urlsplit
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-MODES = ("ok", "error500", "hang", "garbage", "garbage_content", "bad_enum", "slow", "flaky", "constant", "huge")
+MODES = ("ok", "error500", "hang", "garbage", "garbage_content", "bad_enum", "slow", "flaky", "constant", "huge",
+         "strict", "ratelimit")
+# the fields of triage.llm_action.OPENAI_FIELDS, written out so this file stands alone (a test checks they match)
+STRICT_FIELDS = frozenset({"model", "messages", "response_format", "max_completion_tokens", "reasoning_effort"})
+_STRICT_MESSAGE = frozenset({"role", "content"})
+_STRICT_FORMAT = frozenset({"type", "json_schema"})
+_STRICT_SCHEMA = frozenset({"name", "strict", "schema"})
 FIXED_ACTIONS = ("pull-up-account", "verify-identity", "search-faq")
 HEAD = re.compile(r"^CONVERSATION TO LABEL: (\d+) turns, one JSON object per line"
                   r"(?:; the next action happens at turn (\d+) of the full conversation)?\.$")
 START = re.compile(r"^<<<CONVERSATION ([0-9a-f]+)>>>$")
+
+
+def unknown_fields(body: dict) -> list[str]:
+    """Fields the strict mode does not know: top-level names outside STRICT_FIELDS, then names inside messages and
+    response_format, as "messages[0].name" and "response_format.json_schema.x". Sorted within each level."""
+    out = sorted(k for k in body if k not in STRICT_FIELDS)
+    msgs = body.get("messages")
+    for i, m in enumerate(msgs if isinstance(msgs, list) else []):
+        if isinstance(m, dict):
+            out += [f"messages[{i}].{k}" for k in sorted(m) if k not in _STRICT_MESSAGE]
+    rf = body.get("response_format")
+    if isinstance(rf, dict):
+        out += [f"response_format.{k}" for k in sorted(rf) if k not in _STRICT_FORMAT]
+        js = rf.get("json_schema")
+        if isinstance(js, dict):
+            out += [f"response_format.json_schema.{k}" for k in sorted(js) if k not in _STRICT_SCHEMA]
+    return out
 
 
 def conv_key(n_turns: int, turn_index, lines: list[str]) -> str:
@@ -111,8 +139,9 @@ def build_replay(path: Path) -> tuple[dict, dict]:
 
 class State:
     def __init__(self, mode: str, delay_s: float, slow_s: float, hang_s: float, seed: int, replay: dict,
-                 replay_info: dict):
+                 replay_info: dict, retry_after_s: int = 1):
         self.mode, self.delay_s, self.slow_s, self.hang_s = mode, delay_s, slow_s, hang_s
+        self.retry_after_s = retry_after_s
         self.rng = random.Random(seed)
         self.replay, self.replay_info = replay, replay_info
         self.lock = threading.Lock()
@@ -159,11 +188,14 @@ def make_handler(state: State):
         def log_message(self, fmt, *args):          # quiet: the driver reads /_state instead
             pass
 
-        def _send(self, code: int, payload: bytes, ctype: str = "application/json") -> None:
+        def _send(self, code: int, payload: bytes, ctype: str = "application/json",
+                  headers: dict | None = None) -> None:
             try:
                 self.send_response(code)
                 self.send_header("Content-Type", ctype)
                 self.send_header("Content-Length", str(len(payload)))
+                for k, v in (headers or {}).items():
+                    self.send_header(k, v)
                 self.end_headers()
                 self.wfile.write(payload)
                 self.wfile.flush()
@@ -171,8 +203,8 @@ def make_handler(state: State):
                 with state.lock:
                     state.calls["client_gone"] += 1
 
-        def _json(self, code: int, obj) -> None:
-            self._send(code, json.dumps(obj).encode())
+        def _json(self, code: int, obj, headers: dict | None = None) -> None:
+            self._send(code, json.dumps(obj).encode(), headers=headers)
 
         def do_GET(self):
             if urlsplit(self.path).path == "/_state":
@@ -218,6 +250,21 @@ def make_handler(state: State):
             except Exception:                                    # noqa: BLE001
                 self._count("bad_request")
                 return self._json(400, {"error": {"message": "bad request body"}})
+            if mode == "strict":
+                bad = unknown_fields(body)
+                if bad:
+                    self._count("strict_rejected")
+                    noun = "argument" if len(bad) == 1 else "arguments"
+                    return self._json(400, {"error": {"message": f"Unrecognized request {noun} supplied: "
+                                                                 + ", ".join(bad),
+                                                      "type": "invalid_request_error", "param": bad[0],
+                                                      "code": "unrecognized_argument"}})
+            if mode == "ratelimit":
+                self._count("ratelimit")
+                wait = state.retry_after_s
+                return self._json(429, {"error": {"message": f"Rate limit reached. Please try again in {wait}s.",
+                                                  "type": "requests", "param": None, "code": "rate_limit_exceeded"}},
+                                  headers={"Retry-After": str(wait)})
             if mode == "flaky":
                 mode = "error500" if flip else "ok"
             if mode == "error500":
@@ -274,11 +321,12 @@ def main(argv=None) -> int:
     ap.add_argument("--slow-s", type=float, default=3.5)
     ap.add_argument("--hang-s", type=float, default=30.0)
     ap.add_argument("--seed", type=int, default=0, help="seed for the flaky mode's coin")
+    ap.add_argument("--retry-after-s", type=int, default=1, help="Retry-After seconds in ratelimit mode")
     ap.add_argument("--replay", help="recorded answers (JSONL with id and text), e.g. "
                                      "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl")
     a = ap.parse_args(argv)
     replay, info = build_replay(Path(a.replay)) if a.replay else ({}, {"ambiguous": set()})
-    state = State(a.mode, a.delay_s, a.slow_s, a.hang_s, a.seed, replay, info)
+    state = State(a.mode, a.delay_s, a.slow_s, a.hang_s, a.seed, replay, info, a.retry_after_s)
     srv = ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(state))
     srv.daemon_threads = True
     print(json.dumps({"event": "fake_upstream_ready", "port": a.port, "mode": a.mode,

@@ -1,0 +1,804 @@
+{
+ "rule_predintent_lastobs": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.7562,
+    "policy_violation": 0.0772,
+    "policy_violation_alias": 0.0474
+   },
+   "dev": {
+    "action_acc": 0.72,
+    "policy_violation": 0.1045,
+    "policy_violation_alias": 0.069
+   },
+   "noisy": {
+    "action_acc": 0.5967,
+    "policy_violation": 0.18,
+    "policy_violation_alias": 0.1567
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.741,
+    "policy_violation": 0.026,
+    "policy_violation_alias": 0.026
+   },
+   "dev": {
+    "action_acc": 0.7065,
+    "policy_violation": 0.044,
+    "policy_violation_alias": 0.044
+   },
+   "noisy": {
+    "action_acc": 0.6033,
+    "policy_violation": 0.1133,
+    "policy_violation_alias": 0.1133
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.7557,
+    "policy_violation": 0.059,
+    "policy_violation_alias": 0.0275
+   },
+   "dev": {
+    "action_acc": 0.722,
+    "policy_violation": 0.0825,
+    "policy_violation_alias": 0.0445
+   },
+   "noisy": {
+    "action_acc": 0.6,
+    "policy_violation": 0.1567,
+    "policy_violation_alias": 0.1167
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.7463,
+    "policy_violation": 0.0338,
+    "policy_violation_alias": 0.0335
+   },
+   "dev": {
+    "action_acc": 0.7115,
+    "policy_violation": 0.0505,
+    "policy_violation_alias": 0.0495
+   },
+   "noisy": {
+    "action_acc": 0.61,
+    "policy_violation": 0.13,
+    "policy_violation_alias": 0.13
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.76,
+    "policy_violation": 0.064,
+    "policy_violation_alias": 0.035
+   },
+   "dev": {
+    "action_acc": 0.727,
+    "policy_violation": 0.089,
+    "policy_violation_alias": 0.052
+   },
+   "noisy": {
+    "action_acc": 0.6133,
+    "policy_violation": 0.16,
+    "policy_violation_alias": 0.1333
+   }
+  }
+ },
+ "ORACLE_rule_goldintent_lastobs": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.7731,
+    "policy_violation": 0.0479,
+    "policy_violation_alias": 0.0154
+   },
+   "dev": {
+    "action_acc": 0.747,
+    "policy_violation": 0.0615,
+    "policy_violation_alias": 0.0235
+   },
+   "noisy": {
+    "action_acc": 0.7567,
+    "policy_violation": 0.0633,
+    "policy_violation_alias": 0.01
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.7511,
+    "policy_violation": 0.0144,
+    "policy_violation_alias": 0.0144
+   },
+   "dev": {
+    "action_acc": 0.721,
+    "policy_violation": 0.0195,
+    "policy_violation_alias": 0.0195
+   },
+   "noisy": {
+    "action_acc": 0.7133,
+    "policy_violation": 0.03,
+    "policy_violation_alias": 0.03
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.7685,
+    "policy_violation": 0.0479,
+    "policy_violation_alias": 0.0151
+   },
+   "dev": {
+    "action_acc": 0.7425,
+    "policy_violation": 0.0565,
+    "policy_violation_alias": 0.018
+   },
+   "noisy": {
+    "action_acc": 0.7333,
+    "policy_violation": 0.0867,
+    "policy_violation_alias": 0.0267
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.7605,
+    "policy_violation": 0.0129,
+    "policy_violation_alias": 0.0124
+   },
+   "dev": {
+    "action_acc": 0.7325,
+    "policy_violation": 0.018,
+    "policy_violation_alias": 0.016
+   },
+   "noisy": {
+    "action_acc": 0.7533,
+    "policy_violation": 0.0133,
+    "policy_violation_alias": 0.0067
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.7771,
+    "policy_violation": 0.0449,
+    "policy_violation_alias": 0.0129
+   },
+   "dev": {
+    "action_acc": 0.754,
+    "policy_violation": 0.055,
+    "policy_violation_alias": 0.0165
+   },
+   "noisy": {
+    "action_acc": 0.7667,
+    "policy_violation": 0.0633,
+    "policy_violation_alias": 0.01
+   }
+  }
+ },
+ "a_direct_text+state_LR_C10.0": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.8308,
+    "policy_violation": 0.0971,
+    "policy_violation_alias": 0.064
+   },
+   "dev": {
+    "action_acc": 0.804,
+    "policy_violation": 0.118,
+    "policy_violation_alias": 0.082
+   },
+   "noisy": {
+    "action_acc": 0.7467,
+    "policy_violation": 0.1367,
+    "policy_violation_alias": 0.11
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.7985,
+    "policy_violation": 0.024,
+    "policy_violation_alias": 0.0237
+   },
+   "dev": {
+    "action_acc": 0.7775,
+    "policy_violation": 0.0315,
+    "policy_violation_alias": 0.0315
+   },
+   "noisy": {
+    "action_acc": 0.72,
+    "policy_violation": 0.0867,
+    "policy_violation_alias": 0.0867
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.8245,
+    "policy_violation": 0.0585,
+    "policy_violation_alias": 0.025
+   },
+   "dev": {
+    "action_acc": 0.8045,
+    "policy_violation": 0.0705,
+    "policy_violation_alias": 0.0335
+   },
+   "noisy": {
+    "action_acc": 0.7433,
+    "policy_violation": 0.1233,
+    "policy_violation_alias": 0.09
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.8109,
+    "policy_violation": 0.0378,
+    "policy_violation_alias": 0.0345
+   },
+   "dev": {
+    "action_acc": 0.788,
+    "policy_violation": 0.043,
+    "policy_violation_alias": 0.041
+   },
+   "noisy": {
+    "action_acc": 0.7467,
+    "policy_violation": 0.07,
+    "policy_violation_alias": 0.07
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.8336,
+    "policy_violation": 0.0696,
+    "policy_violation_alias": 0.0358
+   },
+   "dev": {
+    "action_acc": 0.814,
+    "policy_violation": 0.0785,
+    "policy_violation_alias": 0.0425
+   },
+   "noisy": {
+    "action_acc": 0.7667,
+    "policy_violation": 0.1,
+    "policy_violation_alias": 0.07
+   }
+  }
+ },
+ "a_direct_text_only_LR": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.8205,
+    "policy_violation": 0.0925,
+    "policy_violation_alias": 0.0608
+   },
+   "dev": {
+    "action_acc": 0.786,
+    "policy_violation": 0.1205,
+    "policy_violation_alias": 0.084
+   },
+   "noisy": {
+    "action_acc": 0.7067,
+    "policy_violation": 0.13,
+    "policy_violation_alias": 0.11
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.7864,
+    "policy_violation": 0.0229,
+    "policy_violation_alias": 0.0227
+   },
+   "dev": {
+    "action_acc": 0.7645,
+    "policy_violation": 0.0305,
+    "policy_violation_alias": 0.0305
+   },
+   "noisy": {
+    "action_acc": 0.6633,
+    "policy_violation": 0.08,
+    "policy_violation_alias": 0.08
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.8122,
+    "policy_violation": 0.0562,
+    "policy_violation_alias": 0.0245
+   },
+   "dev": {
+    "action_acc": 0.791,
+    "policy_violation": 0.068,
+    "policy_violation_alias": 0.0315
+   },
+   "noisy": {
+    "action_acc": 0.68,
+    "policy_violation": 0.11,
+    "policy_violation_alias": 0.0833
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.795,
+    "policy_violation": 0.0338,
+    "policy_violation_alias": 0.032
+   },
+   "dev": {
+    "action_acc": 0.767,
+    "policy_violation": 0.044,
+    "policy_violation_alias": 0.042
+   },
+   "noisy": {
+    "action_acc": 0.69,
+    "policy_violation": 0.0633,
+    "policy_violation_alias": 0.0633
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.8195,
+    "policy_violation": 0.0651,
+    "policy_violation_alias": 0.0328
+   },
+   "dev": {
+    "action_acc": 0.7925,
+    "policy_violation": 0.0805,
+    "policy_violation_alias": 0.0435
+   },
+   "noisy": {
+    "action_acc": 0.7067,
+    "policy_violation": 0.0933,
+    "policy_violation_alias": 0.0667
+   }
+  }
+ },
+ "b_stage2_predintent_x_state_LR": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.7945,
+    "policy_violation": 0.0714,
+    "policy_violation_alias": 0.0376
+   },
+   "dev": {
+    "action_acc": 0.7655,
+    "policy_violation": 0.0925,
+    "policy_violation_alias": 0.0515
+   },
+   "noisy": {
+    "action_acc": 0.65,
+    "policy_violation": 0.1367,
+    "policy_violation_alias": 0.08
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.7693,
+    "policy_violation": 0.0245,
+    "policy_violation_alias": 0.0245
+   },
+   "dev": {
+    "action_acc": 0.7425,
+    "policy_violation": 0.0345,
+    "policy_violation_alias": 0.0345
+   },
+   "noisy": {
+    "action_acc": 0.64,
+    "policy_violation": 0.09,
+    "policy_violation_alias": 0.0867
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.7879,
+    "policy_violation": 0.0605,
+    "policy_violation_alias": 0.0267
+   },
+   "dev": {
+    "action_acc": 0.7605,
+    "policy_violation": 0.079,
+    "policy_violation_alias": 0.0365
+   },
+   "noisy": {
+    "action_acc": 0.6367,
+    "policy_violation": 0.1367,
+    "policy_violation_alias": 0.08
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.7733,
+    "policy_violation": 0.0265,
+    "policy_violation_alias": 0.026
+   },
+   "dev": {
+    "action_acc": 0.744,
+    "policy_violation": 0.0385,
+    "policy_violation_alias": 0.038
+   },
+   "noisy": {
+    "action_acc": 0.66,
+    "policy_violation": 0.07,
+    "policy_violation_alias": 0.0633
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.792,
+    "policy_violation": 0.0608,
+    "policy_violation_alias": 0.027
+   },
+   "dev": {
+    "action_acc": 0.763,
+    "policy_violation": 0.0825,
+    "policy_violation_alias": 0.039
+   },
+   "noisy": {
+    "action_acc": 0.6533,
+    "policy_violation": 0.1167,
+    "policy_violation_alias": 0.06
+   }
+  }
+ },
+ "b_stage2_predintent_x_state+lastagent_LR": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.8316,
+    "policy_violation": 0.0709,
+    "policy_violation_alias": 0.0403
+   },
+   "dev": {
+    "action_acc": 0.813,
+    "policy_violation": 0.0915,
+    "policy_violation_alias": 0.055
+   },
+   "noisy": {
+    "action_acc": 0.75,
+    "policy_violation": 0.1433,
+    "policy_violation_alias": 0.1
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.7978,
+    "policy_violation": 0.0245,
+    "policy_violation_alias": 0.0245
+   },
+   "dev": {
+    "action_acc": 0.778,
+    "policy_violation": 0.0375,
+    "policy_violation_alias": 0.0375
+   },
+   "noisy": {
+    "action_acc": 0.72,
+    "policy_violation": 0.0933,
+    "policy_violation_alias": 0.09
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.8215,
+    "policy_violation": 0.0567,
+    "policy_violation_alias": 0.0265
+   },
+   "dev": {
+    "action_acc": 0.803,
+    "policy_violation": 0.076,
+    "policy_violation_alias": 0.039
+   },
+   "noisy": {
+    "action_acc": 0.7433,
+    "policy_violation": 0.1367,
+    "policy_violation_alias": 0.0867
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.8079,
+    "policy_violation": 0.0303,
+    "policy_violation_alias": 0.0277
+   },
+   "dev": {
+    "action_acc": 0.7845,
+    "policy_violation": 0.042,
+    "policy_violation_alias": 0.0405
+   },
+   "noisy": {
+    "action_acc": 0.7433,
+    "policy_violation": 0.0867,
+    "policy_violation_alias": 0.08
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.8283,
+    "policy_violation": 0.0598,
+    "policy_violation_alias": 0.029
+   },
+   "dev": {
+    "action_acc": 0.808,
+    "policy_violation": 0.08,
+    "policy_violation_alias": 0.043
+   },
+   "noisy": {
+    "action_acc": 0.7567,
+    "policy_violation": 0.1233,
+    "policy_violation_alias": 0.0733
+   }
+  }
+ },
+ "b_stage2_predintent_x_state_HGB": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.7993,
+    "policy_violation": 0.0676,
+    "policy_violation_alias": 0.0366
+   },
+   "dev": {
+    "action_acc": 0.772,
+    "policy_violation": 0.081,
+    "policy_violation_alias": 0.05
+   },
+   "noisy": {
+    "action_acc": 0.66,
+    "policy_violation": 0.1533,
+    "policy_violation_alias": 0.1233
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.7668,
+    "policy_violation": 0.0209,
+    "policy_violation_alias": 0.0209
+   },
+   "dev": {
+    "action_acc": 0.7395,
+    "policy_violation": 0.0325,
+    "policy_violation_alias": 0.0325
+   },
+   "noisy": {
+    "action_acc": 0.63,
+    "policy_violation": 0.0967,
+    "policy_violation_alias": 0.0967
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.7915,
+    "policy_violation": 0.0552,
+    "policy_violation_alias": 0.0234
+   },
+   "dev": {
+    "action_acc": 0.763,
+    "policy_violation": 0.066,
+    "policy_violation_alias": 0.034
+   },
+   "noisy": {
+    "action_acc": 0.6467,
+    "policy_violation": 0.13,
+    "policy_violation_alias": 0.1
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.7728,
+    "policy_violation": 0.0272,
+    "policy_violation_alias": 0.0257
+   },
+   "dev": {
+    "action_acc": 0.7475,
+    "policy_violation": 0.0355,
+    "policy_violation_alias": 0.034
+   },
+   "noisy": {
+    "action_acc": 0.6533,
+    "policy_violation": 0.0867,
+    "policy_violation_alias": 0.0867
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.797,
+    "policy_violation": 0.0582,
+    "policy_violation_alias": 0.0275
+   },
+   "dev": {
+    "action_acc": 0.77,
+    "policy_violation": 0.0695,
+    "policy_violation_alias": 0.0375
+   },
+   "noisy": {
+    "action_acc": 0.6667,
+    "policy_violation": 0.1233,
+    "policy_violation_alias": 0.0933
+   }
+  }
+ },
+ "ab_text+state+predintent+crosses_LR": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.8439,
+    "policy_violation": 0.0709,
+    "policy_violation_alias": 0.0396
+   },
+   "dev": {
+    "action_acc": 0.8255,
+    "policy_violation": 0.091,
+    "policy_violation_alias": 0.0545
+   },
+   "noisy": {
+    "action_acc": 0.74,
+    "policy_violation": 0.1233,
+    "policy_violation_alias": 0.09
+   }
+  },
+  "hard_mask_literal": {
+   "B": {
+    "action_acc": 0.8074,
+    "policy_violation": 0.0232,
+    "policy_violation_alias": 0.0232
+   },
+   "dev": {
+    "action_acc": 0.7865,
+    "policy_violation": 0.035,
+    "policy_violation_alias": 0.035
+   },
+   "noisy": {
+    "action_acc": 0.6967,
+    "policy_violation": 0.0867,
+    "policy_violation_alias": 0.0867
+   }
+  },
+  "hard_mask_alias": {
+   "B": {
+    "action_acc": 0.8321,
+    "policy_violation": 0.055,
+    "policy_violation_alias": 0.0245
+   },
+   "dev": {
+    "action_acc": 0.8135,
+    "policy_violation": 0.073,
+    "policy_violation_alias": 0.036
+   },
+   "noisy": {
+    "action_acc": 0.7233,
+    "policy_violation": 0.1133,
+    "policy_violation_alias": 0.08
+   }
+  },
+  "soft_mask_literal": {
+   "B": {
+    "action_acc": 0.819,
+    "policy_violation": 0.0303,
+    "policy_violation_alias": 0.0275
+   },
+   "dev": {
+    "action_acc": 0.7915,
+    "policy_violation": 0.0415,
+    "policy_violation_alias": 0.0405
+   },
+   "noisy": {
+    "action_acc": 0.7067,
+    "policy_violation": 0.0833,
+    "policy_violation_alias": 0.0833
+   }
+  },
+  "soft_mask_alias": {
+   "B": {
+    "action_acc": 0.8409,
+    "policy_violation": 0.0595,
+    "policy_violation_alias": 0.0285
+   },
+   "dev": {
+    "action_acc": 0.8185,
+    "policy_violation": 0.0775,
+    "policy_violation_alias": 0.0415
+   },
+   "noisy": {
+    "action_acc": 0.7333,
+    "policy_violation": 0.11,
+    "policy_violation_alias": 0.0767
+   }
+  }
+ },
+ "ORACLE_c_text+state+goldintent+crosses_LR": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.857,
+    "policy_violation": 0.0582,
+    "policy_violation_alias": 0.025
+   },
+   "dev": {
+    "action_acc": 0.8345,
+    "policy_violation": 0.074,
+    "policy_violation_alias": 0.0375
+   },
+   "noisy": {
+    "action_acc": 0.83,
+    "policy_violation": 0.0733,
+    "policy_violation_alias": 0.0367
+   }
+  },
+  "gold_flow_mask": {
+   "B": {
+    "action_acc": 0.8225,
+    "policy_violation": 0.0,
+    "policy_violation_alias": 0.0
+   },
+   "dev": {
+    "action_acc": 0.797,
+    "policy_violation": 0.0,
+    "policy_violation_alias": 0.0
+   },
+   "noisy": {
+    "action_acc": 0.7933,
+    "policy_violation": 0.0,
+    "policy_violation_alias": 0.0
+   }
+  },
+  "gold_flow_mask_alias": {
+   "B": {
+    "action_acc": 0.8434,
+    "policy_violation": 0.0335,
+    "policy_violation_alias": 0.0
+   },
+   "dev": {
+    "action_acc": 0.823,
+    "policy_violation": 0.038,
+    "policy_violation_alias": 0.0
+   },
+   "noisy": {
+    "action_acc": 0.82,
+    "policy_violation": 0.0367,
+    "policy_violation_alias": 0.0
+   }
+  }
+ },
+ "ORACLE_c_state+goldintent_HGB": {
+  "no_mask": {
+   "B": {
+    "action_acc": 0.7872,
+    "policy_violation": 0.0522,
+    "policy_violation_alias": 0.0204
+   },
+   "dev": {
+    "action_acc": 0.7655,
+    "policy_violation": 0.0595,
+    "policy_violation_alias": 0.025
+   },
+   "noisy": {
+    "action_acc": 0.7867,
+    "policy_violation": 0.06,
+    "policy_violation_alias": 0.02
+   }
+  },
+  "gold_flow_mask": {
+   "B": {
+    "action_acc": 0.7663,
+    "policy_violation": 0.0,
+    "policy_violation_alias": 0.0
+   },
+   "dev": {
+    "action_acc": 0.7425,
+    "policy_violation": 0.0,
+    "policy_violation_alias": 0.0
+   },
+   "noisy": {
+    "action_acc": 0.7667,
+    "policy_violation": 0.0,
+    "policy_violation_alias": 0.0
+   }
+  },
+  "gold_flow_mask_alias": {
+   "B": {
+    "action_acc": 0.7824,
+    "policy_violation": 0.033,
+    "policy_violation_alias": 0.0
+   },
+   "dev": {
+    "action_acc": 0.7615,
+    "policy_violation": 0.0365,
+    "policy_violation_alias": 0.0
+   },
+   "noisy": {
+    "action_acc": 0.7867,
+    "policy_violation": 0.04,
+    "policy_violation_alias": 0.0
+   }
+  }
+ }
+}

@@ -162,7 +162,8 @@ Environment (all optional):
 | `TRIAGE_LLM_BASE_URL` | `https://openrouter.ai/api/v1` | any OpenAI-compatible chat-completions endpoint, e.g. a reviewer gateway |
 | `TRIAGE_LLM_API_KEY` | value of `OPENROUTER_API_KEY` | never logged, never returned |
 | `TRIAGE_LLM_MODEL` | `openai/gpt-6-luna-20260922` | exact snapshot |
-| `TRIAGE_LLM_PROVIDER` | `openai` | OpenRouter host pin; sent only when the base URL is OpenRouter (with fallbacks off) |
+| `TRIAGE_LLM_PROVIDER` | `openai` | OpenRouter host pin; sent only in the `openrouter` dialect (with fallbacks off) |
+| `TRIAGE_LLM_DIALECT` | `auto` | request field names: `openrouter`, `openai`, or `auto` (`openrouter` when the base URL contains `openrouter.ai`, else `openai`); set `openrouter` for a gateway in front of OpenRouter |
 | `TRIAGE_LLM_TIMEOUT_S` | `4.0` | hard per-call timeout; no retries inside a request |
 | `TRIAGE_LLM_GATE` | `0.642841` | call the LLM only when CPU confidence is below this |
 | `TRIAGE_BUNDLE` | `models/classical_v0.joblib` | the CPU model bundle |
@@ -175,8 +176,21 @@ Environment (all optional):
 A bad value in any of these stops start-up: `scripts/reproduce.sh` checks them, and the policy file, before it
 starts the server; the uvicorn app exits with status 3 if the model, policy or settings fail to load.
 
-Call parameters match the tested configuration: JSON-schema response format (strict, enum-constrained),
-reasoning effort `none`, `max_tokens` 2048, no temperature. A circuit breaker opens after 5 consecutive
+Every request sends `model`, the two `messages` (system, user) and a strict, enum-constrained JSON-schema
+`response_format`, and no temperature. The dialect sets the rest:
+
+| Dialect | Extra fields | When |
+|---|---|---|
+| `openrouter` | `"max_tokens": 2048`, `"reasoning": {"effort": "none"}`, `"usage": {"include": true}`, `"provider": {"order": [TRIAGE_LLM_PROVIDER], "allow_fallbacks": false, "require_parameters": true}` | the tested configuration; `auto` with an `openrouter.ai` base URL |
+| `openai` | `"max_completion_tokens": 2048`, `"reasoning_effort": "none"` | `auto` with any other base URL |
+
+The `openrouter` body is byte for byte the one the service sent in both live runs (`dev-http-llm`,
+`dev-http-llm-r1`, base URL `openrouter.ai`); `tests/test_llm_action.py` pins its SHA-256. The `openai` body holds
+only the OpenAI Chat Completions names, so a strict gateway that answers 400 to unknown fields accepts it. Such a
+gateway rejects the `openrouter` body on every call, the breaker opens and the service gives LLM-off answers with
+no error to the caller; `/healthz` shows `llm.dialect`, and `/metrics` then shows `http_error` and `breaker_open`.
+Only the `openrouter` dialect has run against a real provider; the `openai` dialect has run only against the local
+fake (`experiments/chaos/fake_upstream.py --mode strict`). A circuit breaker opens after 5 consecutive
 failures and stays open for 30 s (calls skipped, CPU answer kept). At most 8 calls wait on the provider at once;
 a ninth gets `busy` at once and keeps the CPU answer, so a slow provider cannot hold all 16 service workers (a fake
 provider answering in 3.5 s cut CPU-only rows to 3.4 s p95 at 48 clients before this cap). A reply over 64 KB or
@@ -186,8 +200,16 @@ linear time. Token counts outside 0 to 10,000,000 (or cache counts above the pro
 (`ok`, `timeout`, `http_error`, `invalid`, `abstained`, `breaker_open`, `busy`, `disabled`), `intent`, `action`,
 `latency_s`, `cost_usd` (list price: in 0.10, out 0.50, cache read 0.01, cache write 0.125 USD per million
 tokens, OpenRouter listing retrieved 13 Oct 2026), `cost_uncached_usd` (the same counts with no cache discount:
-prompt tokens at 0.10 and completion tokens at 0.50, how MODELS.md prices a benchmark), token counts, and the
-returned model and provider.
+prompt tokens at 0.10 and completion tokens at 0.50, how MODELS.md prices a benchmark), token counts, and what the
+server says about its answer: `model`, `provider` and `response_id` (the completion's `id`, e.g. OpenRouter's
+`gen-...`), each cut to 200 characters. The returned model can differ from the one asked for: all 6,276 Luna
+calls in `results/raw/llm-ledger/ledger.jsonl` (3,966 confirm, 2,300 tail, 10 smoke) asked for
+`openai/gpt-6-luna-20260922` and got back the alias `openai/gpt-6-luna`. The live service runs did not log the
+returned model; the per-request log now does.
+
+A 429 is an `http_error` like any other: the service does not read `Retry-After` or retry, the CPU answer stands,
+the failure counts toward the breaker, and the answer stays cached 30 s only (tested against the fake's
+`ratelimit` mode).
 
 ### `triage/pipeline.py`
 
@@ -197,12 +219,13 @@ class Triage:
     def from_env(cls) -> "Triage"            # bundle, policy store, retriever, LLM config; TRIAGE_BUNDLE, TRIAGE_POLICY_PATH
     def handle(self, obj: dict, request_id: str) -> tuple[dict, dict]   # (response, trace); never raises
     def handle_many(self, objs: list[dict]) -> list[tuple[dict, dict]]  # batch CPU path; LLM calls with a pool of 8
-    def health(self) -> dict                 # versions, bundle sha, policy version and error, llm enabled, breaker state
+    def health(self) -> dict                 # versions, bundle sha, policy version and error, llm enabled, dialect,
+                                             # breaker state
 ```
 
 `trace` holds what the logs need and never the customer's text: flags, gate changes, CPU intent/action/confidence,
-LLM status/latency/token counts/cost (cached-rate and uncached), final decision, route reasons, policy version,
-timings.
+LLM status/latency/token counts/cost (cached-rate and uncached) and the returned model, provider and response id,
+final decision, route reasons, policy version, timings.
 
 ### `triage/service.py`
 
@@ -216,7 +239,9 @@ it leaves out time queued in uvicorn before the handler runs. Malformed JSON or 
 `{"error": {"code", "message"}}`; every other valid envelope gets 200 with a schema-valid body, and the response
 echoes any id (the body is ASCII JSON, so even a lone surrogate comes back as `\ud800`). Request id from
 `X-Request-ID` or generated; echoed in the response header. One JSON log line per request to stdout, no customer
-text; a request that called the LLM logs its status, latency, token counts and both costs. An idempotency cache (LRU, 10,000 entries) keyed by the policy in force and the SHA-256 of the canonical
+text; a request that called the LLM logs its status, latency, token counts, both costs, and the returned model
+(`llm_model`), provider (`llm_provider`) and response id (`llm_response_id`); a replay logs these as null. An
+idempotency cache (LRU, 10,000 entries) keyed by the policy in force and the SHA-256 of the canonical
 request body returns the same response for a repeated body without a second LLM call. A policy reload (a new
 Policy object, with or without a new version) empties it, and an answer computed under the old policy is not
 cached. Answers whose LLM step failed (`timeout`, `http_error`, `invalid`, `breaker_open`, `busy`) stay cached

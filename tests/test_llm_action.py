@@ -2,18 +2,20 @@
 retrieval index check against the examples the LLM test used."""
 from __future__ import annotations
 
+import hashlib
 import json
 import socket
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+import httpx
 import pytest
 
 from triage import prompts as P
 from triage.data import ROOT, project
-from triage.llm_action import (CircuitBreaker, LLMActionStep, LLMConfig, LLMResult, list_cost, list_cost_uncached,
-                                request_body)
+from triage.llm_action import (OPENAI_FIELDS, CircuitBreaker, LLMActionStep, LLMConfig, LLMResult, list_cost,
+                                list_cost_uncached, request_body)
 from triage.retrieval import DEFAULT_PATH, Retriever
 
 KEY = "sk-or-v1-TESTKEY-0123456789abcdef"
@@ -78,6 +80,8 @@ class Handler(BaseHTTPRequestHandler):
             out = completion(json.dumps(GOOD), usage=dict(USAGE, padding="x" * 300_000))
         elif mode.startswith("usage:"):
             out = completion(json.dumps(GOOD), usage=json.loads(mode[6:]))
+        elif mode.startswith("ids:"):
+            out = dict(completion(json.dumps(GOOD)), **json.loads(mode[4:]))
         data = (json.dumps(out) if isinstance(out, dict) else out).encode()
         try:
             self.send_response(code)
@@ -135,7 +139,7 @@ def test_config_from_env():
     c = LLMConfig.from_env({})
     assert (c.mode, c.enabled, c.base_url, c.model, c.provider, c.timeout_s, c.gate) == (
         "auto", False, "https://openrouter.ai/api/v1", "openai/gpt-6-luna-20260922", "openai", 4.0, 0.642841)
-    assert c.openrouter
+    assert c.openrouter and (c.dialect_setting, c.dialect) == ("auto", "openrouter")
     assert LLMConfig.from_env({"OPENROUTER_API_KEY": KEY}).enabled
     assert LLMConfig.from_env({"OPENROUTER_API_KEY": "a", "TRIAGE_LLM_API_KEY": KEY}).api_key == KEY
     assert not LLMConfig.from_env({"TRIAGE_LLM": "off", "OPENROUTER_API_KEY": KEY}).enabled
@@ -143,11 +147,38 @@ def test_config_from_env():
     c = LLMConfig.from_env({"TRIAGE_LLM_BASE_URL": "http://gw.local/v1/", "TRIAGE_LLM_TIMEOUT_S": "2.5",
                             "TRIAGE_LLM_GATE": "0.5", "TRIAGE_LLM_MODEL": "m", "OPENROUTER_API_KEY": KEY})
     assert (c.base_url, c.timeout_s, c.gate, c.model, c.openrouter) == ("http://gw.local/v1", 2.5, 0.5, "m", False)
+    assert c.dialect == "openai"
     for env in ({"TRIAGE_LLM": "maybe"}, {"TRIAGE_LLM_TIMEOUT_S": "fast"}, {"TRIAGE_LLM_TIMEOUT_S": "0"},
-                {"TRIAGE_LLM_GATE": "2"}):
+                {"TRIAGE_LLM_GATE": "2"}, {"TRIAGE_LLM_DIALECT": "anthropic"}):
         with pytest.raises(ValueError) as e:
             LLMConfig.from_env(dict(env, OPENROUTER_API_KEY=KEY))
         assert KEY not in str(e.value)
+
+
+@pytest.mark.parametrize("url, setting, dialect", [
+    ("", "", "openrouter"),                                            # the default base URL is OpenRouter
+    ("https://openrouter.ai/api/v1", "auto", "openrouter"),
+    ("https://gw.example.com/v1", "", "openai"),
+    ("https://gw.example.com/v1", " Auto ", "openai"),
+    ("https://gw.example.com/v1", "openrouter", "openrouter"),        # a gateway in front of OpenRouter
+    ("https://gw.example.com/v1", "OPENROUTER", "openrouter"),
+    ("https://openrouter.ai/api/v1", "openai", "openai"),
+    ("http://127.0.0.1:18001/v1", "openai", "openai"),
+])
+def test_dialect_from_env(url, setting, dialect):
+    c = LLMConfig.from_env({"TRIAGE_LLM_BASE_URL": url, "TRIAGE_LLM_DIALECT": setting})
+    assert c.dialect == dialect and c.openrouter == (dialect == "openrouter")
+    assert c.dialect_setting == (setting.strip().lower() or "auto")
+    pub = c.public()
+    assert (pub["dialect"], pub["dialect_setting"]) == (dialect, c.dialect_setting)
+    assert pub["provider"] == ("openai" if dialect == "openrouter" else None)     # the pin goes only to OpenRouter
+
+
+def test_bad_dialect_is_refused():
+    with pytest.raises(ValueError, match="TRIAGE_LLM_DIALECT must be auto, openrouter or openai, not 'grpc'"):
+        LLMConfig.from_env({"TRIAGE_LLM_DIALECT": "grpc"})
+    with pytest.raises(ValueError):
+        LLMConfig(dialect_setting="OpenAI")                            # the dataclass takes the lower-case names only
 
 
 def test_key_hidden_in_config():
@@ -158,17 +189,38 @@ def test_key_hidden_in_config():
 
 # ----------------------------------------------------------------------------- request
 
-def test_request_body_fields():
+# SHA-256 of the bytes httpx sends for request_body(LLMConfig(), "S", "U"), taken before the openai dialect was
+# added: the OpenRouter body is the tested configuration and must not change, key order included
+OPENROUTER_WIRE_SHA256 = "e8cb0e2727a4a5b96b527c7b44ae6e85582b46ab51251882ac1f864c0a453dea"
+OPENROUTER_KEYS = ["model", "messages", "response_format", "max_tokens", "reasoning", "usage", "provider"]
+OPENAI_KEYS = ["model", "messages", "response_format", "max_completion_tokens", "reasoning_effort"]
+
+
+def _wire(body: dict) -> bytes:
+    return httpx.Request("POST", "http://127.0.0.1/", json=body).content
+
+
+def test_request_body_openai_dialect():
     plain = request_body(LLMConfig(base_url="http://gw.local/v1"), "S", "U")
+    assert list(plain) == OPENAI_KEYS and set(plain) == OPENAI_FIELDS
     assert plain["model"] == "openai/gpt-6-luna-20260922"
     assert plain["messages"] == [{"role": "system", "content": "S"}, {"role": "user", "content": "U"}]
     assert plain["response_format"] == {"type": "json_schema", "json_schema": {
         "name": "triage", "strict": True, "schema": P.output_schema()}}
-    assert plain["max_tokens"] == 2048 and plain["reasoning"] == {"effort": "none"}
-    assert "temperature" not in plain and "provider" not in plain and "usage" not in plain
+    assert plain["max_completion_tokens"] == 2048 and plain["reasoning_effort"] == "none"
+    forced = request_body(LLMConfig(dialect_setting="openai"), "S", "U")      # OpenRouter URL, openai names
+    assert forced == plain
+
+
+def test_request_body_openrouter_dialect_is_unchanged():
     orr = request_body(LLMConfig(provider="openai"), "S", "U")
+    assert list(orr) == OPENROUTER_KEYS
+    assert orr["max_tokens"] == 2048 and orr["reasoning"] == {"effort": "none"}
     assert orr["provider"] == {"order": ["openai"], "allow_fallbacks": False, "require_parameters": True}
-    assert orr["usage"] == {"include": True}
+    assert orr["usage"] == {"include": True} and "temperature" not in orr
+    assert hashlib.sha256(_wire(orr)).hexdigest() == OPENROUTER_WIRE_SHA256
+    gateway = request_body(LLMConfig(base_url="https://gw.example.com/v1", dialect_setting="openrouter"), "S", "U")
+    assert _wire(gateway) == _wire(orr)                                # same bytes through a gateway
 
 
 def test_valid_answer_and_request(fake):
@@ -183,6 +235,7 @@ def test_valid_answer_and_request(fake):
     assert res.cost_uncached_usd > res.cost_usd
     assert res.cost_reported == 0.000123
     assert (res.model, res.provider, res.http_status) == ("openai/gpt-6-luna-20260922", "OpenAI", 200)
+    assert res.response_id == "gen-1"
     assert res.latency_s > 0
     (req,) = fake.requests
     assert req["path"] == "/v1/chat/completions"
@@ -192,7 +245,8 @@ def test_valid_answer_and_request(fake):
     user = b["messages"][1]["content"]
     nonce = user.split("<<<CONVERSATION ")[1].split(">>>")[0]
     assert user == P.dynamic_prompt(ROW, [], nonce)[0]
-    assert "provider" not in b and "usage" not in b and b["reasoning"] == {"effort": "none"}
+    assert list(b) == OPENAI_KEYS and b["reasoning_effort"] == "none" and b["max_completion_tokens"] == 2048
+    assert step.health()["dialect"] == "openai"
     no_key(res, step.health())
     step.close()
 
@@ -203,7 +257,35 @@ def test_openrouter_url_sends_provider_block(fake):
     (req,) = fake.requests
     assert req["path"] == "/openrouter.ai/api/v1/chat/completions"
     assert req["body"]["provider"] == {"order": ["openai"], "allow_fallbacks": False, "require_parameters": True}
-    assert req["body"]["usage"] == {"include": True}
+    assert req["body"]["usage"] == {"include": True} and list(req["body"]) == OPENROUTER_KEYS
+    step.close()
+
+
+def test_openrouter_dialect_through_a_gateway(fake):
+    """TRIAGE_LLM_DIALECT=openrouter: a gateway URL gets the OpenRouter body, provider pin included."""
+    step = make_step(fake, dialect_setting="openrouter")
+    assert step.decide(ROW).status == "ok"
+    (req,) = fake.requests
+    assert list(req["body"]) == OPENROUTER_KEYS and req["body"]["reasoning"] == {"effort": "none"}
+    assert step.health()["dialect"] == "openrouter" and step.health()["provider"] == "openai"
+    step.close()
+
+
+@pytest.mark.parametrize("gen_id, model, want_id, want_model", [
+    ("gen-1760000000-AbCd", "openai/gpt-6-luna", "gen-1760000000-AbCd", "openai/gpt-6-luna"),
+    (12345, None, None, None),                                         # not strings: dropped
+    ("g" * 5000, "m" * 5000, "g" * 200, "m" * 200),                    # cut to 200 characters
+])
+def test_response_id_and_returned_model(fake, gen_id, model, want_id, want_model):
+    """The server's response id and the model it says served the call, kept per call. Luna has so far returned the
+    alias openai/gpt-6-luna for the dated snapshot asked for; the result shows which."""
+    fake.mode = "ids:" + json.dumps({"id": gen_id, "model": model})
+    step = make_step(fake)
+    res = step.decide(ROW)
+    assert res.status == "ok" and (res.response_id, res.model) == (want_id, want_model)
+    assert step.cfg.model == "openai/gpt-6-luna-20260922"
+    if want_model == "openai/gpt-6-luna":                              # an alias in PRICES still gets a cost
+        assert res.cost_usd is not None
     step.close()
 
 

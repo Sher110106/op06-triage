@@ -1,0 +1,93 @@
+{
+ "interim": {
+  "lost_by_kind": {
+   "empty": 3,
+   "screenshot": 7,
+   "very_long": 16,
+   "two_intents": 4
+  },
+  "gained_by_kind": {
+   "code_mixed": 1,
+   "screenshot": 1
+  },
+  "net_lost": 28,
+  "examples": {
+   "empty": [
+    "5551-5-noisy",
+    "2711-10-noisy",
+    "3836-3-noisy"
+   ],
+   "screenshot": [
+    "5859-4-noisy",
+    "5784-4-noisy",
+    "2018-22-noisy"
+   ],
+   "very_long": [
+    "3305-15-noisy",
+    "7823-12-noisy",
+    "9294-16-noisy"
+   ],
+   "two_intents": [
+    "4498-12-noisy",
+    "10236-20-noisy",
+    "581-18-noisy"
+   ]
+  }
+ },
+ "final": {
+  "lost_by_kind": {
+   "screenshot": 2,
+   "empty": 2
+  },
+  "gained_by_kind": {
+   "screenshot": 1
+  },
+  "net_lost": 3,
+  "examples": {
+   "screenshot": [
+    "5859-4-noisy",
+    "6618-5-noisy"
+   ],
+   "empty": [
+    "9999-13-noisy",
+    "2711-10-noisy"
+   ]
+  }
+ },
+ "baseline": {
+  "lost_by_kind": {
+   "very_long": 14,
+   "two_intents": 2,
+   "screenshot": 3,
+   "typo": 1,
+   "empty": 1
+  },
+  "gained_by_kind": {
+   "very_long": 2,
+   "screenshot": 2
+  },
+  "net_lost": 17,
+  "examples": {
+   "very_long": [
+    "9787-19-noisy",
+    "7823-12-noisy",
+    "8005-10-noisy"
+   ],
+   "two_intents": [
+    "2851-10-noisy",
+    "756-8-noisy"
+   ],
+   "screenshot": [
+    "5784-4-noisy",
+    "4769-16-noisy",
+    "3702-30-noisy"
+   ],
+   "typo": [
+    "5498-3-noisy"
+   ],
+   "empty": [
+    "4793-9-noisy"
+   ]
+  }
+ }
+}

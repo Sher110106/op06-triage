@@ -48,8 +48,10 @@ LLM_CALLED = frozenset({"ok", "timeout", "http_error", "invalid", "abstained"}) 
 DEGRADED = frozenset({"timeout", "http_error", "invalid", "breaker_open", "busy"})   # CPU answer kept for these
 TOKEN_KEYS = ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens")
 MAX_CALL_TOKENS = 10_000_000        # one call's token count above this, or below 0, is bad data (as in llm_action)
+MAX_LABEL = 200                     # characters kept of the returned model, provider and response id
+LABEL_KEYS = ("model", "provider", "response_id")                 # what the LLM server says about its own answer
 LLM_LOG_KEYS = ("llm_status", "llm_latency_ms", "llm_cost_usd", "llm_cost_uncached_usd",
-                *(f"llm_{k}" for k in TOKEN_KEYS))
+                *(f"llm_{k}" for k in TOKEN_KEYS), *(f"llm_{k}" for k in LABEL_KEYS))
 LOG_KEYS = ("flags", "route_reasons", *LLM_LOG_KEYS, "policy_version", "needs_human", "abstained", "replay", "error",
             "error_type")
 _REQUEST_ID = re.compile(r"[A-Za-z0-9._:-]{1,128}")
@@ -154,6 +156,11 @@ def _sane_cost(v) -> bool:
     return isinstance(v, float) and 0 < v < 1.0     # one call costs well under a cent; anything else is bad data
 
 
+def _label(v) -> str | None:
+    """A model, provider or response id as the LLM server returned it, cut to MAX_LABEL; None unless a string."""
+    return v[:MAX_LABEL] if isinstance(v, str) else None
+
+
 def _strs(v) -> list[str]:
     return [str(x) for x in v] if isinstance(v, (list, tuple, set, frozenset)) else []
 
@@ -171,6 +178,7 @@ def trace_fields(trace) -> dict:
             "llm_cost_usd": _num(llm.get("cost_usd", t.get("llm_cost_usd"))),
             "llm_cost_uncached_usd": _num(llm.get("cost_uncached_usd", t.get("llm_cost_uncached_usd"))),
             **{f"llm_{k}": _tokens(llm.get(k, t.get(f"llm_{k}"))) for k in TOKEN_KEYS},
+            **{f"llm_{k}": _label(llm.get(k, t.get(f"llm_{k}"))) for k in LABEL_KEYS},
             "policy_version": pv if isinstance(pv, str) else None,
             "error_type": t["error"] if isinstance(t.get("error"), str) else None}
 

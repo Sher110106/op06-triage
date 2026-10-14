@@ -1,0 +1,166 @@
+{
+ "clean_intent": {
+  "flow_wrong_opening_outside_window": {
+   "baseline": 518,
+   "rule_svc": 224,
+   "directLR": 224,
+   "final_dedupe": 224
+  },
+  "flow_right_other_sibling": {
+   "baseline": 408,
+   "rule_svc": 277,
+   "directLR": 277,
+   "final_dedupe": 277
+  },
+  "flow_wrong_opening_in_window_not_in_last4": {
+   "baseline": 235,
+   "rule_svc": 24,
+   "directLR": 24,
+   "final_dedupe": 24
+  },
+  "flow_wrong_opening_in_last4": {
+   "baseline": 38,
+   "rule_svc": 14,
+   "directLR": 14,
+   "final_dedupe": 14
+  },
+  "numbered_faq_variant_confusion": {
+   "baseline": 29,
+   "rule_svc": 25,
+   "directLR": 25,
+   "final_dedupe": 25
+  },
+  "TOTAL_ERRORS": {
+   "baseline": 1228,
+   "rule_svc": 564,
+   "directLR": 564,
+   "final_dedupe": 564
+  }
+ },
+ "clean_action": {
+  "intent_wrong_flow_wrong": {
+   "baseline": 460,
+   "rule_svc": 114,
+   "directLR": 64,
+   "final_dedupe": 63
+  },
+  "intent_right_state_ignored": {
+   "baseline": 283,
+   "rule_svc": 10,
+   "directLR": 81,
+   "final_dedupe": 81
+  },
+  "intent_wrong_flow_right": {
+   "baseline": 225,
+   "rule_svc": 87,
+   "directLR": 53,
+   "final_dedupe": 55
+  },
+  "gold_off_policy_real_deviation": {
+   "baseline": 94,
+   "rule_svc": 88,
+   "directLR": 72,
+   "final_dedupe": 72
+  },
+  "intent_right_state_insufficient": {
+   "baseline": 86,
+   "rule_svc": 227,
+   "directLR": 97,
+   "final_dedupe": 97
+  },
+  "gold_off_policy_naming_alias(membership)": {
+   "baseline": 50,
+   "rule_svc": 20,
+   "directLR": 5,
+   "final_dedupe": 5
+  },
+  "TOTAL_ERRORS": {
+   "baseline": 1198,
+   "rule_svc": 546,
+   "directLR": 372,
+   "final_dedupe": 373
+  }
+ },
+ "noisy_intent": {
+  "flow_wrong_opening_outside_window": {
+   "baseline": 100,
+   "rule_svc": 58,
+   "directLR": 58,
+   "final_dedupe": 45
+  },
+  "flow_right_other_sibling": {
+   "baseline": 56,
+   "rule_svc": 43,
+   "directLR": 43,
+   "final_dedupe": 43
+  },
+  "flow_wrong_opening_in_window_not_in_last4": {
+   "baseline": 33,
+   "rule_svc": 10,
+   "directLR": 10,
+   "final_dedupe": 2
+  },
+  "flow_wrong_opening_in_last4": {
+   "baseline": 17,
+   "rule_svc": 16,
+   "directLR": 16,
+   "final_dedupe": 11
+  },
+  "numbered_faq_variant_confusion": {
+   "baseline": 4,
+   "rule_svc": 4,
+   "directLR": 4,
+   "final_dedupe": 4
+  },
+  "TOTAL_ERRORS": {
+   "baseline": 210,
+   "rule_svc": 131,
+   "directLR": 131,
+   "final_dedupe": 105
+  }
+ },
+ "noisy_action": {
+  "intent_wrong_flow_wrong": {
+   "baseline": 98,
+   "rule_svc": 48,
+   "directLR": 21,
+   "final_dedupe": 12
+  },
+  "intent_right_state_ignored": {
+   "baseline": 37,
+   "rule_svc": 1,
+   "directLR": 14,
+   "final_dedupe": 16
+  },
+  "intent_wrong_flow_right": {
+   "baseline": 35,
+   "rule_svc": 19,
+   "directLR": 11,
+   "final_dedupe": 11
+  },
+  "gold_off_policy_real_deviation": {
+   "baseline": 14,
+   "rule_svc": 15,
+   "directLR": 9,
+   "final_dedupe": 9
+  },
+  "intent_right_state_insufficient": {
+   "baseline": 12,
+   "rule_svc": 28,
+   "directLR": 13,
+   "final_dedupe": 14
+  },
+  "gold_off_policy_naming_alias(membership)": {
+   "baseline": 6,
+   "rule_svc": 5,
+   "directLR": 2,
+   "final_dedupe": 1
+  },
+  "TOTAL_ERRORS": {
+   "baseline": 202,
+   "rule_svc": 116,
+   "directLR": 70,
+   "final_dedupe": 63
+  }
+ }
+}

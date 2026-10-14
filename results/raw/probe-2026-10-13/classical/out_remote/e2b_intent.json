@@ -1,0 +1,81 @@
+{
+ "svc_fit_secs": 17.7,
+ "T_intent": 0.1437,
+ "LinearSVC C=0.3": {
+  "B": {
+   "intent_acc": 0.7453,
+   "macro_f1": 0.7442,
+   "flow_acc_implied": 0.8875
+  },
+  "dev": {
+   "intent_acc": 0.718,
+   "macro_f1": 0.7137,
+   "flow_acc_implied": 0.869
+  },
+  "noisy": {
+   "intent_acc": 0.5633,
+   "macro_f1": 0.5411,
+   "flow_acc_implied": 0.72
+  }
+ },
+ "T_flow": 0.269,
+ "hierarchical": {
+  "B": {
+   "flow_classifier_acc": 0.8938,
+   "hard_hier(flow argmax then intent)": {
+    "intent_acc": 0.7363,
+    "macro_f1": 0.7337,
+    "flow_acc_implied": 0.8938
+   },
+   "soft_hier(p_i*p_flow)": {
+    "intent_acc": 0.7476,
+    "macro_f1": 0.7434,
+    "flow_acc_implied": 0.9047
+   },
+   "per_flow_models": {
+    "intent_acc": 0.7388,
+    "macro_f1": 0.7362,
+    "flow_acc_implied": 0.8938
+   }
+  },
+  "dev": {
+   "flow_classifier_acc": 0.8765,
+   "hard_hier(flow argmax then intent)": {
+    "intent_acc": 0.712,
+    "macro_f1": 0.7134,
+    "flow_acc_implied": 0.8765
+   },
+   "soft_hier(p_i*p_flow)": {
+    "intent_acc": 0.7195,
+    "macro_f1": 0.7184,
+    "flow_acc_implied": 0.8815
+   },
+   "per_flow_models": {
+    "intent_acc": 0.718,
+    "macro_f1": 0.7126,
+    "flow_acc_implied": 0.8765
+   }
+  },
+  "noisy": {
+   "flow_classifier_acc": 0.75,
+   "hard_hier(flow argmax then intent)": {
+    "intent_acc": 0.5567,
+    "macro_f1": 0.537,
+    "flow_acc_implied": 0.75
+   },
+   "soft_hier(p_i*p_flow)": {
+    "intent_acc": 0.5767,
+    "macro_f1": 0.5522,
+    "flow_acc_implied": 0.7633
+   },
+   "per_flow_models": {
+    "intent_acc": 0.5667,
+    "macro_f1": 0.5393,
+    "flow_acc_implied": 0.75
+   }
+  }
+ },
+ "oof_secs": 29.3,
+ "oof_intent_acc_A": 0.7137,
+ "oof_flow_acc_A": 0.8804
+}

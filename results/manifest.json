@@ -35,7 +35,7 @@
    "dev-http-llm",
    "dev-http-llm-r1"
   ],
-  "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. Not included: the 13 Oct probe (outside this repo; see ledger.prior_spend_outside_repo)."
+  "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. Not included: the 13 Oct probe, made before this repo (see ledger.prior_spend_outside_repo); its call ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl and summed under that entry's probe_spend_usd."
  },
  "ledger": {
   "raw_path": "results/raw/llm-ledger/ledger.jsonl",
@@ -61,7 +61,7 @@
     "reported": 0.0
    }
   },
-  "prior_spend_outside_repo": "the 13 Oct probe's spend (Anthropic $0.4318, OpenRouter $1.2858) is counted as llm_common.PRIOR_SPEND; its ledger lives outside this repo"
+  "prior_spend_outside_repo": "the 13 Oct probe's spend (Anthropic $0.4318, OpenRouter $1.2858) is counted as llm_common.PRIOR_SPEND; its ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl"
  },
  "runs": [
   {
@@ -3017,6 +3017,169 @@
    "script": "experiments/llm_tail/run_llm.py"
   },
   {
+   "run_id": "policy-replay-refund-mask",
+   "kind": "policy_replay",
+   "seed": null,
+   "seed_note": "no random step: the same CPU model scores every row under each policy file",
+   "model": "classical@c007c7a3769a (LLM step off)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "input_files_match_run_record": true,
+   "raw_path": "results/raw/policy-replay-refund-mask/report.json",
+   "created": "2026-10-14T21:08:39+0530",
+   "finished": "2026-10-14T21:08:46+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2300,
+   "policy_current": {
+    "file": "policy/policy.toml",
+    "sha256": "a83ddb9f6ee2516da904d4c43f8fec0aa08e0be8f1f17d41f7751a774a8a579b",
+    "version": "2026-10-14.2"
+   },
+   "policy_new": {
+    "file": "experiments/policy_replay/policy_refund_mask.toml",
+    "sha256": "765878c6dc7b740e85f2c6519e731cb8e78d8701d40f04d273aa48322444fa2a",
+    "version": "2026-10-14.3-refund-mask"
+   },
+   "changes": {
+    "actions_changed": 39,
+    "needs_human_changed": 16,
+    "confidence_changed": 1226,
+    "wrong_to_right": 4,
+    "right_to_wrong": 26,
+    "wrong_to_wrong": 9,
+    "newly_routed": 7,
+    "no_longer_routed": 9,
+    "new_violation": 7,
+    "violation_cleared": 1
+   },
+   "bars_pass": {
+    "current": true,
+    "new": true
+   },
+   "files": [
+    "meta.json",
+    "report.json",
+    "report.txt"
+   ],
+   "script": "experiments/policy_replay/run.py",
+   "command": ".venv/bin/python scripts/replay_policy.py --current policy/policy.toml --policy experiments/policy_replay/policy_refund_mask.toml --out results/raw/policy-replay-refund-mask/report.json",
+   "api_cost_usd": 0.0,
+   "note": "dev + dev_noisy replayed under the shipped policy and under a copy with the refund rule (offer-refund needs verify-identity or validate-purchase earlier), effect = 'mask'"
+  },
+  {
+   "run_id": "policy-replay-refund-route",
+   "kind": "policy_replay",
+   "seed": null,
+   "seed_note": "no random step: the same CPU model scores every row under each policy file",
+   "model": "classical@c007c7a3769a (LLM step off)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "input_files_match_run_record": true,
+   "raw_path": "results/raw/policy-replay-refund-route/report.json",
+   "created": "2026-10-14T21:08:30+0530",
+   "finished": "2026-10-14T21:08:38+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2300,
+   "policy_current": {
+    "file": "policy/policy.toml",
+    "sha256": "a83ddb9f6ee2516da904d4c43f8fec0aa08e0be8f1f17d41f7751a774a8a579b",
+    "version": "2026-10-14.2"
+   },
+   "policy_new": {
+    "file": "experiments/policy_replay/policy_refund_route.toml",
+    "sha256": "376a7a2ff6df3e50311bf3bfc71a330ede926d52ea0b14c83741ec9940aedc8a",
+    "version": "2026-10-14.3-refund-route"
+   },
+   "changes": {
+    "actions_changed": 0,
+    "needs_human_changed": 8,
+    "confidence_changed": 29,
+    "wrong_to_right": 0,
+    "right_to_wrong": 0,
+    "wrong_to_wrong": 0,
+    "newly_routed": 8,
+    "no_longer_routed": 0,
+    "new_violation": 0,
+    "violation_cleared": 0
+   },
+   "bars_pass": {
+    "current": true,
+    "new": true
+   },
+   "files": [
+    "meta.json",
+    "report.json",
+    "report.txt"
+   ],
+   "script": "experiments/policy_replay/run.py",
+   "command": ".venv/bin/python scripts/replay_policy.py --current policy/policy.toml --policy experiments/policy_replay/policy_refund_route.toml --out results/raw/policy-replay-refund-route/report.json",
+   "api_cost_usd": 0.0,
+   "note": "dev + dev_noisy replayed under the shipped policy and under a copy with the refund rule (offer-refund needs verify-identity or validate-purchase earlier), effect = 'route'"
+  },
+  {
+   "run_id": "probe-2026-10-13",
+   "kind": "probe_archive",
+   "seed": null,
+   "seed_note": "many probes; seeds in their files",
+   "model": "several: TF-IDF classical models, frozen and fine-tuned encoders, 7 LLMs (README.md)",
+   "status": "completed",
+   "input_sha256": "a118d7106edae291007f085ea8ccf8ad177b6a12549dcb01d8e46e8405addcac",
+   "input_files": [
+    "data/op06/train.jsonl.gz",
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "input_note": "the probes read hiring-problems/references/OP-06/, whose four files have these SHA-256",
+   "raw_path": "results/raw/probe-2026-10-13",
+   "created": "2026-10-13",
+   "archived": "2026-10-14",
+   "evidence": "development probe, 13 Oct 2026, before this repo; unaudited",
+   "files": 174,
+   "bytes": 9056251,
+   "files_by_folder": {
+    ".": 2,
+    "classical": 45,
+    "encoders": 11,
+    "llm": 77,
+    "noise": 39
+   },
+   "probe_spend_usd": {
+    "ledger": "results/raw/probe-2026-10-13/llm/ledger.jsonl",
+    "attempts": 3514,
+    "by_provider": {
+     "anthropic": {
+      "attempts": 1412,
+      "ok": 1412,
+      "list_with_cache": 0.4318,
+      "list_uncached": 1.4845,
+      "reported": 0.0
+     },
+     "openrouter": {
+      "attempts": 2102,
+      "ok": 2097,
+      "list_with_cache": 1.1457,
+      "list_uncached": 1.8445,
+      "reported": 1.2858
+     }
+    }
+   },
+   "api_cost_usd": null,
+   "note": "Not a run of this repo: byte-for-byte copies of the files the 13 Oct 2026 development probes left in the research workspace (scratch/ and research/llm-probe.md), with SHA256SUMS. Unaudited; no one reran them. They back the numbers EXPERIMENT_LOG R1-R10 and LANDSCAPE.md quote; README.md maps each number to its file. Their API spend (probe_spend_usd) is not in spend_usd."
+  },
+  {
    "run_id": "taxonomy-classical-nocap",
    "kind": "graded",
    "seed": 0,
@@ -3315,9 +3478,9 @@
   }
  ],
  "checks": {
-  "raw_paths_checked": 79,
+  "raw_paths_checked": 82,
   "all_exist_inside_repo_no_symlinks": true,
-  "folders_in_results_raw": 72,
+  "folders_in_results_raw": 75,
   "all_folders_listed": true
  }
 }

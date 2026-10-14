@@ -1,0 +1,154 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "tag": "e5s",
+  "threads": 18,
+  "max_len": 256,
+  "bs": 32,
+  "lr": 8e-05,
+  "epochs_planned": 1.5,
+  "n_params": 117706120,
+  "fp32_mb": 449.0,
+  "trainable_params": 21691912,
+  "freeze_emb": true,
+  "train_rows": 17832,
+  "holdout_rows": 2168,
+  "len_mean": 91.5402,
+  "len_p95": 136.04999999999927,
+  "evals": [
+    {
+      "step": 279,
+      "epoch": 0.5,
+      "min": 12.0,
+      "ho_intent": 0.2389,
+      "ho_flow": 0.7039,
+      "ho_action": 0.5849
+    },
+    {
+      "step": 558,
+      "epoch": 1.0,
+      "min": 23.9,
+      "ho_intent": 0.3423,
+      "ho_flow": 0.8012,
+      "ho_action": 0.6518
+    },
+    {
+      "step": 837,
+      "epoch": 1.5,
+      "min": 32.8,
+      "ho_intent": 0.3667,
+      "ho_flow": 0.8169,
+      "ho_action": 0.6827
+    }
+  ],
+  "best_eval": {
+    "step": 837,
+    "epoch": 1.5,
+    "min": 32.8,
+    "ho_intent": 0.3667,
+    "ho_flow": 0.8169,
+    "ho_action": 0.6827
+  },
+  "train_min": 32.8,
+  "steps": 837,
+  "temperature": {
+    "intent": 0.5,
+    "flow": 0.5,
+    "action": 0.5
+  },
+  "results": {
+    "intent_dev_acc": 0.348,
+    "intent_dev_ece_raw": 0.2771,
+    "intent_dev_ece_T": 0.1172,
+    "intent_dev_f1": 0.1526,
+    "flow_dev_acc": 0.814,
+    "flow_dev_ece_raw": 0.3599,
+    "flow_dev_ece_T": 0.0634,
+    "action_dev_acc": 0.69,
+    "action_dev_ece_raw": 0.3256,
+    "action_dev_ece_T": 0.0486,
+    "intent_noisy_acc": 0.3433,
+    "intent_noisy_ece_raw": 0.2729,
+    "intent_noisy_ece_T": 0.1229,
+    "intent_noisy_f1": 0.1644,
+    "intent_noisy_by_kind": {
+      "code_mixed": 0.34,
+      "empty": 0.36,
+      "screenshot": 0.34,
+      "two_intents": 0.34,
+      "typo": 0.3,
+      "very_long": 0.38
+    },
+    "flow_noisy_acc": 0.8,
+    "flow_noisy_ece_raw": 0.3502,
+    "flow_noisy_ece_T": 0.0598,
+    "flow_noisy_by_kind": {
+      "code_mixed": 0.76,
+      "empty": 0.8,
+      "screenshot": 0.72,
+      "two_intents": 0.78,
+      "typo": 0.88,
+      "very_long": 0.86
+    },
+    "action_noisy_acc": 0.68,
+    "action_noisy_ece_raw": 0.3497,
+    "action_noisy_ece_T": 0.0744,
+    "action_noisy_by_kind": {
+      "code_mixed": 0.68,
+      "empty": 0.56,
+      "screenshot": 0.72,
+      "two_intents": 0.76,
+      "typo": 0.6,
+      "very_long": 0.76
+    },
+    "intent_noisynodd_acc": 0.34,
+    "intent_noisynodd_ece_raw": 0.2695,
+    "intent_noisynodd_ece_T": 0.119,
+    "intent_noisynodd_f1": 0.1627,
+    "intent_noisynodd_by_kind": {
+      "code_mixed": 0.34,
+      "empty": 0.36,
+      "screenshot": 0.34,
+      "two_intents": 0.34,
+      "typo": 0.3,
+      "very_long": 0.36
+    },
+    "flow_noisynodd_acc": 0.8,
+    "flow_noisynodd_ece_raw": 0.3507,
+    "flow_noisynodd_ece_T": 0.0592,
+    "flow_noisynodd_by_kind": {
+      "code_mixed": 0.76,
+      "empty": 0.8,
+      "screenshot": 0.72,
+      "two_intents": 0.78,
+      "typo": 0.88,
+      "very_long": 0.86
+    },
+    "action_noisynodd_acc": 0.6833,
+    "action_noisynodd_ece_raw": 0.3482,
+    "action_noisynodd_ece_T": 0.0821,
+    "action_noisynodd_by_kind": {
+      "code_mixed": 0.68,
+      "empty": 0.56,
+      "screenshot": 0.72,
+      "two_intents": 0.76,
+      "typo": 0.6,
+      "very_long": 0.78
+    }
+  },
+  "hostile_ok": true,
+  "latency_bs1": {
+    "threads_1": {
+      "p50_ms": 49.8,
+      "p95_ms": 66.9
+    },
+    "threads_2": {
+      "p50_ms": 29.9,
+      "p95_ms": 39.5
+    },
+    "threads_4": {
+      "p50_ms": 21.2,
+      "p95_ms": 29.3
+    }
+  },
+  "total_min": 34.1
+}

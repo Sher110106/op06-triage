@@ -1,0 +1,31 @@
+Policy replay over dev + dev_noisy (2,300 rows), LLM step off
+  current  policy/policy.toml  (version 2026-10-14.2, 0 rules)
+  new      experiments/policy_replay/policy_refund_route.toml  (version 2026-10-14.3-refund-route, 1 rule)
+
+Changes
+  actions changed          0   (wrong -> right 0, right -> wrong 0, wrong -> another wrong 0)
+  needs_human changed      8   (newly routed 8, no longer routed 0)
+  confidence changed      29
+  rows where a rule masks an action   0 -> 0
+  rule flags under the new policy: rule:refund-needs-verification 39
+
+Policy violations (2,300 rows with a published list)
+  as published           185 (0.0804)  ->    185 (0.0804)
+  with the alias         103 (0.0448)  ->    103 (0.0448)
+
+  Metric (official grader unless noted)   current      new   change
+  intent accuracy                          0.7091   0.7091  +0.0000
+  intent macro-F1                          0.7015   0.7015  +0.0000
+  action accuracy                          0.8117   0.8117  +0.0000
+  action accuracy, clean                   0.8145   0.8145  +0.0000
+  action accuracy, noisy                   0.7933   0.7933  +0.0000
+  clean-to-noisy gap                       0.0212   0.0212  +0.0000
+  top-70% error ratio                      0.3760   0.3728  -0.0032
+  schema valid %                         100.0000 100.0000  +0.0000
+  policy violation (grader)                0.0804   0.0804  +0.0000
+  needs_human rate                         0.2822   0.2857  +0.0035
+  action accuracy, not routed              0.9200   0.9203  +0.0003
+  all OP-06 bars pass                        True     True
+
+Examples (up to 10 per kind; action current -> new, gold)
+  newly routed (8): 2030-18 (offer-refund -> offer-refund, gold shipping-status), 5320-21 (offer-refund -> offer-refund, gold offer-refund), 3484-29 (offer-refund -> offer-refund, gold offer-refund), 7934-26 (offer-refund -> offer-refund, gold offer-refund), 4190-27 (offer-refund -> offer-refund, gold offer-refund), 1829-21 (offer-refund -> offer-refund, gold offer-refund), 1333-24 (offer-refund -> offer-refund, gold offer-refund), 365-49 (offer-refund -> offer-refund, gold offer-refund)

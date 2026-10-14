@@ -10,6 +10,12 @@ ledger that every LLM run appends to, which is listed under `ledger`. Kinds of r
   ungraded    predictions with no grader report: Linux load tests, the hostile-in-context probe
   llm_calls   raw API call logs (raw_calls.jsonl), with token counts and cost at list price
   encoder     the fine-tuned encoder's probability files (one folder, no single main file)
+  measurement timing measurements with no predictions (scaling.json): the Linux thread-count runs
+  policy_replay  scripts/replay_policy.py output (report.json, report.txt): dev + dev_noisy scored under the
+              shipped policy file and a changed one, LLM step off (experiments/policy_replay/)
+  probe_archive  results/raw/probe-2026-10-13/: copies of the files the 13 Oct research probes left outside the
+              repo, kept so the numbers EXPERIMENT_LOG R1-R10 and LANDSCAPE.md quote have files; not a run of
+              this repo (its README.md says what each folder holds)
   incomplete  a folder with neither predictions nor call logs (a run that failed before writing them); listed with
               status "failed" so failed runs stay in the record
 
@@ -39,6 +45,8 @@ CLAIM_RUN = "dev-http-llm"
 CLAIM_MACHINE = "Apple M1 laptop"         # where CLAIM_RUN ran; change both together
 LEDGER_DIR = RAW / "llm-ledger"
 ALL_ROWS = ["data/op06/dev.jsonl", "data/op06/dev_noisy.jsonl", "data/op06/hostile.jsonl"]
+PROBE_PREFIX = "probe-"                   # results/raw/probe-2026-10-13: the 13 Oct probe files, archived
+PROBE_ROWS = ["data/op06/train.jsonl.gz", *ALL_ROWS]
 
 # Facts that a run's own files do not hold, with where each comes from.
 KNOWN = {
@@ -69,8 +77,10 @@ KNOWN = {
 
 
 def evidence(run_id: str) -> str:
-    if run_id.startswith(("ablation-", "chaos-", "taxonomy-")):
+    if run_id.startswith(("ablation-", "chaos-", "taxonomy-", "policy-replay-")):
         return "exploratory, unaudited"
+    if run_id.startswith(PROBE_PREFIX):
+        return "development probe, 13 Oct 2026, before this repo; unaudited"
     if run_id.startswith(("llm-tail-", "llm-confirm-", "encoder-")):
         return "pre-registered test"
     if run_id.startswith("linux-"):
@@ -268,6 +278,48 @@ def measurement_run(d: Path) -> dict:
             "note": "throughput by thread count, written by experiments/linux_threads/scaling.py"}
 
 
+def policy_replay_run(d: Path) -> dict:
+    """scripts/replay_policy.py output for a changed policy file (experiments/policy_replay/run.py)."""
+    meta = read_json(d / "meta.json")
+    rep = read_json(d / "report.json")
+    files, inputs_match = inputs_of(meta, ALL_ROWS)
+    bundle = meta.get("bundle_sha256")
+    return {"run_id": d.name, "kind": "policy_replay", "seed": None,
+            "seed_note": "no random step: the same CPU model scores every row under each policy file",
+            "model": f"classical@{bundle[:12]} (LLM step off)" if bundle else "classical (LLM step off)",
+            "bundle_sha256": bundle, "status": "completed", "input_sha256": sha256_files(files), "input_files": files,
+            "input_files_match_run_record": inputs_match, "raw_path": str((d / "report.json").relative_to(ROOT)),
+            "created": meta.get("created"), "finished": meta.get("finished"), "evidence": evidence(d.name),
+            "rows": rep.get("rows"), "policy_current": meta.get("policy_current"), "policy_new": meta.get("policy_new"),
+            "changes": rep.get("changes"),
+            "bars_pass": {k: (rep.get("metrics") or {}).get(k, {}).get("bars_pass") for k in ("current", "new")},
+            "files": sorted(p.name for p in d.iterdir()), "script": meta.get("script"), "command": meta.get("command"),
+            "api_cost_usd": 0.0, "note": meta.get("what")}
+
+
+def probe_archive(d: Path) -> dict:
+    """The 13 Oct probe files, copied into the repo: counted, hashed by SHA256SUMS, and their API spend summed."""
+    files = sorted(p for p in d.rglob("*") if p.is_file())
+    by_folder = Counter(p.relative_to(d).parts[0] if len(p.relative_to(d).parts) > 1 else "." for p in files)
+    ledger = d / "llm" / "ledger.jsonl"
+    recs = read_jsonl(ledger) if ledger.exists() else []
+    return {"run_id": d.name, "kind": "probe_archive", "seed": None, "seed_note": "many probes; seeds in their files",
+            "model": "several: TF-IDF classical models, frozen and fine-tuned encoders, 7 LLMs (README.md)",
+            "status": "completed", "input_sha256": sha256_files(PROBE_ROWS), "input_files": PROBE_ROWS,
+            "input_note": "the probes read hiring-problems/references/OP-06/, whose four files have these SHA-256",
+            "raw_path": str(d.relative_to(ROOT)), "created": "2026-10-13", "archived": "2026-10-14",
+            "evidence": evidence(d.name), "files": len(files), "bytes": sum(p.stat().st_size for p in files),
+            "files_by_folder": dict(sorted(by_folder.items())),
+            "probe_spend_usd": {"ledger": str(ledger.relative_to(ROOT)), "attempts": len(recs),
+                                "by_provider": spend_by_provider(recs)} if recs else None,
+            "api_cost_usd": None,
+            "note": "Not a run of this repo: byte-for-byte copies of the files the 13 Oct 2026 development probes "
+                    "left in the research workspace (scratch/ and research/llm-probe.md), with SHA256SUMS. "
+                    "Unaudited; no one reran them. They back the numbers EXPERIMENT_LOG R1-R10 and LANDSCAPE.md "
+                    "quote; README.md maps each number to its file. Their API spend (probe_spend_usd) is not in "
+                    "spend_usd."}
+
+
 def incomplete_run(d: Path) -> dict:
     """A folder with no predictions and no call log: a run that stopped before writing its outputs."""
     meta = read_json(d / "meta.json")
@@ -281,10 +333,8 @@ def incomplete_run(d: Path) -> dict:
             "note": "no predictions.jsonl or raw_calls.jsonl in this folder"}
 
 
-def ledger_entry() -> tuple[dict, Counter]:
-    f = LEDGER_DIR / "ledger.jsonl"
-    recs = read_jsonl(f)
-    tags = Counter(r["tag"] for r in recs)
+def spend_by_provider(recs: list[dict]) -> dict:
+    """Attempts, successes and US dollars per provider over ledger lines."""
     by_provider = {}
     for r in recs:
         p = by_provider.setdefault(r["provider"], {"attempts": 0, "ok": 0, "list_with_cache": 0.0, "list_uncached": 0.0,
@@ -297,6 +347,14 @@ def ledger_entry() -> tuple[dict, Counter]:
     for p in by_provider.values():
         for k in ("list_with_cache", "list_uncached", "reported"):
             p[k] = round(p[k], 4)
+    return by_provider
+
+
+def ledger_entry() -> tuple[dict, Counter]:
+    f = LEDGER_DIR / "ledger.jsonl"
+    recs = read_jsonl(f)
+    tags = Counter(r["tag"] for r in recs)
+    by_provider = spend_by_provider(recs)
     meta = read_json(LEDGER_DIR / "meta.json")
     return {"raw_path": str(f.relative_to(ROOT)), "keycheck": str((LEDGER_DIR / "keycheck.jsonl").relative_to(ROOT)),
             "run_summaries": str((LEDGER_DIR / "run_summaries.jsonl").relative_to(ROOT)),
@@ -390,6 +448,10 @@ def main():
             runs.append(system_run(d, seeds))
         elif (d / "scaling.json").exists():
             runs.append(measurement_run(d))
+        elif d.name.startswith("policy-replay-") and (d / "report.json").exists():
+            runs.append(policy_replay_run(d))
+        elif d.name.startswith(PROBE_PREFIX) and (d / "README.md").exists():
+            runs.append(probe_archive(d))
         else:
             runs.append(incomplete_run(d))
     claimed, claimed_notes = claims(next(r for r in runs if r["run_id"] == CLAIM_RUN),
@@ -404,7 +466,9 @@ def main():
                                        for r in paid), 4),
         "service_runs": [r["run_id"] for r in paid],
         "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. "
-                "Not included: the 13 Oct probe (outside this repo; see ledger.prior_spend_outside_repo).",
+                "Not included: the 13 Oct probe, made before this repo (see ledger.prior_spend_outside_repo); its "
+                "call ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl and summed under that "
+                "entry's probe_spend_usd.",
     }
     manifest = {"problem": "OP-06", "claimed": claimed, "claimed_from_run": CLAIM_RUN, "claimed_notes": claimed_notes,
                 "note": f"Development measurements on the published dev, dev_noisy and hostile files, all from run "

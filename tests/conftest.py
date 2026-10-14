@@ -5,9 +5,12 @@ parity with results/raw/dev-classical-v0. `triage_shipped` uses policy/policy.to
 """
 from __future__ import annotations
 
+import importlib.util
 import re
 import sys
+import threading
 from functools import cache
+from http.server import ThreadingHTTPServer
 from pathlib import Path
 
 import pytest
@@ -15,6 +18,36 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+
+@cache
+def fake_upstream_module():
+    """experiments/chaos/fake_upstream.py, imported once."""
+    spec = importlib.util.spec_from_file_location("op06_fake_upstream", ROOT / "experiments/chaos/fake_upstream.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+@pytest.fixture
+def fake_upstream():
+    """start(mode) -> (base URL ending in /v1, its State): experiments/chaos/fake_upstream.py on 127.0.0.1 in this
+    process, answering at once (no delay), no replay file. Stopped after the test."""
+    servers = []
+
+    def start(mode: str):
+        fu = fake_upstream_module()
+        state = fu.State(mode, 0.0, 0.0, 0.0, 0, {}, {"ambiguous": set()})
+        srv = ThreadingHTTPServer(("127.0.0.1", 0), fu.make_handler(state))
+        srv.daemon_threads = True
+        threading.Thread(target=srv.serve_forever, kwargs={"poll_interval": 0.05}, daemon=True).start()
+        servers.append(srv)
+        return f"http://127.0.0.1:{srv.server_address[1]}/v1", state
+
+    yield start
+    for srv in servers:
+        srv.shutdown()
+        srv.server_close()
 
 V0_ROUTE_THRESHOLD = 0.8498168103175511     # route_threshold of models/classical_v0.joblib, written in full
 

@@ -234,8 +234,8 @@ class Triage:
                 "policy": {"version": policy.version, "path": _rel(self.store.path),
                            "last_error": self.store.last_error, "loaded_at": _iso(self.store.loaded_at)},
                 "llm": {"enabled": self.llm is not None, "mode": cfg.mode, "model": cfg.model, "base_url_host": host,
-                        "gate": cfg.gate, "breaker_open": breaker not in (None, "closed"), "breaker": breaker,
-                        "error": self.llm_error},
+                        "dialect": cfg.dialect, "dialect_setting": cfg.dialect_setting, "gate": cfg.gate,
+                        "breaker_open": breaker not in (None, "closed"), "breaker": breaker, "error": self.llm_error},
                 "started_at": _iso(self.started_at)}
 
     # ------------------------------------------------------------------------- stages
@@ -381,14 +381,16 @@ class Triage:
                 conf = min(conf, s.flag_conf_cap)
             resp = {"id": w.rid, "intent": w.intent, "action": action, "confidence": float(conf),
                     "needs_human": bool(reasons)}
-            # labels, counts and costs only: never the prompt or the answer text
+            # labels, counts, costs and the server's own ids (returned model, provider, response id): never the prompt
+            # or the answer text
             llm = None if r is None else {"status": r.status, "action": r.action, "used": used,
                                           "latency_s": round(r.latency_s, 4), "cost_usd": r.cost_usd,
                                           "cost_uncached_usd": r.cost_uncached_usd,
                                           "prompt_tokens": r.prompt_tokens, "completion_tokens": r.completion_tokens,
                                           "cached_tokens": r.cached_tokens,
                                           "cache_write_tokens": r.cache_write_tokens,
-                                          "model": r.model, "provider": r.provider}
+                                          "model": r.model, "provider": r.provider,
+                                          "response_id": r.response_id}
             cpu = {"intent": w.intent, "flow": w.flow, "action": w.action, "confidence": w.conf,
                    "second_intent": w.second, "masked": sorted(w.masked)}
             return resp, self._trace(w, resp, reasons, cpu=cpu, llm=llm, finish_ms=(time.perf_counter() - t) * 1000)

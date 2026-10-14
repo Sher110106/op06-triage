@@ -21,7 +21,7 @@ from conftest import V0_ROUTE_THRESHOLD, v0_policy_text
 
 from triage import gate
 from triage.data import DATA, ROOT, project
-from triage.llm_action import LLMConfig, LLMResult
+from triage.llm_action import LLMActionStep, LLMConfig, LLMResult
 from triage.pipeline import Settings, Triage, intent_flows, load_llm
 from triage.policy import DEFAULT_POLICY, PolicyStore, load
 from triage.text import ACTIONS30, observed_actions
@@ -290,7 +290,8 @@ def test_llm_agree_raises_confidence(triage_off, soft, monkeypatch):
     row, cpu, _, _ = soft
     fake = FakeStep(LLMResult("ok", intent="x", action=cpu["action"], latency_s=0.5, cost_usd=0.0001,
                               cost_uncached_usd=0.0003, prompt_tokens=2900, completion_tokens=20, cached_tokens=2300,
-                              cache_write_tokens=100, model="m", provider="p"))
+                              cache_write_tokens=100, model="openai/gpt-6-luna", provider="OpenAI",
+                              response_id="gen-1760000000-AbCd"))
     monkeypatch.setattr(triage_off, "llm", fake)
     resp, tr = triage_off.handle(row, "r")
     assert fake.calls == [row["id"]]
@@ -300,7 +301,7 @@ def test_llm_agree_raises_confidence(triage_off, soft, monkeypatch):
     assert tr["llm"] == {"status": "ok", "action": cpu["action"], "used": True, "latency_s": 0.5,
                          "cost_usd": 0.0001, "cost_uncached_usd": 0.0003, "prompt_tokens": 2900,
                          "completion_tokens": 20, "cached_tokens": 2300, "cache_write_tokens": 100,
-                         "model": "m", "provider": "p"}
+                         "model": "openai/gpt-6-luna", "provider": "OpenAI", "response_id": "gen-1760000000-AbCd"}
     assert tr["cpu"]["confidence"] == cpu["confidence"]
 
 
@@ -334,11 +335,33 @@ def test_llm_trace_holds_no_text(triage_off, soft, monkeypatch):
     _, tr = triage_off.handle(row, "r")
     assert set(tr["llm"]) == {"status", "action", "used", "latency_s", "cost_usd", "cost_uncached_usd",
                               "prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens", "model",
-                              "provider"}
+                              "provider", "response_id"}
     text = json.dumps(tr)
     assert secret not in text
     assert not [t["text"] for t in row["context"]
                 if t["speaker"] != "action" and len(t["text"]) >= 12 and t["text"] in text]
+
+
+class _NoExamples:
+    def examples(self, row, k=8):
+        return []
+
+
+def test_rate_limit_keeps_cpu_answer(triage_off, soft, monkeypatch, fake_upstream):
+    """A real LLMActionStep against experiments/chaos/fake_upstream.py answering 429 with Retry-After: the call is an
+    http_error, the CPU answer stands, and no retry is made inside the request."""
+    row, cpu, _, _ = soft
+    url, state = fake_upstream("ratelimit")
+    step = LLMActionStep(LLMConfig(mode="on", base_url=url, api_key="test-key"), _NoExamples())
+    monkeypatch.setattr(triage_off, "llm", step)
+    try:
+        resp, tr = triage_off.handle(row, "r")
+    finally:
+        step.close()
+    assert resp == cpu
+    assert (tr["llm"]["status"], tr["llm"]["used"], tr["llm"]["cost_usd"], tr["llm"]["response_id"]) == (
+        "http_error", False, None, None)
+    assert state.calls["outcome:ratelimit"] == 1
 
 
 def test_llm_exception_keeps_cpu_answer(triage_off, soft, monkeypatch):
@@ -494,9 +517,22 @@ def test_health(triage_shipped, triage_off, v0_policy):
                            "loaded_at": h["policy"]["loaded_at"]}
     assert h["llm"]["enabled"] is False and h["llm"]["breaker_open"] is False
     assert h["llm"]["base_url_host"] == "openrouter.ai" and h["started_at"]
+    assert (h["llm"]["dialect"], h["llm"]["dialect_setting"]) == ("openrouter", "auto")
     json.dumps(h)
     other = triage_off.health()["policy"]                          # a policy outside the repo shows its full path
     assert other["version"] == load(v0_policy).version and other["path"] == str(v0_policy.resolve())
+
+
+@pytest.mark.parametrize("url, setting, dialect", [
+    ("https://gw.example.com/v1", "auto", "openai"),
+    ("https://gw.example.com/v1", "openrouter", "openrouter"),
+    ("https://openrouter.ai/api/v1", "openai", "openai"),
+])
+def test_health_shows_dialect(triage_off, monkeypatch, url, setting, dialect):
+    monkeypatch.setattr(triage_off, "llm_cfg", LLMConfig(mode="off", base_url=url, dialect_setting=setting))
+    h = triage_off.health()["llm"]
+    assert (h["dialect"], h["dialect_setting"]) == (dialect, setting)
+    json.dumps(h)
 
 
 def test_intent_flow_map(triage_off):

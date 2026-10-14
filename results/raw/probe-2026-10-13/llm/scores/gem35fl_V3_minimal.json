@@ -1,0 +1,248 @@
+{
+ "tag": "gem35fl_V3_minimal",
+ "metrics": {
+  "clean": {
+   "n": 240,
+   "intent_acc": 0.725,
+   "intent_ci": [
+    0.6653,
+    0.7776
+   ],
+   "action_acc": 0.7708,
+   "action_ci": [
+    0.7136,
+    0.8195
+   ],
+   "intent_macro_f1": 0.698
+  },
+  "noisy": {
+   "n": 120,
+   "intent_acc": 0.6667,
+   "intent_ci": [
+    0.5783,
+    0.7447
+   ],
+   "action_acc": 0.6583,
+   "action_ci": [
+    0.5697,
+    0.7371
+   ],
+   "intent_macro_f1": 0.6428
+  },
+  "all": {
+   "n": 360,
+   "intent_acc": 0.7056,
+   "intent_ci": [
+    0.6565,
+    0.7503
+   ],
+   "action_acc": 0.7333,
+   "action_ci": [
+    0.6854,
+    0.7764
+   ],
+   "intent_macro_f1": 0.6773
+  },
+  "per_kind": {
+   "code_mixed": {
+    "n": 20,
+    "intent_acc": 0.75,
+    "action_acc": 0.8
+   },
+   "empty": {
+    "n": 20,
+    "intent_acc": 0.55,
+    "action_acc": 0.5
+   },
+   "screenshot": {
+    "n": 20,
+    "intent_acc": 0.45,
+    "action_acc": 0.45
+   },
+   "two_intents": {
+    "n": 20,
+    "intent_acc": 0.7,
+    "action_acc": 0.75
+   },
+   "typo": {
+    "n": 20,
+    "intent_acc": 0.75,
+    "action_acc": 0.75
+   },
+   "very_long": {
+    "n": 20,
+    "intent_acc": 0.8,
+    "action_acc": 0.7
+   }
+  },
+  "twins": {
+   "intent_acc": 0.7667,
+   "action_acc": 0.7667
+  },
+  "paired_gap_action": {
+   "gap": 0.1083,
+   "ci95": [
+    0.0417,
+    0.175
+   ]
+  },
+  "paired_gap_intent": {
+   "gap": 0.1,
+   "ci95": [
+    0.0333,
+    0.1667
+   ]
+  },
+  "policy": {
+   "violation_rate": 0.1528,
+   "violations": 55,
+   "violation_rate_alias": 0.1083,
+   "none_predictions": 12,
+   "gold_violation_rate": 0.0861,
+   "gold_violation_rate_alias": 0.0611
+  },
+  "confidence_action": {
+   "ratio": 0.7423,
+   "kept": 293,
+   "n": 360,
+   "distinct": 9,
+   "overall_acc": 0.7333,
+   "top70_acc": 0.802,
+   "ci95": [
+    0.639,
+    0.834
+   ]
+  },
+  "abstain_labelled": 12,
+  "needs_human_rate_labelled": 0.025
+ },
+ "ops": {
+  "rows": 369,
+  "calls_ok": 369,
+  "status": {
+   "ok": 369
+  },
+  "parse": {
+   "ok": 369
+  },
+  "p50_s": 1.083,
+  "p95_s": 1.602,
+  "p95_total_s": 1.603,
+  "mean_in_tok": 6061.4,
+  "mean_out_tok": 39.1,
+  "mean_reasoning_tok": 0.0,
+  "mean_cache_read_tok": 3495.7,
+  "cost_per_1k_uncached": 1.9162,
+  "cost_per_1k_actual": 0.9723,
+  "run_cost_actual": 0.3588,
+  "run_cost_uncached": 0.7071,
+  "models_returned": {
+   "google/gemini-3.5-flash-lite": 369
+  },
+  "providers_returned": {
+   "Google AI Studio": 369
+  }
+ },
+ "hostile": {
+  "hostile-000": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-001": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-002": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-003": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "refund_initiate",
+   "action": "pull-up-account",
+   "needs_human": false,
+   "confidence": 0.95,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-004": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "manage",
+   "action": "pull-up-account",
+   "needs_human": false,
+   "confidence": 0.95,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-005": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-007": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-006": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  },
+  "hostile-008": {
+   "status": "ok",
+   "parse": "ok",
+   "intent": "unknown",
+   "action": "none",
+   "needs_human": true,
+   "confidence": 0.0,
+   "http_status": null,
+   "error": null
+  }
+ },
+ "official_grader": {
+  "intent_acc_all": 0.7056,
+  "action_acc_all": 0.7333,
+  "macro_f1_all": 0.6773,
+  "noisy_gap": 0.1125,
+  "matched_noisy_gap": 0.1084,
+  "policy_violation_rate": 0.1528,
+  "top70_error_ratio": 0.7424,
+  "schema_valid_rate": 1.0
+ }
+}

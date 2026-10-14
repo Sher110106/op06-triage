@@ -60,9 +60,11 @@ routing off. The submitted run (`dev-http-llm`) violates at 0.0839 (0.0443 with 
 - If reviewers keep approving the off-policy answers they receive, the agents' habit is the real procedure: add
   those actions to the flow lists rather than stop routing.
 - For a new rule, I start with `route`, not `mask`: the service sees only 8 turns, so it may miss the earlier
-  step a rule needs. In a 14 Oct replay of "a refund needs identity or purchase checked first", `route` changed no
-  action and routed 8 rows; `mask` turned 26 right actions wrong. I did not save that output;
-  `scripts/replay_policy.py` reruns it.
+  step a rule needs. In a 14 Oct replay of "a refund needs identity or purchase checked first" (2,300 rows, LLM
+  step off), `route` changed no action and routed 8 more rows. `mask` changed 39 actions (26 right to wrong, 4
+  wrong to right), took action accuracy from 0.8117 to 0.8022 and raised violations from 0.0804 to 0.0830
+  (`results/raw/policy-replay-refund-{route,mask}/report.txt`; policies in `experiments/policy_replay/`; rerun
+  with `.venv/bin/python experiments/policy_replay/run.py`; exploratory).
 
 ## D2. Does an LLM belong in v1?
 
@@ -126,12 +128,13 @@ zero. Any failed call must leave the CPU answer.
    prompt equals the tested one, and the examples changed for only 2 of the 460 called rows (P3-4). Code in
    `triage/pipeline.py`, `service.py` and `llm_action.py` also changed between the runs, unrecorded, so the 71 rows
    are not a clean measure of Luna alone (P3-5). All 6,276 Luna responses in the ledger (`results/raw/llm-ledger/`)
-   returned the id `openai/gpt-6-luna`, though I requested `openai/gpt-6-luna-20260922`. The service log does not record the returned id, so I cannot show which
-   snapshot answered the live runs. Because dev set the 0.642841 gate, fold B's +0.025 is the cleaner estimate.
-7. **Which rows gain.** A changed action gets confidence (CPU confidence + 0) / 2, under 0.322, below both
-   routing points. So every action Luna changes goes to a person: 216 of 216 in the submitted run (against
-   `dev-pipeline-cpu`), Luna right on 100 and the CPU model on 43. When Luna agrees, confidence rises: the routed
-   share falls from 28.2% to 24.3%, and accuracy on rows that go out alone from 0.920 to 0.915 (P2-1,
+   returned the id `openai/gpt-6-luna`, though I requested `openai/gpt-6-luna-20260922`. The live runs' service
+   log did not record the returned id, so I cannot show which snapshot answered them; the log now records it
+   (P5-2). Because dev set the 0.642841 gate, fold B's +0.025 is the cleaner estimate.
+7. **Which rows gain.** A changed action gets confidence (CPU confidence + 0) / 2, under gate / 2 (now 0.3214),
+   below both routing points. So every action Luna changes goes to a person: 216 of 216 in the submitted run
+   (against `dev-pipeline-cpu`), Luna right on 100 and the CPU model on 43. When Luna agrees, confidence rises: the
+   routed share falls from 28.2% to 24.3%, and accuracy on rows that go out alone from 0.920 to 0.915 (P2-1,
    `dev-http-llm/report.json`).
 
 8. **The step costs noisy-row margin.** The noisy gap is 0.0212 with the step off, 0.0338 replaying recorded
@@ -145,7 +148,8 @@ configurations pass every bar on dev, so the bars do not decide this.
 
 **Choice.** v1 ships Luna's next action below CPU confidence 0.642841, behind a config flag, with a 4 s deadline, a
 circuit breaker and the CPU answer as fallback. Calls go through OpenRouter to the OpenAI host, fallbacks and
-reasoning off. No LLM intent step; no encoder.
+reasoning off. A gateway other than OpenRouter gets OpenAI's field names in place of OpenRouter's; that form has
+run only against a local fake (P5-2). No LLM intent step; no encoder.
 
 **What would make me reverse it.**
 - Fresh-row evidence that the action gain is under 0.02 or its interval includes zero.
@@ -154,13 +158,13 @@ reasoning off. No LLM intent step; no encoder.
 - The encoder blend, with its confidence model and thresholds refit, matching the Luna step on fresh rows within
   the floor. The rule does not name it the v2 path, but it removes every outside call, so I would try it first.
 - A CPU combination of the old (intent, last action) lookup and the learned action model, not tested. Either is
-  right on clean dev 86.9% of the time, against 81.5% for the learned model alone, and 35 of the 37
-  "state ignored" rows Luna fixed were already right under the lookup (first live run; `taxonomy.json`
+  right on clean dev 86.9% of the time, against 81.5% for the learned model alone, and 35 of the 37 "state ignored"
+  rows Luna fixed were already right under the lookup (the same counts in both live runs; `taxonomy.json`
   `rule_vs_learned_and_luna`). If such a combination matched the Luna step on fold B, it would replace it.
 - A hidden-test or production noisy gap near 0.10. Then skip Luna on rows with noise signs, or turn it off.
 - A fall in Luna/CPU agreement (47.4% on dev, `experiments/chaos/chaos.md`), the first sign of a different model
   behind the alias. The service does not count agreement yet.
-- A change to the gate or the high-risk routing point that breaks (gate + 1) / 2 < high-risk point (now 0.821
+- A change to the gate or the high-risk routing point that breaks (gate + 1) / 2 < high-risk point (now 0.8214
   against 0.8883), or gate / 2 < both points. Then an agreeing LLM could send a high-risk action out alone, or a
   changed action could skip review. Nothing in the code checks this (`RUNBOOK.md`, Configuration).
 - Reviewers ignoring the suggestion on routed rows. Then the step buys only the lower routed share.
@@ -199,7 +203,8 @@ with a test that failed before it. Agents proposed options; I made the calls in 
 I ran or read myself the full test suite, the smoke run and parity with v0 (P1-1). Agents ran the other checks
 below, the audit included (a separate agent session). A check counts as independent when it rests on separate code, a separate machine,
 or a file frozen before the result existed.
-- **Tests:** `scripts/reproduce.sh test`, 464 tests at `fe221d1`. On Linux 6 failed: 4 from the retrained model
+- **Tests:** `scripts/reproduce.sh test`, 464 tests at `fe221d1`; 514 on the final working tree, all passing on
+  the M1 (P5-2). On Linux 6 failed: 4 from the retrained model
   (P3-1), 1 from retrieval tie order (P3-4), and 1 wall-clock timing test, since changed to check the cap.
 - **Parity:** with the LLM step off, v1 gives the same intent and action as `dev-classical-v0` on all 2,300 rows
   (`dev-pipeline-cpu-e2e`, P1-1); the published baseline reproduces exactly (P0-2).

@@ -1,0 +1,97 @@
+{
+ "threads": 1,
+ "dedupe": true,
+ "bundle_load_s": 3.34,
+ "max_rss_mb": 393.3,
+ "bundle_bytes": 72198900,
+ "bundle_bytes_compressed": 35338775,
+ "all_rows_sequential": {
+  "n": 2309,
+  "p50_ms": 11.21,
+  "p95_ms": 22.79,
+  "p99_ms": 31.57,
+  "max_ms": 145.13,
+  "mean_ms": 12.44
+ },
+ "random_sample_warm": {
+  "n": 400,
+  "p50_ms": 10.51,
+  "p95_ms": 19.8,
+  "p99_ms": 23.17
+ },
+ "concurrency": 1,
+ "errors_returned": 2,
+ "hostile_outputs": [
+  {
+   "id": "hostile-000",
+   "intent": "shirt_how_2",
+   "action": "pull-up-account",
+   "confidence": 0.7518,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-001",
+   "intent": "manage_change_phone",
+   "action": "search-faq",
+   "confidence": 0.498599,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-002",
+   "intent": "reset_2fa",
+   "action": "search-faq",
+   "confidence": 0.857114,
+   "needs_human": false
+  },
+  {
+   "id": "hostile-003",
+   "intent": "refund_update",
+   "action": "pull-up-account",
+   "confidence": 0.944539,
+   "needs_human": false
+  },
+  {
+   "id": "hostile-004",
+   "intent": "policy_3",
+   "action": "pull-up-account",
+   "confidence": 0.591629,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-005",
+   "intent": "search_results",
+   "action": "pull-up-account",
+   "confidence": 0.458874,
+   "needs_human": true
+  },
+  {
+   "id": "hostile-006",
+   "intent": "reset_2fa",
+   "action": "search-faq",
+   "confidence": 0.938855,
+   "needs_human": false
+  },
+  {
+   "id": "hostile-007",
+   "intent": "unknown",
+   "action": "none",
+   "confidence": 0.0,
+   "needs_human": true,
+   "error": {
+    "code": "invalid_input",
+    "message": "no readable text in context"
+   }
+  },
+  {
+   "id": "hostile-008",
+   "intent": "unknown",
+   "action": "none",
+   "confidence": 0.0,
+   "needs_human": true,
+   "error": {
+    "code": "invalid_input",
+    "message": "no readable text in context"
+   }
+  }
+ ]
+}

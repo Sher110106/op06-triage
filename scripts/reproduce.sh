@@ -91,7 +91,7 @@ except ValueError as e:                 # PolicyError is a ValueError
     print(f"bad setting: {e}")
     sys.exit(2)
 if c.enabled:
-    print(f"LLM step: on ({c.model} at {urlsplit(c.base_url).hostname}, asked when CPU confidence < {c.gate}, "
+    print(f"LLM step: on ({c.model} at {urlsplit(c.base_url).hostname}, {c.dialect} request fields, asked when CPU confidence < {c.gate}, "
           f"timeout {c.timeout_s} s)")
     sys.exit(0)
 why = "TRIAGE_LLM=off" if c.mode == "off" else "no API key set"

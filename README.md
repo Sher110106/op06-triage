@@ -45,13 +45,16 @@ Intervals are 95%, from a conversation bootstrap.
 | Policy violation (gold: 0.0883) | 0.0839 | 0.0848 | 0.0804 | | 0.1404 |
 | Sent to a person, 2,300 labelled rows | 24.3% | 24.2% | 28.2% | | |
 | Action accuracy when not sent | 0.915 | 0.916 | 0.920 | | |
-| LLM calls | 460 (19.9%) | 460 | 0 | | |
+| LLM calls | 460 (19.9% of 2,309) | 460 | 0 | | |
 | p50 / p95 over HTTP, 8 clients, M1 | 8.9 ms / 1,913 ms | 8.9 ms / 1,656 ms | 26 ms / 38 ms (`dev-http-cpu`) | | |
 | LLM cost per 1,000 messages, uncached / cached | $0.125 / $0.040 | not kept / $0.040 | $0 | | |
 
-Each `results/raw/<run>/` holds `report_official.json` (grader output), `report.json` (intervals, routing,
-noise kinds) and, for HTTP runs, `latency_bench.json`. `results/manifest.json` claims `dev-http-llm`.
-`dev-http-cpu` ran under an earlier policy version that differs in routing only.
+Each graded run folder in `results/raw/` holds `report_official.json` (grader output), `report.json` (intervals,
+routing, noise kinds) and, for HTTP runs, `latency_bench.json`. Two kinds differ: `policy-replay-*` hold
+`report.json`, `report.txt` and `meta.json`, and `probe-2026-10-13/` is the archive of the 13 Oct probes, with its
+own `README.md`. `results/manifest.json` claims `dev-http-llm`. The audit's own scorer gives the same numbers for
+the submitted file (`results/audit/score_submitted.txt`). `dev-http-cpu` ran under an earlier policy version that
+differs in routing only.
 
 - **Why the second live run.** Its `service_log.jsonl` records each LLM call's tokens and cost; the first run kept
   only totals. It is not the better run: action accuracy is equal and its noisy gap is wider.
@@ -105,13 +108,23 @@ audit's rerun, `TRIAGE_LLM=off scripts/reproduce.sh eval audit-cpu`, matched `de
 export TRIAGE_LLM_BASE_URL=https://your-gateway/v1      # default https://openrouter.ai/api/v1
 export TRIAGE_LLM_API_KEY=...                           # or OPENROUTER_API_KEY
 export TRIAGE_LLM_MODEL=openai/gpt-6-luna-20260922      # default; use your gateway's name for this snapshot
+export TRIAGE_LLM_DIALECT=auto  # auto | openrouter | openai; auto = openrouter for openrouter.ai, else openai
 scripts/reproduce.sh serve
 ```
 
 The first start with the step on builds `models/retrieval.joblib` (about 15 s). Each call asks for a strict
-JSON-schema answer and sends `max_tokens` and `reasoning: {"effort": "none"}`; only OpenRouter and the local fake
-provider in `experiments/chaos/` have been tried. A gateway that rejects those fields fails every call, and the
-service then gives LLM-off answers with no error to the caller. So after a run, read `/metrics`: if
+JSON-schema answer and sends no temperature. `TRIAGE_LLM_DIALECT` sets the other field names. With a base URL that
+is not `openrouter.ai`, `auto` picks `openai`, which sends only OpenAI Chat Completions names: `model`, `messages`,
+`response_format` (strict JSON schema), `max_completion_tokens` 2048 and `reasoning_effort` `"none"`; no `usage`,
+`provider`, `reasoning` or `max_tokens`. The `openrouter` dialect sends the tested body: `max_tokens`,
+`reasoning: {"effort": "none"}`, `usage` and the `provider` pin. A gateway in front of OpenRouter that passes
+OpenRouter's fields through should set `TRIAGE_LLM_DIALECT=openrouter`. Any other value stops start-up.
+
+Only the `openrouter` dialect has run against a real provider (`dev-http-llm`, `dev-http-llm-r1`, both at
+`openrouter.ai`); the `openai` dialect has run only against the local fake (`experiments/chaos/fake_upstream.py
+--mode strict`, which answers 400 to any field outside that list). A gateway that rejects the fields it is sent
+fails every call, and the service then gives LLM-off answers with no error to the caller; `smoke` counts a failed
+call as an LLM call, so it still passes. So after a run, check `/healthz` `llm.dialect` and read `/metrics`: if
 `llm.by_status` shows mostly `http_error` or `breaker_open`, or `/healthz` shows `llm.breaker` open, the run
 measured the LLM-off configuration (dev action 0.8117, gap 0.0212, top-70 0.376, 28.2% routed;
 `dev-pipeline-cpu`), not the claimed one. Costs are computed only for the model ids in `triage/llm_action.PRICES`.
@@ -134,9 +147,9 @@ gets a 200 abstention: `intent "unknown"`, `action "none"`, `confidence 0`, `nee
 | Over 128 requests in the app; model loading | 503 `overloaded` / `loading`, `Retry-After: 1` |
 | Over 256 open connections | plain-text 503 from uvicorn |
 
-The largest published row is 7,105 bytes. An LLM call has a hard 4 s deadline and no retry; at most 8 wait at
-once, and a ninth keeps the CPU answer. After 5 failed calls in a row a breaker skips calls for 30 s. A repeated
-body gets the cached answer, with no second LLM call.
+The largest published row is 7,104 bytes (`data/op06/dev_noisy.jsonl`). An LLM call has a hard 4 s deadline and no
+retry; at most 8 wait at once, and a ninth keeps the CPU answer. After 5 failed calls in a row a breaker skips
+calls for 30 s. A repeated body gets the cached answer, with no second LLM call.
 
 ## Models, prices and spend
 
@@ -159,9 +172,10 @@ MODELS.md: uncached list price, cached shown beside it. Dependencies are pinned 
 |---|---|---|---|
 | LLM experiment runs in `results/raw/` (ledger) | 10,646 | $2.68 | $8.71 |
 | The two live service runs, warm-up included | 926 | $0.19 | $0.29 for `dev-http-llm`; not kept for `-r1` |
-| 13 Oct probes, outside this repo (AUDIT.md) | 3,514 | $1.58 (OpenRouter part $1.15 at list; it billed $1.29) | $3.33 |
+| 13 Oct probes, before this repo (`results/raw/probe-2026-10-13/llm/ledger.jsonl`) | 3,514 | $1.58 (OpenRouter part $1.15 at list; it billed $1.29) | $3.33 |
 
-Sources: `results/manifest.json` (`spend_usd`, `ledger`) and AUDIT.md section 5. At list price the total is about
+Sources: `results/manifest.json` (`spend_usd`, `ledger`, and the `probe-2026-10-13` entry's `probe_spend_usd`)
+and AUDIT.md section 5, which agree. At list price the total is about
 $4.45 with caching ($4.59 if the probe's OpenRouter part is counted as billed) and $12.33 uncached for the
 recorded parts. The first live run's uncached cost was not recorded; with the audit's estimate of about $0.29 for
 it, the uncached total is about $12.62 (EXPERIMENT_LOG, Spend). The ceiling is US$50.
@@ -207,10 +221,13 @@ Compute is outside the API budget.
 - **No clean-machine run of the final code.** The Linux run from `git archive` (P3-1) came before the retrieval
   fix (18:41) and before `triage/pipeline.py`, `service.py` and `llm_action.py` changed (18:52 to 19:02); no log
   records the test suite passing on the final code. `dev-http-cpu` (p95 38 ms) also ran on older code and policy.
-- **Luna returns an alias id.** No response proves which snapshot served it, and the service log does not keep
-  the returned id.
-- **Not tested:** memory over hours, several workers, a 429 with `Retry-After` (the code treats it as any other
-  error).
+- **Luna returns an alias id.** All 6,276 Luna calls in `results/raw/llm-ledger/ledger.jsonl` (3,966 fold-B,
+  2,300 dev, 10 smoke) asked for `openai/gpt-6-luna-20260922` and got back `openai/gpt-6-luna`, so no response
+  proves which snapshot served it. The service log now records `llm_model`, `llm_provider` and `llm_response_id`
+  for each call; the two live runs came before this and did not record them.
+- **A 429 is an ordinary failure.** The service does not read `Retry-After` or retry: the CPU answer stands and
+  the failure counts toward the breaker (tested only against the fake's `ratelimit` mode).
+- **Not tested:** memory over hours, several workers.
 
 ## Repository layout
 
@@ -222,7 +239,7 @@ Compute is outside the API budget.
 | `models/` | `classical_v0.joblib` ships; `retrieval.joblib` and `retrained/` are built locally |
 | `harness/`, `scripts/`, `tests/` | Grading and manifest; `reproduce.sh` and tools; unit and HTTP tests |
 | `experiments/` | One folder per question, with pre-registrations for `llm_tail/`, `llm_confirm/` and `encoder/` |
-| `results/` | Submitted predictions, `latency_bench.json`, `manifest.json`, `raw/<run>/` for every run, the LLM ledger of every API attempt, `audit/` |
+| `results/` | Submitted predictions, `latency_bench.json`, `manifest.json`, `raw/<run>/` for every run, the LLM ledger of every API attempt, the 13 Oct probe archive (`raw/probe-2026-10-13/`), `audit/` |
 
 `MEMO.md` is the page for the support manager. `DECISIONS.md` gives the choices, the options rejected and what
 would reverse them. `EXPERIMENT_LOG.md` is dated, dead ends included; its 13 Oct entries are reconstructed.

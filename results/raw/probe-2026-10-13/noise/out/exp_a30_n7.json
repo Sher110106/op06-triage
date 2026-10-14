@@ -1,0 +1,98 @@
+{
+ "aug_kinds": [
+  "typo",
+  "code_mixed",
+  "two_intents",
+  "empty",
+  "very_long",
+  "screenshot"
+ ],
+ "name": "a30_n7",
+ "cfg": {
+  "nfkc": 1,
+  "rep": 1,
+  "dedup": 1,
+  "cap": 300
+ },
+ "view": "all",
+ "frac": 0.3,
+ "C": 0.3,
+ "n_fit": 20830,
+ "fit_secs": 93,
+ "vec_secs": 20,
+ "B": {
+  "intent": 0.7466,
+  "flow": 0.8933,
+  "act_argmax_soft": 0.7438,
+  "act_marg_soft": 0.7534
+ },
+ "Bsyn": {
+  "intent": 0.6765,
+  "flow": 0.8571,
+  "act_argmax_soft": 0.7073,
+  "act_argmax_soft_by_kind": {
+   "typo": 0.734,
+   "code_mixed": 0.772,
+   "two_intents": 0.626,
+   "empty": 0.709,
+   "very_long": 0.716,
+   "screenshot": 0.688
+  },
+  "act_marg_soft": 0.7202,
+  "act_marg_soft_by_kind": {
+   "typo": 0.746,
+   "code_mixed": 0.776,
+   "two_intents": 0.644,
+   "empty": 0.72,
+   "very_long": 0.723,
+   "screenshot": 0.712
+  },
+  "intent_by_kind": {
+   "typo": 0.752,
+   "code_mixed": 0.764,
+   "two_intents": 0.561,
+   "empty": 0.617,
+   "very_long": 0.71,
+   "screenshot": 0.656
+  }
+ },
+ "dev": {
+  "intent": 0.7185,
+  "flow": 0.877,
+  "act_argmax_soft": 0.71,
+  "act_marg_soft": 0.7175
+ },
+ "noisy": {
+  "intent": 0.6633,
+  "flow": 0.84,
+  "act_argmax_soft": 0.65,
+  "act_argmax_soft_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.64,
+   "very_long": 0.62,
+   "screenshot": 0.56
+  },
+  "act_marg_soft": 0.6833,
+  "act_marg_soft_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.62
+  },
+  "intent_by_kind": {
+   "typo": 0.72,
+   "code_mixed": 0.72,
+   "two_intents": 0.68,
+   "empty": 0.62,
+   "very_long": 0.7,
+   "screenshot": 0.54
+  }
+ },
+ "gap_argmax": 0.06,
+ "gap_marg": 0.0342,
+ "total_secs": 113
+}

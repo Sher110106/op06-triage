@@ -7,6 +7,11 @@ MAX_REPLY bytes and answers over MAX_CONTENT characters are "invalid", and token
 give no cost (neither cost_usd, at cached rates, nor cost_uncached_usd). `decide` never raises: any failure comes
 back as a status, and the caller keeps the CPU answer. The API key never appears in a repr, a result or an error
 text.
+
+Two request dialects (TRIAGE_LLM_DIALECT): "openrouter" sends OpenRouter's names (max_tokens, reasoning, usage,
+provider), the tested configuration; "openai" sends only the OpenAI Chat Completions names (max_completion_tokens,
+reasoning_effort), for a strict gateway that rejects fields it does not know. "auto" picks openrouter when the base
+URL contains openrouter.ai, else openai.
 """
 from __future__ import annotations
 
@@ -32,6 +37,9 @@ FAILURES = frozenset({"timeout", "http_error", "invalid"})                      
 MAX_REPLY = 65_536                  # bytes read from the server; a real answer is under 2 KB
 MAX_CONTENT = 16_384                # characters of message content parsed
 MAX_TOKENS = 10_000_000             # a token count above this, or below 0, is bad data
+MAX_LABEL = 200                     # characters kept of the returned model, provider and response id
+DIALECTS = ("auto", "openrouter", "openai")
+OPENAI_FIELDS = frozenset({"model", "messages", "response_format", "max_completion_tokens", "reasoning_effort"})
 _TOO_LARGE = object()
 
 
@@ -54,13 +62,18 @@ class LLMConfig:
     base_url: str = DEFAULT_BASE_URL
     api_key: str = field(default="", repr=False)
     model: str = DEFAULT_MODEL
-    provider: str = "openai"                 # OpenRouter host pin; sent only to OpenRouter
+    provider: str = "openai"                 # OpenRouter host pin; sent only in the openrouter dialect
+    dialect_setting: str = "auto"            # auto | openrouter | openai: which field names the request uses
     timeout_s: float = 4.0
     gate: float = 0.642841                   # the pipeline calls the step only below this CPU confidence
     breaker_failures: int = 5
     breaker_open_s: float = 30.0
     max_concurrency: int = 32
     max_in_flight: int = 8                   # decide() calls waiting on the server at once; more are "busy"
+
+    def __post_init__(self):
+        if self.dialect_setting not in DIALECTS:
+            raise ValueError(f"TRIAGE_LLM_DIALECT must be auto, openrouter or openai, not {self.dialect_setting!r}")
 
     @classmethod
     def from_env(cls, env=None) -> "LLMConfig":
@@ -73,6 +86,7 @@ class LLMConfig:
                    api_key=(env.get("TRIAGE_LLM_API_KEY") or env.get("OPENROUTER_API_KEY") or "").strip(),
                    model=(env.get("TRIAGE_LLM_MODEL") or DEFAULT_MODEL).strip(),
                    provider=(env.get("TRIAGE_LLM_PROVIDER") or "openai").strip(),
+                   dialect_setting=(env.get("TRIAGE_LLM_DIALECT") or "auto").strip().lower(),
                    timeout_s=_float(env, "TRIAGE_LLM_TIMEOUT_S", 4.0, 0.01, 600.0),
                    gate=_float(env, "TRIAGE_LLM_GATE", 0.642841, 0.0, 1.0))
 
@@ -81,8 +95,17 @@ class LLMConfig:
         return self.mode == "on" or (self.mode == "auto" and bool(self.api_key))
 
     @property
+    def dialect(self) -> str:
+        """The field names the request uses: the setting, or under auto, openrouter for an openrouter.ai base URL
+        and openai for any other."""
+        if self.dialect_setting != "auto":
+            return self.dialect_setting
+        return "openrouter" if "openrouter.ai" in self.base_url else "openai"
+
+    @property
     def openrouter(self) -> bool:
-        return "openrouter.ai" in self.base_url
+        """True when the request uses OpenRouter's names and sends the provider pin and the usage flag."""
+        return self.dialect == "openrouter"
 
     def public(self) -> dict:
         """For /healthz and logs: no key, and the base URL without user info or query."""
@@ -93,6 +116,7 @@ class LLMConfig:
             url = "(unparsable)"
         return {"enabled": self.enabled, "mode": self.mode, "base_url": url, "key_set": bool(self.api_key),
                 "model": self.model, "provider": self.provider if self.openrouter else None,
+                "dialect": self.dialect, "dialect_setting": self.dialect_setting,
                 "timeout_s": self.timeout_s, "gate": self.gate}
 
 
@@ -111,8 +135,9 @@ class LLMResult:
     completion_tokens: int = 0
     cached_tokens: int = 0
     cache_write_tokens: int = 0
-    model: str | None = None                 # as returned by the server
-    provider: str | None = None
+    model: str | None = None                 # as returned by the server (may be an alias of the model asked for)
+    provider: str | None = None              # as returned by the server (OpenRouter names the host)
+    response_id: str | None = None           # the server's id for this completion, e.g. OpenRouter's "gen-..."
     http_status: int | None = None
     error: str | None = None                 # short reason (may be the server's own message); never the key
 
@@ -166,15 +191,20 @@ class CircuitBreaker:
 
 
 def request_body(cfg: LLMConfig, system: str, user: str) -> dict:
+    """The chat-completions body. The openrouter dialect gives the tested body, key order included; the openai
+    dialect sends only OPENAI_FIELDS."""
     body = {"model": cfg.model,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "response_format": {"type": "json_schema",
-                                "json_schema": {"name": "triage", "strict": True, "schema": P.output_schema()}},
-            "max_tokens": 2048,
-            "reasoning": {"effort": "none"}}
-    if cfg.openrouter:
-        body["usage"] = {"include": True}
-        body["provider"] = {"order": [cfg.provider], "allow_fallbacks": False, "require_parameters": True}
+                                "json_schema": {"name": "triage", "strict": True, "schema": P.output_schema()}}}
+    if not cfg.openrouter:
+        body["max_completion_tokens"] = 2048
+        body["reasoning_effort"] = "none"
+        return body
+    body["max_tokens"] = 2048
+    body["reasoning"] = {"effort": "none"}
+    body["usage"] = {"include": True}
+    body["provider"] = {"order": [cfg.provider], "allow_fallbacks": False, "require_parameters": True}
     return body
 
 
@@ -207,8 +237,9 @@ def _count(v) -> int | None:
     return int(n) if n is not None and 0 <= n <= MAX_TOKENS else None
 
 
-def _str(v) -> str | None:
-    return v if isinstance(v, str) else None
+def _label(v) -> str | None:
+    """A string the server returned about itself (model, provider, response id), cut to MAX_LABEL; else None."""
+    return v[:MAX_LABEL] if isinstance(v, str) else None
 
 
 class LLMActionStep:
@@ -306,10 +337,11 @@ class LLMActionStep:
                   _count(det.get("cached_tokens")), _count(det.get("cache_write_tokens"))]
         sane = None not in counts and counts[2] + counts[3] <= counts[0]
         pt, ct, cr, cw = (c or 0 for c in counts)
-        model = _str(data.get("model"))
+        model = _label(data.get("model"))
         priced = self.cfg.model if self.cfg.model in PRICES else model
         reported = _num(u.get("cost"))
-        meta = dict(latency_s=lat, http_status=code, model=model, provider=_str(data.get("provider")),
+        meta = dict(latency_s=lat, http_status=code, model=model, provider=_label(data.get("provider")),
+                    response_id=_label(data.get("id")),
                     prompt_tokens=pt, completion_tokens=ct, cached_tokens=cr, cache_write_tokens=cw,
                     cost_usd=list_cost(priced, pt, ct, cr, cw) if sane else None,
                     cost_uncached_usd=list_cost_uncached(priced, pt, ct) if sane else None,

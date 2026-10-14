@@ -1,0 +1,30 @@
+{
+  "encode_s": {
+    "cust/hostile": 0.0,
+    "cust/noisy": 0.1,
+    "cust/dev": 0.2,
+    "cust/train": 1.9,
+    "all8/hostile": 0.0,
+    "all8/noisy": 0.2,
+    "all8/dev": 0.5,
+    "all8/train": 2.9,
+    "last4/hostile": 0.0,
+    "last4/noisy": 0.2,
+    "last4/dev": 0.3,
+    "last4/train": 2.5
+  },
+  "model": "minishlab/potion-base-8M",
+  "load_s": 0.7,
+  "threads": 4,
+  "hostile_errors": [],
+  "latency_all8_bs1": {
+    "threads_1": {
+      "p50_ms": 0.34,
+      "p95_ms": 0.55
+    },
+    "threads_2": {
+      "p50_ms": 0.33,
+      "p95_ms": 0.5
+    }
+  }
+}

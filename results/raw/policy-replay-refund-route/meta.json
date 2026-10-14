@@ -1,0 +1,45 @@
+{
+ "run_id": "policy-replay-refund-route",
+ "kind": "policy_replay",
+ "created": "2026-10-14T21:08:30+0530",
+ "finished": "2026-10-14T21:08:38+0530",
+ "seconds": 8.4,
+ "script": "experiments/policy_replay/run.py",
+ "command": ".venv/bin/python scripts/replay_policy.py --current policy/policy.toml --policy experiments/policy_replay/policy_refund_route.toml --out results/raw/policy-replay-refund-route/report.json",
+ "what": "dev + dev_noisy replayed under the shipped policy and under a copy with the refund rule (offer-refund needs verify-identity or validate-purchase earlier), effect = 'route'",
+ "llm": "off (scripts/replay_policy.py sets TRIAGE_LLM=off); no API call",
+ "environment": "every TRIAGE_* variable and API key removed, so the shipped defaults apply",
+ "policy_current": {
+  "file": "policy/policy.toml",
+  "sha256": "a83ddb9f6ee2516da904d4c43f8fec0aa08e0be8f1f17d41f7751a774a8a579b",
+  "version": "2026-10-14.2"
+ },
+ "policy_new": {
+  "file": "experiments/policy_replay/policy_refund_route.toml",
+  "sha256": "376a7a2ff6df3e50311bf3bfc71a330ede926d52ea0b14c83741ec9940aedc8a",
+  "version": "2026-10-14.3-refund-route"
+ },
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "dev_noisy": {
+   "file": "data/op06/dev_noisy.jsonl",
+   "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "machine": {
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "python": "3.12.4"
+ },
+ "outputs": [
+  "report.json",
+  "report.txt"
+ ]
+}

@@ -1,0 +1,574 @@
+{
+ "label": "rule_svc_softalias",
+ "clean": {
+  "split": "dev",
+  "n": 2000,
+  "intent_errors": 564,
+  "action_errors": 546,
+  "intent_sink_classes(top5 wrong predictions)": [
+   [
+    "status",
+    38
+   ],
+   [
+    "status_due_amount",
+    34
+   ],
+   [
+    "manage_dispute_bill",
+    31
+   ],
+   [
+    "return_stain",
+    27
+   ],
+   [
+    "return_size",
+    25
+   ]
+  ],
+  "intent_flags_share_of_errors": {
+   "opening_outside_window": 0.7979,
+   "short_last_customer_turn": 0.5904,
+   "flow_right_sibling": 0.5355,
+   "flow_wrong": 0.4645,
+   "pred_is_sink_class": 0.2748,
+   "gold_is_numbered_faq": 0.1578,
+   "opening_in_window_but_outside_last4": 0.1312,
+   "numbered_faq_variant_confusion": 0.0443,
+   "no_customer_turn": 0.0089
+  },
+  "intent_exclusive_share_of_errors": {
+   "flow_right_other_sibling": 0.4911,
+   "flow_wrong_opening_outside_window": 0.3972,
+   "numbered_faq_variant_confusion": 0.0443,
+   "flow_wrong_opening_in_window_not_in_last4": 0.0426,
+   "flow_wrong_opening_in_last4": 0.0248
+  },
+  "intent_exclusive_counts": {
+   "flow_right_other_sibling": 277,
+   "flow_wrong_opening_outside_window": 224,
+   "numbered_faq_variant_confusion": 25,
+   "flow_wrong_opening_in_window_not_in_last4": 24,
+   "flow_wrong_opening_in_last4": 14
+  },
+  "intent_flag_counts": {
+   "opening_outside_window": 450,
+   "short_last_customer_turn": 333,
+   "flow_right_sibling": 302,
+   "flow_wrong": 262,
+   "pred_is_sink_class": 155,
+   "gold_is_numbered_faq": 89,
+   "opening_in_window_but_outside_last4": 74,
+   "numbered_faq_variant_confusion": 25,
+   "no_customer_turn": 5
+  },
+  "base_rate_opening_outside_window": 0.604,
+  "intent_acc_opening_visible": 0.8561,
+  "intent_acc_opening_outside": 0.6275,
+  "intent_acc_numbered_faq_rows": 0.7479,
+  "n_numbered_faq_rows": 353,
+  "intent_acc_other_rows": 0.7116,
+  "action_flags_share_of_errors": {
+   "intent_right_action_wrong": 0.5275,
+   "intent_wrong": 0.4725,
+   "last_turn_is_short_customer_filler": 0.2821,
+   "no_action_turn_in_context": 0.2436,
+   "pred_outside_gold_flow_policy": 0.1978,
+   "gold_outside_written_policy": 0.1978,
+   "state_rule_with_gold_intent_would_fix": 0.1923,
+   "gold_is_ambiguous_troubleshoot_triplet": 0.0641,
+   "pred_already_observed_in_context": 0.0476,
+   "gold_off_policy_naming_alias": 0.0366,
+   "pred_repeats_last_observed_action": 0.0293
+  },
+  "action_exclusive_share_of_errors": {
+   "intent_right_state_insufficient": 0.4158,
+   "intent_wrong_flow_wrong": 0.2088,
+   "gold_off_policy_real_deviation": 0.1612,
+   "intent_wrong_flow_right": 0.1593,
+   "gold_off_policy_naming_alias(membership)": 0.0366,
+   "intent_right_state_ignored": 0.0183
+  },
+  "action_exclusive_counts": {
+   "intent_right_state_insufficient": 227,
+   "intent_wrong_flow_wrong": 114,
+   "gold_off_policy_real_deviation": 88,
+   "intent_wrong_flow_right": 87,
+   "gold_off_policy_naming_alias(membership)": 20,
+   "intent_right_state_ignored": 10
+  },
+  "action_flag_counts": {
+   "intent_right_action_wrong": 288,
+   "intent_wrong": 258,
+   "last_turn_is_short_customer_filler": 154,
+   "no_action_turn_in_context": 133,
+   "pred_outside_gold_flow_policy": 108,
+   "gold_outside_written_policy": 108,
+   "state_rule_with_gold_intent_would_fix": 105,
+   "gold_is_ambiguous_troubleshoot_triplet": 35,
+   "pred_already_observed_in_context": 26,
+   "gold_off_policy_naming_alias": 20,
+   "pred_repeats_last_observed_action": 16
+  },
+  "action_acc_no_action_turn": 0.7816,
+  "action_acc_with_action_turn": 0.7031,
+  "top_intent_confusions": [
+   [
+    [
+     "status_due_date",
+     "status_due_amount"
+    ],
+    15
+   ],
+   [
+    [
+     "promo_code_out_of_date",
+     "promo_code_invalid"
+    ],
+    14
+   ],
+   [
+    [
+     "return_color",
+     "return_stain"
+    ],
+    11
+   ],
+   [
+    [
+     "out_of_stock_one_item",
+     "out_of_stock_general"
+    ],
+    9
+   ],
+   [
+    [
+     "manage_pay_bill",
+     "status_due_amount"
+    ],
+    9
+   ],
+   [
+    [
+     "manage_change_address",
+     "manage"
+    ],
+    8
+   ],
+   [
+    [
+     "bad_price_yesterday",
+     "bad_price_competitor"
+    ],
+    8
+   ],
+   [
+    [
+     "return_color",
+     "return_size"
+    ],
+    8
+   ],
+   [
+    [
+     "mistimed_billing_never_bought",
+     "status"
+    ],
+    7
+   ],
+   [
+    [
+     "bad_price_competitor",
+     "bad_price_yesterday"
+    ],
+    7
+   ],
+   [
+    [
+     "return_stain",
+     "return_size"
+    ],
+    7
+   ],
+   [
+    [
+     "return_size",
+     "manage_dispute_bill"
+    ],
+    7
+   ]
+  ],
+  "top_action_confusions": [
+   [
+    [
+     "verify-identity",
+     "pull-up-account"
+    ],
+    28
+   ],
+   [
+    [
+     "enter-details",
+     "pull-up-account"
+    ],
+    18
+   ],
+   [
+    [
+     "try-again",
+     "instructions"
+    ],
+    11
+   ],
+   [
+    [
+     "enter-details",
+     "send-link"
+    ],
+    10
+   ],
+   [
+    [
+     "record-reason",
+     "pull-up-account"
+    ],
+    10
+   ],
+   [
+    [
+     "validate-purchase",
+     "verify-identity"
+    ],
+    10
+   ],
+   [
+    [
+     "try-again",
+     "log-out-in"
+    ],
+    10
+   ],
+   [
+    [
+     "pull-up-account",
+     "verify-identity"
+    ],
+    9
+   ],
+   [
+    [
+     "validate-purchase",
+     "pull-up-account"
+    ],
+    9
+   ],
+   [
+    [
+     "search-pricing",
+     "select-faq"
+    ],
+    8
+   ],
+   [
+    [
+     "verify-identity",
+     "record-reason"
+    ],
+    8
+   ],
+   [
+    [
+     "update-order",
+     "offer-refund"
+    ],
+    7
+   ]
+  ]
+ },
+ "noisy": {
+  "split": "dev_noisy",
+  "n": 300,
+  "intent_errors": 131,
+  "action_errors": 116,
+  "intent_sink_classes(top5 wrong predictions)": [
+   [
+    "out_of_stock_general",
+    41
+   ],
+   [
+    "missing",
+    7
+   ],
+   [
+    "status_due_date",
+    7
+   ],
+   [
+    "status_due_amount",
+    5
+   ],
+   [
+    "status",
+    4
+   ]
+  ],
+  "intent_flags_share_of_errors": {
+   "opening_outside_window": 0.6718,
+   "flow_wrong": 0.6412,
+   "pred_is_sink_class": 0.4885,
+   "flow_right_sibling": 0.3588,
+   "short_last_customer_turn": 0.2366,
+   "gold_is_numbered_faq": 0.1832,
+   "opening_in_window_but_outside_last4": 0.1603,
+   "numbered_faq_variant_confusion": 0.0305
+  },
+  "intent_exclusive_share_of_errors": {
+   "flow_wrong_opening_outside_window": 0.4427,
+   "flow_right_other_sibling": 0.3282,
+   "flow_wrong_opening_in_last4": 0.1221,
+   "flow_wrong_opening_in_window_not_in_last4": 0.0763,
+   "numbered_faq_variant_confusion": 0.0305
+  },
+  "intent_exclusive_counts": {
+   "flow_wrong_opening_outside_window": 58,
+   "flow_right_other_sibling": 43,
+   "flow_wrong_opening_in_last4": 16,
+   "flow_wrong_opening_in_window_not_in_last4": 10,
+   "numbered_faq_variant_confusion": 4
+  },
+  "intent_flag_counts": {
+   "opening_outside_window": 88,
+   "flow_wrong": 84,
+   "pred_is_sink_class": 64,
+   "flow_right_sibling": 47,
+   "short_last_customer_turn": 31,
+   "gold_is_numbered_faq": 24,
+   "opening_in_window_but_outside_last4": 21,
+   "numbered_faq_variant_confusion": 4
+  },
+  "base_rate_opening_outside_window": 0.6267,
+  "intent_acc_opening_visible": 0.6161,
+  "intent_acc_opening_outside": 0.5319,
+  "intent_acc_numbered_faq_rows": 0.5636,
+  "n_numbered_faq_rows": 55,
+  "intent_acc_other_rows": 0.5633,
+  "action_flags_share_of_errors": {
+   "intent_wrong": 0.6897,
+   "state_rule_with_gold_intent_would_fix": 0.4224,
+   "pred_outside_gold_flow_policy": 0.3707,
+   "intent_right_action_wrong": 0.3103,
+   "no_action_turn_in_context": 0.2414,
+   "gold_outside_written_policy": 0.1724,
+   "last_turn_is_short_customer_filler": 0.1293,
+   "pred_already_observed_in_context": 0.069,
+   "gold_off_policy_naming_alias": 0.0431,
+   "pred_repeats_last_observed_action": 0.0345,
+   "gold_is_ambiguous_troubleshoot_triplet": 0.0345
+  },
+  "action_exclusive_share_of_errors": {
+   "intent_wrong_flow_wrong": 0.4138,
+   "intent_right_state_insufficient": 0.2414,
+   "intent_wrong_flow_right": 0.1638,
+   "gold_off_policy_real_deviation": 0.1293,
+   "gold_off_policy_naming_alias(membership)": 0.0431,
+   "intent_right_state_ignored": 0.0086
+  },
+  "action_exclusive_counts": {
+   "intent_wrong_flow_wrong": 48,
+   "intent_right_state_insufficient": 28,
+   "intent_wrong_flow_right": 19,
+   "gold_off_policy_real_deviation": 15,
+   "gold_off_policy_naming_alias(membership)": 5,
+   "intent_right_state_ignored": 1
+  },
+  "action_flag_counts": {
+   "intent_wrong": 80,
+   "state_rule_with_gold_intent_would_fix": 49,
+   "pred_outside_gold_flow_policy": 43,
+   "intent_right_action_wrong": 36,
+   "no_action_turn_in_context": 28,
+   "gold_outside_written_policy": 20,
+   "last_turn_is_short_customer_filler": 15,
+   "pred_already_observed_in_context": 8,
+   "gold_off_policy_naming_alias": 5,
+   "pred_repeats_last_observed_action": 4,
+   "gold_is_ambiguous_troubleshoot_triplet": 4
+  },
+  "action_acc_no_action_turn": 0.6627,
+  "action_acc_with_action_turn": 0.5945,
+  "top_intent_confusions": [
+   [
+    [
+     "manage_dispute_bill",
+     "out_of_stock_general"
+    ],
+    3
+   ],
+   [
+    [
+     "status_due_date",
+     "status_due_amount"
+    ],
+    3
+   ],
+   [
+    [
+     "manage_pay_bill",
+     "out_of_stock_general"
+    ],
+    3
+   ],
+   [
+    [
+     "return_size",
+     "out_of_stock_general"
+    ],
+    3
+   ],
+   [
+    [
+     "status_shipping_question",
+     "out_of_stock_general"
+    ],
+    2
+   ],
+   [
+    [
+     "cost",
+     "out_of_stock_general"
+    ],
+    2
+   ],
+   [
+    [
+     "out_of_stock_general",
+     "out_of_stock_one_item"
+    ],
+    2
+   ],
+   [
+    [
+     "recover_password",
+     "out_of_stock_general"
+    ],
+    2
+   ],
+   [
+    [
+     "status_due_amount",
+     "status_due_date"
+    ],
+    2
+   ],
+   [
+    [
+     "return_color",
+     "return_size"
+    ],
+    2
+   ],
+   [
+    [
+     "status_due_amount",
+     "status_mystery_fee"
+    ],
+    2
+   ],
+   [
+    [
+     "refund_update",
+     "refund_status"
+    ],
+    2
+   ]
+  ],
+  "top_action_confusions": [
+   [
+    [
+     "verify-identity",
+     "notify-team"
+    ],
+    7
+   ],
+   [
+    [
+     "membership",
+     "ask-the-oracle"
+    ],
+    5
+   ],
+   [
+    [
+     "enter-details",
+     "send-link"
+    ],
+    4
+   ],
+   [
+    [
+     "verify-identity",
+     "pull-up-account"
+    ],
+    4
+   ],
+   [
+    [
+     "verify-identity",
+     "ask-the-oracle"
+    ],
+    3
+   ],
+   [
+    [
+     "record-reason",
+     "pull-up-account"
+    ],
+    3
+   ],
+   [
+    [
+     "offer-refund",
+     "ask-the-oracle"
+    ],
+    3
+   ],
+   [
+    [
+     "search-faq",
+     "pull-up-account"
+    ],
+    3
+   ],
+   [
+    [
+     "membership",
+     "pull-up-account"
+    ],
+    2
+   ],
+   [
+    [
+     "search-pricing",
+     "search-membership"
+    ],
+    2
+   ],
+   [
+    [
+     "update-order",
+     "offer-refund"
+    ],
+    2
+   ],
+   [
+    [
+     "shipping-status",
+     "verify-identity"
+    ],
+    2
+   ]
+  ]
+ },
+ "reference_gold_intent_plus_last_action_rule_dev_acc": 0.749
+}

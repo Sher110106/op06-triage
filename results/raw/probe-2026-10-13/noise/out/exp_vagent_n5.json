@@ -1,0 +1,90 @@
+{
+ "name": "vagent_n5",
+ "cfg": {
+  "nfkc": 1,
+  "rep": 1,
+  "dedup": 1,
+  "cap": 600
+ },
+ "view": "agentact",
+ "frac": 0.0,
+ "C": 0.3,
+ "n_fit": 16034,
+ "fit_secs": 114,
+ "vec_secs": 11,
+ "B": {
+  "intent": 0.3858,
+  "flow": 0.6621,
+  "act_argmax_soft": 0.6485,
+  "act_marg_soft": 0.6717
+ },
+ "Bsyn": {
+  "intent": 0.3861,
+  "flow": 0.6619,
+  "act_argmax_soft": 0.6492,
+  "act_argmax_soft_by_kind": {
+   "typo": 0.643,
+   "code_mixed": 0.646,
+   "two_intents": 0.65,
+   "empty": 0.665,
+   "very_long": 0.646,
+   "screenshot": 0.645
+  },
+  "act_marg_soft": 0.6722,
+  "act_marg_soft_by_kind": {
+   "typo": 0.666,
+   "code_mixed": 0.666,
+   "two_intents": 0.689,
+   "empty": 0.661,
+   "very_long": 0.678,
+   "screenshot": 0.674
+  },
+  "intent_by_kind": {
+   "typo": 0.415,
+   "code_mixed": 0.393,
+   "two_intents": 0.383,
+   "empty": 0.383,
+   "very_long": 0.368,
+   "screenshot": 0.374
+  }
+ },
+ "dev": {
+  "intent": 0.378,
+  "flow": 0.6435,
+  "act_argmax_soft": 0.617,
+  "act_marg_soft": 0.6415
+ },
+ "noisy": {
+  "intent": 0.4067,
+  "flow": 0.6567,
+  "act_argmax_soft": 0.61,
+  "act_argmax_soft_by_kind": {
+   "typo": 0.64,
+   "code_mixed": 0.52,
+   "two_intents": 0.64,
+   "empty": 0.64,
+   "very_long": 0.58,
+   "screenshot": 0.64
+  },
+  "act_marg_soft": 0.6333,
+  "act_marg_soft_by_kind": {
+   "typo": 0.68,
+   "code_mixed": 0.62,
+   "two_intents": 0.62,
+   "empty": 0.66,
+   "very_long": 0.6,
+   "screenshot": 0.62
+  },
+  "intent_by_kind": {
+   "typo": 0.4,
+   "code_mixed": 0.28,
+   "two_intents": 0.34,
+   "empty": 0.48,
+   "very_long": 0.42,
+   "screenshot": 0.52
+  }
+ },
+ "gap_argmax": 0.007,
+ "gap_marg": 0.0082,
+ "total_secs": 125
+}

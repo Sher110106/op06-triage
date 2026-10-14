@@ -1,0 +1,503 @@
+{
+ "cascade": [
+  {
+   "share": 0.0,
+   "n_escalated": 0,
+   "cpu_conf_threshold": null,
+   "cost_per_1k_uncached": 0.0,
+   "cost_per_1k_actual": 0.0,
+   "A": {
+    "clean_I": 0.6875,
+    "clean_A": 0.8292,
+    "noisy_I": 0.5333,
+    "noisy_A": 0.7583,
+    "all_I": 0.6361,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6156,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   },
+   "B": {
+    "clean_I": 0.6875,
+    "clean_A": 0.8292,
+    "noisy_I": 0.5333,
+    "noisy_A": 0.7583,
+    "all_I": 0.6361,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6156,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   },
+   "C": {
+    "clean_I": 0.6875,
+    "clean_A": 0.8292,
+    "noisy_I": 0.5333,
+    "noisy_A": 0.7583,
+    "all_I": 0.6361,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6156,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  },
+  {
+   "share": 0.1,
+   "n_escalated": 36,
+   "cpu_conf_threshold": 0.318017,
+   "cost_per_1k_uncached": 0.0329,
+   "cost_per_1k_actual": 0.0401,
+   "A": {
+    "clean_I": 0.6917,
+    "clean_A": 0.8292,
+    "noisy_I": 0.5583,
+    "noisy_A": 0.775,
+    "all_I": 0.6472,
+    "all_A": 0.8111,
+    "all_A_ci": [
+     0.7675,
+     0.8482
+    ],
+    "macro_f1": 0.6287,
+    "paired_gap_A": 0.025,
+    "policy": 0.0944
+   },
+   "B": {
+    "clean_I": 0.6917,
+    "clean_A": 0.825,
+    "noisy_I": 0.5583,
+    "noisy_A": 0.75,
+    "all_I": 0.6472,
+    "all_A": 0.8,
+    "all_A_ci": [
+     0.7556,
+     0.8381
+    ],
+    "macro_f1": 0.6287,
+    "paired_gap_A": 0.05,
+    "policy": 0.0944
+   },
+   "C": {
+    "clean_I": 0.6917,
+    "clean_A": 0.8292,
+    "noisy_I": 0.5583,
+    "noisy_A": 0.7583,
+    "all_I": 0.6472,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6287,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  },
+  {
+   "share": 0.2,
+   "n_escalated": 72,
+   "cpu_conf_threshold": 0.557853,
+   "cost_per_1k_uncached": 0.0658,
+   "cost_per_1k_actual": 0.0801,
+   "A": {
+    "clean_I": 0.6958,
+    "clean_A": 0.825,
+    "noisy_I": 0.5917,
+    "noisy_A": 0.775,
+    "all_I": 0.6611,
+    "all_A": 0.8083,
+    "all_A_ci": [
+     0.7645,
+     0.8457
+    ],
+    "macro_f1": 0.636,
+    "paired_gap_A": 0.0083,
+    "policy": 0.0917
+   },
+   "B": {
+    "clean_I": 0.6958,
+    "clean_A": 0.8042,
+    "noisy_I": 0.5917,
+    "noisy_A": 0.75,
+    "all_I": 0.6611,
+    "all_A": 0.7861,
+    "all_A_ci": [
+     0.7408,
+     0.8253
+    ],
+    "macro_f1": 0.636,
+    "paired_gap_A": 0.0167,
+    "policy": 0.0944
+   },
+   "C": {
+    "clean_I": 0.6958,
+    "clean_A": 0.8292,
+    "noisy_I": 0.5917,
+    "noisy_A": 0.7583,
+    "all_I": 0.6611,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.636,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  },
+  {
+   "share": 0.3,
+   "n_escalated": 108,
+   "cpu_conf_threshold": 0.728088,
+   "cost_per_1k_uncached": 0.0987,
+   "cost_per_1k_actual": 0.1202,
+   "A": {
+    "clean_I": 0.6958,
+    "clean_A": 0.825,
+    "noisy_I": 0.6083,
+    "noisy_A": 0.7833,
+    "all_I": 0.6667,
+    "all_A": 0.8111,
+    "all_A_ci": [
+     0.7675,
+     0.8482
+    ],
+    "macro_f1": 0.6362,
+    "paired_gap_A": 0.0167,
+    "policy": 0.0833
+   },
+   "B": {
+    "clean_I": 0.6958,
+    "clean_A": 0.7833,
+    "noisy_I": 0.6083,
+    "noisy_A": 0.7417,
+    "all_I": 0.6667,
+    "all_A": 0.7694,
+    "all_A_ci": [
+     0.7232,
+     0.81
+    ],
+    "macro_f1": 0.6362,
+    "paired_gap_A": 0.0,
+    "policy": 0.0944
+   },
+   "C": {
+    "clean_I": 0.6958,
+    "clean_A": 0.8292,
+    "noisy_I": 0.6083,
+    "noisy_A": 0.7583,
+    "all_I": 0.6667,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6362,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  },
+  {
+   "share": 0.4,
+   "n_escalated": 144,
+   "cpu_conf_threshold": 0.864018,
+   "cost_per_1k_uncached": 0.1316,
+   "cost_per_1k_actual": 0.1603,
+   "A": {
+    "clean_I": 0.7,
+    "clean_A": 0.8208,
+    "noisy_I": 0.6333,
+    "noisy_A": 0.7917,
+    "all_I": 0.6778,
+    "all_A": 0.8111,
+    "all_A_ci": [
+     0.7675,
+     0.8482
+    ],
+    "macro_f1": 0.6591,
+    "paired_gap_A": 0.0083,
+    "policy": 0.0833
+   },
+   "B": {
+    "clean_I": 0.7,
+    "clean_A": 0.7667,
+    "noisy_I": 0.6333,
+    "noisy_A": 0.7167,
+    "all_I": 0.6778,
+    "all_A": 0.75,
+    "all_A_ci": [
+     0.7028,
+     0.7919
+    ],
+    "macro_f1": 0.6591,
+    "paired_gap_A": 0.0167,
+    "policy": 0.1028
+   },
+   "C": {
+    "clean_I": 0.7,
+    "clean_A": 0.8292,
+    "noisy_I": 0.6333,
+    "noisy_A": 0.7583,
+    "all_I": 0.6778,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6591,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  },
+  {
+   "share": 0.6,
+   "n_escalated": 216,
+   "cpu_conf_threshold": 0.944197,
+   "cost_per_1k_uncached": 0.1973,
+   "cost_per_1k_actual": 0.2404,
+   "A": {
+    "clean_I": 0.7125,
+    "clean_A": 0.8167,
+    "noisy_I": 0.6417,
+    "noisy_A": 0.775,
+    "all_I": 0.6889,
+    "all_A": 0.8028,
+    "all_A_ci": [
+     0.7586,
+     0.8406
+    ],
+    "macro_f1": 0.6712,
+    "paired_gap_A": 0.025,
+    "policy": 0.0917
+   },
+   "B": {
+    "clean_I": 0.7125,
+    "clean_A": 0.7458,
+    "noisy_I": 0.6417,
+    "noisy_A": 0.7,
+    "all_I": 0.6889,
+    "all_A": 0.7306,
+    "all_A_ci": [
+     0.6825,
+     0.7738
+    ],
+    "macro_f1": 0.6712,
+    "paired_gap_A": 0.0167,
+    "policy": 0.1083
+   },
+   "C": {
+    "clean_I": 0.7125,
+    "clean_A": 0.8292,
+    "noisy_I": 0.6417,
+    "noisy_A": 0.7583,
+    "all_I": 0.6889,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6712,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  },
+  {
+   "share": 1.0,
+   "n_escalated": 360,
+   "cpu_conf_threshold": 0.979591,
+   "cost_per_1k_uncached": 0.3289,
+   "cost_per_1k_actual": 0.4007,
+   "A": {
+    "clean_I": 0.7292,
+    "clean_A": 0.8,
+    "noisy_I": 0.675,
+    "noisy_A": 0.775,
+    "all_I": 0.7111,
+    "all_A": 0.7917,
+    "all_A_ci": [
+     0.7467,
+     0.8304
+    ],
+    "macro_f1": 0.6909,
+    "paired_gap_A": 0.0167,
+    "policy": 0.0917
+   },
+   "B": {
+    "clean_I": 0.7292,
+    "clean_A": 0.7208,
+    "noisy_I": 0.675,
+    "noisy_A": 0.6833,
+    "all_I": 0.7111,
+    "all_A": 0.7083,
+    "all_A_ci": [
+     0.6594,
+     0.7529
+    ],
+    "macro_f1": 0.6909,
+    "paired_gap_A": 0.0167,
+    "policy": 0.1194
+   },
+   "C": {
+    "clean_I": 0.7292,
+    "clean_A": 0.8292,
+    "noisy_I": 0.675,
+    "noisy_A": 0.7583,
+    "all_I": 0.7111,
+    "all_A": 0.8056,
+    "all_A_ci": [
+     0.7615,
+     0.8431
+    ],
+    "macro_f1": 0.6909,
+    "paired_gap_A": 0.0583,
+    "policy": 0.0917
+   }
+  }
+ ],
+ "confidence": {
+  "CPU answer / CPU confidence": {
+   "ratio": 0.3878,
+   "kept": 252,
+   "n": 360,
+   "distinct": 360,
+   "overall_acc": 0.8056,
+   "top70_acc": 0.9246,
+   "ci95": [
+    0.229,
+    0.533
+   ]
+  },
+  "LLM answer / LLM verbalized confidence": {
+   "ratio": 0.6689,
+   "kept": 299,
+   "n": 360,
+   "distinct": 16,
+   "overall_acc": 0.75,
+   "top70_acc": 0.8328,
+   "ci95": [
+    0.557,
+    0.772
+   ]
+  },
+  "LLM answer / agreement (0/1)": {
+   "ratio": 0.3382,
+   "kept": 272,
+   "n": 360,
+   "distinct": 2,
+   "overall_acc": 0.75,
+   "top70_acc": 0.9154,
+   "ci95": [
+    0.228,
+    0.45
+   ]
+  },
+  "CPU answer / agreement (0/1)": {
+   "ratio": 0.4349,
+   "kept": 272,
+   "n": 360,
+   "distinct": 2,
+   "overall_acc": 0.8056,
+   "top70_acc": 0.9154,
+   "ci95": [
+    0.303,
+    0.59
+   ]
+  },
+  "CPU answer / (CPU conf + agreement)/2": {
+   "ratio": 0.3469,
+   "kept": 252,
+   "n": 360,
+   "distinct": 360,
+   "overall_acc": 0.8056,
+   "top70_acc": 0.9325,
+   "ci95": [
+    0.204,
+    0.49
+   ]
+  },
+  "LLM answer / (LLM verbal + agreement)/2": {
+   "ratio": 0.3385,
+   "kept": 260,
+   "n": 360,
+   "distinct": 23,
+   "overall_acc": 0.75,
+   "top70_acc": 0.9154,
+   "ci95": [
+    0.211,
+    0.429
+   ]
+  },
+  "LLM answer / (CPU conf + agreement)/2": {
+   "ratio": 0.2698,
+   "kept": 252,
+   "n": 360,
+   "distinct": 360,
+   "overall_acc": 0.75,
+   "top70_acc": 0.9325,
+   "ci95": [
+    0.156,
+    0.377
+   ]
+  },
+  "LLM answer / logprob of action value": {
+   "ratio": 0.5397,
+   "kept": 252,
+   "n": 360,
+   "distinct": 339,
+   "overall_acc": 0.75,
+   "top70_acc": 0.8651,
+   "ci95": [
+    0.415,
+    0.66
+   ]
+  },
+  "LLM answer / (logprob + agreement)/2": {
+   "ratio": 0.3333,
+   "kept": 252,
+   "n": 360,
+   "distinct": 339,
+   "overall_acc": 0.75,
+   "top70_acc": 0.9167,
+   "ci95": [
+    0.214,
+    0.438
+   ]
+  },
+  "Cascade 30% (A) / stale CPU confidence": {
+   "ratio": 0.3992,
+   "kept": 252,
+   "n": 360,
+   "distinct": 360,
+   "overall_acc": 0.8111,
+   "top70_acc": 0.9246,
+   "ci95": [
+    0.238,
+    0.533
+   ]
+  },
+  "Cascade 30% (A) / re-scored: escalated rows get (CPU conf + agreement)/2": {
+   "ratio": 0.3782,
+   "kept": 252,
+   "n": 360,
+   "distinct": 360,
+   "overall_acc": 0.8111,
+   "top70_acc": 0.9286,
+   "ci95": [
+    0.23,
+    0.506
+   ]
+  }
+ },
+ "agreement_rate": 0.7556
+}

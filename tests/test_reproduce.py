@@ -44,6 +44,7 @@ def _free_port() -> int:
     ({"TRIAGE_POLICY_PATH": "BAD"}, "version must be set"),
     ({"TRIAGE_ROUTE_OFF_POLICY": "maybe"}, "TRIAGE_ROUTE_OFF_POLICY must be 1 or 0"),
     ({"TRIAGE_LLM": "maybe"}, "TRIAGE_LLM must be on, off or auto"),
+    ({"TRIAGE_LLM_DIALECT": "grpc"}, "TRIAGE_LLM_DIALECT must be auto, openrouter or openai"),
 ])
 def test_serve_stops_on_a_bad_setting(tmp_path, setting, want):
     """A bad setting or policy file ends `serve` at once with the reason, instead of a process serving 503."""

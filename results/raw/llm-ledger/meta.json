@@ -58,7 +58,7 @@
  },
  "first": "2026-10-14T13:20:09",
  "last": "2026-10-14T13:59:52",
- "prior_spend_not_in_this_ledger": "the 13 Oct probe's spend (Anthropic $0.4318, OpenRouter $1.2858) is counted as llm_common.PRIOR_SPEND; its ledger lives outside this repo",
+ "prior_spend_not_in_this_ledger": "the 13 Oct probe's spend (Anthropic $0.4318, OpenRouter $1.2858) is counted as llm_common.PRIOR_SPEND; its ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl",
  "files": {
   "ledger.jsonl": {
    "moved_from": "experiments/llm_tail/ledger.jsonl",

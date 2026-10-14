@@ -1,0 +1,36 @@
+Policy replay over dev + dev_noisy (2,300 rows), LLM step off
+  current  policy/policy.toml  (version 2026-10-14.2, 0 rules)
+  new      experiments/policy_replay/policy_refund_mask.toml  (version 2026-10-14.3-refund-mask, 1 rule)
+
+Changes
+  actions changed         39   (wrong -> right 4, right -> wrong 26, wrong -> another wrong 9)
+  needs_human changed     16   (newly routed 7, no longer routed 9)
+  confidence changed    1226
+  rows where a rule masks an action   0 -> 1760
+
+Policy violations (2,300 rows with a published list)
+  as published           185 (0.0804)  ->    191 (0.0830)
+  with the alias         103 (0.0448)  ->    109 (0.0474)
+
+  Metric (official grader unless noted)   current      new   change
+  intent accuracy                          0.7091   0.7091  +0.0000
+  intent macro-F1                          0.7015   0.7015  +0.0000
+  action accuracy                          0.8117   0.8022  -0.0095
+  action accuracy, clean                   0.8145   0.8045  -0.0100
+  action accuracy, noisy                   0.7933   0.7867  -0.0066
+  clean-to-noisy gap                       0.0212   0.0178  -0.0034
+  top-70% error ratio                      0.3760   0.3862  +0.0102
+  schema valid %                         100.0000 100.0000  +0.0000
+  policy violation (grader)                0.0804   0.0830  +0.0026
+  needs_human rate                         0.2822   0.2813  -0.0009
+  action accuracy, not routed              0.9200   0.9189  -0.0011
+  all OP-06 bars pass                        True     True
+
+Examples (up to 10 per kind; action current -> new, gold)
+  action wrong -> right (4): 9437-23 (offer-refund -> make-purchase, gold make-purchase), 3056-23 (offer-refund -> promo-code, gold promo-code), 365-47 (offer-refund -> enter-details, gold enter-details), 4078-19 (offer-refund -> update-order, gold update-order)
+  action right -> wrong (26): 2030-21 (offer-refund -> update-order, gold offer-refund), 7205-22 (offer-refund -> update-order, gold offer-refund), 756-24 (offer-refund -> update-account, gold offer-refund), 2095-23 (offer-refund -> search-faq, gold offer-refund), 511-24 (offer-refund -> update-order, gold offer-refund), 7847-20 (offer-refund -> update-order, gold offer-refund), 1245-33 (offer-refund -> enter-details, gold offer-refund), 4078-20 (offer-refund -> make-purchase, gold offer-refund), 5830-38 (offer-refund -> record-reason, gold offer-refund), 5320-21 (offer-refund -> update-order, gold offer-refund)
+  action wrong -> another wrong (9): 365-46 (offer-refund -> enter-details, gold record-reason), 4317-17 (offer-refund -> update-order, gold update-account), 7503-30 (offer-refund -> enter-details, gold update-order), 3908-26 (offer-refund -> update-account, gold notify-team), 2030-18 (offer-refund -> update-order, gold shipping-status), 177-35 (offer-refund -> update-account, gold membership), 8799-21 (offer-refund -> pull-up-account, gold enter-details), 9437-23-noisy (offer-refund -> update-order, gold make-purchase), 365-46-noisy (offer-refund -> enter-details, gold record-reason)
+  newly routed (7): 2030-18 (offer-refund -> update-order, gold shipping-status), 5320-21 (offer-refund -> update-order, gold offer-refund), 3484-29 (offer-refund -> update-order, gold offer-refund), 7934-26 (offer-refund -> update-order, gold offer-refund), 4190-27 (offer-refund -> update-order, gold offer-refund), 1829-21 (offer-refund -> update-order, gold offer-refund), 365-49 (offer-refund -> update-order, gold offer-refund)
+  no longer routed (9): 7205-22 (offer-refund -> update-order, gold offer-refund), 5360-24 (update-account -> update-account, gold update-account), 2996-32 (make-purchase -> make-purchase, gold make-purchase), 6905-19 (ask-the-oracle -> ask-the-oracle, gold ask-the-oracle), 10353-23 (update-order -> update-order, gold update-order), 3605-21 (make-purchase -> make-purchase, gold make-purchase), 2971-28 (offer-refund -> enter-details, gold offer-refund), 365-47 (offer-refund -> enter-details, gold enter-details), 4516-21-noisy (update-account -> update-account, gold update-account)
+  new violation (7): 7503-30 (offer-refund -> enter-details, gold update-order), 7847-20 (offer-refund -> update-order, gold offer-refund), 4078-20 (offer-refund -> make-purchase, gold offer-refund), 6887-19 (offer-refund -> update-order, gold offer-refund), 1829-21 (offer-refund -> update-order, gold offer-refund), 4078-19 (offer-refund -> update-order, gold update-order), 1333-24 (offer-refund -> enter-details, gold offer-refund)
+  violation cleared (1): 1245-33 (offer-refund -> enter-details, gold offer-refund)

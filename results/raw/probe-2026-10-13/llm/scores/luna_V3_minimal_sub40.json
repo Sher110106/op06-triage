@@ -1,0 +1,139 @@
+{
+ "tag": "luna_V3_minimal_sub40",
+ "metrics": {
+  "clean": {
+   "n": 20,
+   "intent_acc": 0.7,
+   "intent_ci": [
+    0.481,
+    0.8545
+   ],
+   "action_acc": 0.8,
+   "action_ci": [
+    0.584,
+    0.9193
+   ],
+   "intent_macro_f1": 0.6471
+  },
+  "noisy": {
+   "n": 20,
+   "intent_acc": 0.65,
+   "intent_ci": [
+    0.4329,
+    0.8188
+   ],
+   "action_acc": 0.7,
+   "action_ci": [
+    0.481,
+    0.8545
+   ],
+   "intent_macro_f1": 0.5882
+  },
+  "all": {
+   "n": 40,
+   "intent_acc": 0.675,
+   "intent_ci": [
+    0.5202,
+    0.7992
+   ],
+   "action_acc": 0.75,
+   "action_ci": [
+    0.5981,
+    0.8581
+   ],
+   "intent_macro_f1": 0.6275
+  },
+  "per_kind": {
+   "code_mixed": {
+    "n": 4,
+    "intent_acc": 0.5,
+    "action_acc": 0.75
+   },
+   "empty": {
+    "n": 4,
+    "intent_acc": 0.75,
+    "action_acc": 0.75
+   },
+   "screenshot": {
+    "n": 4,
+    "intent_acc": 1.0,
+    "action_acc": 0.75
+   },
+   "two_intents": {
+    "n": 4,
+    "intent_acc": 0.5,
+    "action_acc": 0.75
+   },
+   "typo": {
+    "n": 4,
+    "intent_acc": 0.5,
+    "action_acc": 0.5
+   }
+  },
+  "twins": {
+   "intent_acc": 0.7,
+   "action_acc": 0.8
+  },
+  "paired_gap_action": {
+   "gap": 0.1,
+   "ci95": [
+    0.0,
+    0.25
+   ]
+  },
+  "paired_gap_intent": {
+   "gap": 0.05,
+   "ci95": [
+    0.0,
+    0.15
+   ]
+  },
+  "policy": {
+   "violation_rate": 0.075,
+   "violations": 3,
+   "gold_violation_rate": 0.05
+  },
+  "confidence_action": {
+   "ratio": 0.2857,
+   "kept": 28,
+   "n": 40,
+   "distinct": 25,
+   "overall_acc": 0.75,
+   "top70_acc": 0.9286,
+   "ci95": [
+    0.0,
+    0.73
+   ]
+  },
+  "abstain_labelled": 0,
+  "needs_human_rate_labelled": 0.05
+ },
+ "ops": {
+  "rows": 40,
+  "calls_ok": 40,
+  "status": {
+   "ok": 40
+  },
+  "parse": {
+   "ok": 40
+  },
+  "p50_s": 3.476,
+  "p95_s": 6.888,
+  "p95_total_s": 6.889,
+  "mean_in_tok": 6191.2,
+  "mean_out_tok": 156.3,
+  "mean_reasoning_tok": 122.4,
+  "mean_cache_read_tok": 5074.0,
+  "cost_per_1k_uncached": 0.6973,
+  "cost_per_1k_actual": 0.2685,
+  "run_cost_actual": 0.0107,
+  "run_cost_uncached": 0.0279,
+  "models_returned": {
+   "openai/gpt-6-luna": 40
+  },
+  "providers_returned": {
+   "OpenAI": 40
+  }
+ },
+ "hostile": {}
+}

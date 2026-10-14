@@ -1,0 +1,26 @@
+{
+  "encode_s": {
+    "cust/hostile": 0.3,
+    "cust/noisy": 1.8,
+    "cust/dev": 5.1,
+    "cust/train": 47.7,
+    "all8/hostile": 0.3,
+    "all8/noisy": 8.3,
+    "all8/dev": 44.1,
+    "all8/train": 421.6
+  },
+  "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "load_s": 27.8,
+  "threads": 8,
+  "hostile_errors": [],
+  "latency_all8_bs1": {
+    "threads_1": {
+      "p50_ms": 99.31,
+      "p95_ms": 146.14
+    },
+    "threads_2": {
+      "p50_ms": 66.58,
+      "p95_ms": 91.37
+    }
+  }
+}

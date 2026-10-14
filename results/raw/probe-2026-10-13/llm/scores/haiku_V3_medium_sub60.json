@@ -1,0 +1,147 @@
+{
+ "tag": "haiku_V3_medium_sub60",
+ "metrics": {
+  "clean": {
+   "n": 30,
+   "intent_acc": 0.7,
+   "intent_ci": [
+    0.5212,
+    0.8334
+   ],
+   "action_acc": 0.8667,
+   "action_ci": [
+    0.7032,
+    0.9469
+   ],
+   "intent_macro_f1": 0.6653
+  },
+  "noisy": {
+   "n": 30,
+   "intent_acc": 0.6667,
+   "intent_ci": [
+    0.4878,
+    0.8077
+   ],
+   "action_acc": 0.8,
+   "action_ci": [
+    0.6269,
+    0.905
+   ],
+   "intent_macro_f1": 0.6444
+  },
+  "all": {
+   "n": 60,
+   "intent_acc": 0.6833,
+   "intent_ci": [
+    0.5577,
+    0.7869
+   ],
+   "action_acc": 0.8333,
+   "action_ci": [
+    0.7197,
+    0.9069
+   ],
+   "intent_macro_f1": 0.6571
+  },
+  "per_kind": {
+   "code_mixed": {
+    "n": 5,
+    "intent_acc": 0.4,
+    "action_acc": 0.8
+   },
+   "empty": {
+    "n": 5,
+    "intent_acc": 0.6,
+    "action_acc": 0.8
+   },
+   "screenshot": {
+    "n": 5,
+    "intent_acc": 0.8,
+    "action_acc": 0.6
+   },
+   "two_intents": {
+    "n": 5,
+    "intent_acc": 0.8,
+    "action_acc": 1.0
+   },
+   "typo": {
+    "n": 5,
+    "intent_acc": 0.4,
+    "action_acc": 0.6
+   },
+   "very_long": {
+    "n": 5,
+    "intent_acc": 1.0,
+    "action_acc": 1.0
+   }
+  },
+  "twins": {
+   "intent_acc": 0.7,
+   "action_acc": 0.8667
+  },
+  "paired_gap_action": {
+   "gap": 0.0667,
+   "ci95": [
+    -0.0667,
+    0.2
+   ]
+  },
+  "paired_gap_intent": {
+   "gap": 0.0333,
+   "ci95": [
+    0.0,
+    0.1
+   ]
+  },
+  "policy": {
+   "violation_rate": 0.0667,
+   "violations": 4,
+   "violation_rate_alias": 0.0667,
+   "none_predictions": 3,
+   "gold_violation_rate": 0.0333,
+   "gold_violation_rate_alias": 0.0333
+  },
+  "confidence_action": {
+   "ratio": 0.75,
+   "kept": 48,
+   "n": 60,
+   "distinct": 15,
+   "overall_acc": 0.8333,
+   "top70_acc": 0.875,
+   "ci95": [
+    0.312,
+    1.088
+   ]
+  },
+  "abstain_labelled": 6,
+  "needs_human_rate_labelled": 0.1667
+ },
+ "ops": {
+  "rows": 60,
+  "calls_ok": 60,
+  "status": {
+   "ok": 60
+  },
+  "parse": {
+   "ok": 60
+  },
+  "p50_s": 2.157,
+  "p95_s": 3.447,
+  "p95_total_s": 3.447,
+  "mean_in_tok": 10135.2,
+  "mean_out_tok": 257.9,
+  "mean_reasoning_tok": 0.0,
+  "mean_cache_read_tok": 8497.0,
+  "cost_per_1k_uncached": 1.1425,
+  "cost_per_1k_actual": 0.3777,
+  "run_cost_actual": 0.0227,
+  "run_cost_uncached": 0.0685,
+  "models_returned": {
+   "claude-haiku-5-5": 60
+  },
+  "providers_returned": {
+   "anthropic": 60
+  }
+ },
+ "hostile": {}
+}

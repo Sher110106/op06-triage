@@ -1,0 +1,29 @@
+# command: .venv/bin/python results/audit/score.py results/predictions.jsonl
+# input: results/predictions.jsonl, SHA-256 a11270dcaac505ed8f60e35b0f5a4bda1eae45ac685b910bdd326b24d3db8b4c (the submitted run, results/raw/dev-http-llm); run 2026-10-14 20:04 +0530; output below unchanged
+{
+ "n_pred": 2309,
+ "duplicate_ids": 0,
+ "unknown_ids": 0,
+ "intent_acc_all": 0.7091,
+ "macro_f1_all": 0.7015,
+ "action_acc_all": 0.8365,
+ "intent_acc_clean": 0.718,
+ "macro_f1_clean": 0.7137,
+ "action_acc_clean": 0.8435,
+ "intent_acc_noisy": 0.65,
+ "macro_f1_noisy": 0.5779,
+ "action_acc_noisy": 0.79,
+ "noisy_gap": 0.0535,
+ "top70_kept": 1610,
+ "top70_threshold": 0.7961,
+ "top70_error_ratio": 0.4331,
+ "schema_valid": 2309,
+ "schema_inputs": 2309,
+ "schema_valid_pct": 100.0,
+ "policy_scored": 2300,
+ "policy_violations": 193,
+ "policy_violation": 0.0839,
+ "gold_policy_violation": 0.0883,
+ "needs_human_share_labelled": 0.2426,
+ "hostile_needs_human": 9
+}

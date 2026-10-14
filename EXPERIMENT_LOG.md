@@ -15,9 +15,10 @@ one cites, and checked each number against its file; where no file exists, the e
 ## 13 Oct 2026: research probes (reconstructed)
 
 **Reconstructed.** These entries come from the files the 13 Oct probes left on disk: scores, logs and
-reports in the research workspace, outside this repo. The probes ran on a remote 112-core CPU box and on a
-laptop. A usage limit stopped the planned independent audits, so none of these numbers was checked a
-second time on the day.
+reports in the research workspace, beside this repo. Copies of 172 of those files are now in
+`results/raw/probe-2026-10-13/`, byte for byte with their file times, and its `README.md` maps each R-number to
+a file (P5-1). The probes ran on a remote 112-core CPU box and on a laptop. A usage limit stopped the planned
+independent audits, so none of these numbers was checked a second time on the day, and no one has rerun them.
 
 Most of these entries were later checked against files (P0-3 and the audit, P4-5); the table after R10 lists
 what is still unchecked.
@@ -39,7 +40,8 @@ what is still unchecked.
 - **Compared:** LinearSVC against logistic regression on word and character TF-IDF over all 8 turns; a flow classifier; hard and soft hierarchical variants.
 - **Chosen:** LinearSVC (C=0.3). Probabilities are softmax(decision / T), with T fit on B.
 - **Clean dev intent:** 0.718.
-- **Views:** the whole window is essential. Last 4 turns: 0.515. Last customer turn only: 0.226 (unchecked; the audit did not find these in `e2_views.log`).
+- **Views:** the whole window is essential. Last 4 turns: 0.515. Last customer turn only: 0.226.
+  - *Corrected 14 Oct (P5-1).* This line first said these figures were unchecked, as the audit did not find them in `e2_views.log`. They are in the encoder probe's `encoders/logs/b1_results.jsonl` (archive), from TF-IDF with logistic regression, not the chosen LinearSVC: view `last4` 0.5145, `cust` 0.226, against 0.7215 for all 8 turns.
 - **Biggest remaining error:** the opening statement outside the window. Intent is 0.628 when it is outside (60.4% of dev rows) and 0.856 when it is visible.
 
 ### R3. Dialogue-state parser
@@ -71,9 +73,9 @@ what is still unchecked.
 
 The six noise kinds have 50 dev_noisy rows each.
 
-- **What fixed it:** dropping repeated sentences inside a turn. On the 50 `very_long` rows, with the existing 2,000-character turn cap on in both runs, intent went from 0.16 to 0.68 (`scratch/probe_classical/out_remote/e6_noise_final.json`: no de-duplication against the final model; the rebuilt model gives the same 0.16 → 0.68, P4-1). The noisy action gap went from 0.050 to 0.024 (`report_final_t1_nodedupe.json` against `report_final_t1.json` in the same folder; the rebuilt model gives 0.048 → 0.021, P4-2). The cap alone, without de-duplication, moved very_long intent from 0.10 to 0.16 (3 rows, within noise; P4-1).
+- **What fixed it:** dropping repeated sentences inside a turn. On the 50 `very_long` rows, with the existing 2,000-character turn cap on in both runs, intent went from 0.16 to 0.68 (`results/raw/probe-2026-10-13/classical/out_remote/e6_noise_final.json`: no de-duplication against the final model; the rebuilt model gives the same 0.16 → 0.68, P4-1). The noisy action gap went from 0.050 to 0.024 (`report_final_t1_nodedupe.json` against `report_final_t1.json` in the same folder; the rebuilt model gives 0.048 → 0.021, P4-2). The cap alone, without de-duplication, moved very_long intent from 0.10 to 0.16 (3 rows, within noise; P4-1).
   - *Corrected 14 Oct.* This line first said 0.15 to 0.90. Those figures came from the 20-row very_long slice of the LLM probe (R9), and the 0.90 was a different noise-hardened variant. The `LANDSCAPE.md` fact-check found the mismatch.
-  - *Corrected again 14 Oct, after the audit (P4-5).* The second version said 0.10 to 0.68 for de-duplication plus the cap, citing `scratch/probe_noise/out/exp_n0_raw.json` against `exp_n5_dedup600.json`. The "before" file has no cap, and the "after" file uses a 600-character cap plus NFKC, so the pair mixed three changes. The line above uses the like-for-like pair.
+  - *Corrected again 14 Oct, after the audit (P4-5).* The second version said 0.10 to 0.68 for de-duplication plus the cap, citing `results/raw/probe-2026-10-13/noise/out/exp_n0_raw.json` against `exp_n5_dedup600.json`. The "before" file has no cap, and the "after" file uses a 600-character cap plus NFKC, so the pair mixed three changes. The line above uses the like-for-like pair.
 - **What changed nothing:** Unicode normalisation alone, and collapsing repeated characters.
 - **Inconclusive:** synthetic noise augmentation of train. Its effect sat inside the intervals.
 
@@ -99,12 +101,12 @@ The six noise kinds have 50 dev_noisy rows each.
 - **Models:** Claude Haiku 5.5, GPT-6 Luna, Qwen3.8 27B, Gemma 4 31B, Gemini 3.5 Flash-Lite and Solar Mini 4 on all rows. Gemini 3.8 Flash ran on 60 rows.
 - **Next action:** no LLM beat the CPU model. Luna was closest at −0.022 [−0.064, +0.017].
 - **Intent:** LLMs gained +6 to +7 points, almost all of it on `very_long` rows, which de-duplication already fixes. Against the de-duplicated CPU model, Luna's edge is +0.022 [−0.017, +0.061].
-- **Cascade:** sending the least-confident 20–40% of rows to Luna gave about +1 point of action; its interval included zero (unchecked).
+- **Cascade:** sending the least-confident 20–40% of rows to Luna gave about +1 point of action; its interval included zero (`llm/llm-probe.md`, table T7, in the archive).
 - **Confidence:** the LLMs' stated confidence orders errors poorly. Agreement between the LLM and the CPU model orders them well.
 - **Leaderboards:** the Artificial Analysis index did not predict accuracy on this task. Spearman correlation was negative at the setting we ran.
 - **OpenRouter hosts:** one OpenRouter host produced all 18 bad Qwen outputs, so hosts must be pinned.
 - **Spend:** Anthropic $0.43, OpenRouter $1.29.
-- *Added 14 Oct, from the audit:* the probe's ledger (`scratch/probe_llm/ledger.jsonl`) also shows 5 OpenRouter HTTP errors, which this entry did not mention.
+- *Added 14 Oct, from the audit:* the probe's ledger (`results/raw/probe-2026-10-13/llm/ledger.jsonl`) also shows 5 OpenRouter HTTP errors, which this entry did not mention.
 
 ### R10. Hostile pack, before any fix
 
@@ -123,19 +125,20 @@ No crashes. Fix planned for Phase 1:
 ### Status of the reconstructed entries (14 Oct, after the audit)
 
 "Audit" means `results/audit/AUDIT.md` section 2 (P4-5), which read the 13 Oct files in the research
-workspace's `scratch/` folder, outside this repo.
+workspace's `scratch/` folder. Those files are now archived in `results/raw/probe-2026-10-13/` (P5-1). "Has a file"
+below means the archive holds the figure; the probes themselves were not rerun.
 
 | Entry | Now checked against files | Still unchecked |
 |---|---|---|
 | R1 | Every count. The taxonomy port gives the probe's count in all 22 cells (P4-1); the audit matched `e1_baseline_taxonomy.json`; P0-2 matched the README numbers. | none |
-| R2 | Clean dev intent 0.718 (P4-1, Classical v0: 0.7180). The 60.4% / 0.628 / 0.856 split (P4-1: 60.4%, 0.6275, 0.8561). | The view ablations (0.515, 0.226) and the model comparison. The audit did not find them in `e2_views.log`. |
-| R3 | none | The parser rules and how they were checked. |
+| R2 | Clean dev intent 0.718 (P4-1, Classical v0: 0.7180). The 60.4% / 0.628 / 0.856 split (P4-1: 60.4%, 0.6275, 0.8561; archive `classical/out_remote/e1_tax_final.json`). Has a file: the view figures 0.515 and 0.226 (`encoders/logs/b1_results.jsonl`, logistic regression; P5-1). | The model comparison. |
+| R3 | none | The parser rules and how they were checked: only the probe scripts hold them, and those are not archived. |
 | R4 | Action 0.808, wrong flow 114 → 64, state ignored 10 → 81, the violation rates (audit: `e1_compare.json`, `final_grade.json`). The repo rebuild gives 114 → 63 and 10 → 81 (P4-1). | The other variants in the comparison. |
-| R5 | Threshold 0.8498 and 34.7% routed (P0-3); 2,280 distinct confidences (audit). | The candidate comparison on fold B. On dev, the stacker orders errors better than the top action probability: top-70 0.376 against 0.419 (P4-2). |
+| R5 | Threshold 0.8498 and 34.7% routed (P0-3; archive `final_grade.json`, 0.3465); 2,280 distinct confidences (audit). | The candidate comparison on fold B. On dev, the stacker orders errors better than the top action probability: top-70 0.376 against 0.419 (P4-2). |
 | R6 | The action gap 0.050 → 0.024 (audit); very_long intent 0.16 → 0.68, after the second correction (P4-1); NFKC alone changes no label (P4-1). | Collapsing repeated characters; noise augmentation. |
 | R7 | Intent, macro-F1 and the routing point (P0-3; action 0.8117 against 0.810, from batch prediction). Action 0.8104, gap, top-70, latency and bundle size against the probe files (audit). | none |
-| R8 | Ettin-32M 0.733 / 0.716 / 0.834 / 0.793 and 25.1 minutes (audit, `probe_encoders/logs/ft_ett32.json`). A fold-A rerun under a pre-registration is E-1. | The frozen-embedding figures (bge-small, kNN) and the e5 failure. |
-| R9 | Luna −0.022 [−0.064, +0.017] and the spend (audit). | The other models' figures, the Artificial Analysis correlation, the Qwen host claim, the cascade. |
+| R8 | Ettin-32M 0.733 / 0.716 / 0.834 / 0.793 and 25.1 minutes (audit, `probe_encoders/logs/ft_ett32.json`). A fold-A rerun under a pre-registration is E-1. Has a file (P5-1): bge-small fused with TF-IDF, all 8 turns, 0.729 against 0.7215 clean intent (+0.0075) and 0.6733 against 0.6333 noisy (+0.040), with kNN weaker (`encoders/logs/b1_results.jsonl`); e5 at 0.348 (`ft_e5s.json`). | none |
+| R9 | Luna −0.022 [−0.064, +0.017] and the spend (audit; the archived ledger gives the same, P5-1). Has a file: the other models' figures, the Artificial Analysis correlation, the Qwen host claim and the cascade (`llm/llm-probe.md`, `llm/report_tables.md`). | Those figures were not recounted from the raw answers. |
 | R10 | Every row (P0-3, the audit's `e9_latency_t2.json`, and the hostile table in P4-1). | none |
 
 ## 14 Oct 2026: Phase 0
@@ -306,7 +309,7 @@ result stands.
 
 ### P2-1. Routing operating point (`experiments/routing/`)
 
-- **Question:** who should go to a person? v0 routed by one threshold (0.8498), which sends 34.7% of dev to a person. With the LLM step on, an LLM-answered row can never get above 0.821, so the v0 threshold would route every one of them.
+- **Question:** who should go to a person? v0 routed by one threshold (0.8498), which sends 34.7% of dev to a person. With the LLM step on, an LLM-answered row stays under (gate + 1) / 2 = 0.8214, so the v0 threshold would route every one of them.
 - **Method:** the real pipeline runs with the LLM step replaced by a replay of the recorded Luna answers, so the routing rules are exactly the service's and no API call is made.
   - Thresholds are chosen on fold B, using out-of-fold CPU confidence.
   - Results are reported on dev.
@@ -463,42 +466,48 @@ routed. Over HTTP on the M1, p95 38 ms at concurrency 8; on the shared Linux box
 
 - **Method:** the 13 Oct probe's category rules, ported unchanged (`taxonomy.py`). Each column is a run in `results/raw/`. Intervals come from a paired conversation bootstrap (2,000 draws, seed 7).
 - **R1 now checked:** on the baseline, the port gives the probe's count in all 22 cells (11 categories, clean and noisy). The rebuilt rule stage matches the probe's in all 22 too.
-- **Which live run:** the "v1 + Luna" column is the first live run, now `dev-http-llm-r1` (`taxonomy.json` gives its predictions' SHA-256, `d3a2ff78…`). The taxonomy ran before the second, submitted run. The noise table below adds the submitted run. `taxonomy.md` itself still labels that column `dev-http-llm` and "the submitted predictions", and `report.py` still reads `results/raw/dev-http-llm/`, so rerunning it now would score the submitted run and stop at its own check on the quoted numbers.
+- **Which live run:** both. "v1 + Luna (submitted)" is `dev-http-llm` (predictions SHA-256 `a11270dc…`) and "v1 + Luna (1st run)" is `dev-http-llm-r1` (`d3a2ff78…`); `taxonomy.json` records both hashes.
+  - *Corrected 14 Oct (P5-1).* The 17:30 taxonomy ran before the second live run, so its "v1 + Luna" column was the first run, and this entry's tables and reading quoted that run alone. `report.py` now reads both runs and labels them, and rerunning it (21:05) reproduces `taxonomy.md` and `taxonomy.json`. The tables below now lead with the submitted run; the first run's figures stay beside them.
 
 **Clean dev intent errors by category** (n = 2,000):
 
-| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| Wrong flow, opening outside the 8-turn window | 518 | 224 | 224 | 224 | 224 | 224 |
-| Right flow, wrong sibling intent | 408 | 277 | 277 | 277 | 277 | 277 |
-| Wrong flow, opening in window but not in last 4 turns | 235 | 24 | 24 | 24 | 24 | 24 |
-| Wrong flow, opening in last 4 turns | 38 | 14 | 14 | 14 | 14 | 14 |
-| Numbered FAQ variant confused | 29 | 25 | 25 | 25 | 25 | 25 |
-| **Total errors** | **1228** | **564** | **564** | **564** | **564** | **564** |
-| Accuracy | 0.3860 | 0.7180 | 0.7180 | 0.7180 | 0.7180 | 0.7180 |
+| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Wrong flow, opening outside the 8-turn window | 518 | 224 | 224 | 224 | 224 | 224 | 224 |
+| Right flow, wrong sibling intent | 408 | 277 | 277 | 277 | 277 | 277 | 277 |
+| Wrong flow, opening in window but not in last 4 turns | 235 | 24 | 24 | 24 | 24 | 24 | 24 |
+| Wrong flow, opening in last 4 turns | 38 | 14 | 14 | 14 | 14 | 14 | 14 |
+| Numbered FAQ variant confused | 29 | 25 | 25 | 25 | 25 | 25 | 25 |
+| **Total errors** | **1228** | **564** | **564** | **564** | **564** | **564** | **564** |
+| Accuracy | 0.3860 | 0.7180 | 0.7180 | 0.7180 | 0.7180 | 0.7180 | 0.7180 |
 
 **Clean dev action errors by category** (n = 2,000):
 
-| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| Intent wrong, flow wrong | 460 | 114 | 63 | 63 | 63 | 60 |
-| Intent right, dialogue state ignored | 283 | 10 | 81 | 81 | 81 | 49 |
-| Intent wrong, flow right | 225 | 87 | 54 | 54 | 54 | 47 |
-| Gold action off-policy | 94 | 88 | 72 | 72 | 72 | 71 |
-| Intent right, state not enough | 86 | 227 | 96 | 96 | 96 | 92 |
-| Gold off-policy only by the membership naming | 50 | 20 | 5 | 5 | 5 | 2 |
-| **Total errors** | **1198** | **546** | **371** | **371** | **371** | **321** |
-| Accuracy | 0.4010 | 0.7270 | 0.8145 | 0.8145 | 0.8145 | 0.8395 |
+| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Intent wrong, flow wrong | 460 | 114 | 63 | 63 | 63 | 57 | 60 |
+| Intent right, dialogue state ignored | 283 | 10 | 81 | 81 | 81 | 48 | 49 |
+| Intent wrong, flow right | 225 | 87 | 54 | 54 | 54 | 44 | 47 |
+| Gold action off-policy | 94 | 88 | 72 | 72 | 72 | 70 | 71 |
+| Intent right, state not enough | 86 | 227 | 96 | 96 | 96 | 91 | 92 |
+| Gold off-policy only by the membership naming | 50 | 20 | 5 | 5 | 5 | 3 | 2 |
+| **Total errors** | **1198** | **546** | **371** | **371** | **371** | **313** | **321** |
+| Accuracy | 0.4010 | 0.7270 | 0.8145 | 0.8145 | 0.8145 | 0.8435 | 0.8395 |
+
+The same table on the 300 noisy rows, for the last three columns: v1, LLM off 12 / 15 / 11 / 9 / 14 / 1, total
+62 (0.7933); submitted 14 / 11 / 12 / 11 / 14 / 1, total 63 (0.7900); 1st run 12 / 9 / 8 / 10 / 15 / 1, total
+55 (0.8167), in the row order above (`taxonomy.md`).
 
 Columns: Baseline `dev-baseline`; Rule stage `taxonomy-rule-stage` (TF-IDF intent, an (intent, last action)
 lookup and the soft policy prior, no de-duplication); Classical, no dedupe `taxonomy-classical-nodedupe`;
-Classical v0 `dev-classical-v0`; v1, LLM off `dev-pipeline-cpu`; v1 + Luna, the first live run.
+Classical v0 `dev-classical-v0`; v1, LLM off `dev-pipeline-cpu`; v1 + Luna (submitted) `dev-http-llm`; v1 + Luna
+(1st run) `dev-http-llm-r1`. The two Luna columns differ by Luna's run-to-run spread (P3-5), not by a change.
 
 **What each change moved** (shipped changes, in the order they were made). Each cell is the change in the
 error count, or for noise kinds in accuracy, from the left column of the pair to the right one. **Bold**: the
 95% interval excludes 0. A dot: no row entered or left. +0: as many rows entered as left.
 
-| Category | Baseline → Rule stage | Rule stage → Classical, no dedupe | Classical, no dedupe → Classical v0 | Classical v0 → v1, LLM off | v1, LLM off → v1 + Luna |
+| Category | Baseline → Rule stage | Rule stage → Classical, no dedupe | Classical, no dedupe → Classical v0 | Classical v0 → v1, LLM off | v1, LLM off → v1 + Luna (submitted) |
 |---|---:|---:|---:|---:|---:|
 | clean intent: Wrong flow, opening outside the 8-turn window | **−294** | · | · | · | · |
 | clean intent: Right flow, wrong sibling intent | **−131** | · | · | · | · |
@@ -506,55 +515,59 @@ error count, or for noise kinds in accuracy, from the left column of the pair to
 | clean intent: Wrong flow, opening in last 4 turns | **−24** | · | · | · | · |
 | clean intent: Numbered FAQ variant confused | −4 | · | · | · | · |
 | **clean intent: all errors** | **−664** | · | · | · | · |
-| clean action: Intent wrong, flow wrong | **−346** | **−51** | · | · | −3 |
-| clean action: Intent right, dialogue state ignored | **−273** | **+71** | · | · | **−32** |
-| clean action: Intent wrong, flow right | **−138** | **−33** | · | · | −7 |
-| clean action: Gold action off-policy | −6 | **−16** | · | · | −1 |
-| clean action: Intent right, state not enough | **+141** | **−131** | · | · | −4 |
-| clean action: Gold off-policy only by the membership naming | **−30** | **−15** | · | · | −3 |
-| **clean action: all errors** | **−652** | **−175** | · | · | **−50** |
+| clean action: Intent wrong, flow wrong | **−346** | **−51** | · | · | −6 |
+| clean action: Intent right, dialogue state ignored | **−273** | **+71** | · | · | **−33** |
+| clean action: Intent wrong, flow right | **−138** | **−33** | · | · | **−10** |
+| clean action: Gold action off-policy | −6 | **−16** | · | · | −2 |
+| clean action: Intent right, state not enough | **+141** | **−131** | · | · | −5 |
+| clean action: Gold off-policy only by the membership naming | **−30** | **−15** | · | · | −2 |
+| **clean action: all errors** | **−652** | **−175** | · | · | **−58** |
 | noisy intent: Wrong flow, opening outside the 8-turn window | **−42** | · | **−13** | · | · |
 | noisy intent: Right flow, wrong sibling intent | −13 | · | +0 | · | · |
 | noisy intent: Wrong flow, opening in window but not in last 4 turns | **−23** | · | **−8** | · | · |
 | noisy intent: Wrong flow, opening in last 4 turns | −1 | · | **−5** | · | · |
 | noisy intent: Numbered FAQ variant confused | +0 | · | · | · | · |
 | **noisy intent: all errors** | **−79** | · | **−26** | · | · |
-| noisy action: Intent wrong, flow wrong | **−50** | **−27** | **−9** | · | +0 |
-| noisy action: Intent right, dialogue state ignored | **−36** | **+13** | +1 | · | **−6** |
-| noisy action: Intent wrong, flow right | **−16** | **−8** | · | · | −3 |
-| noisy action: Gold action off-policy | +1 | **−6** | · | · | +1 |
-| noisy action: Intent right, state not enough | **+16** | **−15** | +1 | · | +1 |
+| noisy action: Intent wrong, flow wrong | **−50** | **−27** | **−9** | · | +2 |
+| noisy action: Intent right, dialogue state ignored | **−36** | **+13** | +1 | · | −4 |
+| noisy action: Intent wrong, flow right | **−16** | **−8** | · | · | +1 |
+| noisy action: Gold action off-policy | +1 | **−6** | · | · | +2 |
+| noisy action: Intent right, state not enough | **+16** | **−15** | +1 | · | +0 |
 | noisy action: Gold off-policy only by the membership naming | −1 | −3 | −1 | · | +0 |
-| **noisy action: all errors** | **−86** | **−46** | **−8** | · | −7 |
+| **noisy action: all errors** | **−86** | **−46** | **−8** | · | +1 |
 | noisy code_mixed: intent accuracy | **+0.28** | · | · | · | · |
 | noisy code_mixed: action accuracy | **+0.34** | +0.08 | · | · | +0.00 |
 | noisy empty: intent accuracy | **+0.36** | · | · | · | · |
-| noisy empty: action accuracy | **+0.32** | +0.12 | · | · | +0.06 |
+| noisy empty: action accuracy | **+0.32** | +0.12 | · | · | +0.02 |
 | noisy screenshot: intent accuracy | **+0.14** | · | · | · | · |
-| noisy screenshot: action accuracy | **+0.22** | **+0.26** | · | · | +0.04 |
+| noisy screenshot: action accuracy | **+0.22** | **+0.26** | · | · | −0.02 |
 | noisy two_intents: intent accuracy | **+0.34** | · | · | · | · |
-| noisy two_intents: action accuracy | **+0.30** | **+0.18** | · | · | +0.00 |
+| noisy two_intents: action accuracy | **+0.30** | **+0.18** | · | · | +0.02 |
 | noisy typo: intent accuracy | **+0.30** | · | · | · | · |
-| noisy typo: action accuracy | **+0.34** | −0.02 | · | · | +0.06 |
+| noisy typo: action accuracy | **+0.34** | −0.02 | · | · | +0.02 |
 | noisy very_long: intent accuracy | **+0.16** | · | **+0.52** | · | · |
-| noisy very_long: action accuracy | **+0.20** | **+0.30** | **+0.16** | · | −0.02 |
+| noisy very_long: action accuracy | **+0.20** | **+0.30** | **+0.16** | · | −0.06 |
 
-The changes tried and not shipped (Haiku intent, the turn cap, NFKC, zero-width removal) and the
-replay-against-live comparison have their own table in `taxonomy.md`.
+The first run's column of this table: clean action −3, **−32**, −7, −1, −4, −3, total **−50**; noisy action +0,
+**−6**, −3, +1, +1, +0, total −7. The changes tried and not shipped (Haiku intent, the turn cap, NFKC, zero-width
+removal), the run-to-run pairs (LLM off → 1st run, 1st run → submitted) and the replay-against-live comparison have
+their own tables in `taxonomy.md`.
 
 **Reading:**
 - The first change, word and character features over all 8 turns plus the last-action lookup, did nearly all the intent work: clean intent errors 1,228 → 564. Nothing after it moved a clean intent category. The two largest left are "right flow, wrong sibling" (277) and "opening outside the 8-turn window" (224), 89% of the 564. The opening is outside the window in 60.4% of clean dev rows, where v1's intent is 0.6275, against 0.8561 on the rest.
 - The most frequent clean intent confusions, LLM off (`taxonomy.json`, `context.top_intent_confusions`, pairs as stored): status_due_date / status_due_amount 15, promo_code_out_of_date / promo_code_invalid 14, return_color / return_stain 11, out_of_stock_one_item / out_of_stock_general 9. My guess, not measured: the word that separates each pair (a date or an amount, expired or invalid, colour or stain) is said once, often in the opening, and the later turns of the two intents read alike.
 - Screenshot rows (intent 0.50) mostly pick the wrong flow: 20 of their 25 intent errors. The opening is outside the window in 70% of them, but intent is no better when it is visible (0.47 against 0.51), so the window does not explain it. Guess, not measured: the description of a screenshot replaces the customer's own words for the problem.
-- The learned action model cut clean action errors 546 → 371 but brought back "state ignored", 10 → 81 (+71 [+53, +90]). Luna cut that category 81 → 49 (−32 [−46, −19]); 35 of the 37 rows it fixed there were right under the old lookup.
+- The learned action model cut clean action errors 546 → 371 but brought back "state ignored", 10 → 81 (+71 [+53, +90]). In the submitted run Luna cut clean action errors 371 → 313 (−58 [−78, −38]; accuracy 0.8145 → 0.8435), and two categories moved: "state ignored" 81 → 48 (−33 [−46, −20]) and "intent wrong, flow right" 54 → 44 (−10 [−18, −2]). 35 of the 37 "state ignored" rows it fixed were right under the old lookup. On noisy rows it gained nothing: 62 → 63 errors (+1 [−9, +12]).
+- The first live run gave −50 [−71, −29] clean and −7 [−17, +3] noisy, and only "state ignored" moved (81 → 49 clean, 15 → 9 noisy); it too fixed 37 "state ignored" rows, 35 right under the lookup.
+- Run to run, 71 of 2,300 actions differ and 42 rows switch between right and wrong (28 clean, 14 noisy). Clean errors differ by −8 [−18, +3]. Noisy errors go 55 → 63 (+8 [+1, +15]); the only category whose interval excludes 0 is noisy "intent wrong, flow right", 8 → 12 (+4 [+1, +8]). Against the replay of recorded answers the submitted run switches 41 rows, and clean errors differ by −6 [−16, +4]. The intervals hold each run's answers fixed, so they do not cover Luna's sampling.
 - De-duplication moved only the very_long rows: intent 0.16 → 0.68, action 0.68 → 0.84 (n = 50).
 - The v1 gate, policy file and routing changed no intent or action on any of the 2,300 rows, as designed.
 - **Moved nothing:** Claude Haiku picking the intent on every row (clean intent errors −11 [−53, +30]); the 2,000-character turn cap with de-duplication on; NFKC and zero-width removal (no label changed on 2,300 rows).
-- **Left, first live run, clean dev:** 564 intent errors and 321 action errors. 73 of the 321 have a gold action outside the written procedure, which a system that keeps to the procedure cannot match.
+- **Left, submitted run, clean dev:** 564 intent errors and 313 action errors. 73 of the 313 (23%) have a gold action outside the written procedure (70 off-policy, 3 by the membership naming), which a system that keeps to the procedure cannot match; 101 follow a wrong intent, 91 are "state not enough" and 48 "state ignored". The first live run left 321.
 
 **Noise by kind** (dev_noisy, 50 rows per kind; intent / action; one row is 0.02):
 
-| Noise kind | Baseline | v1, LLM off (`dev-pipeline-cpu`) | v1 + Luna, first run (`dev-http-llm-r1`) | v1 + Luna, submitted (`dev-http-llm`) |
+| Noise kind | Baseline | v1, LLM off (`dev-pipeline-cpu`) | v1 + Luna, 1st run (`dev-http-llm-r1`) | v1 + Luna, submitted (`dev-http-llm`) |
 |---|---|---|---|---|
 | code_mixed | 0.42 / 0.34 | 0.70 / 0.76 | 0.70 / 0.76 | 0.70 / 0.76 |
 | empty | 0.26 / 0.36 | 0.62 / 0.80 | 0.62 / 0.86 | 0.62 / 0.82 |
@@ -564,8 +577,8 @@ replay-against-live comparison have their own table in `taxonomy.md`.
 | very_long | 0.00 / 0.18 | 0.68 / 0.84 | 0.68 / 0.82 | 0.68 / 0.78 |
 | all 300 noisy | 0.30 / 0.33 | 0.65 / 0.79 | 0.65 / 0.82 | 0.65 / 0.79 |
 
-Sources: `taxonomy.md` for the first three columns; `results/raw/dev-http-llm/report.json`
-(`extras.noise_kinds`) for the last.
+Sources: `taxonomy.md` for all four columns; the last also matches `results/raw/dev-http-llm/report.json`
+(`extras.noise_kinds`).
 - Screenshot intent (0.50) is the weakest cell in every v1 column. The LLM step never changes intent.
 - In the submitted run the Luna step gains nothing on noisy rows as a whole: 0.79, against 0.7933 with it off. Per kind, the two live runs differ by up to 0.06 (3 rows), which is run-to-run spread (P3-5).
 
@@ -620,6 +633,8 @@ reasons):
 1. **Dialogue-state features,** −0.029 [−0.040, −0.017] without them. Noisy rows lose more, so the noisy gap triples (0.021 → 0.061). The action turns are templates that noise does not touch.
 2. **The `membership` alias,** −0.026 [−0.034, −0.018] without it. Dropping it halves the literal violation rate only by refusing what agents do.
 3. **The LLM step at 20%,** +0.024 [+0.013, +0.035] over none. 10% gives about half the gain; 30% gives no more for 50% more calls. Fold B shows the same order (`llm_share_fold_b.json`).
+   - *Added 14 Oct (P5-1): two fold-B top-70 bases.* With the LLM step off, `llm_share_fold_b.json` gives 0.3395 and `results_B.json` (P0-5) 0.3239, on the same 3,966 rows and the same actions. Cause: `experiments/ablations/run.py` scores the full v1 pipeline, which caps confidence at 0.5 on the 121 flag-routed rows (117 `off_policy`, 4 `no_dialogue`; 73 values change), while `analyse_B.py` scores the raw out-of-fold CPU confidence. Compare top-70 figures only within one file.
+   - *Note 14 Oct.* The file's `about` text calls fold B "3,966 rows no model choice saw". That wording predates the P0-5 correction: fold B fit the confidence model, the temperatures and the routing thresholds, though no LLM choice used it. The file stays as written.
 4. **The soft policy prior,** −0.012 [−0.020, −0.004] without it, and the literal violation rate rises from 0.080 to 0.120. A hard mask costs about the same accuracy (−0.010) with fewer violations (0.074, alias 0.038). It does not reach zero, because the grader checks against the gold flow and the mask uses the predicted one.
 5. **De-duplication,** −0.003 [−0.006, −0.001] without it, all on the 50 very_long rows.
 - **Stacked confidence** changes no label but orders errors better: top-70 0.376, against 0.419 with the top action probability.
@@ -654,12 +669,13 @@ reasons):
 - **The breaker opens after 7 to 10 failed calls, not the 5 it is set to.** Up to 8 calls are already in flight when the fifth failure lands, and they count too. Fast failures open it within 0.5 s; after that, LLM-gated rows cost nothing extra (p95 55–56 ms, against 55 ms with the step off).
 - **The worst case is a provider that accepts the connection and never answers.** The first 10 LLM rows waited the full 4 s deadline (p99 4,042 ms) before the breaker opened at 4.4 s.
 - **Under a half-failing provider the breaker opens and closes within seconds,** because any success closes it, even a call that started before it opened.
-- **A wrong but well-formed answer passes every check.** With `constant`, action accuracy falls from 0.795 to 0.685, yet all 141 changed actions went to a person: a changed action's confidence is at most 0.322, below both routing points. Across all runs, 340 of 340 actions the LLM changed were routed. No counter shows this failure; the breaker stays closed and `/metrics` says `ok`. The share of Luna answers that agree with the CPU action would show it (48.9% in `ok`, 47.4% over dev in the replay, 4.7% under `constant`), but the service does not count it.
+- **A wrong but well-formed answer passes every check.** With `constant`, action accuracy falls from 0.795 to 0.685, yet all 141 changed actions went to a person: a changed action's confidence is under gate / 2 (0.3214), below both routing points. Across all runs, 340 of 340 actions the LLM changed were routed. No counter shows this failure; the breaker stays closed and `/metrics` says `ok`. The share of Luna answers that agree with the CPU action would show it (48.9% in `ok`, 47.4% over dev in the replay, 4.7% under `constant`), but the service does not count it.
 - **At 10× load (80 clients)** all 600 requests got a 200 in all five runs, with client p95 397–476 ms and 178 req/s with the LLM step on (219 off). The cap of 8 calls in flight sent 132 of 148 LLM-gated rows back as `busy` with the CPU answer, so action accuracy (0.798) fell to near CPU-only (0.795). The cap allows about 5 calls/s per process, about 21–27 req/s of traffic. Past 128 requests in the app, the service sheds load with a JSON 503 and `Retry-After`.
 - **Recovery:** with the provider failing for the first 20 s, the service first used an LLM answer at 31.8 s, 11.7 s after the provider recovered, because the breaker stays open 30 s.
 - **Restarts:** after `kill -9` and an immediate restart, `/healthz` answered 200 in 3.26 s; the 3 requests in flight were lost. On SIGTERM, requests in flight finish (4 of 4, and 16 of 16 with hung LLM calls), and the process then exits with status 143 from uvicorn, not 0.
 - **Gaps found:** no signal for a provider that is up but wrong; about 5 LLM calls/s per process; the breaker flaps under a partial outage; SIGTERM exits 143; requests in flight at a crash are lost.
 - **Limits:** one laptop; a fake provider with a fixed delay; no 429 tested; runs of seconds to minutes; one worker.
+  - *Added 14 Oct:* the fake now has a `ratelimit` mode, and a test sends a 429 through the LLM step (P5-2); no load run used it.
 
 ### P4-4. Raw outputs moved under `results/raw/`
 
@@ -723,7 +739,9 @@ submitted file:
 
 It agrees with `results/raw/dev-http-llm/report_official.json` on every number: action 0.8365, clean 0.8435,
 noisy 0.79, gap 0.0535, top-70 0.4331 (the grader rounds to 0.433), schema 2,309 of 2,309, violation 0.0839.
-The output was printed, not saved.
+- *Corrected 14 Oct (P5-1).* This output was first printed, not saved. `results/audit/score_submitted.txt` now
+  holds a rerun (20:04) with the command and the input's SHA-256; it gives the same numbers, and a routed share
+  of 0.2426 over the labelled rows.
 
 ## 14 Oct 2026: Spend
 
@@ -738,11 +756,84 @@ counts alone. No GPU was used; the CPU work on the laptop and the shared box is 
 | | Anthropic, Claude Haiku 5.5 | 4,370, all ok | $1.4068 | $4.7389 | same |
 | Service run `dev-http-llm-r1` (P3-5) | OpenRouter, GPT-6 Luna | 463, 3 of them warm-up | $0.0944 | not recorded | its `latency_bench.json`, `/metrics` after the run |
 | Service run `dev-http-llm` (P3-5) | OpenRouter, GPT-6 Luna | 463, 3 of them warm-up | $0.0940 | $0.2900 | same |
-| 13 Oct probe, outside the repo (R9) | Anthropic, Claude Haiku 5.5 | 1,412 | $0.4318 | $1.4845 | `manifest.json` `ledger.prior_spend_outside_repo`; AUDIT.md section 5 |
+| 13 Oct probe, before the repo (R9) | Anthropic, Claude Haiku 5.5 | 1,412 | $0.4318 | $1.4845 | `results/raw/probe-2026-10-13/llm/ledger.jsonl`, summed in `manifest.json` (`probe-2026-10-13`, `probe_spend_usd`); AUDIT.md section 5 agrees |
 | | OpenRouter, 6 models | 2,102, 5 HTTP errors | $1.2858 charged ($1.1457 at list) | $1.8445 | same |
 
 - **Runs in `results/`,** which the US$50 ceiling covers: $2.8725 with caching ($2.6841 + $0.1884, `manifest.json` `spend_usd`). Uncached: $9.0008 ($8.7108 + $0.2900) plus the first live run's uncached cost, which was not recorded; the audit put it at about $0.29. So about $9.29 of US$50.
 - **Everything, the probe included:** the audit's totals were about $4.50 with caching and about $12.33 uncached (AUDIT.md section 5). They predate the second live run, which adds $0.0940 and $0.2900, for about $4.59 and about $12.62. The with-caching figure counts the probe's OpenRouter part as billed ($1.2858); at list price ($1.1457) it is about $4.45. The $12.62 includes the audit's estimate of about $0.29 for the first live run; the recorded parts alone come to about $12.33 (`README.md`).
 - **No API cost:** the routing, taxonomy, ablation and fault-injection runs made no API call. They run the CPU model only, replay recorded answers, or use a fake local provider (P2-1, P4-1 to P4-3). The encoder test ran on CPU (E-1).
-- **Models used in `results/`:** `openai/gpt-6-luna-20260922` requested with the OpenAI host pinned, and every ledger response returned the id `openai/gpt-6-luna`; `claude-haiku-5-5`, returned as the same id (`results/audit/spend.json`).
+- **Models used in `results/`:** `openai/gpt-6-luna-20260922` requested with the OpenAI host pinned, and every ledger response returned the id `openai/gpt-6-luna` (6,276: 3,966 fold B, 2,300 dev, 5 + 5 smoke); `claude-haiku-5-5`, returned as the same id (`results/audit/spend.json`). The live service runs did not log the returned id; the service log does now (P5-2).
 - **Open gap:** neither live run is in the ledger, and no key-balance check follows them (P3-5).
+
+## 14 Oct 2026: Phase 5, evidence into the repo and a portable LLM request
+
+### P5-1. Evidence saved after the audit
+
+*Logged late on 14 Oct from the files named. No API calls.*
+
+- **Probe archive** (`results/raw/probe-2026-10-13/`, copied 21:26–21:29). 172 files from the 13 Oct probes,
+  byte for byte with their file times: `llm/` 77 (with `research/llm-probe.md` as `llm/llm-probe.md`),
+  `classical/` 45, `noise/` 39, `encoders/` 11. With `README.md` and `SHA256SUMS` it holds 174 files and
+  9,056,251 bytes. Paths map as `scratch/probe_<name>/<path>` → `<name>/<path>`. The chosen sources came to
+  9.0 MB, under the 20 MB limit, so none of their files was dropped; the probe scripts and pickled models were
+  not chosen and stay outside. The probes read `hiring-problems/references/OP-06/`, whose train, dev, dev_noisy
+  and hostile files have the same SHA-256 as `data/op06/`. The archive is unaudited: no one reran the probes.
+  `results/manifest.json` lists it as kind `probe_archive`, with `probe_spend_usd` summed from its ledger and
+  `api_cost_usd` null, so the probe's spend is not added to `spend_usd`.
+- **What the archive settles.** R2's view figures and R8's frozen-embedding figures now have files (the status
+  table after R10). R5's 34.7% routed is `final_grade.json` (0.3465 of dev + noisy). R7's p50 8.02 ms, p95
+  14.62 ms and bundle sizes (72,198,900 bytes; 35,338,775 compressed) are in `e9_latency_t2.json`. The probe
+  ledger holds 3,514 attempts: Anthropic 1,412, $0.4318 with caching and $1.4845 uncached; OpenRouter 2,102 with
+  5 HTTP 400s, $1.1457 at list, $1.2858 billed and $1.8445 uncached, as AUDIT.md section 5 says. Still with no
+  file: R3's parser rules, and `LANDSCAPE.md`'s claim that a rule built from kb.json scored below a table
+  learned from train.
+- **Policy replay saved** (`experiments/policy_replay/run.py`, 21:08; exploratory). It runs
+  `scripts/replay_policy.py` on 2,300 rows, LLM step off, the shipped policy (2026-10-14.2) against a copy with
+  one rule: `offer-refund` needs `verify-identity` or `validate-purchase` earlier.
+
+  | Rule effect | Actions changed: right → wrong / wrong → right / wrong → other wrong | `needs_human` changed | Action | Violation |
+  |---|---|---|---|---|
+  | none (shipped) | | | 0.8117 | 0.0804 |
+  | `route` | 0: 0 / 0 / 0 | 8, all newly routed | 0.8117 | 0.0804 |
+  | `mask` | 39: 26 / 4 / 9 | 16: 7 newly routed, 9 no longer | 0.8022 | 0.0830 |
+
+  Sources: `results/raw/policy-replay-refund-{route,mask}/report.txt` (JSON in `report.json`; policy files and
+  their SHA-256 in `meta.json`). Both keep every bar. The first 14 Oct replay, which D1 and the runbook quoted,
+  was printed and not saved; this rerun gives the counts they quoted.
+- **Audit scorer on the submitted run saved** (`results/audit/score_submitted.txt`, 20:04): intent 0.7091,
+  macro-F1 0.7015, action 0.8365 (clean 0.8435, noisy 0.79), gap 0.0535, top-70 0.4331, schema 100%, 193
+  violations of 2,300 (0.0839). It matches the grader (P4-5).
+- **Taxonomy with both live runs** (`experiments/taxonomy/`, rerun 21:05). `report.py` now scores the submitted
+  run and the first run as separate columns, and a rerun reproduces both files exactly. P4-1 now quotes both.
+- **Two fold-B top-70 bases** (0.3239 and 0.3395) come from different confidence paths; P4-2 gives the cause.
+
+### P5-2. The LLM request for other gateways, and the provider's own ids
+
+*Logged late on 14 Oct from the code, the tests and `docs/DESIGN.md`. No API calls: every check used the local
+fake provider.*
+
+- **Why.** The service sent OpenRouter's field names (`max_tokens`, `reasoning`, `usage`, `provider`) to any base
+  URL. A gateway that answers 400 to unknown fields would fail every call, and the service would give LLM-off
+  answers with no error to the caller.
+- **Change** (`triage/llm_action.py`). A new setting, `TRIAGE_LLM_DIALECT`: `auto` (default), `openrouter` or
+  `openai`; any other value stops start-up. `auto` picks `openrouter` when the base URL contains `openrouter.ai`,
+  else `openai`. The `openai` body holds exactly `model`, `messages`, `response_format` (strict JSON schema),
+  `max_completion_tokens` 2048 and `reasoning_effort` `"none"`. The `openrouter` body is unchanged byte for byte,
+  key order included, and a test pins its SHA-256. `/healthz` shows `llm.dialect` and `llm.dialect_setting`.
+- **Provenance.** Each LLM result keeps the completion's `id` as `response_id`, beside the returned `model` and
+  `provider`, each cut to 200 characters. The trace and the per-request log line carry them (`llm_model`,
+  `llm_provider`, `llm_response_id`; null on a replay or with no call), and the log still holds no customer
+  text. The two live runs predate this and hold no returned id. The 6,276 Luna calls in the ledger all returned
+  `openai/gpt-6-luna` for `openai/gpt-6-luna-20260922` (Spend).
+- **Fake provider** (`experiments/chaos/fake_upstream.py`). `strict` mode answers 400 to any field outside the
+  `openai` dialect's list and names the field, OpenAI-style. `ratelimit` mode answers 429 with `Retry-After`.
+- **Tests.** 514, all passing on the M1 (`pytest`, 14 Oct, 121 s). They cover the body keys per dialect, the SHA
+  pin, 8 setting values and the refusal of bad ones, the health fields (also over uvicorn with
+  `TRIAGE_LLM_DIALECT=openai`), the ids in result, trace and log, and one chain through the strict fake, the real
+  LLM step, `Triage` and `POST /triage`. The strict fake accepts the `openai` body and rejects the `openrouter`
+  body and the old plain one; five 400s open the breaker. A 429 is an `http_error`: the CPU answer stands, cost
+  and `response_id` stay null, and the fake sees one call, so there is no retry.
+- **Limits.** Only the `openrouter` dialect has met a real provider (`dev-http-llm`, `dev-http-llm-r1`); the
+  `openai` dialect has met only the fake. `scripts/reproduce.sh smoke` counts a failed call as an LLM call: run
+  with the wrong dialect against the strict fake, it printed `llm_calls 3` and passed while all 3 calls failed.
+  So read `/metrics` `llm.by_status` after a run.

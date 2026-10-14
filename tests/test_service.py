@@ -34,7 +34,9 @@ ROW = {"id": "row-1", "turn_index": 3, "context": [
 # one LLM call as the pipeline traces it: 2,000 prompt tokens (1,500 cached), 40 completion tokens, at Luna's prices
 # cached rate (500 x 0.10 + 1,500 x 0.01 + 40 x 0.50) / 1e6; uncached (2,000 x 0.10 + 40 x 0.50) / 1e6
 LLM_CALL = {"latency_s": 0.25, "cost_usd": 8.5e-05, "cost_uncached_usd": 2.2e-04, "prompt_tokens": 2000,
-            "completion_tokens": 40, "cached_tokens": 1500, "cache_write_tokens": 0}
+            "completion_tokens": 40, "cached_tokens": 1500, "cache_write_tokens": 0,
+            "model": "openai/gpt-6-luna", "provider": "OpenAI", "response_id": "gen-1760000000-AbCd"}
+LABELS = ("model", "provider", "response_id")
 TOKENS = ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens")
 
 
@@ -570,6 +572,15 @@ def test_trace_fields_tokens_and_costs():
     assert all(none[k] is None for k in S.LLM_LOG_KEYS)
 
 
+def test_trace_fields_provenance():
+    """The returned model, provider and response id reach the log line as strings of at most 200 characters."""
+    f = trace_fields({"llm": {"status": "ok", **LLM_CALL}})
+    assert [f[f"llm_{k}"] for k in LABELS] == ["openai/gpt-6-luna", "OpenAI", "gen-1760000000-AbCd"]
+    odd = trace_fields({"llm": {"status": "ok", "model": 7, "provider": ["OpenAI"], "response_id": "g" * 5000}})
+    assert (odd["llm_model"], odd["llm_provider"], odd["llm_response_id"]) == (None, None, "g" * 200)
+    assert {f"llm_{k}" for k in LABELS} <= set(S.LLM_LOG_KEYS)
+
+
 def test_policy_reload_without_version_change_reaches_cached_body(tmp_path, triage_shipped, split, monkeypatch):
     """Real Triage and PolicyStore: raise the thresholds without a new version; the same body routes at once."""
     from triage.policy import DEFAULT_POLICY, PolicyStore
@@ -705,6 +716,8 @@ def test_logs_have_no_customer_text(make_client):
     assert first["needs_human"] is True and first["llm_status"] == "ok" and first["llm_latency_ms"] == 250.0
     assert (first["llm_cost_usd"], first["llm_cost_uncached_usd"]) == (8.5e-05, 2.2e-04)
     assert [first[f"llm_{k}"] for k in TOKENS] == [2000, 40, 1500, 0]
+    assert (first["llm_model"], first["llm_provider"], first["llm_response_id"]) == (
+        "openai/gpt-6-luna", "OpenAI", "gen-1760000000-AbCd")
     assert recs[1]["replay"] is True and all(recs[1][k] is None for k in S.LLM_LOG_KEYS)    # no call on a replay
     assert all(set(r) <= {"ts", "request_id", "status", "latency_ms", *S.LOG_KEYS} for r in recs)
     assert recs[4]["error"] == "internal" and recs[4]["error_type"] == "RuntimeError"
@@ -724,6 +737,7 @@ def test_uvicorn_end_to_end(tmp_path, split):
     port = _free_port()
     env = {k: v for k, v in os.environ.items() if "API_KEY" not in k}
     env["TRIAGE_LLM"] = "off"
+    env["TRIAGE_LLM_DIALECT"] = "openai"
     log_path = tmp_path / "server.log"
     run = re.search(r"Run: `uvicorn (.+?)`", (ROOT / "docs" / "DESIGN.md").read_text()).group(1).split()
     run = [a.replace("0.0.0.0", "127.0.0.1").replace("$PORT", str(port)) for a in run]
@@ -746,6 +760,7 @@ def test_uvicorn_end_to_end(tmp_path, split):
                 time.sleep(0.2)
             health = h.get("/healthz").json()
             assert health["status"] == "ok" and health["uptime_s"] >= 0
+            assert (health["llm"]["dialect"], health["llm"]["dialect_setting"]) == ("openai", "openai")
             for row in rows:
                 r = h.post("/triage", json=row, headers={"X-Request-ID": "e2e-" + row["id"]})
                 assert r.status_code == 200 and r.headers["x-request-id"] == "e2e-" + row["id"]

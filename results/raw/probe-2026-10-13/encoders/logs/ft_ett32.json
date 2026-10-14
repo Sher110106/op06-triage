@@ -1,0 +1,162 @@
+{
+  "model": "jhu-clsp/ettin-encoder-32m",
+  "tag": "ett32",
+  "threads": 10,
+  "max_len": 256,
+  "bs": 32,
+  "lr": 0.0001,
+  "epochs_planned": 2.0,
+  "n_params": 31935496,
+  "fp32_mb": 121.8,
+  "trainable_params": 31935496,
+  "freeze_emb": false,
+  "train_rows": 17832,
+  "holdout_rows": 2168,
+  "len_mean": 94.7864,
+  "len_p95": 138.0,
+  "evals": [
+    {
+      "step": 279,
+      "epoch": 0.5,
+      "min": 6.8,
+      "ho_intent": 0.6541,
+      "ho_flow": 0.8413,
+      "ho_action": 0.7297
+    },
+    {
+      "step": 558,
+      "epoch": 1.0,
+      "min": 13.4,
+      "ho_intent": 0.7103,
+      "ho_flow": 0.8722,
+      "ho_action": 0.7864
+    },
+    {
+      "step": 837,
+      "epoch": 1.5,
+      "min": 19.3,
+      "ho_intent": 0.7385,
+      "ho_flow": 0.8879,
+      "ho_action": 0.8077
+    },
+    {
+      "step": 1116,
+      "epoch": 2.0,
+      "min": 25.1,
+      "ho_intent": 0.7399,
+      "ho_flow": 0.8898,
+      "ho_action": 0.8173
+    }
+  ],
+  "best_eval": {
+    "step": 1116,
+    "epoch": 2.0,
+    "min": 25.1,
+    "ho_intent": 0.7399,
+    "ho_flow": 0.8898,
+    "ho_action": 0.8173
+  },
+  "train_min": 25.1,
+  "steps": 1116,
+  "temperature": {
+    "intent": 1.0500000000000005,
+    "flow": 1.1000000000000005,
+    "action": 1.1500000000000006
+  },
+  "results": {
+    "intent_dev_acc": 0.733,
+    "intent_dev_ece_raw": 0.0352,
+    "intent_dev_ece_T": 0.0277,
+    "intent_dev_f1": 0.7159,
+    "flow_dev_acc": 0.896,
+    "flow_dev_ece_raw": 0.0147,
+    "flow_dev_ece_T": 0.0146,
+    "action_dev_acc": 0.834,
+    "action_dev_ece_raw": 0.0229,
+    "action_dev_ece_T": 0.027,
+    "intent_noisy_acc": 0.6967,
+    "intent_noisy_ece_raw": 0.08,
+    "intent_noisy_ece_T": 0.0862,
+    "intent_noisy_f1": 0.6229,
+    "intent_noisy_by_kind": {
+      "code_mixed": 0.72,
+      "empty": 0.6,
+      "screenshot": 0.6,
+      "two_intents": 0.68,
+      "typo": 0.76,
+      "very_long": 0.82
+    },
+    "flow_noisy_acc": 0.8367,
+    "flow_noisy_ece_raw": 0.055,
+    "flow_noisy_ece_T": 0.044,
+    "flow_noisy_by_kind": {
+      "code_mixed": 0.9,
+      "empty": 0.9,
+      "screenshot": 0.72,
+      "two_intents": 0.78,
+      "typo": 0.94,
+      "very_long": 0.78
+    },
+    "action_noisy_acc": 0.7933,
+    "action_noisy_ece_raw": 0.0672,
+    "action_noisy_ece_T": 0.0817,
+    "action_noisy_by_kind": {
+      "code_mixed": 0.82,
+      "empty": 0.76,
+      "screenshot": 0.72,
+      "two_intents": 0.78,
+      "typo": 0.84,
+      "very_long": 0.84
+    },
+    "intent_noisynodd_acc": 0.68,
+    "intent_noisynodd_ece_raw": 0.0893,
+    "intent_noisynodd_ece_T": 0.0849,
+    "intent_noisynodd_f1": 0.6098,
+    "intent_noisynodd_by_kind": {
+      "code_mixed": 0.72,
+      "empty": 0.6,
+      "screenshot": 0.6,
+      "two_intents": 0.68,
+      "typo": 0.76,
+      "very_long": 0.72
+    },
+    "flow_noisynodd_acc": 0.82,
+    "flow_noisynodd_ece_raw": 0.0645,
+    "flow_noisynodd_ece_T": 0.0598,
+    "flow_noisynodd_by_kind": {
+      "code_mixed": 0.9,
+      "empty": 0.9,
+      "screenshot": 0.72,
+      "two_intents": 0.78,
+      "typo": 0.94,
+      "very_long": 0.68
+    },
+    "action_noisynodd_acc": 0.7833,
+    "action_noisynodd_ece_raw": 0.0608,
+    "action_noisynodd_ece_T": 0.086,
+    "action_noisynodd_by_kind": {
+      "code_mixed": 0.82,
+      "empty": 0.76,
+      "screenshot": 0.72,
+      "two_intents": 0.78,
+      "typo": 0.84,
+      "very_long": 0.78
+    }
+  },
+  "hostile_ok": true,
+  "latency_bs1": {
+    "threads_1": {
+      "p50_ms": 45.5,
+      "p95_ms": 83.5
+    },
+    "threads_2": {
+      "p50_ms": 27.7,
+      "p95_ms": 56.2
+    },
+    "threads_4": {
+      "p50_ms": 22.1,
+      "p95_ms": 41.2
+    }
+  },
+  "total_min": 26.6
+}

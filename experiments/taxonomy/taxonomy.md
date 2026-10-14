@@ -18,6 +18,10 @@ resampler), drawn within the rows the number is on.
   and v0 predicts in a batch, which changes 6 of 2,300 rows (P0-3).
 - The v0 settings were chosen on 13 Oct while looking at dev, so dev numbers from v0 on may be a little high.
 - A noise-kind cell rests on 50 rows; one row moves it by 0.02.
+- The two "v1 + Luna" columns are two live runs with the same model, policy and settings (EXPERIMENT_LOG P3-5
+  lists the code that changed between them). Luna samples at the provider's default temperature, so the runs
+  differ on 71 of 2,300 actions. The intervals hold each run's answers fixed and resample conversations, so they
+  do not cover that sampling. Read a gap between the two columns as spread, not as a change.
 - Anything marked exploratory was not planned in advance.
 
 ## Reading
@@ -48,11 +52,14 @@ resampler), drawn within the rows the number is on.
    changed.
 4. The v1 gate, policy file and routing changed no intent or action on any of the 2,300 rows, as the design
    requires. They change confidence and needs_human only; the hostile tables show the effect.
-5. The Luna step cut clean action errors from 371 to 321 (−50 [−71, −29]; accuracy 0.8145 → 0.8395). One category moved: "state
-   ignored", 81 → 49 (−32 [−46, −19]), and 15 → 9 on noisy rows. Of the 37 clean rows it fixed there, 35 were
-   already right under the 13 Oct lookup. It did not move the wrong-intent categories, real off-policy gold or
-   "state not enough", and it cannot change intent. On noisy rows its total, −7 [−17, +3], is within noise, and no
-   noise kind moved beyond noise.
+5. In the submitted run the Luna step cut clean action errors from 371 to 313 (−58 [−78, −38]; accuracy 0.8145 →
+   0.8435). Two categories moved: "state ignored", 81 → 48 (−33 [−46, −20]), and "intent wrong, flow right",
+   54 → 44 (−10 [−18, −2]). Of the 37 clean "state ignored" rows it fixed, 35 were already right under the 13 Oct
+   lookup. It did not move "intent wrong, flow wrong", real off-policy gold or "state not enough", and it cannot
+   change intent. On noisy rows it gained nothing: 62 → 63 errors (+1 [−9, +12]), and no noisy category or noise
+   kind moved beyond noise. In the first live run the same step gave −50 [−71, −29] on clean rows (accuracy
+   0.8395) and −7 [−17, +3] on noisy rows, and only "state ignored" moved: 81 → 49 clean, 15 → 9 noisy. It again
+   fixed 37 clean "state ignored" rows, 35 of them right under the lookup.
 
 **What moved nothing.**
 - After the first change, nothing moved a clean intent category. The two largest remain in v1: right flow, wrong
@@ -64,13 +71,21 @@ resampler), drawn within the rows the number is on.
   intent from 0.10 to 0.16 (3 rows, within noise).
 - NFKC normalisation and zero-width removal changed no label on the 2,300 labelled rows. On the hostile rows they
   change 3 confidences by under 0.006 and no label. They stay for the hostile pack, not for accuracy.
-- Live Luna against the replay of the 14 Oct answers: 37 rows switch between right and wrong, and clean action
-  errors differ by +2 [−9, +13]. The Luna step's gain carries about that much spread from run to run.
 
-**What is left** (v1 with Luna, clean dev): 564 intent errors and 321 action errors. 73 of the action errors (23%)
-are rows whose gold action breaks the written procedure, which a system that keeps to the procedure cannot match;
-107 follow from a wrong intent; 92 are "state not enough"; 49 are "state ignored". The noisy kinds with the lowest
-intent accuracy are screenshot (0.50) and empty (0.62); for action, typo and code_mixed (0.76 each).
+**Run-to-run spread** (exploratory). The two live runs give different actions on 71 of 2,300 rows, and 42 rows
+switch between right and wrong (28 clean, 14 noisy). Clean action errors differ by −8 [−18, +3], within noise.
+Noisy action errors rose from 55 in the first run to 63 in the submitted one (+8 [+1, +15]); 4 of the 8 are in
+"intent wrong, flow right" on noisy rows (8 → 12, +4 [+1, +8]), the only category whose interval excludes 0. All
+71 rows called Luna (EXPERIMENT_LOG P3-5), so most of this likely comes from Luna's sampling, which the intervals
+do not cover. Against the replay of the 14 Oct recorded answers, the submitted run switches 41 rows between right
+and wrong, and its clean action errors differ by −6 [−16, +4]. On noisy rows it again has 4 more "intent wrong,
+flow right" errors (8 → 12, +4 [+1, +8]); the replay and the first run both have 8 there.
+
+**What is left** (submitted run, clean dev): 564 intent errors and 313 action errors. 73 of the action errors
+(23%) are rows whose gold action breaks the written procedure, which a system that keeps to the procedure cannot
+match; 101 follow from a wrong intent; 91 are "state not enough"; 48 are "state ignored". The first live run left
+321 action errors, 49 of them "state ignored". The noisy kinds with the lowest intent accuracy are screenshot
+(0.50) and empty (0.62); for action, typo (0.72) and code_mixed (0.76).
 
 ## Columns
 
@@ -81,36 +96,37 @@ intent accuracy are screenshot (0.50) and empty (0.62); for action, typo and cod
 | Classical, no dedupe | `taxonomy-classical-nodedupe` | classical model (learned action model) with sentence de-duplication off | 0.7180 / 0.5633 | 0.8145 / 0.7667 |
 | Classical v0 | `dev-classical-v0` | classical model as shipped in v0 (de-duplication on) | 0.7180 / 0.6500 | 0.8145 / 0.7933 |
 | v1, LLM off | `dev-pipeline-cpu` | v1 pipeline, LLM step off, shipped policy and thresholds | 0.7180 / 0.6500 | 0.8145 / 0.7933 |
-| v1 + Luna | `dev-http-llm` | v1 over HTTP with the live GPT-6 Luna action step (the submitted results/predictions.jsonl) | 0.7180 / 0.6500 | 0.8395 / 0.8167 |
+| v1 + Luna (submitted) | `dev-http-llm` | v1 over HTTP with the live GPT-6 Luna action step, second live run (the submitted results/predictions.jsonl) | 0.7180 / 0.6500 | 0.8435 / 0.7900 |
+| v1 + Luna (1st live run) | `dev-http-llm-r1` | the same model, policy and settings, first live run (EXPERIMENT_LOG P3-5); Luna samples at the provider's default temperature, so its answers differ between runs | 0.7180 / 0.6500 | 0.8395 / 0.8167 |
 
 Extra columns, used only in the change tables: v1 + Luna (replay) (`dev-pipeline-llm-replay`): v1 in process with the recorded Luna answers replayed; v0 + Haiku intent (`llm-tail-B_haiku_intent`): v0 with Claude Haiku 5.5 intent on every row (D2 option B; not shipped); v0, no turn cap (`taxonomy-classical-nocap`): v0 with the 2,000-character turn cap off; No dedupe, no cap (`taxonomy-classical-nodedupe-nocap`): v0 with de-duplication and the turn cap both off; v0, no NFKC (`taxonomy-classical-nonfkc`): v0 with NFKC normalisation off; v0, no zero-width removal (`taxonomy-classical-nozw`): v0 with zero-width and bidi character removal off.
 
 ## Clean dev intent errors by category (n = 2,000)
 
-| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| Wrong flow, opening outside the 8-turn window | 518 | 224 | 224 | 224 | 224 | 224 |
-| Right flow, wrong sibling intent | 408 | 277 | 277 | 277 | 277 | 277 |
-| Wrong flow, opening in window but not in last 4 turns | 235 | 24 | 24 | 24 | 24 | 24 |
-| Wrong flow, opening in last 4 turns | 38 | 14 | 14 | 14 | 14 | 14 |
-| Numbered FAQ variant confused | 29 | 25 | 25 | 25 | 25 | 25 |
-| **Total errors** | **1228** | **564** | **564** | **564** | **564** | **564** |
-| Accuracy | 0.3860 | 0.7180 | 0.7180 | 0.7180 | 0.7180 | 0.7180 |
+| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st live run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Wrong flow, opening outside the 8-turn window | 518 | 224 | 224 | 224 | 224 | 224 | 224 |
+| Right flow, wrong sibling intent | 408 | 277 | 277 | 277 | 277 | 277 | 277 |
+| Wrong flow, opening in window but not in last 4 turns | 235 | 24 | 24 | 24 | 24 | 24 | 24 |
+| Wrong flow, opening in last 4 turns | 38 | 14 | 14 | 14 | 14 | 14 | 14 |
+| Numbered FAQ variant confused | 29 | 25 | 25 | 25 | 25 | 25 | 25 |
+| **Total errors** | **1228** | **564** | **564** | **564** | **564** | **564** | **564** |
+| Accuracy | 0.3860 | 0.7180 | 0.7180 | 0.7180 | 0.7180 | 0.7180 | 0.7180 |
 
 The opening statement is outside the 8-turn window in 60.4% of clean dev rows. Intent accuracy on those rows: baseline 0.3353, v1 0.6275. On the rest: baseline 0.4634, v1 0.8561.
 
 ## Clean dev action errors by category (n = 2,000)
 
-| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| Intent wrong, flow wrong | 460 | 114 | 63 | 63 | 63 | 60 |
-| Intent right, dialogue state ignored | 283 | 10 | 81 | 81 | 81 | 49 |
-| Intent wrong, flow right | 225 | 87 | 54 | 54 | 54 | 47 |
-| Gold action off-policy | 94 | 88 | 72 | 72 | 72 | 71 |
-| Intent right, state not enough | 86 | 227 | 96 | 96 | 96 | 92 |
-| Gold off-policy only by the membership naming | 50 | 20 | 5 | 5 | 5 | 2 |
-| **Total errors** | **1198** | **546** | **371** | **371** | **371** | **321** |
-| Accuracy | 0.4010 | 0.7270 | 0.8145 | 0.8145 | 0.8145 | 0.8395 |
+| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st live run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Intent wrong, flow wrong | 460 | 114 | 63 | 63 | 63 | 57 | 60 |
+| Intent right, dialogue state ignored | 283 | 10 | 81 | 81 | 81 | 48 | 49 |
+| Intent wrong, flow right | 225 | 87 | 54 | 54 | 54 | 44 | 47 |
+| Gold action off-policy | 94 | 88 | 72 | 72 | 72 | 70 | 71 |
+| Intent right, state not enough | 86 | 227 | 96 | 96 | 96 | 91 | 92 |
+| Gold off-policy only by the membership naming | 50 | 20 | 5 | 5 | 5 | 3 | 2 |
+| **Total errors** | **1198** | **546** | **371** | **371** | **371** | **313** | **321** |
+| Accuracy | 0.4010 | 0.7270 | 0.8145 | 0.8145 | 0.8145 | 0.8435 | 0.8395 |
 
 Action categories depend on the predicted intent, so a change to intent alone moves action errors between
 categories without changing any action (the Haiku column below shows this). "State ignored": a lookup on the gold
@@ -119,43 +135,43 @@ gets it wrong too.
 
 ## dev_noisy intent errors by category (n = 300)
 
-| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| Wrong flow, opening outside the 8-turn window | 100 | 58 | 58 | 45 | 45 | 45 |
-| Right flow, wrong sibling intent | 56 | 43 | 43 | 43 | 43 | 43 |
-| Wrong flow, opening in window but not in last 4 turns | 33 | 10 | 10 | 2 | 2 | 2 |
-| Wrong flow, opening in last 4 turns | 17 | 16 | 16 | 11 | 11 | 11 |
-| Numbered FAQ variant confused | 4 | 4 | 4 | 4 | 4 | 4 |
-| **Total errors** | **210** | **131** | **131** | **105** | **105** | **105** |
-| Accuracy | 0.3000 | 0.5633 | 0.5633 | 0.6500 | 0.6500 | 0.6500 |
+| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st live run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Wrong flow, opening outside the 8-turn window | 100 | 58 | 58 | 45 | 45 | 45 | 45 |
+| Right flow, wrong sibling intent | 56 | 43 | 43 | 43 | 43 | 43 | 43 |
+| Wrong flow, opening in window but not in last 4 turns | 33 | 10 | 10 | 2 | 2 | 2 | 2 |
+| Wrong flow, opening in last 4 turns | 17 | 16 | 16 | 11 | 11 | 11 | 11 |
+| Numbered FAQ variant confused | 4 | 4 | 4 | 4 | 4 | 4 | 4 |
+| **Total errors** | **210** | **131** | **131** | **105** | **105** | **105** | **105** |
+| Accuracy | 0.3000 | 0.5633 | 0.5633 | 0.6500 | 0.6500 | 0.6500 | 0.6500 |
 
 ## dev_noisy action errors by category (n = 300)
 
-| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| Intent wrong, flow wrong | 98 | 48 | 21 | 12 | 12 | 12 |
-| Intent right, dialogue state ignored | 37 | 1 | 14 | 15 | 15 | 9 |
-| Intent wrong, flow right | 35 | 19 | 11 | 11 | 11 | 8 |
-| Gold action off-policy | 14 | 15 | 9 | 9 | 9 | 10 |
-| Intent right, state not enough | 12 | 28 | 13 | 14 | 14 | 15 |
-| Gold off-policy only by the membership naming | 6 | 5 | 2 | 1 | 1 | 1 |
-| **Total errors** | **202** | **116** | **70** | **62** | **62** | **55** |
-| Accuracy | 0.3267 | 0.6133 | 0.7667 | 0.7933 | 0.7933 | 0.8167 |
+| Category | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st live run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Intent wrong, flow wrong | 98 | 48 | 21 | 12 | 12 | 14 | 12 |
+| Intent right, dialogue state ignored | 37 | 1 | 14 | 15 | 15 | 11 | 9 |
+| Intent wrong, flow right | 35 | 19 | 11 | 11 | 11 | 12 | 8 |
+| Gold action off-policy | 14 | 15 | 9 | 9 | 9 | 11 | 10 |
+| Intent right, state not enough | 12 | 28 | 13 | 14 | 14 | 14 | 15 |
+| Gold off-policy only by the membership naming | 6 | 5 | 2 | 1 | 1 | 1 | 1 |
+| **Total errors** | **202** | **116** | **70** | **62** | **62** | **63** | **55** |
+| Accuracy | 0.3267 | 0.6133 | 0.7667 | 0.7933 | 0.7933 | 0.7900 | 0.8167 |
 
 ## Noisy slice by noise kind (dev_noisy, n = 50 per kind)
 
 Each cell is intent accuracy / action accuracy. One row is 0.02.
 
-| Noise kind | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| code_mixed | 0.42 / 0.34 | 0.70 / 0.68 | 0.70 / 0.76 | 0.70 / 0.76 | 0.70 / 0.76 | 0.70 / 0.76 |
-| empty | 0.26 / 0.36 | 0.62 / 0.68 | 0.62 / 0.80 | 0.62 / 0.80 | 0.62 / 0.80 | 0.62 / 0.86 |
-| screenshot | 0.36 / 0.32 | 0.50 / 0.54 | 0.50 / 0.80 | 0.50 / 0.80 | 0.50 / 0.80 | 0.50 / 0.84 |
-| two_intents | 0.34 / 0.38 | 0.68 / 0.68 | 0.68 / 0.86 | 0.68 / 0.86 | 0.68 / 0.86 | 0.68 / 0.86 |
-| typo | 0.42 / 0.38 | 0.72 / 0.72 | 0.72 / 0.70 | 0.72 / 0.70 | 0.72 / 0.70 | 0.72 / 0.76 |
-| very_long | 0.00 / 0.18 | 0.16 / 0.38 | 0.16 / 0.68 | 0.68 / 0.84 | 0.68 / 0.84 | 0.68 / 0.82 |
-| all 300 noisy | 0.30 / 0.33 | 0.56 / 0.61 | 0.56 / 0.77 | 0.65 / 0.79 | 0.65 / 0.79 | 0.65 / 0.82 |
-| clean 2,000 | 0.39 / 0.40 | 0.72 / 0.73 | 0.72 / 0.81 | 0.72 / 0.81 | 0.72 / 0.81 | 0.72 / 0.84 |
+| Noise kind | Baseline | Rule stage | Classical, no dedupe | Classical v0 | v1, LLM off | v1 + Luna (submitted) | v1 + Luna (1st live run) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| code_mixed | 0.42 / 0.34 | 0.70 / 0.68 | 0.70 / 0.76 | 0.70 / 0.76 | 0.70 / 0.76 | 0.70 / 0.76 | 0.70 / 0.76 |
+| empty | 0.26 / 0.36 | 0.62 / 0.68 | 0.62 / 0.80 | 0.62 / 0.80 | 0.62 / 0.80 | 0.62 / 0.82 | 0.62 / 0.86 |
+| screenshot | 0.36 / 0.32 | 0.50 / 0.54 | 0.50 / 0.80 | 0.50 / 0.80 | 0.50 / 0.80 | 0.50 / 0.78 | 0.50 / 0.84 |
+| two_intents | 0.34 / 0.38 | 0.68 / 0.68 | 0.68 / 0.86 | 0.68 / 0.86 | 0.68 / 0.86 | 0.68 / 0.88 | 0.68 / 0.86 |
+| typo | 0.42 / 0.38 | 0.72 / 0.72 | 0.72 / 0.70 | 0.72 / 0.70 | 0.72 / 0.70 | 0.72 / 0.72 | 0.72 / 0.76 |
+| very_long | 0.00 / 0.18 | 0.16 / 0.38 | 0.16 / 0.68 | 0.68 / 0.84 | 0.68 / 0.84 | 0.68 / 0.78 | 0.68 / 0.82 |
+| all 300 noisy | 0.30 / 0.33 | 0.56 / 0.61 | 0.56 / 0.77 | 0.65 / 0.79 | 0.65 / 0.79 | 0.65 / 0.79 | 0.65 / 0.82 |
+| clean 2,000 | 0.39 / 0.40 | 0.72 / 0.73 | 0.72 / 0.81 | 0.72 / 0.81 | 0.72 / 0.81 | 0.72 / 0.84 | 0.72 / 0.84 |
 
 The same slice for the extra columns (exploratory ablations, a change not shipped, and the replay):
 
@@ -179,7 +195,7 @@ entered and left, and the interval, for every cell.
 
 ### Shipped changes, in the order they were made
 
-| Category | Baseline → Rule stage | Rule stage → Classical, no dedupe | Classical, no dedupe → Classical v0 | Classical v0 → v1, LLM off | v1, LLM off → v1 + Luna |
+| Category | Baseline → Rule stage | Rule stage → Classical, no dedupe | Classical, no dedupe → Classical v0 | Classical v0 → v1, LLM off | v1, LLM off → v1 + Luna (submitted) |
 |---|---:|---:|---:|---:|---:|
 | clean intent: Wrong flow, opening outside the 8-turn window | **−294** | · | · | · | · |
 | clean intent: Right flow, wrong sibling intent | **−131** | · | · | · | · |
@@ -187,81 +203,81 @@ entered and left, and the interval, for every cell.
 | clean intent: Wrong flow, opening in last 4 turns | **−24** | · | · | · | · |
 | clean intent: Numbered FAQ variant confused | −4 | · | · | · | · |
 | **clean intent: all errors** | **−664** | · | · | · | · |
-| clean action: Intent wrong, flow wrong | **−346** | **−51** | · | · | −3 |
-| clean action: Intent right, dialogue state ignored | **−273** | **+71** | · | · | **−32** |
-| clean action: Intent wrong, flow right | **−138** | **−33** | · | · | −7 |
-| clean action: Gold action off-policy | −6 | **−16** | · | · | −1 |
-| clean action: Intent right, state not enough | **+141** | **−131** | · | · | −4 |
-| clean action: Gold off-policy only by the membership naming | **−30** | **−15** | · | · | −3 |
-| **clean action: all errors** | **−652** | **−175** | · | · | **−50** |
+| clean action: Intent wrong, flow wrong | **−346** | **−51** | · | · | −6 |
+| clean action: Intent right, dialogue state ignored | **−273** | **+71** | · | · | **−33** |
+| clean action: Intent wrong, flow right | **−138** | **−33** | · | · | **−10** |
+| clean action: Gold action off-policy | −6 | **−16** | · | · | −2 |
+| clean action: Intent right, state not enough | **+141** | **−131** | · | · | −5 |
+| clean action: Gold off-policy only by the membership naming | **−30** | **−15** | · | · | −2 |
+| **clean action: all errors** | **−652** | **−175** | · | · | **−58** |
 | noisy intent: Wrong flow, opening outside the 8-turn window | **−42** | · | **−13** | · | · |
 | noisy intent: Right flow, wrong sibling intent | −13 | · | +0 | · | · |
 | noisy intent: Wrong flow, opening in window but not in last 4 turns | **−23** | · | **−8** | · | · |
 | noisy intent: Wrong flow, opening in last 4 turns | −1 | · | **−5** | · | · |
 | noisy intent: Numbered FAQ variant confused | +0 | · | · | · | · |
 | **noisy intent: all errors** | **−79** | · | **−26** | · | · |
-| noisy action: Intent wrong, flow wrong | **−50** | **−27** | **−9** | · | +0 |
-| noisy action: Intent right, dialogue state ignored | **−36** | **+13** | +1 | · | **−6** |
-| noisy action: Intent wrong, flow right | **−16** | **−8** | · | · | −3 |
-| noisy action: Gold action off-policy | +1 | **−6** | · | · | +1 |
-| noisy action: Intent right, state not enough | **+16** | **−15** | +1 | · | +1 |
+| noisy action: Intent wrong, flow wrong | **−50** | **−27** | **−9** | · | +2 |
+| noisy action: Intent right, dialogue state ignored | **−36** | **+13** | +1 | · | −4 |
+| noisy action: Intent wrong, flow right | **−16** | **−8** | · | · | +1 |
+| noisy action: Gold action off-policy | +1 | **−6** | · | · | +2 |
+| noisy action: Intent right, state not enough | **+16** | **−15** | +1 | · | +0 |
 | noisy action: Gold off-policy only by the membership naming | −1 | −3 | −1 | · | +0 |
-| **noisy action: all errors** | **−86** | **−46** | **−8** | · | −7 |
+| **noisy action: all errors** | **−86** | **−46** | **−8** | · | +1 |
 | noisy code_mixed: intent accuracy | **+0.28** | · | · | · | · |
 | noisy code_mixed: action accuracy | **+0.34** | +0.08 | · | · | +0.00 |
 | noisy empty: intent accuracy | **+0.36** | · | · | · | · |
-| noisy empty: action accuracy | **+0.32** | +0.12 | · | · | +0.06 |
+| noisy empty: action accuracy | **+0.32** | +0.12 | · | · | +0.02 |
 | noisy screenshot: intent accuracy | **+0.14** | · | · | · | · |
-| noisy screenshot: action accuracy | **+0.22** | **+0.26** | · | · | +0.04 |
+| noisy screenshot: action accuracy | **+0.22** | **+0.26** | · | · | −0.02 |
 | noisy two_intents: intent accuracy | **+0.34** | · | · | · | · |
-| noisy two_intents: action accuracy | **+0.30** | **+0.18** | · | · | +0.00 |
+| noisy two_intents: action accuracy | **+0.30** | **+0.18** | · | · | +0.02 |
 | noisy typo: intent accuracy | **+0.30** | · | · | · | · |
-| noisy typo: action accuracy | **+0.34** | −0.02 | · | · | +0.06 |
+| noisy typo: action accuracy | **+0.34** | −0.02 | · | · | +0.02 |
 | noisy very_long: intent accuracy | **+0.16** | · | **+0.52** | · | · |
-| noisy very_long: action accuracy | **+0.20** | **+0.30** | **+0.16** | · | −0.02 |
+| noisy very_long: action accuracy | **+0.20** | **+0.30** | **+0.16** | · | −0.06 |
 
 ### Changes tried and not shipped, ablations, and run-to-run spread
 
-| Category | Classical v0 → v0 + Haiku intent | No dedupe, no cap → Classical, no dedupe | v0, no turn cap → Classical v0 | v0, no NFKC → Classical v0 | v0, no zero-width removal → Classical v0 | v1 + Luna (replay) → v1 + Luna |
-|---|---:|---:|---:|---:|---:|---:|
-| clean intent: Wrong flow, opening outside the 8-turn window | +12 | · | · | · | · | · |
-| clean intent: Right flow, wrong sibling intent | −30 | · | · | · | · | · |
-| clean intent: Wrong flow, opening in window but not in last 4 turns | +7 | · | · | · | · | · |
-| clean intent: Wrong flow, opening in last 4 turns | −4 | · | · | · | · | · |
-| clean intent: Numbered FAQ variant confused | +4 | · | · | · | · | · |
-| **clean intent: all errors** | −11 | · | · | · | · | · |
-| clean action: Intent wrong, flow wrong | −4 | · | · | · | · | +1 |
-| clean action: Intent right, dialogue state ignored | +5 | · | · | · | · | +1 |
-| clean action: Intent wrong, flow right | −1 | · | · | · | · | +0 |
-| clean action: Gold action off-policy | · | · | · | · | · | −1 |
-| clean action: Intent right, state not enough | +0 | · | · | · | · | +2 |
-| clean action: Gold off-policy only by the membership naming | · | · | · | · | · | −1 |
-| **clean action: all errors** | · | · | · | · | · | +2 |
-| noisy intent: Wrong flow, opening outside the 8-turn window | +8 | −2 | · | · | · | · |
-| noisy intent: Right flow, wrong sibling intent | −6 | +1 | · | · | · | · |
-| noisy intent: Wrong flow, opening in window but not in last 4 turns | +5 | −2 | · | · | · | · |
-| noisy intent: Wrong flow, opening in last 4 turns | −2 | · | · | · | · | · |
-| noisy intent: Numbered FAQ variant confused | −1 | · | · | · | · | · |
-| **noisy intent: all errors** | +4 | −3 | · | · | · | · |
-| noisy action: Intent wrong, flow wrong | +4 | −2 | · | · | · | −1 |
-| noisy action: Intent right, dialogue state ignored | −1 | · | · | · | · | −2 |
-| noisy action: Intent wrong, flow right | −2 | · | · | · | · | +0 |
-| noisy action: Gold action off-policy | · | · | · | · | · | · |
-| noisy action: Intent right, state not enough | −1 | +1 | · | · | · | +1 |
-| noisy action: Gold off-policy only by the membership naming | · | · | · | · | · | −1 |
-| **noisy action: all errors** | · | −1 | · | · | · | −3 |
-| noisy code_mixed: intent accuracy | −0.08 | · | · | · | · | · |
-| noisy code_mixed: action accuracy | · | · | · | · | · | −0.02 |
-| noisy empty: intent accuracy | −0.02 | · | · | · | · | · |
-| noisy empty: action accuracy | · | · | · | · | · | +0.02 |
-| noisy screenshot: intent accuracy | +0.06 | · | · | · | · | · |
-| noisy screenshot: action accuracy | · | · | · | · | · | +0.02 |
-| noisy two_intents: intent accuracy | +0.02 | · | · | · | · | · |
-| noisy two_intents: action accuracy | · | · | · | · | · | · |
-| noisy typo: intent accuracy | +0.00 | · | · | · | · | · |
-| noisy typo: action accuracy | · | · | · | · | · | +0.00 |
-| noisy very_long: intent accuracy | −0.06 | +0.06 | · | · | · | · |
-| noisy very_long: action accuracy | · | +0.02 | · | · | · | +0.04 |
+| Category | Classical v0 → v0 + Haiku intent | No dedupe, no cap → Classical, no dedupe | v0, no turn cap → Classical v0 | v0, no NFKC → Classical v0 | v0, no zero-width removal → Classical v0 | v1 + Luna (replay) → v1 + Luna (submitted) | v1, LLM off → v1 + Luna (1st live run) | v1 + Luna (1st live run) → v1 + Luna (submitted) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| clean intent: Wrong flow, opening outside the 8-turn window | +12 | · | · | · | · | · | · | · |
+| clean intent: Right flow, wrong sibling intent | −30 | · | · | · | · | · | · | · |
+| clean intent: Wrong flow, opening in window but not in last 4 turns | +7 | · | · | · | · | · | · | · |
+| clean intent: Wrong flow, opening in last 4 turns | −4 | · | · | · | · | · | · | · |
+| clean intent: Numbered FAQ variant confused | +4 | · | · | · | · | · | · | · |
+| **clean intent: all errors** | −11 | · | · | · | · | · | · | · |
+| clean action: Intent wrong, flow wrong | −4 | · | · | · | · | −2 | −3 | −3 |
+| clean action: Intent right, dialogue state ignored | +5 | · | · | · | · | +0 | **−32** | −1 |
+| clean action: Intent wrong, flow right | −1 | · | · | · | · | −3 | −7 | −3 |
+| clean action: Gold action off-policy | · | · | · | · | · | −2 | −1 | −1 |
+| clean action: Intent right, state not enough | +0 | · | · | · | · | +1 | −4 | −1 |
+| clean action: Gold off-policy only by the membership naming | · | · | · | · | · | · | −3 | +1 |
+| **clean action: all errors** | · | · | · | · | · | −6 | **−50** | −8 |
+| noisy intent: Wrong flow, opening outside the 8-turn window | +8 | −2 | · | · | · | · | · | · |
+| noisy intent: Right flow, wrong sibling intent | −6 | +1 | · | · | · | · | · | · |
+| noisy intent: Wrong flow, opening in window but not in last 4 turns | +5 | −2 | · | · | · | · | · | · |
+| noisy intent: Wrong flow, opening in last 4 turns | −2 | · | · | · | · | · | · | · |
+| noisy intent: Numbered FAQ variant confused | −1 | · | · | · | · | · | · | · |
+| **noisy intent: all errors** | +4 | −3 | · | · | · | · | · | · |
+| noisy action: Intent wrong, flow wrong | +4 | −2 | · | · | · | +1 | +0 | +2 |
+| noisy action: Intent right, dialogue state ignored | −1 | · | · | · | · | +0 | **−6** | +2 |
+| noisy action: Intent wrong, flow right | −2 | · | · | · | · | **+4** | −3 | **+4** |
+| noisy action: Gold action off-policy | · | · | · | · | · | +1 | +1 | +1 |
+| noisy action: Intent right, state not enough | −1 | +1 | · | · | · | +0 | +1 | −1 |
+| noisy action: Gold off-policy only by the membership naming | · | · | · | · | · | −1 | +0 | +0 |
+| **noisy action: all errors** | · | −1 | · | · | · | +5 | −7 | **+8** |
+| noisy code_mixed: intent accuracy | −0.08 | · | · | · | · | · | · | · |
+| noisy code_mixed: action accuracy | · | · | · | · | · | −0.02 | +0.00 | +0.00 |
+| noisy empty: intent accuracy | −0.02 | · | · | · | · | · | · | · |
+| noisy empty: action accuracy | · | · | · | · | · | −0.02 | +0.06 | −0.04 |
+| noisy screenshot: intent accuracy | +0.06 | · | · | · | · | · | · | · |
+| noisy screenshot: action accuracy | · | · | · | · | · | −0.04 | +0.04 | −0.06 |
+| noisy two_intents: intent accuracy | +0.02 | · | · | · | · | · | · | · |
+| noisy two_intents: action accuracy | · | · | · | · | · | +0.02 | +0.00 | +0.02 |
+| noisy typo: intent accuracy | +0.00 | · | · | · | · | · | · | · |
+| noisy typo: action accuracy | · | · | · | · | · | −0.04 | +0.06 | −0.04 |
+| noisy very_long: intent accuracy | −0.06 | +0.06 | · | · | · | · | · | · |
+| noisy very_long: action accuracy | · | +0.02 | · | · | · | +0.00 | −0.02 | −0.04 |
 
 ### Each change in words
 
@@ -281,10 +297,10 @@ entered and left, and the interval, for every cell.
   Moved: no category.
   Noise kinds: no row changed.
   Did not move: clean intent: none of the 5 categories (no row changed) | clean action: none of the 6 categories (no row changed) | noisy intent: none of the 5 categories (no row changed) | noisy action: none of the 6 categories (no row changed).
-- **v1, LLM off → v1 + Luna**: GPT-6 Luna picks the action when CPU confidence < 0.642841 and no gate flag routes (shipped in v1, D2).
-  Moved: clean action: "intent right, dialogue state ignored" 81 → 49 (−32 [−46, −19]) | noisy action: "intent right, dialogue state ignored" 15 → 9 (−6 [−12, −1]).
+- **v1, LLM off → v1 + Luna (submitted)**: GPT-6 Luna picks the action when CPU confidence < 0.642841 and no gate flag routes (shipped in v1, D2).
+  Moved: clean action: "intent right, dialogue state ignored" 81 → 48 (−33 [−46, −20]); "intent wrong, flow right" 54 → 44 (−10 [−18, −2]).
   Noise kinds: none moved beyond noise.
-  Did not move: clean intent: none of the 5 categories (no row changed) | clean action: "intent wrong, flow wrong", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise) | noisy intent: none of the 5 categories (no row changed) | noisy action: "intent wrong, flow wrong", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise).
+  Did not move: clean intent: none of the 5 categories (no row changed) | clean action: "intent wrong, flow wrong", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise) | noisy intent: none of the 5 categories (no row changed) | noisy action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise).
 - **Classical v0 → v0 + Haiku intent**: Claude Haiku 5.5 picks the intent on every row (tried 14 Oct, not shipped, D2).
   Moved: no category.
   Noise kinds: none moved beyond noise.
@@ -305,17 +321,26 @@ entered and left, and the interval, for every cell.
   Moved: no category.
   Noise kinds: no row changed.
   Did not move: clean intent: none of the 5 categories (no row changed) | clean action: none of the 6 categories (no row changed) | noisy intent: none of the 5 categories (no row changed) | noisy action: none of the 6 categories (no row changed).
-- **v1 + Luna (replay) → v1 + Luna**: same system: live Luna run against the replay of the 14 Oct recorded answers (run-to-run spread, not a change).
-  Moved: no category.
+- **v1 + Luna (replay) → v1 + Luna (submitted)**: same system: the submitted live run against the replay of the 14 Oct recorded answers (run-to-run spread, not a change).
+  Moved: noisy action: "intent wrong, flow right" 8 → 12 (+4 [+1, +8]).
   Noise kinds: none moved beyond noise.
-  Did not move: clean intent: none of the 5 categories (no row changed) | clean action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise) | noisy intent: none of the 5 categories (no row changed) | noisy action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "intent wrong, flow right", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise); "gold action off-policy" (no row changed).
+  Did not move: clean intent: none of the 5 categories (no row changed) | clean action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough" (within noise); "gold off-policy only by the membership naming" (no row changed) | noisy intent: none of the 5 categories (no row changed) | noisy action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise).
+- **v1, LLM off → v1 + Luna (1st live run)**: the same GPT-6 Luna step as the shipped change, measured on the first live run (shipped in v1, D2; first live run).
+  Moved: clean action: "intent right, dialogue state ignored" 81 → 49 (−32 [−46, −19]) | noisy action: "intent right, dialogue state ignored" 15 → 9 (−6 [−12, −1]).
+  Noise kinds: none moved beyond noise.
+  Did not move: clean intent: none of the 5 categories (no row changed) | clean action: "intent wrong, flow wrong", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise) | noisy intent: none of the 5 categories (no row changed) | noisy action: "intent wrong, flow wrong", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise).
+- **v1 + Luna (1st live run) → v1 + Luna (submitted)**: same system: the submitted (second) live run against the first live run (run-to-run spread, not a change).
+  Moved: noisy action: "intent wrong, flow right" 8 → 12 (+4 [+1, +8]).
+  Noise kinds: none moved beyond noise.
+  Did not move: clean intent: none of the 5 categories (no row changed) | clean action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "intent wrong, flow right", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise) | noisy intent: none of the 5 categories (no row changed) | noisy action: "intent wrong, flow wrong", "intent right, dialogue state ignored", "gold action off-policy", "intent right, state not enough", "gold off-policy only by the membership naming" (within noise).
 
 ## Hostile pack: v0 before the fix, v1 after
 
 v0 is `results/raw/dev-classical-v0`, whose answers equal those the 13 Oct probe recorded (R10). v1 is
 `results/hostile_results.jsonl`, from the submitted HTTP run with the Luna step on. Every hostile row carries a
-routing flag, so none reaches the Luna step, and the v1 answers equal those of the LLM-off run. The gate flags come
-from `triage.gate.clean` on each row and match the traces in `results/raw/dev-pipeline-cpu/details.jsonl`.
+routing flag, so none reaches the Luna step, and the v1 answers equal those of the first live run and the LLM-off
+run (`report.py` checks both). The gate flags come from `triage.gate.clean` on each row and match the traces in
+`results/raw/dev-pipeline-cpu/details.jsonl`.
 
 | Row | Kind | Input (JSON-escaped) | v0: intent, action, confidence | v0 needs_human | v1: intent, action, confidence | v1 needs_human | v1 gate flags (routing ones in bold) | v1 route reasons |
 |---|---|---|---|---|---|---|---|---|
@@ -395,7 +420,8 @@ Each column's category counts must add up to (1 − accuracy) × rows, with accu
 | Classical, no dedupe | 564 / 564 | 371 / 371 | 131 / 131.01 | 70 / 69.99 | 695 / 695.06 | 441 / 440.91 |
 | Classical v0 | 564 / 564 | 371 / 371 | 105 / 105 | 62 / 62.01 | 669 / 669.07 | 433 / 433.09 |
 | v1, LLM off | 564 / 564 | 371 / 371 | 105 / 105 | 62 / 62.01 | 669 / 669.07 | 433 / 433.09 |
-| v1 + Luna | 564 / 564 | 321 / 321 | 105 / 105 | 55 / 54.99 | 669 / 669.07 | 376 / 376.05 |
+| v1 + Luna (submitted) | 564 / 564 | 313 / 313 | 105 / 105 | 63 / 63 | 669 / 669.07 | 376 / 376.05 |
+| v1 + Luna (1st live run) | 564 / 564 | 321 / 321 | 105 / 105 | 55 / 54.99 | 669 / 669.07 | 376 / 376.05 |
 | v1 + Luna (replay) | 564 / 564 | 319 / 319 | 105 / 105 | 58 / 57.99 | 669 / 669.07 | 377 / 376.97 |
 | v0 + Haiku intent | 553 / 553 | 371 / 371 | 109 / 108.99 | 62 / 62.01 | 662 / 661.94 | 433 / 433.09 |
 | v0, no turn cap | 564 / 564 | 371 / 371 | 105 / 105 | 62 / 62.01 | 669 / 669.07 | 433 / 433.09 |

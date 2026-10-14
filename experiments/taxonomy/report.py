@@ -36,8 +36,12 @@ COLUMNS = {
                  "classical model (learned action model) with sentence de-duplication off"),
     "v0": ("dev-classical-v0", None, "Classical v0", "classical model as shipped in v0 (de-duplication on)"),
     "v1cpu": ("dev-pipeline-cpu", None, "v1, LLM off", "v1 pipeline, LLM step off, shipped policy and thresholds"),
-    "v1llm": ("dev-http-llm", None, "v1 + Luna",
-              "v1 over HTTP with the live GPT-6 Luna action step (the submitted results/predictions.jsonl)"),
+    "v1llm": ("dev-http-llm", None, "v1 + Luna (submitted)",
+              "v1 over HTTP with the live GPT-6 Luna action step, second live run (the submitted "
+              "results/predictions.jsonl)"),
+    "v1llm_r1": ("dev-http-llm-r1", None, "v1 + Luna (1st live run)",
+                 "the same model, policy and settings, first live run (EXPERIMENT_LOG P3-5); Luna samples at the "
+                 "provider's default temperature, so its answers differ between runs"),
 }
 EXTRA_COLUMNS = {
     "v1replay": ("dev-pipeline-llm-replay", None, "v1 + Luna (replay)",
@@ -68,7 +72,11 @@ EXTRA_CHANGES = [
     ("nocap", "v0", "2,000-character turn cap, with de-duplication on", "exploratory ablation"),
     ("nonfkc", "v0", "NFKC normalisation", "exploratory ablation"),
     ("nozw", "v0", "zero-width and bidi character removal", "exploratory ablation"),
-    ("v1replay", "v1llm", "same system: live Luna run against the replay of the 14 Oct recorded answers",
+    ("v1replay", "v1llm", "same system: the submitted live run against the replay of the 14 Oct recorded answers",
+     "run-to-run spread, not a change"),
+    ("v1cpu", "v1llm_r1", "the same GPT-6 Luna step as the shipped change, measured on the first live run",
+     "shipped in v1, D2; first live run"),
+    ("v1llm_r1", "v1llm", "same system: the submitted (second) live run against the first live run",
      "run-to-run spread, not a change"),
 ]
 CAT_SETS = [("clean", "intent"), ("clean", "action"), ("noisy", "intent"), ("noisy", "action")]
@@ -217,6 +225,9 @@ def main():
         out["rows_with_different_right_wrong"] = {
             "intent": int(sum(x["intent_ok"] != y["intent_ok"] for x, y in zip(ra, rb))),
             "action": int(sum(x["action_ok"] != y["action_ok"] for x, y in zip(ra, rb)))}
+        out["rows_with_different_answer"] = {
+            "intent": int(sum(x["pred"][0] != y["pred"][0] for x, y in zip(ra, rb))),
+            "action": int(sum(x["pred"][1] != y["pred"][1] for x, y in zip(ra, rb)))}
         return out
 
     changes = [dict(change=c, status=s, **change_block(a, b)) for a, b, c, s in CHANGES]
@@ -224,12 +235,23 @@ def main():
 
     # ---- exploratory: the lookup (rule stage) against the learned action model, and what the Luna step fixed
     overlap = {}
-    for group in ("clean", "noisy"):
-        idx = idx_by_group[group]
-        rr, cc, ll = res["rule"]["_rows"], res["v1cpu"]["_rows"], res["v1llm"]["_rows"]
+    rr, cc = res["rule"]["_rows"], res["v1cpu"]["_rows"]
+
+    def luna_vs_cpu(ll, idx):
         si = [i for i in idx if cc[i]["action_cat"] == "intent_right_state_ignored"]
         fixed_si = [i for i in si if ll[i]["action_ok"]]
         fixed = [i for i in idx if ll[i]["action_ok"] and not cc[i]["action_ok"]]
+        return {
+            "state_ignored_fixed_by_luna": len(fixed_si),
+            "state_ignored_fixed_by_luna_and_right_under_rule": sum(rr[i]["action_ok"] for i in fixed_si),
+            "luna_fixed": len(fixed),
+            "luna_broke": sum(cc[i]["action_ok"] and not ll[i]["action_ok"] for i in idx),
+            "luna_fixed_and_right_under_rule": sum(rr[i]["action_ok"] for i in fixed),
+        }
+
+    for group in ("clean", "noisy"):
+        idx = idx_by_group[group]
+        si = [i for i in idx if cc[i]["action_cat"] == "intent_right_state_ignored"]
         overlap[group] = {
             "rows": len(idx),
             "rule_right_learned_wrong": sum(rr[i]["action_ok"] and not cc[i]["action_ok"] for i in idx),
@@ -237,11 +259,8 @@ def main():
             "either_right_ceiling_acc": round(sum(rr[i]["action_ok"] or cc[i]["action_ok"] for i in idx) / len(idx), 4),
             "state_ignored_under_v1cpu": len(si),
             "state_ignored_right_under_rule": sum(rr[i]["action_ok"] for i in si),
-            "state_ignored_fixed_by_luna": len(fixed_si),
-            "state_ignored_fixed_by_luna_and_right_under_rule": sum(rr[i]["action_ok"] for i in fixed_si),
-            "luna_fixed": len(fixed),
-            "luna_broke": sum(cc[i]["action_ok"] and not ll[i]["action_ok"] for i in idx),
-            "luna_fixed_and_right_under_rule": sum(rr[i]["action_ok"] for i in fixed),
+            **luna_vs_cpu(res["v1llm"]["_rows"], idx),
+            "first_live_run": luna_vs_cpu(res["v1llm_r1"]["_rows"], idx),
         }
     in_context_path = RAW / "taxonomy-hostile-in-context" / "summary.json"
     in_context = json.loads(in_context_path.read_text()) if in_context_path.exists() else None
@@ -251,6 +270,8 @@ def main():
     v0 = TX.read_preds(pred_path("dev-classical-v0", None))
     v1 = TX.read_preds(ROOT / "results/hostile_results.jsonl")
     v1_full = TX.read_preds(pred_path("dev-http-llm", None))
+    v1_r1 = TX.read_preds(pred_path("dev-http-llm-r1", None))
+    v1_off = TX.read_preds(pred_path("dev-pipeline-cpu", None))
     traces = {}
     for line in (RAW / "dev-pipeline-cpu" / "details.jsonl").read_text().splitlines():
         t = json.loads(line)
@@ -259,7 +280,7 @@ def main():
     for r in ref.hostile:
         g = gate.clean(project(r))
         tr = traces[r["id"]]
-        assert v1[r["id"]] == v1_full[r["id"]]
+        assert v1[r["id"]] == v1_full[r["id"]] == v1_r1[r["id"]] == v1_off[r["id"]]
         assert sorted(g.flags) == sorted(f for f in tr["flags"] if f not in ("off_policy", "second_intent")) or \
             r["id"] in ("hostile-007", "hostile-008")
         text = r["context"][0]["text"] if r["context"] else ""
@@ -348,10 +369,10 @@ def check_quoted(o):
         "change2 state ignored": (71, [53.0, 90.0]), "ceiling": 0.8685, "rule right learned wrong": 108,
         "rule wrong learned right": 283, "dedupe very_long": (0.16, 0.68, 0.68, 0.84),
         "v1 rows changed": {"intent": 0, "action": 0},
-        "luna action total": (-50, [-71.0, -29.0]), "luna noisy total": (-7, [-17.0, 3.0]),
-        "luna state ignored": (81, 49, [-46.0, -19.0]), "luna fixed si / of which rule": (37, 35),
+        "luna action total": (-58, [-78.0, -38.0]), "luna noisy total": (1, [-9.0, 12.0]),
+        "luna state ignored": (81, 48, [-46.0, -20.0]), "luna fixed si / of which rule": (37, 35),
         "haiku": (-11, [-53.0, 30.0]), "haiku sibling left/entered": (116, 86), "haiku outside": 12,
-        "replay": (37, 2, [-9.0, 13.0]), "v1 left": (277, 224, 321),
+        "replay": (41, -6, [-16.0, 4.0]), "v1 left": (277, 224, 313),
     }
     v1c, v1k = tx["v1llm"]["clean"], tx["v1llm"]["noisy_by_kind"]
     rc = tx["rule"]["clean"]
@@ -371,8 +392,60 @@ def check_quoted(o):
     })
     want.update({
         "rule stage faq / off-policy / not enough / ignored": (25, 88, 227, 10),
-        "v1 left action split": (73, 107, 92, 49), "v1 low kinds": (0.5, 0.62, 0.76, 0.76),
+        "v1 left action split": (73, 101, 91, 48), "v1 low kinds": (0.5, 0.62, 0.72, 0.76),
         "cap without dedupe": (0.1, 0.16, 3), "cleaning ablations rows changed": [{"intent": 0, "action": 0}] * 3,
+    })
+
+    # the Luna step in each live run, and the two live runs against each other
+    def moved(c):
+        return sorted([k for k, r in c["categories"].items() if r["verdict"] == "moved"]
+                      + [k for k, r in c["noise_kinds"].items() if r["verdict"] == "moved"])
+
+    r1, live = ex[6], ex[7]
+    r1c = tx["v1llm_r1"]["clean"]
+    rl = o["rule_vs_learned_and_luna"]["clean"]["first_live_run"]
+    got.update({
+        "luna clean accuracy": (tx["v1cpu"]["clean"]["action_acc"], tx["v1llm"]["clean"]["action_acc"],
+                                tx["v1llm_r1"]["clean"]["action_acc"]),
+        "luna flow right": (_cat(o, 4, "clean_action:intent_wrong_flow_right")["before"],
+                            _cat(o, 4, "clean_action:intent_wrong_flow_right")["after"],
+                            _cat(o, 4, "clean_action:intent_wrong_flow_right")["ci95"]),
+        "luna noisy errors": (ch[4]["totals"]["noisy_action_errors"]["before"], ch[4]["totals"]["noisy_action_errors"]["after"]),
+        "luna moved": moved(ch[4]),
+        "r1 luna totals": (r1["totals"]["clean_action_errors"]["delta"], r1["totals"]["clean_action_errors"]["ci95"],
+                           r1["totals"]["noisy_action_errors"]["delta"], r1["totals"]["noisy_action_errors"]["ci95"]),
+        "r1 luna moved": moved(r1),
+        "r1 luna state ignored": (r1["categories"]["clean_action:intent_right_state_ignored"]["after"],
+                                  r1["categories"]["noisy_action:intent_right_state_ignored"]["before"],
+                                  r1["categories"]["noisy_action:intent_right_state_ignored"]["after"]),
+        "r1 fixed si / of which rule": (rl["state_ignored_fixed_by_luna"], rl["state_ignored_fixed_by_luna_and_right_under_rule"]),
+        "r1 left": (r1c["action_errors"], r1c["action_categories"]["intent_right_state_ignored"]),
+        "live vs live rows": (live["rows_with_different_answer"]["action"], live["rows_with_different_right_wrong"]["action"],
+                              live["totals"]["clean_action_errors"]["rows_left"] + live["totals"]["clean_action_errors"]["rows_entered"],
+                              live["totals"]["noisy_action_errors"]["rows_left"] + live["totals"]["noisy_action_errors"]["rows_entered"]),
+        "live vs live clean": (live["totals"]["clean_action_errors"]["delta"], live["totals"]["clean_action_errors"]["ci95"]),
+        "live vs live noisy": (live["totals"]["noisy_action_errors"]["before"], live["totals"]["noisy_action_errors"]["after"],
+                               live["totals"]["noisy_action_errors"]["ci95"]),
+        "live vs live moved": moved(live),
+        "live vs live noisy flow right": (live["categories"]["noisy_action:intent_wrong_flow_right"]["before"],
+                                          live["categories"]["noisy_action:intent_wrong_flow_right"]["after"],
+                                          live["categories"]["noisy_action:intent_wrong_flow_right"]["ci95"]),
+        "replay noisy flow right": (ex[5]["categories"]["noisy_action:intent_wrong_flow_right"]["before"],
+                                    ex[5]["categories"]["noisy_action:intent_wrong_flow_right"]["after"],
+                                    ex[5]["categories"]["noisy_action:intent_wrong_flow_right"]["ci95"], moved(ex[5])),
+    })
+    want.update({
+        "luna clean accuracy": (0.8145, 0.8435, 0.8395), "luna flow right": (54, 44, [-18.0, -2.0]),
+        "luna noisy errors": (62, 63),
+        "luna moved": ["clean_action:intent_right_state_ignored", "clean_action:intent_wrong_flow_right"],
+        "r1 luna totals": (-50, [-71.0, -29.0], -7, [-17.0, 3.0]),
+        "r1 luna moved": ["clean_action:intent_right_state_ignored", "noisy_action:intent_right_state_ignored"],
+        "r1 luna state ignored": (49, 15, 9), "r1 fixed si / of which rule": (37, 35), "r1 left": (321, 49),
+        "live vs live rows": (71, 42, 28, 14), "live vs live clean": (-8, [-18.0, 3.0]),
+        "live vs live noisy": (55, 63, [1.0, 15.0]),
+        "live vs live moved": ["noisy_action:intent_wrong_flow_right"],
+        "live vs live noisy flow right": (8, 12, [1.0, 8.0]),
+        "replay noisy flow right": (8, 12, [1.0, 8.0], ["noisy_action:intent_wrong_flow_right"]),
     })
     s = o["hostile_in_context"]["summary"]
     if s:
@@ -627,6 +700,10 @@ resampler), drawn within the rows the number is on.
   and v0 predicts in a batch, which changes 6 of 2,300 rows (P0-3).
 - The v0 settings were chosen on 13 Oct while looking at dev, so dev numbers from v0 on may be a little high.
 - A noise-kind cell rests on 50 rows; one row moves it by 0.02.
+- The two "v1 + Luna" columns are two live runs with the same model, policy and settings (EXPERIMENT_LOG P3-5
+  lists the code that changed between them). Luna samples at the provider's default temperature, so the runs
+  differ on 71 of 2,300 actions. The intervals hold each run's answers fixed and resample conversations, so they
+  do not cover that sampling. Read a gap between the two columns as spread, not as a change.
 - Anything marked exploratory was not planned in advance.
 
 ## Reading
@@ -657,11 +734,14 @@ resampler), drawn within the rows the number is on.
    changed.
 4. The v1 gate, policy file and routing changed no intent or action on any of the 2,300 rows, as the design
    requires. They change confidence and needs_human only; the hostile tables show the effect.
-5. The Luna step cut clean action errors from 371 to 321 (−50 [−71, −29]; accuracy 0.8145 → 0.8395). One category moved: "state
-   ignored", 81 → 49 (−32 [−46, −19]), and 15 → 9 on noisy rows. Of the 37 clean rows it fixed there, 35 were
-   already right under the 13 Oct lookup. It did not move the wrong-intent categories, real off-policy gold or
-   "state not enough", and it cannot change intent. On noisy rows its total, −7 [−17, +3], is within noise, and no
-   noise kind moved beyond noise.
+5. In the submitted run the Luna step cut clean action errors from 371 to 313 (−58 [−78, −38]; accuracy 0.8145 →
+   0.8435). Two categories moved: "state ignored", 81 → 48 (−33 [−46, −20]), and "intent wrong, flow right",
+   54 → 44 (−10 [−18, −2]). Of the 37 clean "state ignored" rows it fixed, 35 were already right under the 13 Oct
+   lookup. It did not move "intent wrong, flow wrong", real off-policy gold or "state not enough", and it cannot
+   change intent. On noisy rows it gained nothing: 62 → 63 errors (+1 [−9, +12]), and no noisy category or noise
+   kind moved beyond noise. In the first live run the same step gave −50 [−71, −29] on clean rows (accuracy
+   0.8395) and −7 [−17, +3] on noisy rows, and only "state ignored" moved: 81 → 49 clean, 15 → 9 noisy. It again
+   fixed 37 clean "state ignored" rows, 35 of them right under the lookup.
 
 **What moved nothing.**
 - After the first change, nothing moved a clean intent category. The two largest remain in v1: right flow, wrong
@@ -673,13 +753,21 @@ resampler), drawn within the rows the number is on.
   intent from 0.10 to 0.16 (3 rows, within noise).
 - NFKC normalisation and zero-width removal changed no label on the 2,300 labelled rows. On the hostile rows they
   change 3 confidences by under 0.006 and no label. They stay for the hostile pack, not for accuracy.
-- Live Luna against the replay of the 14 Oct answers: 37 rows switch between right and wrong, and clean action
-  errors differ by +2 [−9, +13]. The Luna step's gain carries about that much spread from run to run.
 
-**What is left** (v1 with Luna, clean dev): 564 intent errors and 321 action errors. 73 of the action errors (23%)
-are rows whose gold action breaks the written procedure, which a system that keeps to the procedure cannot match;
-107 follow from a wrong intent; 92 are "state not enough"; 49 are "state ignored". The noisy kinds with the lowest
-intent accuracy are screenshot (0.50) and empty (0.62); for action, typo and code_mixed (0.76 each)."""
+**Run-to-run spread** (exploratory). The two live runs give different actions on 71 of 2,300 rows, and 42 rows
+switch between right and wrong (28 clean, 14 noisy). Clean action errors differ by −8 [−18, +3], within noise.
+Noisy action errors rose from 55 in the first run to 63 in the submitted one (+8 [+1, +15]); 4 of the 8 are in
+"intent wrong, flow right" on noisy rows (8 → 12, +4 [+1, +8]), the only category whose interval excludes 0. All
+71 rows called Luna (EXPERIMENT_LOG P3-5), so most of this likely comes from Luna's sampling, which the intervals
+do not cover. Against the replay of the 14 Oct recorded answers, the submitted run switches 41 rows between right
+and wrong, and its clean action errors differ by −6 [−16, +4]. On noisy rows it again has 4 more "intent wrong,
+flow right" errors (8 → 12, +4 [+1, +8]); the replay and the first run both have 8 there.
+
+**What is left** (submitted run, clean dev): 564 intent errors and 313 action errors. 73 of the action errors
+(23%) are rows whose gold action breaks the written procedure, which a system that keeps to the procedure cannot
+match; 101 follow from a wrong intent; 91 are "state not enough"; 48 are "state ignored". The first live run left
+321 action errors, 49 of them "state ignored". The noisy kinds with the lowest intent accuracy are screenshot
+(0.50) and empty (0.62); for action, typo (0.72) and code_mixed (0.76)."""
 
 ACTION_NOTE = """Action categories depend on the predicted intent, so a change to intent alone moves action errors between
 categories without changing any action (the Haiku column below shows this). "State ignored": a lookup on the gold
@@ -693,8 +781,9 @@ entered and left, and the interval, for every cell."""
 
 HOSTILE_NOTE = """v0 is `results/raw/dev-classical-v0`, whose answers equal those the 13 Oct probe recorded (R10). v1 is
 `results/hostile_results.jsonl`, from the submitted HTTP run with the Luna step on. Every hostile row carries a
-routing flag, so none reaches the Luna step, and the v1 answers equal those of the LLM-off run. The gate flags come
-from `triage.gate.clean` on each row and match the traces in `results/raw/dev-pipeline-cpu/details.jsonl`."""
+routing flag, so none reaches the Luna step, and the v1 answers equal those of the first live run and the LLM-off
+run (`report.py` checks both). The gate flags come from `triage.gate.clean` on each row and match the traces in
+`results/raw/dev-pipeline-cpu/details.jsonl`."""
 
 HOSTILE_READING = """**What the pack found before the fix (v0).** Nothing crashed or hung. Three of the nine rows came back with no
 route to a person, high confidence and meaningless labels:

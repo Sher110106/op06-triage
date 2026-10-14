@@ -1,0 +1,536 @@
+{
+ "single:vdrop_n5:argmax": {
+  "B": 0.707,
+  "Bsyn": 0.7078,
+  "Bsyn_by_kind": {
+   "typo": 0.685,
+   "code_mixed": 0.717,
+   "two_intents": 0.721,
+   "empty": 0.712,
+   "very_long": 0.701,
+   "screenshot": 0.711
+  },
+  "dev": 0.6775,
+  "noisy": 0.67,
+  "noisy_by_kind": {
+   "typo": 0.64,
+   "code_mixed": 0.58,
+   "two_intents": 0.74,
+   "empty": 0.64,
+   "very_long": 0.72,
+   "screenshot": 0.7
+  },
+  "gap": 0.0075,
+  "syn_gap": -0.0008
+ },
+ "single:vdrop_n5:marg": {
+  "B": 0.7196,
+  "Bsyn": 0.7202,
+  "Bsyn_by_kind": {
+   "typo": 0.708,
+   "code_mixed": 0.732,
+   "two_intents": 0.733,
+   "empty": 0.723,
+   "very_long": 0.708,
+   "screenshot": 0.717
+  },
+  "dev": 0.6925,
+  "noisy": 0.7033,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.74,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": -0.0108,
+  "syn_gap": -0.0006
+ },
+ "single:vagent_n5:argmax": {
+  "B": 0.6485,
+  "Bsyn": 0.6492,
+  "Bsyn_by_kind": {
+   "typo": 0.643,
+   "code_mixed": 0.646,
+   "two_intents": 0.65,
+   "empty": 0.665,
+   "very_long": 0.646,
+   "screenshot": 0.645
+  },
+  "dev": 0.617,
+  "noisy": 0.61,
+  "noisy_by_kind": {
+   "typo": 0.64,
+   "code_mixed": 0.52,
+   "two_intents": 0.64,
+   "empty": 0.64,
+   "very_long": 0.58,
+   "screenshot": 0.64
+  },
+  "gap": 0.007,
+  "syn_gap": -0.0007
+ },
+ "single:vagent_n5:marg": {
+  "B": 0.6717,
+  "Bsyn": 0.6722,
+  "Bsyn_by_kind": {
+   "typo": 0.666,
+   "code_mixed": 0.666,
+   "two_intents": 0.689,
+   "empty": 0.661,
+   "very_long": 0.678,
+   "screenshot": 0.674
+  },
+  "dev": 0.6415,
+  "noisy": 0.6333,
+  "noisy_by_kind": {
+   "typo": 0.68,
+   "code_mixed": 0.62,
+   "two_intents": 0.62,
+   "empty": 0.66,
+   "very_long": 0.6,
+   "screenshot": 0.62
+  },
+  "gap": 0.0082,
+  "syn_gap": -0.0005
+ },
+ "single:a30_n5:argmax": {
+  "B": 0.7433,
+  "Bsyn": 0.7061,
+  "Bsyn_by_kind": {
+   "typo": 0.731,
+   "code_mixed": 0.77,
+   "two_intents": 0.623,
+   "empty": 0.705,
+   "very_long": 0.722,
+   "screenshot": 0.686
+  },
+  "dev": 0.711,
+  "noisy": 0.6533,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.68,
+   "empty": 0.66,
+   "very_long": 0.62,
+   "screenshot": 0.56
+  },
+  "gap": 0.0577,
+  "syn_gap": 0.0372
+ },
+ "single:a30_n5:marg": {
+  "B": 0.7537,
+  "Bsyn": 0.7177,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.641,
+   "empty": 0.718,
+   "very_long": 0.711,
+   "screenshot": 0.712
+  },
+  "dev": 0.7175,
+  "noisy": 0.6833,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.62
+  },
+  "gap": 0.0342,
+  "syn_gap": 0.036
+ },
+ "ens:a30_n5+vdrop_n5:w0.8": {
+  "B": 0.7552,
+  "Bsyn": 0.7265,
+  "Bsyn_by_kind": {
+   "typo": 0.75,
+   "code_mixed": 0.775,
+   "two_intents": 0.664,
+   "empty": 0.721,
+   "very_long": 0.726,
+   "screenshot": 0.723
+  },
+  "dev": 0.718,
+  "noisy": 0.6867,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.64
+  },
+  "gap": 0.0313,
+  "syn_gap": 0.0287
+ },
+ "ens:a30_n5+vdrop_n5:w0.7": {
+  "B": 0.7547,
+  "Bsyn": 0.7285,
+  "Bsyn_by_kind": {
+   "typo": 0.749,
+   "code_mixed": 0.773,
+   "two_intents": 0.676,
+   "empty": 0.721,
+   "very_long": 0.729,
+   "screenshot": 0.723
+  },
+  "dev": 0.7185,
+  "noisy": 0.6867,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.64
+  },
+  "gap": 0.0318,
+  "syn_gap": 0.0262
+ },
+ "ens:a30_n5+vdrop_n5:w0.6": {
+  "B": 0.7537,
+  "Bsyn": 0.7311,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.773,
+   "two_intents": 0.697,
+   "empty": 0.724,
+   "very_long": 0.722,
+   "screenshot": 0.723
+  },
+  "dev": 0.717,
+  "noisy": 0.6833,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.7,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.64
+  },
+  "gap": 0.0337,
+  "syn_gap": 0.0226
+ },
+ "ens:a30_n5+vdrop_n5:w0.5": {
+  "B": 0.7537,
+  "Bsyn": 0.7331,
+  "Bsyn_by_kind": {
+   "typo": 0.743,
+   "code_mixed": 0.766,
+   "two_intents": 0.717,
+   "empty": 0.726,
+   "very_long": 0.723,
+   "screenshot": 0.724
+  },
+  "dev": 0.7165,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.66
+  },
+  "gap": 0.0265,
+  "syn_gap": 0.0206
+ },
+ "ens:a30_n5+vdrop_n5:w0.3": {
+  "B": 0.7476,
+  "Bsyn": 0.7333,
+  "Bsyn_by_kind": {
+   "typo": 0.732,
+   "code_mixed": 0.758,
+   "two_intents": 0.739,
+   "empty": 0.727,
+   "very_long": 0.722,
+   "screenshot": 0.721
+  },
+  "dev": 0.7095,
+  "noisy": 0.71,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.76,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": -0.0005,
+  "syn_gap": 0.0143
+ },
+ "gated:a30_n5+vdrop_n5:w0.5": {
+  "B": 0.7537,
+  "Bsyn": 0.7338,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.706,
+   "empty": 0.726,
+   "very_long": 0.723,
+   "screenshot": 0.724
+  },
+  "dev": 0.7175,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.66
+  },
+  "gap": 0.0275,
+  "syn_gap": 0.0199
+ },
+ "gated:a30_n5+vdrop_n5:w0.3": {
+  "B": 0.7537,
+  "Bsyn": 0.7354,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.718,
+   "empty": 0.727,
+   "very_long": 0.722,
+   "screenshot": 0.721
+  },
+  "dev": 0.717,
+  "noisy": 0.71,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.76,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": 0.007,
+  "syn_gap": 0.0183
+ },
+ "gated:a30_n5+vdrop_n5:w0.0": {
+  "B": 0.7537,
+  "Bsyn": 0.7311,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.715,
+   "empty": 0.723,
+   "very_long": 0.708,
+   "screenshot": 0.717
+  },
+  "dev": 0.7165,
+  "noisy": 0.7067,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.74,
+   "empty": 0.68,
+   "very_long": 0.72,
+   "screenshot": 0.68
+  },
+  "gap": 0.0098,
+  "syn_gap": 0.0226
+ },
+ "ens:a30_n5+vagent_n5:w0.8": {
+  "B": 0.7584,
+  "Bsyn": 0.7255,
+  "Bsyn_by_kind": {
+   "typo": 0.749,
+   "code_mixed": 0.775,
+   "two_intents": 0.659,
+   "empty": 0.718,
+   "very_long": 0.728,
+   "screenshot": 0.724
+  },
+  "dev": 0.7205,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.7,
+   "empty": 0.68,
+   "very_long": 0.7,
+   "screenshot": 0.64
+  },
+  "gap": 0.0305,
+  "syn_gap": 0.0329
+ },
+ "ens:a30_n5+vagent_n5:w0.7": {
+  "B": 0.7584,
+  "Bsyn": 0.7278,
+  "Bsyn_by_kind": {
+   "typo": 0.75,
+   "code_mixed": 0.775,
+   "two_intents": 0.673,
+   "empty": 0.72,
+   "very_long": 0.733,
+   "screenshot": 0.717
+  },
+  "dev": 0.7205,
+  "noisy": 0.69,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.7,
+   "empty": 0.66,
+   "very_long": 0.7,
+   "screenshot": 0.66
+  },
+  "gap": 0.0305,
+  "syn_gap": 0.0306
+ },
+ "ens:a30_n5+vagent_n5:w0.6": {
+  "B": 0.7572,
+  "Bsyn": 0.728,
+  "Bsyn_by_kind": {
+   "typo": 0.749,
+   "code_mixed": 0.775,
+   "two_intents": 0.676,
+   "empty": 0.717,
+   "very_long": 0.733,
+   "screenshot": 0.72
+  },
+  "dev": 0.7225,
+  "noisy": 0.6967,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.72,
+   "empty": 0.68,
+   "very_long": 0.68,
+   "screenshot": 0.68
+  },
+  "gap": 0.0258,
+  "syn_gap": 0.0292
+ },
+ "ens:a30_n5+vagent_n5:w0.5": {
+  "B": 0.7547,
+  "Bsyn": 0.729,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.769,
+   "two_intents": 0.695,
+   "empty": 0.717,
+   "very_long": 0.722,
+   "screenshot": 0.724
+  },
+  "dev": 0.725,
+  "noisy": 0.6933,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.72,
+   "empty": 0.68,
+   "very_long": 0.66,
+   "screenshot": 0.68
+  },
+  "gap": 0.0317,
+  "syn_gap": 0.0257
+ },
+ "ens:a30_n5+vagent_n5:w0.3": {
+  "B": 0.74,
+  "Bsyn": 0.7169,
+  "Bsyn_by_kind": {
+   "typo": 0.734,
+   "code_mixed": 0.738,
+   "two_intents": 0.706,
+   "empty": 0.7,
+   "very_long": 0.71,
+   "screenshot": 0.714
+  },
+  "dev": 0.712,
+  "noisy": 0.7,
+  "noisy_by_kind": {
+   "typo": 0.72,
+   "code_mixed": 0.74,
+   "two_intents": 0.74,
+   "empty": 0.68,
+   "very_long": 0.66,
+   "screenshot": 0.66
+  },
+  "gap": 0.012,
+  "syn_gap": 0.0231
+ },
+ "gated:a30_n5+vagent_n5:w0.5": {
+  "B": 0.7534,
+  "Bsyn": 0.728,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.682,
+   "empty": 0.717,
+   "very_long": 0.722,
+   "screenshot": 0.724
+  },
+  "dev": 0.7175,
+  "noisy": 0.6933,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.72,
+   "empty": 0.68,
+   "very_long": 0.66,
+   "screenshot": 0.68
+  },
+  "gap": 0.0242,
+  "syn_gap": 0.0254
+ },
+ "gated:a30_n5+vagent_n5:w0.3": {
+  "B": 0.7534,
+  "Bsyn": 0.7227,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.689,
+   "empty": 0.7,
+   "very_long": 0.71,
+   "screenshot": 0.714
+  },
+  "dev": 0.717,
+  "noisy": 0.6933,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.74,
+   "empty": 0.68,
+   "very_long": 0.66,
+   "screenshot": 0.66
+  },
+  "gap": 0.0237,
+  "syn_gap": 0.0307
+ },
+ "gated:a30_n5+vagent_n5:w0.0": {
+  "B": 0.7532,
+  "Bsyn": 0.7013,
+  "Bsyn_by_kind": {
+   "typo": 0.747,
+   "code_mixed": 0.776,
+   "two_intents": 0.671,
+   "empty": 0.661,
+   "very_long": 0.678,
+   "screenshot": 0.674
+  },
+  "dev": 0.716,
+  "noisy": 0.6533,
+  "noisy_by_kind": {
+   "typo": 0.7,
+   "code_mixed": 0.72,
+   "two_intents": 0.62,
+   "empty": 0.66,
+   "very_long": 0.6,
+   "screenshot": 0.62
+  },
+  "gap": 0.0627,
+  "syn_gap": 0.0519
+ },
+ "gate_fire_rate": {
+  "B": 0.0055,
+  "Bsyn": 0.6394,
+  "dev": 0.006,
+  "noisy": 0.6667
+ }
+}

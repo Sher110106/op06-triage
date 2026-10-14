@@ -1,0 +1,81 @@
+{
+ "baseline": {
+  "typo": {
+   "n": 50,
+   "intent_noisy": 0.42,
+   "action_noisy": 0.38,
+   "intent_clean_twin": 0.46,
+   "action_clean_twin": 0.4,
+   "action_flipped": 0.02,
+   "needs_human_noisy": 0.7,
+   "conf_noisy": 0.169,
+   "conf_clean_twin": 0.178
+  },
+  "ALL": {
+   "n": 300,
+   "intent_noisy": 0.3,
+   "action_noisy": 0.327,
+   "intent_clean_twin": 0.407,
+   "action_clean_twin": 0.383,
+   "action_flipped": 0.24,
+   "needs_human_noisy": 0.843,
+   "conf_noisy": 0.128,
+   "conf_clean_twin": 0.164
+  },
+  "code_mixed": {
+   "n": 50,
+   "intent_noisy": 0.42,
+   "action_noisy": 0.34,
+   "intent_clean_twin": 0.42,
+   "action_clean_twin": 0.34,
+   "action_flipped": 0.02,
+   "needs_human_noisy": 0.86,
+   "conf_noisy": 0.111,
+   "conf_clean_twin": 0.118
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_noisy": 0.34,
+   "action_noisy": 0.38,
+   "intent_clean_twin": 0.34,
+   "action_clean_twin": 0.42,
+   "action_flipped": 0.3,
+   "needs_human_noisy": 0.8,
+   "conf_noisy": 0.129,
+   "conf_clean_twin": 0.17
+  },
+  "empty": {
+   "n": 50,
+   "intent_noisy": 0.26,
+   "action_noisy": 0.36,
+   "intent_clean_twin": 0.38,
+   "action_clean_twin": 0.38,
+   "action_flipped": 0.08,
+   "needs_human_noisy": 0.82,
+   "conf_noisy": 0.141,
+   "conf_clean_twin": 0.181
+  },
+  "very_long": {
+   "n": 50,
+   "intent_noisy": 0.0,
+   "action_noisy": 0.18,
+   "intent_clean_twin": 0.36,
+   "action_clean_twin": 0.42,
+   "action_flipped": 0.72,
+   "needs_human_noisy": 1.0,
+   "conf_noisy": 0.115,
+   "conf_clean_twin": 0.147
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_noisy": 0.36,
+   "action_noisy": 0.32,
+   "intent_clean_twin": 0.48,
+   "action_clean_twin": 0.34,
+   "action_flipped": 0.3,
+   "needs_human_noisy": 0.88,
+   "conf_noisy": 0.104,
+   "conf_clean_twin": 0.189
+  }
+ }
+}

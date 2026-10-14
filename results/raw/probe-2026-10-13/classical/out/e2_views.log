@@ -1,0 +1,23 @@
+{"view": "all_turns", "clf": "LinearSVC C=0.3", "n_features": 70269, "secs": 32.0, "holdout": {"set": "holdout", "intent_acc": 0.7453, "macro_f1": 0.7442, "flow_acc_implied": 0.8875}, "dev": {"set": "dev", "intent_acc": 0.718, "macro_f1": 0.7137, "flow_acc_implied": 0.869}, "noisy": {"set": "noisy", "intent_acc": 0.5633, "macro_f1": 0.5411, "flow_acc_implied": 0.72}}
+{"view": "all_turns", "clf": "LinearSVC C=1.0", "n_features": 70269, "secs": 54.4, "holdout": {"set": "holdout", "intent_acc": 0.7416, "macro_f1": 0.7394, "flow_acc_implied": 0.886}, "dev": {"set": "dev", "intent_acc": 0.715, "macro_f1": 0.708, "flow_acc_implied": 0.871}, "noisy": {"set": "noisy", "intent_acc": 0.55, "macro_f1": 0.5361, "flow_acc_implied": 0.7367}}
+{"view": "customer_only", "clf": "LinearSVC C=0.3", "n_features": 49820, "secs": 17.3, "holdout": {"set": "holdout", "intent_acc": 0.6773, "macro_f1": 0.6937, "flow_acc_implied": 0.8245}, "dev": {"set": "dev", "intent_acc": 0.6385, "macro_f1": 0.6574, "flow_acc_implied": 0.8}, "noisy": {"set": "noisy", "intent_acc": 0.46, "macro_f1": 0.451, "flow_acc_implied": 0.59}}
+{"view": "recency(all+last3+lastcust)", "clf": "LinearSVC C=0.3", "n_features": 133567, "secs": 75.7, "holdout": {"set": "holdout", "intent_acc": 0.7302, "macro_f1": 0.7169, "flow_acc_implied": 0.879}, "dev": {"set": "dev", "intent_acc": 0.702, "macro_f1": 0.6889, "flow_acc_implied": 0.859}, "noisy": {"set": "noisy", "intent_acc": 0.54, "macro_f1": 0.5104, "flow_acc_implied": 0.6667}}
+{"view": "all+customer", "clf": "LinearSVC C=0.3", "n_features": 120089, "secs": 47.9, "holdout": {"set": "holdout", "intent_acc": 0.7481, "macro_f1": 0.751, "flow_acc_implied": 0.8843}, "dev": {"set": "dev", "intent_acc": 0.7145, "macro_f1": 0.7127, "flow_acc_implied": 0.8615}, "noisy": {"set": "noisy", "intent_acc": 0.54, "macro_f1": 0.5114, "flow_acc_implied": 0.68}}
+      236.00 real       175.30 user         4.38 sys
+          1044037632  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              707105  page reclaims
+                1602  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                2253  voluntary context switches
+              163292  involuntary context switches
+        880910837068  instructions retired
+        424576441776  cycles elapsed
+          1631736384  peak memory footprint

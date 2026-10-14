@@ -1,5 +1,5 @@
 {
- "created": "2026-10-14T17:30:06+0530",
+ "created": "2026-10-14T21:05:59+0530",
  "script": "experiments/taxonomy/report.py",
  "taxonomy_rules": "experiments/taxonomy/taxonomy.py",
  "source_of_rules": "scratch/probe_classical/src_remote/e1_taxonomy.py (13 Oct probe), unchanged rules",
@@ -46,12 +46,20 @@
    "official_report": "results/raw/dev-pipeline-cpu/report_official.json"
   },
   "v1llm": {
-   "label": "v1 + Luna",
-   "what": "v1 over HTTP with the live GPT-6 Luna action step (the submitted results/predictions.jsonl)",
+   "label": "v1 + Luna (submitted)",
+   "what": "v1 over HTTP with the live GPT-6 Luna action step, second live run (the submitted results/predictions.jsonl)",
    "run": "dev-http-llm",
    "pred": "results/raw/dev-http-llm/predictions.jsonl",
-   "pred_sha256": "d3a2ff78994e8f049acb90a5aa3dd3dd1bd64079036c7c87d23fb6d70feca55c",
+   "pred_sha256": "a11270dcaac505ed8f60e35b0f5a4bda1eae45ac685b910bdd326b24d3db8b4c",
    "official_report": "results/raw/dev-http-llm/report_official.json"
+  },
+  "v1llm_r1": {
+   "label": "v1 + Luna (1st live run)",
+   "what": "the same model, policy and settings, first live run (EXPERIMENT_LOG P3-5); Luna samples at the provider's default temperature, so its answers differ between runs",
+   "run": "dev-http-llm-r1",
+   "pred": "results/raw/dev-http-llm-r1/predictions.jsonl",
+   "pred_sha256": "d3a2ff78994e8f049acb90a5aa3dd3dd1bd64079036c7c87d23fb6d70feca55c",
+   "official_report": "results/raw/dev-http-llm-r1/report_official.json"
   }
  },
  "extra_columns": {
@@ -8808,6 +8816,1716 @@
    }
   },
   "v1llm": {
+   "clean": {
+    "n": 2000,
+    "intent_errors": 564,
+    "action_errors": 313,
+    "intent_acc": 0.718,
+    "action_acc": 0.8435,
+    "intent_categories": {
+     "flow_wrong_opening_outside_window": 224,
+     "flow_right_other_sibling": 277,
+     "flow_wrong_opening_in_window_not_in_last4": 24,
+     "flow_wrong_opening_in_last4": 14,
+     "numbered_faq_variant_confusion": 25
+    },
+    "action_categories": {
+     "intent_wrong_flow_wrong": 57,
+     "intent_right_state_ignored": 48,
+     "intent_wrong_flow_right": 44,
+     "gold_off_policy_real_deviation": 70,
+     "intent_right_state_insufficient": 91,
+     "gold_off_policy_naming_alias": 3
+    },
+    "intent_flags": {
+     "opening_outside_window": 450,
+     "short_last_customer_turn": 333,
+     "flow_right_sibling": 302,
+     "flow_wrong": 262,
+     "gold_is_numbered_faq": 89,
+     "opening_in_window_but_outside_last4": 74,
+     "numbered_faq_variant_confusion": 25,
+     "no_customer_turn": 5
+    },
+    "action_flags": {
+     "intent_right_action_wrong": 179,
+     "intent_wrong": 134,
+     "state_rule_with_gold_intent_would_fix": 84,
+     "gold_outside_written_policy": 73,
+     "last_turn_is_short_customer_filler": 70,
+     "no_action_turn_in_context": 61,
+     "pred_outside_gold_flow_policy": 60,
+     "pred_already_observed_in_context": 14,
+     "gold_is_ambiguous_troubleshoot_triplet": 11,
+     "pred_repeats_last_observed_action": 8,
+     "gold_off_policy_naming_alias": 3
+    },
+    "context": {
+     "share_opening_outside_window": 0.604,
+     "intent_acc_opening_visible": 0.8561,
+     "intent_acc_opening_outside": 0.6275,
+     "n_gold_numbered_faq": 353,
+     "intent_acc_gold_numbered_faq": 0.7479,
+     "intent_acc_other": 0.7116,
+     "action_acc_no_action_turn": 0.8998,
+     "action_acc_with_action_turn": 0.8188,
+     "top_intent_confusions": [
+      [
+       [
+        "status_due_date",
+        "status_due_amount"
+       ],
+       15
+      ],
+      [
+       [
+        "promo_code_out_of_date",
+        "promo_code_invalid"
+       ],
+       14
+      ],
+      [
+       [
+        "return_color",
+        "return_stain"
+       ],
+       11
+      ],
+      [
+       [
+        "out_of_stock_one_item",
+        "out_of_stock_general"
+       ],
+       9
+      ],
+      [
+       [
+        "manage_pay_bill",
+        "status_due_amount"
+       ],
+       9
+      ],
+      [
+       [
+        "manage_change_address",
+        "manage"
+       ],
+       8
+      ],
+      [
+       [
+        "bad_price_yesterday",
+        "bad_price_competitor"
+       ],
+       8
+      ],
+      [
+       [
+        "return_color",
+        "return_size"
+       ],
+       8
+      ],
+      [
+       [
+        "mistimed_billing_never_bought",
+        "status"
+       ],
+       7
+      ],
+      [
+       [
+        "bad_price_competitor",
+        "bad_price_yesterday"
+       ],
+       7
+      ],
+      [
+       [
+        "return_stain",
+        "return_size"
+       ],
+       7
+      ],
+      [
+       [
+        "return_size",
+        "manage_dispute_bill"
+       ],
+       7
+      ]
+     ],
+     "top_action_confusions": [
+      [
+       [
+        "verify-identity",
+        "pull-up-account"
+       ],
+       14
+      ],
+      [
+       [
+        "search-pricing",
+        "select-faq"
+       ],
+       11
+      ],
+      [
+       [
+        "subscription-status",
+        "ask-the-oracle"
+       ],
+       10
+      ],
+      [
+       [
+        "pull-up-account",
+        "verify-identity"
+       ],
+       9
+      ],
+      [
+       [
+        "record-reason",
+        "verify-identity"
+       ],
+       8
+      ],
+      [
+       [
+        "ask-the-oracle",
+        "record-reason"
+       ],
+       7
+      ],
+      [
+       [
+        "record-reason",
+        "pull-up-account"
+       ],
+       6
+      ],
+      [
+       [
+        "ask-the-oracle",
+        "validate-purchase"
+       ],
+       5
+      ],
+      [
+       [
+        "verify-identity",
+        "ask-the-oracle"
+       ],
+       5
+      ],
+      [
+       [
+        "update-order",
+        "membership"
+       ],
+       5
+      ],
+      [
+       [
+        "ask-the-oracle",
+        "search-faq"
+       ],
+       5
+      ],
+      [
+       [
+        "pull-up-account",
+        "search-faq"
+       ],
+       4
+      ]
+     ]
+    }
+   },
+   "noisy": {
+    "n": 300,
+    "intent_errors": 105,
+    "action_errors": 63,
+    "intent_acc": 0.65,
+    "action_acc": 0.79,
+    "intent_categories": {
+     "flow_wrong_opening_outside_window": 45,
+     "flow_right_other_sibling": 43,
+     "flow_wrong_opening_in_window_not_in_last4": 2,
+     "flow_wrong_opening_in_last4": 11,
+     "numbered_faq_variant_confusion": 4
+    },
+    "action_categories": {
+     "intent_wrong_flow_wrong": 14,
+     "intent_right_state_ignored": 11,
+     "intent_wrong_flow_right": 12,
+     "gold_off_policy_real_deviation": 11,
+     "intent_right_state_insufficient": 14,
+     "gold_off_policy_naming_alias": 1
+    },
+    "intent_flags": {
+     "opening_outside_window": 75,
+     "flow_wrong": 58,
+     "flow_right_sibling": 47,
+     "short_last_customer_turn": 31,
+     "gold_is_numbered_faq": 22,
+     "opening_in_window_but_outside_last4": 13,
+     "numbered_faq_variant_confusion": 4
+    },
+    "action_flags": {
+     "intent_right_action_wrong": 32,
+     "intent_wrong": 31,
+     "state_rule_with_gold_intent_would_fix": 27,
+     "pred_outside_gold_flow_policy": 15,
+     "no_action_turn_in_context": 14,
+     "gold_outside_written_policy": 12,
+     "last_turn_is_short_customer_filler": 9,
+     "gold_is_ambiguous_troubleshoot_triplet": 3,
+     "pred_repeats_last_observed_action": 2,
+     "pred_already_observed_in_context": 2,
+     "gold_off_policy_naming_alias": 1
+    },
+    "context": {
+     "share_opening_outside_window": 0.6267,
+     "intent_acc_opening_visible": 0.7321,
+     "intent_acc_opening_outside": 0.6011,
+     "n_gold_numbered_faq": 55,
+     "intent_acc_gold_numbered_faq": 0.6,
+     "intent_acc_other": 0.6612,
+     "action_acc_no_action_turn": 0.8313,
+     "action_acc_with_action_turn": 0.7742,
+     "top_intent_confusions": [
+      [
+       [
+        "status_due_date",
+        "status_due_amount"
+       ],
+       3
+      ],
+      [
+       [
+        "out_of_stock_general",
+        "out_of_stock_one_item"
+       ],
+       2
+      ],
+      [
+       [
+        "manage_cancel",
+        "status_delivery_time"
+       ],
+       2
+      ],
+      [
+       [
+        "status_due_amount",
+        "status_due_date"
+       ],
+       2
+      ],
+      [
+       [
+        "return_color",
+        "return_size"
+       ],
+       2
+      ],
+      [
+       [
+        "status_due_amount",
+        "status_mystery_fee"
+       ],
+       2
+      ],
+      [
+       [
+        "refund_update",
+        "refund_status"
+       ],
+       2
+      ],
+      [
+       [
+        "status_quantity",
+        "status"
+       ],
+       2
+      ],
+      [
+       [
+        "out_of_stock_one_item",
+        "out_of_stock_general"
+       ],
+       2
+      ],
+      [
+       [
+        "bad_price_competitor",
+        "bad_price_yesterday"
+       ],
+       2
+      ],
+      [
+       [
+        "promo_code_invalid",
+        "promo_code_out_of_date"
+       ],
+       2
+      ],
+      [
+       [
+        "recover_password",
+        "recover_username"
+       ],
+       1
+      ]
+     ],
+     "top_action_confusions": [
+      [
+       [
+        "log-out-in",
+        "try-again"
+       ],
+       3
+      ],
+      [
+       [
+        "verify-identity",
+        "pull-up-account"
+       ],
+       3
+      ],
+      [
+       [
+        "search-pricing",
+        "select-faq"
+       ],
+       2
+      ],
+      [
+       [
+        "search-timing",
+        "search-pricing"
+       ],
+       2
+      ],
+      [
+       [
+        "record-reason",
+        "pull-up-account"
+       ],
+       2
+      ],
+      [
+       [
+        "update-order",
+        "membership"
+       ],
+       2
+      ],
+      [
+       [
+        "search-faq",
+        "log-out-in"
+       ],
+       2
+      ],
+      [
+       [
+        "validate-purchase",
+        "verify-identity"
+       ],
+       2
+      ],
+      [
+       [
+        "offer-refund",
+        "ask-the-oracle"
+       ],
+       2
+      ],
+      [
+       [
+        "enter-details",
+        "offer-refund"
+       ],
+       2
+      ],
+      [
+       [
+        "membership",
+        "search-faq"
+       ],
+       1
+      ],
+      [
+       [
+        "subscription-status",
+        "pull-up-account"
+       ],
+       1
+      ]
+     ]
+    }
+   },
+   "noisy_by_kind": {
+    "code_mixed": {
+     "n": 50,
+     "intent_errors": 15,
+     "action_errors": 12,
+     "intent_acc": 0.7,
+     "action_acc": 0.76,
+     "intent_categories": {
+      "flow_wrong_opening_outside_window": 6,
+      "flow_right_other_sibling": 7,
+      "flow_wrong_opening_in_window_not_in_last4": 0,
+      "flow_wrong_opening_in_last4": 0,
+      "numbered_faq_variant_confusion": 2
+     },
+     "action_categories": {
+      "intent_wrong_flow_wrong": 2,
+      "intent_right_state_ignored": 2,
+      "intent_wrong_flow_right": 2,
+      "gold_off_policy_real_deviation": 2,
+      "intent_right_state_insufficient": 4,
+      "gold_off_policy_naming_alias": 0
+     },
+     "intent_flags": {
+      "opening_outside_window": 10,
+      "flow_right_sibling": 9,
+      "flow_wrong": 6,
+      "gold_is_numbered_faq": 4,
+      "opening_in_window_but_outside_last4": 3,
+      "short_last_customer_turn": 3,
+      "numbered_faq_variant_confusion": 2
+     },
+     "action_flags": {
+      "intent_right_action_wrong": 7,
+      "intent_wrong": 5,
+      "state_rule_with_gold_intent_would_fix": 3,
+      "no_action_turn_in_context": 3,
+      "pred_outside_gold_flow_policy": 2,
+      "gold_outside_written_policy": 2,
+      "pred_repeats_last_observed_action": 1,
+      "pred_already_observed_in_context": 1
+     },
+     "context": {
+      "share_opening_outside_window": 0.52,
+      "intent_acc_opening_visible": 0.7917,
+      "intent_acc_opening_outside": 0.6154,
+      "n_gold_numbered_faq": 12,
+      "intent_acc_gold_numbered_faq": 0.6667,
+      "intent_acc_other": 0.7105,
+      "action_acc_no_action_turn": 0.7857,
+      "action_acc_with_action_turn": 0.75,
+      "top_intent_confusions": [
+       [
+        [
+         "refund_update",
+         "refund_status"
+        ],
+        2
+       ],
+       [
+        [
+         "status_quantity",
+         "status"
+        ],
+        2
+       ],
+       [
+        [
+         "return_color",
+         "return_size"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_create",
+         "credit_card"
+        ],
+        1
+       ],
+       [
+        [
+         "membership_2",
+         "membership_3"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_downgrade",
+         "manage_change_name"
+        ],
+        1
+       ],
+       [
+        [
+         "status_questions",
+         "status_due_date"
+        ],
+        1
+       ],
+       [
+        [
+         "timing_1",
+         "bad_price_competitor"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_amount",
+         "status_due_date"
+        ],
+        1
+       ],
+       [
+        [
+         "jeans_other_3",
+         "jeans_other_2"
+        ],
+        1
+       ],
+       [
+        [
+         "missing",
+         "status_questions"
+        ],
+        1
+       ],
+       [
+        [
+         "status_delivery_time",
+         "manage_cancel"
+        ],
+        1
+       ]
+      ],
+      "top_action_confusions": [
+       [
+        [
+         "record-reason",
+         "update-order"
+        ],
+        1
+       ],
+       [
+        [
+         "enter-details",
+         "membership"
+        ],
+        1
+       ],
+       [
+        [
+         "shipping-status",
+         "membership"
+        ],
+        1
+       ],
+       [
+        [
+         "search-membership",
+         "subscription-status"
+        ],
+        1
+       ],
+       [
+        [
+         "search-faq",
+         "log-out-in"
+        ],
+        1
+       ],
+       [
+        [
+         "verify-identity",
+         "pull-up-account"
+        ],
+        1
+       ],
+       [
+        [
+         "search-pricing",
+         "select-faq"
+        ],
+        1
+       ],
+       [
+        [
+         "send-link",
+         "enter-details"
+        ],
+        1
+       ],
+       [
+        [
+         "record-reason",
+         "search-faq"
+        ],
+        1
+       ],
+       [
+        [
+         "record-reason",
+         "pull-up-account"
+        ],
+        1
+       ],
+       [
+        [
+         "enter-details",
+         "offer-refund"
+        ],
+        1
+       ],
+       [
+        [
+         "update-order",
+         "record-reason"
+        ],
+        1
+       ]
+      ]
+     }
+    },
+    "empty": {
+     "n": 50,
+     "intent_errors": 19,
+     "action_errors": 9,
+     "intent_acc": 0.62,
+     "action_acc": 0.82,
+     "intent_categories": {
+      "flow_wrong_opening_outside_window": 6,
+      "flow_right_other_sibling": 9,
+      "flow_wrong_opening_in_window_not_in_last4": 0,
+      "flow_wrong_opening_in_last4": 3,
+      "numbered_faq_variant_confusion": 1
+     },
+     "action_categories": {
+      "intent_wrong_flow_wrong": 2,
+      "intent_right_state_ignored": 2,
+      "intent_wrong_flow_right": 3,
+      "gold_off_policy_real_deviation": 1,
+      "intent_right_state_insufficient": 1,
+      "gold_off_policy_naming_alias": 0
+     },
+     "intent_flags": {
+      "short_last_customer_turn": 19,
+      "opening_outside_window": 13,
+      "flow_right_sibling": 10,
+      "flow_wrong": 9,
+      "gold_is_numbered_faq": 4,
+      "opening_in_window_but_outside_last4": 2,
+      "numbered_faq_variant_confusion": 1
+     },
+     "action_flags": {
+      "intent_wrong": 5,
+      "state_rule_with_gold_intent_would_fix": 5,
+      "intent_right_action_wrong": 4,
+      "last_turn_is_short_customer_filler": 3,
+      "no_action_turn_in_context": 1,
+      "gold_outside_written_policy": 1,
+      "pred_outside_gold_flow_policy": 1
+     },
+     "context": {
+      "share_opening_outside_window": 0.74,
+      "intent_acc_opening_visible": 0.5385,
+      "intent_acc_opening_outside": 0.6486,
+      "n_gold_numbered_faq": 8,
+      "intent_acc_gold_numbered_faq": 0.5,
+      "intent_acc_other": 0.6429,
+      "action_acc_no_action_turn": 0.9167,
+      "action_acc_with_action_turn": 0.7895,
+      "top_intent_confusions": [
+       [
+        [
+         "bad_price_competitor",
+         "bad_price_yesterday"
+        ],
+        2
+       ],
+       [
+        [
+         "status_payment_method",
+         "status"
+        ],
+        1
+       ],
+       [
+        [
+         "shirt_how_4",
+         "policy_3"
+        ],
+        1
+       ],
+       [
+        [
+         "status_shipping_question",
+         "membership_1"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_amount",
+         "status"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_upgrade",
+         "manage_create"
+        ],
+        1
+       ],
+       [
+        [
+         "timing_1",
+         "timing_3"
+        ],
+        1
+       ],
+       [
+        [
+         "out_of_stock_general",
+         "out_of_stock_one_item"
+        ],
+        1
+       ],
+       [
+        [
+         "cost",
+         "missing"
+        ],
+        1
+       ],
+       [
+        [
+         "status_payment_method",
+         "status_due_date"
+        ],
+        1
+       ],
+       [
+        [
+         "timing_3",
+         "reset_2fa"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_change_phone",
+         "recover_password"
+        ],
+        1
+       ]
+      ],
+      "top_action_confusions": [
+       [
+        [
+         "search-shirt",
+         "search-jeans"
+        ],
+        1
+       ],
+       [
+        [
+         "search-timing",
+         "search-pricing"
+        ],
+        1
+       ],
+       [
+        [
+         "record-reason",
+         "pull-up-account"
+        ],
+        1
+       ],
+       [
+        [
+         "validate-purchase",
+         "shipping-status"
+        ],
+        1
+       ],
+       [
+        [
+         "search-timing",
+         "search-policy"
+        ],
+        1
+       ],
+       [
+        [
+         "shipping-status",
+         "record-reason"
+        ],
+        1
+       ],
+       [
+        [
+         "validate-purchase",
+         "verify-identity"
+        ],
+        1
+       ],
+       [
+        [
+         "offer-refund",
+         "ask-the-oracle"
+        ],
+        1
+       ],
+       [
+        [
+         "update-order",
+         "membership"
+        ],
+        1
+       ]
+      ]
+     }
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_errors": 25,
+     "action_errors": 11,
+     "intent_acc": 0.5,
+     "action_acc": 0.78,
+     "intent_categories": {
+      "flow_wrong_opening_outside_window": 14,
+      "flow_right_other_sibling": 4,
+      "flow_wrong_opening_in_window_not_in_last4": 1,
+      "flow_wrong_opening_in_last4": 5,
+      "numbered_faq_variant_confusion": 1
+     },
+     "action_categories": {
+      "intent_wrong_flow_wrong": 6,
+      "intent_right_state_ignored": 2,
+      "intent_wrong_flow_right": 0,
+      "gold_off_policy_real_deviation": 3,
+      "intent_right_state_insufficient": 0,
+      "gold_off_policy_naming_alias": 0
+     },
+     "intent_flags": {
+      "flow_wrong": 20,
+      "opening_outside_window": 17,
+      "gold_is_numbered_faq": 7,
+      "flow_right_sibling": 5,
+      "opening_in_window_but_outside_last4": 3,
+      "numbered_faq_variant_confusion": 1
+     },
+     "action_flags": {
+      "intent_wrong": 7,
+      "state_rule_with_gold_intent_would_fix": 6,
+      "intent_right_action_wrong": 4,
+      "no_action_turn_in_context": 4,
+      "gold_outside_written_policy": 3,
+      "pred_outside_gold_flow_policy": 3,
+      "gold_is_ambiguous_troubleshoot_triplet": 1
+     },
+     "context": {
+      "share_opening_outside_window": 0.7,
+      "intent_acc_opening_visible": 0.4667,
+      "intent_acc_opening_outside": 0.5143,
+      "n_gold_numbered_faq": 10,
+      "intent_acc_gold_numbered_faq": 0.3,
+      "intent_acc_other": 0.55,
+      "action_acc_no_action_turn": 0.7333,
+      "action_acc_with_action_turn": 0.8,
+      "top_intent_confusions": [
+       [
+        [
+         "shirt_how_3",
+         "shopping_cart"
+        ],
+        1
+       ],
+       [
+        [
+         "bad_price_yesterday",
+         "missing"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_amount",
+         "status_due_date"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_amount",
+         "status_mystery_fee"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_upgrade",
+         "missing"
+        ],
+        1
+       ],
+       [
+        [
+         "shirt_other_2",
+         "search_results"
+        ],
+        1
+       ],
+       [
+        [
+         "status_mystery_fee",
+         "manage_dispute_bill"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_dispute_bill",
+         "mistimed_billing_never_bought"
+        ],
+        1
+       ],
+       [
+        [
+         "manage",
+         "status_due_date"
+        ],
+        1
+       ],
+       [
+        [
+         "refund_update",
+         "mistimed_billing_never_bought"
+        ],
+        1
+       ],
+       [
+        [
+         "pricing_4",
+         "recover_password"
+        ],
+        1
+       ],
+       [
+        [
+         "jacket_other_4",
+         "jacket_how_3"
+        ],
+        1
+       ]
+      ],
+      "top_action_confusions": [
+       [
+        [
+         "subscription-status",
+         "pull-up-account"
+        ],
+        1
+       ],
+       [
+        [
+         "search-shirt",
+         "notify-team"
+        ],
+        1
+       ],
+       [
+        [
+         "record-reason",
+         "notify-team"
+        ],
+        1
+       ],
+       [
+        [
+         "update-order",
+         "membership"
+        ],
+        1
+       ],
+       [
+        [
+         "log-out-in",
+         "try-again"
+        ],
+        1
+       ],
+       [
+        [
+         "ask-the-oracle",
+         "record-reason"
+        ],
+        1
+       ],
+       [
+        [
+         "shipping-status",
+         "verify-identity"
+        ],
+        1
+       ],
+       [
+        [
+         "offer-refund",
+         "enter-details"
+        ],
+        1
+       ],
+       [
+        [
+         "membership",
+         "notify-team"
+        ],
+        1
+       ],
+       [
+        [
+         "membership",
+         "enter-details"
+        ],
+        1
+       ],
+       [
+        [
+         "search-faq",
+         "log-out-in"
+        ],
+        1
+       ]
+      ]
+     }
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_errors": 16,
+     "action_errors": 6,
+     "intent_acc": 0.68,
+     "action_acc": 0.88,
+     "intent_categories": {
+      "flow_wrong_opening_outside_window": 6,
+      "flow_right_other_sibling": 9,
+      "flow_wrong_opening_in_window_not_in_last4": 0,
+      "flow_wrong_opening_in_last4": 1,
+      "numbered_faq_variant_confusion": 0
+     },
+     "action_categories": {
+      "intent_wrong_flow_wrong": 0,
+      "intent_right_state_ignored": 1,
+      "intent_wrong_flow_right": 3,
+      "gold_off_policy_real_deviation": 1,
+      "intent_right_state_insufficient": 1,
+      "gold_off_policy_naming_alias": 0
+     },
+     "intent_flags": {
+      "opening_outside_window": 13,
+      "flow_right_sibling": 9,
+      "flow_wrong": 7,
+      "gold_is_numbered_faq": 2,
+      "opening_in_window_but_outside_last4": 1
+     },
+     "action_flags": {
+      "intent_wrong": 4,
+      "pred_outside_gold_flow_policy": 3,
+      "intent_right_action_wrong": 2,
+      "state_rule_with_gold_intent_would_fix": 2,
+      "no_action_turn_in_context": 2,
+      "gold_outside_written_policy": 1
+     },
+     "context": {
+      "share_opening_outside_window": 0.62,
+      "intent_acc_opening_visible": 0.8421,
+      "intent_acc_opening_outside": 0.5806,
+      "n_gold_numbered_faq": 9,
+      "intent_acc_gold_numbered_faq": 0.7778,
+      "intent_acc_other": 0.6585,
+      "action_acc_no_action_turn": 0.8571,
+      "action_acc_with_action_turn": 0.8889,
+      "top_intent_confusions": [
+       [
+        [
+         "out_of_stock_general",
+         "out_of_stock_one_item"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_date",
+         "status_due_amount"
+        ],
+        1
+       ],
+       [
+        [
+         "timing_3",
+         "status_due_amount"
+        ],
+        1
+       ],
+       [
+        [
+         "bad_price_yesterday",
+         "status_service_removed"
+        ],
+        1
+       ],
+       [
+        [
+         "jacket_other_3",
+         "status_service_removed"
+        ],
+        1
+       ],
+       [
+        [
+         "status_quantity",
+         "status_due_date"
+        ],
+        1
+       ],
+       [
+        [
+         "return_color",
+         "return_stain"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_payment_method",
+         "recover_password"
+        ],
+        1
+       ],
+       [
+        [
+         "return_color",
+         "refund_initiate"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_upgrade",
+         "manage_downgrade"
+        ],
+        1
+       ],
+       [
+        [
+         "return_size",
+         "status_due_amount"
+        ],
+        1
+       ],
+       [
+        [
+         "promo_code_invalid",
+         "promo_code_out_of_date"
+        ],
+        1
+       ]
+      ],
+      "top_action_confusions": [
+       [
+        [
+         "pull-up-account",
+         "notify-team"
+        ],
+        1
+       ],
+       [
+        [
+         "search-faq",
+         "pull-up-account"
+        ],
+        1
+       ],
+       [
+        [
+         "verify-identity",
+         "record-reason"
+        ],
+        1
+       ],
+       [
+        [
+         "verify-identity",
+         "pull-up-account"
+        ],
+        1
+       ],
+       [
+        [
+         "record-reason",
+         "offer-refund"
+        ],
+        1
+       ],
+       [
+        [
+         "verify-identity",
+         "ask-the-oracle"
+        ],
+        1
+       ]
+      ]
+     }
+    },
+    "typo": {
+     "n": 50,
+     "intent_errors": 14,
+     "action_errors": 14,
+     "intent_acc": 0.72,
+     "action_acc": 0.72,
+     "intent_categories": {
+      "flow_wrong_opening_outside_window": 5,
+      "flow_right_other_sibling": 9,
+      "flow_wrong_opening_in_window_not_in_last4": 0,
+      "flow_wrong_opening_in_last4": 0,
+      "numbered_faq_variant_confusion": 0
+     },
+     "action_categories": {
+      "intent_wrong_flow_wrong": 3,
+      "intent_right_state_ignored": 2,
+      "intent_wrong_flow_right": 4,
+      "gold_off_policy_real_deviation": 1,
+      "intent_right_state_insufficient": 4,
+      "gold_off_policy_naming_alias": 0
+     },
+     "intent_flags": {
+      "opening_outside_window": 11,
+      "flow_right_sibling": 9,
+      "short_last_customer_turn": 9,
+      "flow_wrong": 5,
+      "opening_in_window_but_outside_last4": 2,
+      "gold_is_numbered_faq": 1
+     },
+     "action_flags": {
+      "intent_right_action_wrong": 7,
+      "intent_wrong": 7,
+      "state_rule_with_gold_intent_would_fix": 7,
+      "last_turn_is_short_customer_filler": 6,
+      "pred_outside_gold_flow_policy": 2,
+      "no_action_turn_in_context": 2,
+      "pred_repeats_last_observed_action": 1,
+      "pred_already_observed_in_context": 1,
+      "gold_outside_written_policy": 1,
+      "gold_is_ambiguous_troubleshoot_triplet": 1
+     },
+     "context": {
+      "share_opening_outside_window": 0.64,
+      "intent_acc_opening_visible": 0.8333,
+      "intent_acc_opening_outside": 0.6562,
+      "n_gold_numbered_faq": 7,
+      "intent_acc_gold_numbered_faq": 0.8571,
+      "intent_acc_other": 0.6977,
+      "action_acc_no_action_turn": 0.8,
+      "action_acc_with_action_turn": 0.7,
+      "top_intent_confusions": [
+       [
+        [
+         "recover_password",
+         "recover_username"
+        ],
+        1
+       ],
+       [
+        [
+         "status_payment_method",
+         "manage_cancel"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_change_phone",
+         "manage_change_address"
+        ],
+        1
+       ],
+       [
+        [
+         "refund_initiate",
+         "return_size"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_downgrade",
+         "manage"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_downgrade",
+         "cost"
+        ],
+        1
+       ],
+       [
+        [
+         "return_color",
+         "return_size"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_amount",
+         "status_mystery_fee"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_date",
+         "status_due_amount"
+        ],
+        1
+       ],
+       [
+        [
+         "status_due_amount",
+         "membership_4"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_change_address",
+         "out_of_stock_general"
+        ],
+        1
+       ],
+       [
+        [
+         "status_service_removed",
+         "status_service_added"
+        ],
+        1
+       ]
+      ],
+      "top_action_confusions": [
+       [
+        [
+         "search-pricing",
+         "select-faq"
+        ],
+        1
+       ],
+       [
+        [
+         "search-membership",
+         "select-faq"
+        ],
+        1
+       ],
+       [
+        [
+         "shipping-status",
+         "validate-purchase"
+        ],
+        1
+       ],
+       [
+        [
+         "pull-up-account",
+         "validate-purchase"
+        ],
+        1
+       ],
+       [
+        [
+         "search-faq",
+         "membership"
+        ],
+        1
+       ],
+       [
+        [
+         "search-policy",
+         "search-timing"
+        ],
+        1
+       ],
+       [
+        [
+         "validate-purchase",
+         "verify-identity"
+        ],
+        1
+       ],
+       [
+        [
+         "subscription-status",
+         "ask-the-oracle"
+        ],
+        1
+       ],
+       [
+        [
+         "subscription-status",
+         "search-faq"
+        ],
+        1
+       ],
+       [
+        [
+         "update-account",
+         "promo-code"
+        ],
+        1
+       ],
+       [
+        [
+         "enter-details",
+         "offer-refund"
+        ],
+        1
+       ],
+       [
+        [
+         "search-shirt",
+         "search-jacket"
+        ],
+        1
+       ]
+      ]
+     }
+    },
+    "very_long": {
+     "n": 50,
+     "intent_errors": 16,
+     "action_errors": 11,
+     "intent_acc": 0.68,
+     "action_acc": 0.78,
+     "intent_categories": {
+      "flow_wrong_opening_outside_window": 8,
+      "flow_right_other_sibling": 5,
+      "flow_wrong_opening_in_window_not_in_last4": 1,
+      "flow_wrong_opening_in_last4": 2,
+      "numbered_faq_variant_confusion": 0
+     },
+     "action_categories": {
+      "intent_wrong_flow_wrong": 1,
+      "intent_right_state_ignored": 2,
+      "intent_wrong_flow_right": 0,
+      "gold_off_policy_real_deviation": 3,
+      "intent_right_state_insufficient": 4,
+      "gold_off_policy_naming_alias": 1
+     },
+     "intent_flags": {
+      "opening_outside_window": 11,
+      "flow_wrong": 11,
+      "flow_right_sibling": 5,
+      "gold_is_numbered_faq": 4,
+      "opening_in_window_but_outside_last4": 2
+     },
+     "action_flags": {
+      "intent_right_action_wrong": 8,
+      "gold_outside_written_policy": 4,
+      "state_rule_with_gold_intent_would_fix": 4,
+      "pred_outside_gold_flow_policy": 4,
+      "intent_wrong": 3,
+      "no_action_turn_in_context": 2,
+      "gold_is_ambiguous_troubleshoot_triplet": 1,
+      "gold_off_policy_naming_alias": 1
+     },
+     "context": {
+      "share_opening_outside_window": 0.54,
+      "intent_acc_opening_visible": 0.7826,
+      "intent_acc_opening_outside": 0.5926,
+      "n_gold_numbered_faq": 9,
+      "intent_acc_gold_numbered_faq": 0.5556,
+      "intent_acc_other": 0.7073,
+      "action_acc_no_action_turn": 0.8889,
+      "action_acc_with_action_turn": 0.7188,
+      "top_intent_confusions": [
+       [
+        [
+         "manage_cancel",
+         "status_delivery_time"
+        ],
+        2
+       ],
+       [
+        [
+         "refund_update",
+         "out_of_stock_general"
+        ],
+        1
+       ],
+       [
+        [
+         "refund_initiate",
+         "mistimed_billing_already_returned"
+        ],
+        1
+       ],
+       [
+        [
+         "return_stain",
+         "return_color"
+        ],
+        1
+       ],
+       [
+        [
+         "out_of_stock_one_item",
+         "out_of_stock_general"
+        ],
+        1
+       ],
+       [
+        [
+         "status_shipping_question",
+         "out_of_stock_general"
+        ],
+        1
+       ],
+       [
+        [
+         "promo_code_out_of_date",
+         "out_of_stock_general"
+        ],
+        1
+       ],
+       [
+        [
+         "return_size",
+         "missing"
+        ],
+        1
+       ],
+       [
+        [
+         "manage_pay_bill",
+         "missing"
+        ],
+        1
+       ],
+       [
+        [
+         "jeans_other_3",
+         "missing"
+        ],
+        1
+       ],
+       [
+        [
+         "return_size",
+         "out_of_stock_general"
+        ],
+        1
+       ],
+       [
+        [
+         "policy_4",
+         "manage_extension"
+        ],
+        1
+       ]
+      ],
+      "top_action_confusions": [
+       [
+        [
+         "membership",
+         "search-faq"
+        ],
+        1
+       ],
+       [
+        [
+         "verify-identity",
+         "validate-purchase"
+        ],
+        1
+       ],
+       [
+        [
+         "search-faq",
+         "record-reason"
+        ],
+        1
+       ],
+       [
+        [
+         "promo-code",
+         "make-password"
+        ],
+        1
+       ],
+       [
+        [
+         "make-purchase",
+         "record-reason"
+        ],
+        1
+       ],
+       [
+        [
+         "offer-refund",
+         "ask-the-oracle"
+        ],
+        1
+       ],
+       [
+        [
+         "log-out-in",
+         "try-again"
+        ],
+        1
+       ],
+       [
+        [
+         "membership",
+         "update-order"
+        ],
+        1
+       ],
+       [
+        [
+         "enter-details",
+         "update-account"
+        ],
+        1
+       ],
+       [
+        [
+         "verify-identity",
+         "membership"
+        ],
+        1
+       ],
+       [
+        [
+         "search-timing",
+         "search-pricing"
+        ],
+        1
+       ]
+      ]
+     }
+    }
+   }
+  },
+  "v1llm_r1": {
    "clean": {
     "n": 2000,
     "intent_errors": 564,
@@ -20894,6 +22612,50 @@
     "match": true
    },
    "clean_action": {
+    "category_sum": 313,
+    "official_accuracy": 0.8435,
+    "rows": 2000,
+    "implied_errors": 313.0,
+    "match": true
+   },
+   "noisy_intent": {
+    "category_sum": 105,
+    "official_accuracy": 0.65,
+    "rows": 300,
+    "implied_errors": 105.0,
+    "match": true
+   },
+   "noisy_action": {
+    "category_sum": 63,
+    "official_accuracy": 0.79,
+    "rows": 300,
+    "implied_errors": 63.0,
+    "match": true
+   },
+   "all_intent": {
+    "category_sum": 669,
+    "official_accuracy": 0.7091,
+    "rows": 2300,
+    "implied_errors": 669.07,
+    "match": true
+   },
+   "all_action": {
+    "category_sum": 376,
+    "official_accuracy": 0.8365,
+    "rows": 2300,
+    "implied_errors": 376.05,
+    "match": true
+   }
+  },
+  "v1llm_r1": {
+   "clean_intent": {
+    "category_sum": 564,
+    "official_accuracy": 0.718,
+    "rows": 2000,
+    "implied_errors": 564.0,
+    "match": true
+   },
+   "clean_action": {
     "category_sum": 321,
     "official_accuracy": 0.8395,
     "rows": 2000,
@@ -21653,6 +23415,10 @@
    "rows_with_different_right_wrong": {
     "intent": 913,
     "action": 992
+   },
+   "rows_with_different_answer": {
+    "intent": 1358,
+    "action": 1383
    }
   },
   {
@@ -22113,6 +23879,10 @@
    "rows_with_different_right_wrong": {
     "intent": 0,
     "action": 475
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 646
    }
   },
   {
@@ -22573,6 +24343,10 @@
    "rows_with_different_right_wrong": {
     "intent": 26,
     "action": 8
+   },
+   "rows_with_different_answer": {
+    "intent": 32,
+    "action": 9
    }
   },
   {
@@ -23033,6 +24807,10 @@
    "rows_with_different_right_wrong": {
     "intent": 0,
     "action": 0
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 0
    }
   },
   {
@@ -23103,73 +24881,73 @@
     },
     "clean_action:intent_wrong_flow_wrong": {
      "before": 63,
-     "after": 60,
-     "delta": -3,
+     "after": 57,
+     "delta": -6,
      "ci95": [
-      -11.0,
-      4.0
+      -14.0,
+      1.0
      ],
-     "rows_left": 9,
-     "rows_entered": 6,
+     "rows_left": 10,
+     "rows_entered": 4,
      "verdict": "within noise"
     },
     "clean_action:intent_right_state_ignored": {
      "before": 81,
-     "after": 49,
-     "delta": -32,
+     "after": 48,
+     "delta": -33,
      "ci95": [
       -46.0,
-      -19.0
+      -20.0
      ],
      "rows_left": 37,
-     "rows_entered": 5,
+     "rows_entered": 4,
      "verdict": "moved"
     },
     "clean_action:intent_wrong_flow_right": {
      "before": 54,
-     "after": 47,
-     "delta": -7,
+     "after": 44,
+     "delta": -10,
      "ci95": [
-      -16.0,
-      2.0
+      -18.0,
+      -2.0
      ],
-     "rows_left": 13,
-     "rows_entered": 6,
-     "verdict": "within noise"
+     "rows_left": 14,
+     "rows_entered": 4,
+     "verdict": "moved"
     },
     "clean_action:gold_off_policy_real_deviation": {
      "before": 72,
-     "after": 71,
-     "delta": -1,
+     "after": 70,
+     "delta": -2,
      "ci95": [
-      -8.0,
+      -9.0,
       5.0
      ],
-     "rows_left": 6,
+     "rows_left": 7,
      "rows_entered": 5,
      "verdict": "within noise"
     },
     "clean_action:intent_right_state_insufficient": {
      "before": 96,
-     "after": 92,
-     "delta": -4,
+     "after": 91,
+     "delta": -5,
      "ci95": [
-      -14.0,
+      -16.0,
       6.0
      ],
-     "rows_left": 15,
+     "rows_left": 16,
      "rows_entered": 11,
      "verdict": "within noise"
     },
     "clean_action:gold_off_policy_naming_alias": {
      "before": 5,
-     "after": 2,
-     "delta": -3,
+     "after": 3,
+     "delta": -2,
      "ci95": [
-      -7.0,
+      -5.0,
       0.0
      ],
-     "rows_left": 3,
+     "rows_left": 2,
      "rows_entered": 0,
      "verdict": "within noise"
     },
@@ -23235,61 +25013,61 @@
     },
     "noisy_action:intent_wrong_flow_wrong": {
      "before": 12,
-     "after": 12,
-     "delta": 0,
+     "after": 14,
+     "delta": 2,
      "ci95": [
       -3.0,
-      3.0
+      7.0
      ],
-     "rows_left": 1,
-     "rows_entered": 1,
+     "rows_left": 2,
+     "rows_entered": 4,
      "verdict": "within noise"
     },
     "noisy_action:intent_right_state_ignored": {
      "before": 15,
-     "after": 9,
-     "delta": -6,
+     "after": 11,
+     "delta": -4,
      "ci95": [
-      -12.0,
-      -1.0
+      -10.0,
+      1.0
      ],
-     "rows_left": 7,
-     "rows_entered": 1,
-     "verdict": "moved"
+     "rows_left": 6,
+     "rows_entered": 2,
+     "verdict": "within noise"
     },
     "noisy_action:intent_wrong_flow_right": {
      "before": 11,
-     "after": 8,
-     "delta": -3,
+     "after": 12,
+     "delta": 1,
      "ci95": [
-      -8.0,
-      2.0
+      -2.0,
+      5.0
      ],
-     "rows_left": 5,
+     "rows_left": 1,
      "rows_entered": 2,
      "verdict": "within noise"
     },
     "noisy_action:gold_off_policy_real_deviation": {
      "before": 9,
-     "after": 10,
-     "delta": 1,
+     "after": 11,
+     "delta": 2,
      "ci95": [
       0.0,
-      3.0
+      5.0
      ],
      "rows_left": 0,
-     "rows_entered": 1,
+     "rows_entered": 2,
      "verdict": "within noise"
     },
     "noisy_action:intent_right_state_insufficient": {
      "before": 14,
-     "after": 15,
-     "delta": 1,
+     "after": 14,
+     "delta": 0,
      "ci95": [
-      -4.0,
-      6.0
+      -6.0,
+      5.0
      ],
-     "rows_left": 3,
+     "rows_left": 4,
      "rows_entered": 4,
      "verdict": "within noise"
     },
@@ -23324,7 +25102,7 @@
      "delta": 0.0,
      "ci95": [
       -0.0816,
-      0.0784
+      0.08
      ],
      "rows_changed_right_wrong": 4,
      "verdict": "within noise"
@@ -23342,11 +25120,11 @@
     },
     "empty:action": {
      "before": 0.8,
-     "after": 0.86,
-     "delta": 0.06,
+     "after": 0.82,
+     "delta": 0.02,
      "ci95": [
-      0.0,
-      0.14
+      -0.0408,
+      0.0816
      ],
      "rows_changed_right_wrong": 3,
      "verdict": "within noise"
@@ -23364,13 +25142,13 @@
     },
     "screenshot:action": {
      "before": 0.8,
-     "after": 0.84,
-     "delta": 0.04,
+     "after": 0.78,
+     "delta": -0.02,
      "ci95": [
-      0.0,
-      0.102
+      -0.102,
+      0.0612
      ],
-     "rows_changed_right_wrong": 2,
+     "rows_changed_right_wrong": 5,
      "verdict": "within noise"
     },
     "two_intents:intent": {
@@ -23386,13 +25164,13 @@
     },
     "two_intents:action": {
      "before": 0.86,
-     "after": 0.86,
-     "delta": 0.0,
+     "after": 0.88,
+     "delta": 0.02,
      "ci95": [
-      -0.08,
-      0.08
+      -0.06,
+      0.1005
      ],
-     "rows_changed_right_wrong": 4,
+     "rows_changed_right_wrong": 5,
      "verdict": "within noise"
     },
     "typo:intent": {
@@ -23408,13 +25186,13 @@
     },
     "typo:action": {
      "before": 0.7,
-     "after": 0.76,
-     "delta": 0.06,
+     "after": 0.72,
+     "delta": 0.02,
      "ci95": [
-      -0.04,
-      0.16
+      -0.08,
+      0.1
      ],
-     "rows_changed_right_wrong": 7,
+     "rows_changed_right_wrong": 5,
      "verdict": "within noise"
     },
     "very_long:intent": {
@@ -23430,11 +25208,11 @@
     },
     "very_long:action": {
      "before": 0.84,
-     "after": 0.82,
-     "delta": -0.02,
+     "after": 0.78,
+     "delta": -0.06,
      "ci95": [
-      -0.1373,
-      0.0816
+      -0.1633,
+      0.0408
      ],
      "rows_changed_right_wrong": 7,
      "verdict": "within noise"
@@ -23455,14 +25233,14 @@
     },
     "clean_action_errors": {
      "before": 371,
-     "after": 321,
-     "delta": -50,
+     "after": 313,
+     "delta": -58,
      "ci95": [
-      -71.0,
-      -29.0
+      -78.0,
+      -38.0
      ],
-     "rows_left": 83,
-     "rows_entered": 33,
+     "rows_left": 86,
+     "rows_entered": 28,
      "verdict": "moved"
     },
     "noisy_intent_errors": {
@@ -23479,20 +25257,24 @@
     },
     "noisy_action_errors": {
      "before": 62,
-     "after": 55,
-     "delta": -7,
+     "after": 63,
+     "delta": 1,
      "ci95": [
-      -17.0,
-      3.0
+      -9.0,
+      12.0
      ],
-     "rows_left": 17,
-     "rows_entered": 10,
+     "rows_left": 14,
+     "rows_entered": 15,
      "verdict": "within noise"
     }
    },
    "rows_with_different_right_wrong": {
     "intent": 0,
     "action": 143
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 216
    }
   }
  ],
@@ -23955,6 +25737,10 @@
    "rows_with_different_right_wrong": {
     "intent": 335,
     "action": 0
+   },
+   "rows_with_different_answer": {
+    "intent": 542,
+    "action": 0
    }
   },
   {
@@ -24415,6 +26201,10 @@
    "rows_with_different_right_wrong": {
     "intent": 3,
     "action": 1
+   },
+   "rows_with_different_answer": {
+    "intent": 5,
+    "action": 1
    }
   },
   {
@@ -24873,6 +26663,10 @@
     }
    },
    "rows_with_different_right_wrong": {
+    "intent": 0,
+    "action": 0
+   },
+   "rows_with_different_answer": {
     "intent": 0,
     "action": 0
    }
@@ -25335,6 +27129,10 @@
    "rows_with_different_right_wrong": {
     "intent": 0,
     "action": 0
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 0
    }
   },
   {
@@ -25795,10 +27593,14 @@
    "rows_with_different_right_wrong": {
     "intent": 0,
     "action": 0
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 0
    }
   },
   {
-   "change": "same system: live Luna run against the replay of the 14 Oct recorded answers",
+   "change": "same system: the submitted live run against the replay of the 14 Oct recorded answers",
    "status": "run-to-run spread, not a change",
    "before": "v1replay",
    "after": "v1llm",
@@ -25865,31 +27667,19 @@
     },
     "clean_action:intent_wrong_flow_wrong": {
      "before": 59,
-     "after": 60,
-     "delta": 1,
+     "after": 57,
+     "delta": -2,
      "ci95": [
-      -3.0,
-      5.0
+      -7.0,
+      3.0
      ],
-     "rows_left": 2,
-     "rows_entered": 3,
+     "rows_left": 4,
+     "rows_entered": 2,
      "verdict": "within noise"
     },
     "clean_action:intent_right_state_ignored": {
      "before": 48,
-     "after": 49,
-     "delta": 1,
-     "ci95": [
-      -3.0,
-      6.0
-     ],
-     "rows_left": 2,
-     "rows_entered": 3,
-     "verdict": "within noise"
-    },
-    "clean_action:intent_wrong_flow_right": {
-     "before": 47,
-     "after": 47,
+     "after": 48,
      "delta": 0,
      "ci95": [
       -5.0,
@@ -25899,39 +27689,515 @@
      "rows_entered": 3,
      "verdict": "within noise"
     },
+    "clean_action:intent_wrong_flow_right": {
+     "before": 47,
+     "after": 44,
+     "delta": -3,
+     "ci95": [
+      -8.0,
+      1.0
+     ],
+     "rows_left": 4,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    },
+    "clean_action:gold_off_policy_real_deviation": {
+     "before": 72,
+     "after": 70,
+     "delta": -2,
+     "ci95": [
+      -5.0,
+      0.0
+     ],
+     "rows_left": 2,
+     "rows_entered": 0,
+     "verdict": "within noise"
+    },
+    "clean_action:intent_right_state_insufficient": {
+     "before": 90,
+     "after": 91,
+     "delta": 1,
+     "ci95": [
+      -3.0,
+      5.0
+     ],
+     "rows_left": 2,
+     "rows_entered": 3,
+     "verdict": "within noise"
+    },
+    "clean_action:gold_off_policy_naming_alias": {
+     "before": 3,
+     "after": 3,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_wrong_opening_outside_window": {
+     "before": 45,
+     "after": 45,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_right_other_sibling": {
+     "before": 43,
+     "after": 43,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_wrong_opening_in_window_not_in_last4": {
+     "before": 2,
+     "after": 2,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_wrong_opening_in_last4": {
+     "before": 11,
+     "after": 11,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:numbered_faq_variant_confusion": {
+     "before": 4,
+     "after": 4,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_action:intent_wrong_flow_wrong": {
+     "before": 13,
+     "after": 14,
+     "delta": 1,
+     "ci95": [
+      -2.0,
+      4.0
+     ],
+     "rows_left": 1,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "noisy_action:intent_right_state_ignored": {
+     "before": 11,
+     "after": 11,
+     "delta": 0,
+     "ci95": [
+      -4.0,
+      4.0
+     ],
+     "rows_left": 2,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "noisy_action:intent_wrong_flow_right": {
+     "before": 8,
+     "after": 12,
+     "delta": 4,
+     "ci95": [
+      1.0,
+      8.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 4,
+     "verdict": "moved"
+    },
+    "noisy_action:gold_off_policy_real_deviation": {
+     "before": 10,
+     "after": 11,
+     "delta": 1,
+     "ci95": [
+      0.0,
+      3.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    },
+    "noisy_action:intent_right_state_insufficient": {
+     "before": 14,
+     "after": 14,
+     "delta": 0,
+     "ci95": [
+      -3.0,
+      3.0
+     ],
+     "rows_left": 1,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    },
+    "noisy_action:gold_off_policy_naming_alias": {
+     "before": 2,
+     "after": 1,
+     "delta": -1,
+     "ci95": [
+      -4.0,
+      2.0
+     ],
+     "rows_left": 2,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    }
+   },
+   "noise_kinds": {
+    "code_mixed:intent": {
+     "before": 0.7,
+     "after": 0.7,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "code_mixed:action": {
+     "before": 0.78,
+     "after": 0.76,
+     "delta": -0.02,
+     "ci95": [
+      -0.0943,
+      0.0408
+     ],
+     "rows_changed_right_wrong": 3,
+     "verdict": "within noise"
+    },
+    "empty:intent": {
+     "before": 0.62,
+     "after": 0.62,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "empty:action": {
+     "before": 0.84,
+     "after": 0.82,
+     "delta": -0.02,
+     "ci95": [
+      -0.0612,
+      0.0
+     ],
+     "rows_changed_right_wrong": 1,
+     "verdict": "within noise"
+    },
+    "screenshot:intent": {
+     "before": 0.5,
+     "after": 0.5,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "screenshot:action": {
+     "before": 0.82,
+     "after": 0.78,
+     "delta": -0.04,
+     "ci95": [
+      -0.1001,
+      0.0
+     ],
+     "rows_changed_right_wrong": 2,
+     "verdict": "within noise"
+    },
+    "two_intents:intent": {
+     "before": 0.68,
+     "after": 0.68,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "two_intents:action": {
+     "before": 0.86,
+     "after": 0.88,
+     "delta": 0.02,
+     "ci95": [
+      0.0,
+      0.06
+     ],
+     "rows_changed_right_wrong": 1,
+     "verdict": "within noise"
+    },
+    "typo:intent": {
+     "before": 0.72,
+     "after": 0.72,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "typo:action": {
+     "before": 0.76,
+     "after": 0.72,
+     "delta": -0.04,
+     "ci95": [
+      -0.12,
+      0.04
+     ],
+     "rows_changed_right_wrong": 4,
+     "verdict": "within noise"
+    },
+    "very_long:intent": {
+     "before": 0.68,
+     "after": 0.68,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "very_long:action": {
+     "before": 0.78,
+     "after": 0.78,
+     "delta": 0.0,
+     "ci95": [
+      -0.102,
+      0.1
+     ],
+     "rows_changed_right_wrong": 6,
+     "verdict": "within noise"
+    }
+   },
+   "totals": {
+    "clean_intent_errors": {
+     "before": 564,
+     "after": 564,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_action_errors": {
+     "before": 319,
+     "after": 313,
+     "delta": -6,
+     "ci95": [
+      -16.0,
+      4.0
+     ],
+     "rows_left": 15,
+     "rows_entered": 9,
+     "verdict": "within noise"
+    },
+    "noisy_intent_errors": {
+     "before": 105,
+     "after": 105,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_action_errors": {
+     "before": 58,
+     "after": 63,
+     "delta": 5,
+     "ci95": [
+      -3.0,
+      13.0
+     ],
+     "rows_left": 6,
+     "rows_entered": 11,
+     "verdict": "within noise"
+    }
+   },
+   "rows_with_different_right_wrong": {
+    "intent": 0,
+    "action": 41
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 65
+   }
+  },
+  {
+   "change": "the same GPT-6 Luna step as the shipped change, measured on the first live run",
+   "status": "shipped in v1, D2; first live run",
+   "before": "v1cpu",
+   "after": "v1llm_r1",
+   "categories": {
+    "clean_intent:flow_wrong_opening_outside_window": {
+     "before": 224,
+     "after": 224,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:flow_right_other_sibling": {
+     "before": 277,
+     "after": 277,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:flow_wrong_opening_in_window_not_in_last4": {
+     "before": 24,
+     "after": 24,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:flow_wrong_opening_in_last4": {
+     "before": 14,
+     "after": 14,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:numbered_faq_variant_confusion": {
+     "before": 25,
+     "after": 25,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_action:intent_wrong_flow_wrong": {
+     "before": 63,
+     "after": 60,
+     "delta": -3,
+     "ci95": [
+      -11.0,
+      4.0
+     ],
+     "rows_left": 9,
+     "rows_entered": 6,
+     "verdict": "within noise"
+    },
+    "clean_action:intent_right_state_ignored": {
+     "before": 81,
+     "after": 49,
+     "delta": -32,
+     "ci95": [
+      -46.0,
+      -19.0
+     ],
+     "rows_left": 37,
+     "rows_entered": 5,
+     "verdict": "moved"
+    },
+    "clean_action:intent_wrong_flow_right": {
+     "before": 54,
+     "after": 47,
+     "delta": -7,
+     "ci95": [
+      -16.0,
+      2.0
+     ],
+     "rows_left": 13,
+     "rows_entered": 6,
+     "verdict": "within noise"
+    },
     "clean_action:gold_off_policy_real_deviation": {
      "before": 72,
      "after": 71,
      "delta": -1,
      "ci95": [
-      -5.0,
-      3.0
+      -8.0,
+      5.0
      ],
-     "rows_left": 3,
-     "rows_entered": 2,
-     "verdict": "within noise"
-    },
-    "clean_action:intent_right_state_insufficient": {
-     "before": 90,
-     "after": 92,
-     "delta": 2,
-     "ci95": [
-      -3.0,
-      8.0
-     ],
-     "rows_left": 3,
+     "rows_left": 6,
      "rows_entered": 5,
      "verdict": "within noise"
     },
-    "clean_action:gold_off_policy_naming_alias": {
-     "before": 3,
-     "after": 2,
-     "delta": -1,
+    "clean_action:intent_right_state_insufficient": {
+     "before": 96,
+     "after": 92,
+     "delta": -4,
      "ci95": [
-      -3.0,
+      -14.0,
+      6.0
+     ],
+     "rows_left": 15,
+     "rows_entered": 11,
+     "verdict": "within noise"
+    },
+    "clean_action:gold_off_policy_naming_alias": {
+     "before": 5,
+     "after": 2,
+     "delta": -3,
+     "ci95": [
+      -7.0,
       0.0
      ],
-     "rows_left": 1,
+     "rows_left": 3,
      "rows_entered": 0,
      "verdict": "within noise"
     },
@@ -25996,32 +28262,8 @@
      "verdict": "no row changed"
     },
     "noisy_action:intent_wrong_flow_wrong": {
-     "before": 13,
+     "before": 12,
      "after": 12,
-     "delta": -1,
-     "ci95": [
-      -3.0,
-      0.0
-     ],
-     "rows_left": 1,
-     "rows_entered": 0,
-     "verdict": "within noise"
-    },
-    "noisy_action:intent_right_state_ignored": {
-     "before": 11,
-     "after": 9,
-     "delta": -2,
-     "ci95": [
-      -5.0,
-      0.0
-     ],
-     "rows_left": 2,
-     "rows_entered": 0,
-     "verdict": "within noise"
-    },
-    "noisy_action:intent_wrong_flow_right": {
-     "before": 8,
-     "after": 8,
      "delta": 0,
      "ci95": [
       -3.0,
@@ -26031,21 +28273,33 @@
      "rows_entered": 1,
      "verdict": "within noise"
     },
-    "noisy_action:gold_off_policy_real_deviation": {
-     "before": 10,
-     "after": 10,
-     "delta": 0,
+    "noisy_action:intent_right_state_ignored": {
+     "before": 15,
+     "after": 9,
+     "delta": -6,
      "ci95": [
-      0.0,
-      0.0
+      -12.0,
+      -1.0
      ],
-     "rows_left": 0,
-     "rows_entered": 0,
-     "verdict": "no row changed"
+     "rows_left": 7,
+     "rows_entered": 1,
+     "verdict": "moved"
     },
-    "noisy_action:intent_right_state_insufficient": {
-     "before": 14,
-     "after": 15,
+    "noisy_action:intent_wrong_flow_right": {
+     "before": 11,
+     "after": 8,
+     "delta": -3,
+     "ci95": [
+      -8.0,
+      2.0
+     ],
+     "rows_left": 5,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "noisy_action:gold_off_policy_real_deviation": {
+     "before": 9,
+     "after": 10,
      "delta": 1,
      "ci95": [
       0.0,
@@ -26055,16 +28309,28 @@
      "rows_entered": 1,
      "verdict": "within noise"
     },
+    "noisy_action:intent_right_state_insufficient": {
+     "before": 14,
+     "after": 15,
+     "delta": 1,
+     "ci95": [
+      -4.0,
+      6.0
+     ],
+     "rows_left": 3,
+     "rows_entered": 4,
+     "verdict": "within noise"
+    },
     "noisy_action:gold_off_policy_naming_alias": {
-     "before": 2,
+     "before": 1,
      "after": 1,
-     "delta": -1,
+     "delta": 0,
      "ci95": [
       -3.0,
-      0.0
+      3.0
      ],
      "rows_left": 1,
-     "rows_entered": 0,
+     "rows_entered": 1,
      "verdict": "within noise"
     }
    },
@@ -26081,14 +28347,14 @@
      "verdict": "no row changed"
     },
     "code_mixed:action": {
-     "before": 0.78,
+     "before": 0.76,
      "after": 0.76,
-     "delta": -0.02,
+     "delta": 0.0,
      "ci95": [
-      -0.0612,
-      0.0
+      -0.0816,
+      0.0784
      ],
-     "rows_changed_right_wrong": 1,
+     "rows_changed_right_wrong": 4,
      "verdict": "within noise"
     },
     "empty:intent": {
@@ -26103,14 +28369,14 @@
      "verdict": "no row changed"
     },
     "empty:action": {
-     "before": 0.84,
+     "before": 0.8,
      "after": 0.86,
-     "delta": 0.02,
+     "delta": 0.06,
      "ci95": [
       0.0,
-      0.0612
+      0.14
      ],
-     "rows_changed_right_wrong": 1,
+     "rows_changed_right_wrong": 3,
      "verdict": "within noise"
     },
     "screenshot:intent": {
@@ -26125,14 +28391,14 @@
      "verdict": "no row changed"
     },
     "screenshot:action": {
-     "before": 0.82,
+     "before": 0.8,
      "after": 0.84,
-     "delta": 0.02,
+     "delta": 0.04,
      "ci95": [
       0.0,
-      0.0612
+      0.102
      ],
-     "rows_changed_right_wrong": 1,
+     "rows_changed_right_wrong": 2,
      "verdict": "within noise"
     },
     "two_intents:intent": {
@@ -26151,11 +28417,11 @@
      "after": 0.86,
      "delta": 0.0,
      "ci95": [
-      0.0,
-      0.0
+      -0.08,
+      0.08
      ],
-     "rows_changed_right_wrong": 0,
-     "verdict": "no row changed"
+     "rows_changed_right_wrong": 4,
+     "verdict": "within noise"
     },
     "typo:intent": {
      "before": 0.72,
@@ -26169,14 +28435,14 @@
      "verdict": "no row changed"
     },
     "typo:action": {
-     "before": 0.76,
+     "before": 0.7,
      "after": 0.76,
-     "delta": 0.0,
+     "delta": 0.06,
      "ci95": [
-      -0.06,
-      0.06
+      -0.04,
+      0.16
      ],
-     "rows_changed_right_wrong": 2,
+     "rows_changed_right_wrong": 7,
      "verdict": "within noise"
     },
     "very_long:intent": {
@@ -26191,14 +28457,14 @@
      "verdict": "no row changed"
     },
     "very_long:action": {
-     "before": 0.78,
+     "before": 0.84,
      "after": 0.82,
-     "delta": 0.04,
+     "delta": -0.02,
      "ci95": [
-      0.0,
-      0.102
+      -0.1373,
+      0.0816
      ],
-     "rows_changed_right_wrong": 2,
+     "rows_changed_right_wrong": 7,
      "verdict": "within noise"
     }
    },
@@ -26216,15 +28482,479 @@
      "verdict": "no row changed"
     },
     "clean_action_errors": {
-     "before": 319,
+     "before": 371,
      "after": 321,
+     "delta": -50,
+     "ci95": [
+      -71.0,
+      -29.0
+     ],
+     "rows_left": 83,
+     "rows_entered": 33,
+     "verdict": "moved"
+    },
+    "noisy_intent_errors": {
+     "before": 105,
+     "after": 105,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_action_errors": {
+     "before": 62,
+     "after": 55,
+     "delta": -7,
+     "ci95": [
+      -17.0,
+      3.0
+     ],
+     "rows_left": 17,
+     "rows_entered": 10,
+     "verdict": "within noise"
+    }
+   },
+   "rows_with_different_right_wrong": {
+    "intent": 0,
+    "action": 143
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 217
+   }
+  },
+  {
+   "change": "same system: the submitted (second) live run against the first live run",
+   "status": "run-to-run spread, not a change",
+   "before": "v1llm_r1",
+   "after": "v1llm",
+   "categories": {
+    "clean_intent:flow_wrong_opening_outside_window": {
+     "before": 224,
+     "after": 224,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:flow_right_other_sibling": {
+     "before": 277,
+     "after": 277,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:flow_wrong_opening_in_window_not_in_last4": {
+     "before": 24,
+     "after": 24,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:flow_wrong_opening_in_last4": {
+     "before": 14,
+     "after": 14,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_intent:numbered_faq_variant_confusion": {
+     "before": 25,
+     "after": 25,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_action:intent_wrong_flow_wrong": {
+     "before": 60,
+     "after": 57,
+     "delta": -3,
+     "ci95": [
+      -7.0,
+      0.0
+     ],
+     "rows_left": 3,
+     "rows_entered": 0,
+     "verdict": "within noise"
+    },
+    "clean_action:intent_right_state_ignored": {
+     "before": 49,
+     "after": 48,
+     "delta": -1,
+     "ci95": [
+      -6.0,
+      4.0
+     ],
+     "rows_left": 4,
+     "rows_entered": 3,
+     "verdict": "within noise"
+    },
+    "clean_action:intent_wrong_flow_right": {
+     "before": 47,
+     "after": 44,
+     "delta": -3,
+     "ci95": [
+      -8.0,
+      2.0
+     ],
+     "rows_left": 5,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "clean_action:gold_off_policy_real_deviation": {
+     "before": 71,
+     "after": 70,
+     "delta": -1,
+     "ci95": [
+      -5.0,
+      3.0
+     ],
+     "rows_left": 3,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "clean_action:intent_right_state_insufficient": {
+     "before": 92,
+     "after": 91,
+     "delta": -1,
+     "ci95": [
+      -5.0,
+      3.0
+     ],
+     "rows_left": 3,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "clean_action:gold_off_policy_naming_alias": {
+     "before": 2,
+     "after": 3,
+     "delta": 1,
+     "ci95": [
+      0.0,
+      3.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    },
+    "noisy_intent:flow_wrong_opening_outside_window": {
+     "before": 45,
+     "after": 45,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_right_other_sibling": {
+     "before": 43,
+     "after": 43,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_wrong_opening_in_window_not_in_last4": {
+     "before": 2,
+     "after": 2,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:flow_wrong_opening_in_last4": {
+     "before": 11,
+     "after": 11,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_intent:numbered_faq_variant_confusion": {
+     "before": 4,
+     "after": 4,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "noisy_action:intent_wrong_flow_wrong": {
+     "before": 12,
+     "after": 14,
      "delta": 2,
      "ci95": [
-      -9.0,
-      13.0
+      -2.0,
+      6.0
      ],
-     "rows_left": 14,
-     "rows_entered": 16,
+     "rows_left": 1,
+     "rows_entered": 3,
+     "verdict": "within noise"
+    },
+    "noisy_action:intent_right_state_ignored": {
+     "before": 9,
+     "after": 11,
+     "delta": 2,
+     "ci95": [
+      0.0,
+      5.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 2,
+     "verdict": "within noise"
+    },
+    "noisy_action:intent_wrong_flow_right": {
+     "before": 8,
+     "after": 12,
+     "delta": 4,
+     "ci95": [
+      1.0,
+      8.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 4,
+     "verdict": "moved"
+    },
+    "noisy_action:gold_off_policy_real_deviation": {
+     "before": 10,
+     "after": 11,
+     "delta": 1,
+     "ci95": [
+      0.0,
+      3.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    },
+    "noisy_action:intent_right_state_insufficient": {
+     "before": 15,
+     "after": 14,
+     "delta": -1,
+     "ci95": [
+      -3.0,
+      0.0
+     ],
+     "rows_left": 1,
+     "rows_entered": 0,
+     "verdict": "within noise"
+    },
+    "noisy_action:gold_off_policy_naming_alias": {
+     "before": 1,
+     "after": 1,
+     "delta": 0,
+     "ci95": [
+      -3.0,
+      3.0
+     ],
+     "rows_left": 1,
+     "rows_entered": 1,
+     "verdict": "within noise"
+    }
+   },
+   "noise_kinds": {
+    "code_mixed:intent": {
+     "before": 0.7,
+     "after": 0.7,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "code_mixed:action": {
+     "before": 0.76,
+     "after": 0.76,
+     "delta": 0.0,
+     "ci95": [
+      -0.06,
+      0.06
+     ],
+     "rows_changed_right_wrong": 2,
+     "verdict": "within noise"
+    },
+    "empty:intent": {
+     "before": 0.62,
+     "after": 0.62,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "empty:action": {
+     "before": 0.86,
+     "after": 0.82,
+     "delta": -0.04,
+     "ci95": [
+      -0.102,
+      0.0
+     ],
+     "rows_changed_right_wrong": 2,
+     "verdict": "within noise"
+    },
+    "screenshot:intent": {
+     "before": 0.5,
+     "after": 0.5,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "screenshot:action": {
+     "before": 0.84,
+     "after": 0.78,
+     "delta": -0.06,
+     "ci95": [
+      -0.1373,
+      0.0
+     ],
+     "rows_changed_right_wrong": 3,
+     "verdict": "within noise"
+    },
+    "two_intents:intent": {
+     "before": 0.68,
+     "after": 0.68,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "two_intents:action": {
+     "before": 0.86,
+     "after": 0.88,
+     "delta": 0.02,
+     "ci95": [
+      0.0,
+      0.06
+     ],
+     "rows_changed_right_wrong": 1,
+     "verdict": "within noise"
+    },
+    "typo:intent": {
+     "before": 0.72,
+     "after": 0.72,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "typo:action": {
+     "before": 0.76,
+     "after": 0.72,
+     "delta": -0.04,
+     "ci95": [
+      -0.1,
+      0.0
+     ],
+     "rows_changed_right_wrong": 2,
+     "verdict": "within noise"
+    },
+    "very_long:intent": {
+     "before": 0.68,
+     "after": 0.68,
+     "delta": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_changed_right_wrong": 0,
+     "verdict": "no row changed"
+    },
+    "very_long:action": {
+     "before": 0.82,
+     "after": 0.78,
+     "delta": -0.04,
+     "ci95": [
+      -0.1224,
+      0.04
+     ],
+     "rows_changed_right_wrong": 4,
+     "verdict": "within noise"
+    }
+   },
+   "totals": {
+    "clean_intent_errors": {
+     "before": 564,
+     "after": 564,
+     "delta": 0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "rows_left": 0,
+     "rows_entered": 0,
+     "verdict": "no row changed"
+    },
+    "clean_action_errors": {
+     "before": 321,
+     "after": 313,
+     "delta": -8,
+     "ci95": [
+      -18.0,
+      3.0
+     ],
+     "rows_left": 18,
+     "rows_entered": 10,
      "verdict": "within noise"
     },
     "noisy_intent_errors": {
@@ -26240,21 +28970,25 @@
      "verdict": "no row changed"
     },
     "noisy_action_errors": {
-     "before": 58,
-     "after": 55,
-     "delta": -3,
+     "before": 55,
+     "after": 63,
+     "delta": 8,
      "ci95": [
-      -8.0,
-      2.0
+      1.0,
+      15.0
      ],
-     "rows_left": 5,
-     "rows_entered": 2,
-     "verdict": "within noise"
+     "rows_left": 3,
+     "rows_entered": 11,
+     "verdict": "moved"
     }
    },
    "rows_with_different_right_wrong": {
     "intent": 0,
-    "action": 37
+    "action": 42
+   },
+   "rows_with_different_answer": {
+    "intent": 0,
+    "action": 71
    }
   }
  ],
@@ -26888,9 +29622,16 @@
    "state_ignored_right_under_rule": 76,
    "state_ignored_fixed_by_luna": 37,
    "state_ignored_fixed_by_luna_and_right_under_rule": 35,
-   "luna_fixed": 83,
-   "luna_broke": 33,
-   "luna_fixed_and_right_under_rule": 46
+   "luna_fixed": 86,
+   "luna_broke": 28,
+   "luna_fixed_and_right_under_rule": 47,
+   "first_live_run": {
+    "state_ignored_fixed_by_luna": 37,
+    "state_ignored_fixed_by_luna_and_right_under_rule": 35,
+    "luna_fixed": 83,
+    "luna_broke": 33,
+    "luna_fixed_and_right_under_rule": 46
+   }
   },
   "noisy": {
    "rows": 300,
@@ -26899,11 +29640,18 @@
    "either_right_ceiling_acc": 0.8567,
    "state_ignored_under_v1cpu": 15,
    "state_ignored_right_under_rule": 13,
-   "state_ignored_fixed_by_luna": 7,
-   "state_ignored_fixed_by_luna_and_right_under_rule": 5,
-   "luna_fixed": 17,
-   "luna_broke": 10,
-   "luna_fixed_and_right_under_rule": 7
+   "state_ignored_fixed_by_luna": 6,
+   "state_ignored_fixed_by_luna_and_right_under_rule": 4,
+   "luna_fixed": 14,
+   "luna_broke": 15,
+   "luna_fixed_and_right_under_rule": 5,
+   "first_live_run": {
+    "state_ignored_fixed_by_luna": 7,
+    "state_ignored_fixed_by_luna_and_right_under_rule": 5,
+    "luna_fixed": 17,
+    "luna_broke": 10,
+    "luna_fixed_and_right_under_rule": 7
+   }
   }
  }
 }
