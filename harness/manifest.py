@@ -19,7 +19,10 @@ or its folder when it has none), created (where known). `input_sha256` is the SH
 runs, smoke tests) says so in `rows`. Runs graded with rows left out (chaos runs) report the harness's numbers on
 the rows sent, because the grader counts unsent rows as wrong.
 
-`claimed` comes from the run named in CLAIM_RUN and uses the submission's OP-06 claim keys.
+`claimed` comes from the run named in CLAIM_RUN and uses the submission's OP-06 claim keys: the grader's numbers
+from its report, and latency p95 and cost per message from its latency_bench.json (cost at uncached list price when
+the bench has it, as MODELS.md asks). `claimed_notes` says in plain words what each claim measures and where the
+cost came from.
 The build stops if a raw path is missing, is a symlink, leaves the repo, or a folder in results/raw/ is not listed.
 """
 from __future__ import annotations
@@ -32,7 +35,8 @@ from pathlib import Path
 from triage.data import DATA, ROOT
 
 RAW = ROOT / "results" / "raw"
-CLAIM_RUN = "dev-classical-v0"
+CLAIM_RUN = "dev-http-llm"
+CLAIM_MACHINE = "Apple M1 laptop"         # where CLAIM_RUN ran; change both together
 LEDGER_DIR = RAW / "llm-ledger"
 ALL_ROWS = ["data/op06/dev.jsonl", "data/op06/dev_noisy.jsonl", "data/op06/hostile.jsonl"]
 
@@ -228,8 +232,12 @@ def system_run(d: Path, seeds: dict) -> dict:
     if real_llm and bench.get("llm_calls") is not None:
         out["llm_calls"] = bench["llm_calls"]
         out["api_cost_usd"] = bench.get("llm_cost_usd")
+        if bench.get("llm_cost_uncached_usd") is not None:
+            out["api_cost_usd_uncached"] = bench["llm_cost_uncached_usd"]
+        per_call = ("per-call token counts and costs are in service_log.jsonl" if (d / "service_log.jsonl").exists()
+                    else "per-call token counts were not kept")
         out["api_cost_note"] = ("list price from the token counts the provider returned (GET /metrics before and "
-                                "after the run); per-call token counts were not kept")
+                                f"after the run); {per_call}")
         before = ((bench.get("server_metrics_before") or {}).get("llm") or {})
         if before.get("calls"):
             out["llm_calls_before_window"] = before["calls"]
@@ -248,6 +256,16 @@ def system_run(d: Path, seeds: dict) -> dict:
             out["metrics"] = rep["official"]
             out["bars_pass"] = rep["bars"]
     return out
+
+
+def measurement_run(d: Path) -> dict:
+    """A folder of timing measurements (no predictions): e.g. results/raw/linux-threads (EXPERIMENT_LOG P3-2)."""
+    files = sorted(p.name for p in d.iterdir())
+    return {"run_id": d.name, "kind": "measurement", "seed": None, "model": "classical_v0 bundle (in-process, LLM off)",
+            "status": "completed", "input_sha256": sha256_files(["data/op06/dev.jsonl"]),
+            "input_files": ["data/op06/dev.jsonl"], "raw_path": str(d.relative_to(ROOT)), "files": files,
+            "api_cost_usd": 0.0, "evidence": evidence(d.name),
+            "note": "throughput by thread count, written by experiments/linux_threads/scaling.py"}
 
 
 def incomplete_run(d: Path) -> dict:
@@ -311,6 +329,54 @@ def check(runs: list[dict], ledger: dict) -> dict:
             "folders_in_results_raw": len(folders), "all_folders_listed": True}
 
 
+def claims(run: dict, bench: dict) -> tuple[dict, dict]:
+    """The OP-06 claim keys from the claim run's grader metrics and its latency_bench.json, and a plain note on
+    each. Cost: the uncached list price per message when the bench has it, else the cached-rate one, and the notes
+    say which."""
+    m = run["metrics"]
+    p95 = (bench.get("latency_ms") or {}).get("p95")
+    cached = bench.get("cost_per_message_usd")
+    uncached = bench.get("cost_per_message_uncached_usd")
+    cost_key = "cost_per_message_uncached_usd" if uncached is not None else "cost_per_message_usd"
+    claimed = {"intent_accuracy": m["intent_acc"], "macro_f1": m["macro_f1"], "action_accuracy": m["action_acc"],
+               "noisy_accuracy": m["action_acc_noisy"], "schema_valid_pct": m["schema_valid_pct"],
+               "top70_error_ratio": m["top70_error_ratio"], "cost_per_message_usd": bench.get(cost_key),
+               "latency_p95_s": round(p95 / 1000, 3) if p95 is not None else None}
+    health = bench.get("server_health") or {}
+    llm = health.get("llm") or {}
+    client = bench.get("client") or {}
+    n, conc = bench.get("sample_count"), bench.get("concurrency")
+    rows = f"{n:,}" if isinstance(n, int) else "?"
+    msgs = f"the {rows} messages of the run (latency_bench.json llm cost / sample_count)"
+    if uncached is not None:
+        cost = (f"API list price per message at uncached rates, every prompt token at the full input price (MODELS.md: "
+                f"cache discounts are not credited to benchmark cost): the run's LLM cost over {msgs}. "
+                f"At cached rates it was {cached} USD per message.")
+    else:
+        cost = (f"API list price per message WITH cache discounts, over {msgs}: this run's latency_bench.json has no "
+                "uncached figure (it predates it), so this is below the uncached price MODELS.md asks for. Rerun "
+                "scripts/reproduce.sh http-eval with the LLM step on to measure the uncached one.")
+    notes = {
+        "intent_accuracy": "share of the 2,300 labelled rows (dev 2,000 + dev_noisy 300) with the right intent",
+        "macro_f1": "intent macro-F1 over the same 2,300 rows",
+        "action_accuracy": "share of the 2,300 labelled rows with the right next action",
+        "noisy_accuracy": "action accuracy on dev_noisy (300 rows)",
+        "schema_valid_pct": "per cent of all 2,309 answers (the 9 hostile rows included) that pass the grader's "
+                            "schema check",
+        "top70_error_ratio": "error rate on the 70% of rows with the highest confidence divided by the error rate on "
+                             "all rows; lower is better",
+        "latency_p95_s": (f"p95 of client-measured request time in seconds (latency_bench.json latency_ms.p95 / "
+                          f"1000): all {rows} rows over HTTP, concurrency {conc}, {CLAIM_MACHINE} "
+                          f"({client.get('platform')}), LLM step {'on' if llm.get('enabled') else 'off'}, "
+                          "one uvicorn worker"),
+        "cost_per_message_usd": cost,
+        "cost_source": f"latency_bench.json {cost_key}",
+        "cost_per_message_usd_cached_rate": cached,
+        "cost_per_message_usd_uncached_rate": uncached,
+    }
+    return claimed, notes
+
+
 def main():
     ledger, tags = ledger_entry()
     seeds = bundle_seeds()
@@ -322,12 +388,12 @@ def main():
             runs.append(encoder_run(d))
         elif (d / "predictions.jsonl").exists():
             runs.append(system_run(d, seeds))
+        elif (d / "scaling.json").exists():
+            runs.append(measurement_run(d))
         else:
             runs.append(incomplete_run(d))
-    claim = next(r for r in runs if r["run_id"] == CLAIM_RUN)["metrics"]
-    claimed = {"intent_accuracy": claim["intent_acc"], "macro_f1": claim["macro_f1"], "action_accuracy": claim["action_acc"],
-               "noisy_accuracy": claim["action_acc_noisy"], "schema_valid_pct": claim["schema_valid_pct"],
-               "top70_error_ratio": claim["top70_error_ratio"], "cost_per_message_usd": None, "latency_p95_s": None}
+    claimed, claimed_notes = claims(next(r for r in runs if r["run_id"] == CLAIM_RUN),
+                                    read_json(RAW / CLAIM_RUN / "latency_bench.json"))
     llm = [r for r in runs if r["kind"] == "llm_calls"]
     paid = [r for r in runs if r.get("llm_calls")]
     spend = {
@@ -340,9 +406,10 @@ def main():
         "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. "
                 "Not included: the 13 Oct probe (outside this repo; see ledger.prior_spend_outside_repo).",
     }
-    manifest = {"problem": "OP-06", "claimed": claimed, "claimed_from_run": CLAIM_RUN,
-                "note": "Development measurements on the published dev split. cost and latency stay null until the "
-                        "Phase 3 load test measures them.",
+    manifest = {"problem": "OP-06", "claimed": claimed, "claimed_from_run": CLAIM_RUN, "claimed_notes": claimed_notes,
+                "note": f"Development measurements on the published dev, dev_noisy and hostile files, all from run "
+                        f"{CLAIM_RUN}: every answer came over HTTP from the running service. claimed_notes says "
+                        "what each claim measures.",
                 "input_sha256_definition": "SHA-256 of the run's input_files concatenated in the order listed",
                 "spend_usd": spend, "ledger": ledger, "runs": runs}
     manifest["checks"] = check(runs, ledger)

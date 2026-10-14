@@ -381,8 +381,13 @@ class Triage:
                 conf = min(conf, s.flag_conf_cap)
             resp = {"id": w.rid, "intent": w.intent, "action": action, "confidence": float(conf),
                     "needs_human": bool(reasons)}
+            # labels, counts and costs only: never the prompt or the answer text
             llm = None if r is None else {"status": r.status, "action": r.action, "used": used,
                                           "latency_s": round(r.latency_s, 4), "cost_usd": r.cost_usd,
+                                          "cost_uncached_usd": r.cost_uncached_usd,
+                                          "prompt_tokens": r.prompt_tokens, "completion_tokens": r.completion_tokens,
+                                          "cached_tokens": r.cached_tokens,
+                                          "cache_write_tokens": r.cache_write_tokens,
                                           "model": r.model, "provider": r.provider}
             cpu = {"intent": w.intent, "flow": w.flow, "action": w.action, "confidence": w.conf,
                    "second_intent": w.second, "masked": sorted(w.masked)}

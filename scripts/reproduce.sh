@@ -37,8 +37,9 @@
 # 15 s) first if the LLM step is on and the index is missing.
 # Default RUN: dev-pipeline-cpu or dev-pipeline-llm (eval), dev-http-cpu or dev-http-llm (http-eval).
 # Each run writes results/raw/<RUN>/: predictions.jsonl, report.json (harness summary) and report_official.json
-# (grader.py output, unchanged); eval adds details.jsonl and meta.json, http-eval adds meta.json and
-# latency_bench.json.
+# (grader.py output, unchanged); eval adds details.jsonl and meta.json, http-eval adds meta.json,
+# latency_bench.json and service_log.jsonl (the service's stdout: one JSON line per request, warm-up included,
+# with the LLM call's status, latency, token counts and both costs; no customer text).
 #
 # Environment: PORT (8000), HOST (0.0.0.0, serve only), URL (loadtest), WAIT_S (seconds to wait for /healthz,
 # 180), and the TRIAGE_* settings in docs/DESIGN.md. The LLM step is on when TRIAGE_LLM=on, or when
@@ -337,6 +338,20 @@ cmd_http_eval() {
     --out results/latency_bench.json --pred-out "$TMP/predictions.jsonl"
   stop_service
   cp results/latency_bench.json "$out/latency_bench.json"
+  # SERVER_LOG holds the service's stdout and stderr; keep the JSON lines (stdout), drop uvicorn's text (stderr)
+  "$PY" - "$SERVER_LOG" "$out/service_log.jsonl" <<'EOF'
+import json, sys
+keep = []
+with open(sys.argv[1], encoding="utf-8", errors="replace") as fh:
+    for line in fh:
+        try:
+            if isinstance(json.loads(line), dict):
+                keep.append(line.rstrip("\n") + "\n")
+        except ValueError:
+            pass
+with open(sys.argv[2], "w", encoding="utf-8") as fh:
+    fh.writelines(keep)
+EOF
   "$PY" - "$TMP/predictions.jsonl" "$out" <<'EOF'
 import json, platform, sys, time
 from pathlib import Path
@@ -356,6 +371,10 @@ Path("results/predictions.jsonl").write_text("".join(every), encoding="utf-8")
 (out / "predictions.jsonl").write_text("".join(every), encoding="utf-8")
 bench = json.loads((out / "latency_bench.json").read_text(encoding="utf-8"))
 h = bench["server_health"]
+log = [json.loads(l) for l in (out / "service_log.jsonl").read_text(encoding="utf-8").splitlines()]
+reqs = [r for r in log if "request_id" in r]
+measured = {r["request_id"] for r in bench["requests"]}
+called = {"ok", "timeout", "http_error", "invalid", "abstained"}           # triage.service.LLM_CALLED
 meta = {"run_id": out.name, "created": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "system": "service-http",
         "bundle": h.get("bundle"), "bundle_sha256": h.get("bundle_sha256"), "policy": h.get("policy"),
         "llm": h.get("llm"), "inputs": {k: {"file": f"data/op06/{SPLITS[k]}", "sha256": sha256(DATA / SPLITS[k])}
@@ -363,6 +382,16 @@ meta = {"run_id": out.name, "created": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "sy
         "rows": len(every), "concurrency": bench["concurrency"], "wall_s": bench["wall_s"],
         "latency_ms": bench["latency_ms"], "python": platform.python_version(),
         "machine": f"{platform.system()} {platform.machine()}",
+        "service_log": {"file": "service_log.jsonl", "lines": len(log), "request_lines": len(reqs),
+                        "measured_request_lines": sum(r["request_id"] in measured for r in reqs),
+                        "warmup_request_lines": sum(r["request_id"].startswith("lt-warmup-") for r in reqs),
+                        "llm_calls": sum(r.get("llm_status") in called for r in reqs)},
+        "service_log_note": "the service's stdout: one JSON line per request, plus its start-up line. It holds the "
+                            "warm-up requests too (request ids starting lt-warmup-), which latency_bench.json "
+                            "leaves out; a measured request has its request_id in latency_bench.json requests. A "
+                            "line with an LLM call gives its status, latency, token counts, llm_cost_usd (list "
+                            "price, cache discounts applied) and llm_cost_uncached_usd (list price, no cache "
+                            "discount). No customer text.",
         "note": "every prediction came back over HTTP from the running service (scripts/loadtest.py)"}
 (out / "meta.json").write_text(json.dumps(meta, indent=1))
 print(f"wrote {len(every)} predictions to results/predictions.jsonl and the three split files")

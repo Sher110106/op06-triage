@@ -289,7 +289,8 @@ def test_handle_many_matches_handle(triage_off, split):
 def test_llm_agree_raises_confidence(triage_off, soft, monkeypatch):
     row, cpu, _, _ = soft
     fake = FakeStep(LLMResult("ok", intent="x", action=cpu["action"], latency_s=0.5, cost_usd=0.0001,
-                              model="m", provider="p"))
+                              cost_uncached_usd=0.0003, prompt_tokens=2900, completion_tokens=20, cached_tokens=2300,
+                              cache_write_tokens=100, model="m", provider="p"))
     monkeypatch.setattr(triage_off, "llm", fake)
     resp, tr = triage_off.handle(row, "r")
     assert fake.calls == [row["id"]]
@@ -297,7 +298,9 @@ def test_llm_agree_raises_confidence(triage_off, soft, monkeypatch):
     assert resp["confidence"] == round((cpu["confidence"] + 1.0) / 2, 6)
     assert resp["needs_human"] is True and tr["route_reasons"] == ["low_confidence"]   # still under 0.8498
     assert tr["llm"] == {"status": "ok", "action": cpu["action"], "used": True, "latency_s": 0.5,
-                         "cost_usd": 0.0001, "model": "m", "provider": "p"}
+                         "cost_usd": 0.0001, "cost_uncached_usd": 0.0003, "prompt_tokens": 2900,
+                         "completion_tokens": 20, "cached_tokens": 2300, "cache_write_tokens": 100,
+                         "model": "m", "provider": "p"}
     assert tr["cpu"]["confidence"] == cpu["confidence"]
 
 
@@ -317,6 +320,25 @@ def test_llm_failure_keeps_cpu_answer(triage_off, soft, monkeypatch, status):
     resp, tr = triage_off.handle(row, "r")
     assert resp == cpu
     assert tr["llm"]["status"] == status and tr["llm"]["used"] is False
+    assert tr["llm"]["cost_usd"] is None and tr["llm"]["cost_uncached_usd"] is None
+    assert [tr["llm"][k] for k in ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens")] == \
+        [0, 0, 0, 0]
+
+
+def test_llm_trace_holds_no_text(triage_off, soft, monkeypatch):
+    """The trace's llm part has labels, counts and costs only: the conversation, the prompt and any error text the
+    provider sent stay out."""
+    row, _, _, _ = soft
+    secret = "zq7x-provider-said-this"
+    monkeypatch.setattr(triage_off, "llm", FakeStep(LLMResult("http_error", error=secret, prompt_tokens=7)))
+    _, tr = triage_off.handle(row, "r")
+    assert set(tr["llm"]) == {"status", "action", "used", "latency_s", "cost_usd", "cost_uncached_usd",
+                              "prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens", "model",
+                              "provider"}
+    text = json.dumps(tr)
+    assert secret not in text
+    assert not [t["text"] for t in row["context"]
+                if t["speaker"] != "action" and len(t["text"]) >= 12 and t["text"] in text]
 
 
 def test_llm_exception_keeps_cpu_answer(triage_off, soft, monkeypatch):

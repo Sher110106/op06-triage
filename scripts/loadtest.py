@@ -5,9 +5,12 @@
       [--label NAME] [--timeout-s 30]
 
 Default inputs: dev + dev_noisy + hostile, projected with triage.data.project (id, turn_index, context only).
-Latency is measured by the client around the whole request. LLM calls and cost are the change in GET /metrics
-over the run. Warm-up requests use a changed id, so they do not fill the service's idempotency cache for the
-measured rows. A repeated body is answered from that cache, so --repeat 2 measures cache replays.
+Latency is measured by the client around the whole request. LLM calls, tokens and cost are the change in GET /metrics
+over the run: llm_cost_usd at list price with cache discounts, llm_cost_uncached_usd at list price with none (how
+MODELS.md prices a benchmark); the uncached cost and token counts are null when the service does not report them
+(an older service). Warm-up requests use a changed id, so they do not fill the service's idempotency cache for the
+measured rows, and a request id starting "lt-warmup-", so the service log tells them apart. A repeated body is
+answered from that cache, so --repeat 2 measures cache replays.
 Exits 1 when any request fails, returns a status other than 200, or returns a body that is not schema-valid.
 """
 from __future__ import annotations
@@ -81,7 +84,7 @@ async def wait_ready(client: httpx.AsyncClient, wait_s: float) -> dict:
 
 
 async def one(client: httpx.AsyncClient, seq: int, row, t0: float, timeout_s: float) -> dict:
-    rid = f"lt-{uuid.uuid4().hex}"
+    rid = f"lt-{'warmup-' if seq < 0 else ''}{uuid.uuid4().hex}"
     rec = {"seq": seq, "request_id": rid, "id": row.get("id") if isinstance(row, dict) else None}
     body = _encode(row)
     start = time.perf_counter()
@@ -147,12 +150,23 @@ def _llm(m: dict, key: str) -> float:
     return float(v) if isinstance(v, (int, float)) else 0.0
 
 
+def _llm_delta(before: dict, after: dict, key: str, digits: int = 8):
+    """after - before for one GET /metrics llm counter; None when either side lacks it (an older service)."""
+    b, c = ((m.get("llm") or {}).get(key) for m in (before, after))
+    ok = all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in (b, c))
+    return round(c - b, digits) if ok else None
+
+
+TOKEN_KEYS = ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens")
+
+
 def summarise(a, rows, recs, wall, health, before, after) -> dict:
     done = [r["duration_ms"] for r in recs if r["status"] is not None]
     lat = np.asarray(done) if done else np.zeros(1)
     p50, p95, p99 = (round(float(x), 3) for x in np.percentile(lat, [50, 95, 99]))
     n = len(recs)
     cost = round(_llm(after, "cost_usd") - _llm(before, "cost_usd"), 8)
+    uncached = _llm_delta(before, after, "cost_uncached_usd")
     preds = [r.pop("_pred") for r in recs]
     if a.pred_out:
         Path(a.pred_out).parent.mkdir(parents=True, exist_ok=True)
@@ -175,6 +189,9 @@ def summarise(a, rows, recs, wall, health, before, after) -> dict:
             "server_health": health, "server_metrics_before": before, "server_metrics_after": after,
             "llm_calls": int(_llm(after, "calls") - _llm(before, "calls")), "llm_cost_usd": cost,
             "cost_per_message_usd": round(cost / n, 10) if n else None,
+            "llm_cost_uncached_usd": uncached,
+            "cost_per_message_uncached_usd": round(uncached / n, 10) if n and uncached is not None else None,
+            **{f"llm_{k}": _llm_delta(before, after, k, 0) for k in TOKEN_KEYS},
             "requests": recs}
 
 
@@ -198,7 +215,8 @@ def main(argv=None) -> int:
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(rep, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     keys = ("label", "sample_count", "errors", "non_200", "schema_invalid", "id_mismatch", "replays", "latency_ms",
-            "throughput_rps", "wall_s", "llm_calls", "llm_cost_usd", "cost_per_message_usd")
+            "throughput_rps", "wall_s", "llm_calls", "llm_cost_usd", "cost_per_message_usd", "llm_cost_uncached_usd",
+            "cost_per_message_uncached_usd", *(f"llm_{k}" for k in TOKEN_KEYS))
     print(json.dumps({k: rep[k] for k in keys}))
     return 1 if rep["errors"] or rep["non_200"] or rep["schema_invalid"] or rep["id_mismatch"] else 0
 

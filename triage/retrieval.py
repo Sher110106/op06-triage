@@ -76,7 +76,10 @@ class Retriever:
     def _top(self, row: dict, k: int) -> list[tuple[int, float]]:
         s = self.scores(row)
         picked, convs = [], set()
-        for j in np.argsort(-s):
+        # Stable sort on scores rounded to 9 places: exact ties go to the earlier train row on every platform.
+        # The default argsort breaks ties differently on x86 and ARM (numpy's SIMD sorts), which changed the
+        # examples for 3 of 2,300 dev rows on Linux (EXPERIMENT_LOG P3-4).
+        for j in np.argsort(-np.round(s, 9), kind="stable"):
             if self._conv[j] in convs:
                 continue
             convs.add(self._conv[j])

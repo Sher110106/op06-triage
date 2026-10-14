@@ -25,6 +25,15 @@ def test_eval_commands_rebuild_the_manifest(name):
     assert "harness.manifest" in _function("manifest")
 
 
+def test_http_eval_keeps_the_service_log():
+    """http-eval saves the service's JSON lines (one per request, with the LLM call's tokens and costs) beside the
+    run, after the service has stopped; start_service itself is unchanged, so smoke and serve behave as before."""
+    body = _function("cmd_http_eval")
+    assert '"$SERVER_LOG" "$out/service_log.jsonl"' in body
+    assert body.index("stop_service") < body.index("service_log.jsonl")
+    assert '>"$SERVER_LOG" 2>&1 &' in _function("start_service")
+
+
 def _free_port() -> int:
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))

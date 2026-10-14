@@ -12,7 +12,8 @@ import pytest
 
 from triage import prompts as P
 from triage.data import ROOT, project
-from triage.llm_action import CircuitBreaker, LLMActionStep, LLMConfig, LLMResult, list_cost, request_body
+from triage.llm_action import (CircuitBreaker, LLMActionStep, LLMConfig, LLMResult, list_cost, list_cost_uncached,
+                                request_body)
 from triage.retrieval import DEFAULT_PATH, Retriever
 
 KEY = "sk-or-v1-TESTKEY-0123456789abcdef"
@@ -178,6 +179,8 @@ def test_valid_answer_and_request(fake):
         "recover_password", "enter-details", 0.9, False)
     assert (res.prompt_tokens, res.completion_tokens, res.cached_tokens, res.cache_write_tokens) == (10000, 40, 8000, 0)
     assert res.cost_usd == pytest.approx((2000 * 0.10 + 8000 * 0.01 + 40 * 0.50) / 1e6)
+    assert res.cost_uncached_usd == pytest.approx((10000 * 0.10 + 40 * 0.50) / 1e6)      # no credit for the cache
+    assert res.cost_uncached_usd > res.cost_usd
     assert res.cost_reported == 0.000123
     assert (res.model, res.provider, res.http_status) == ("openai/gpt-6-luna-20260922", "OpenAI", 200)
     assert res.latency_s > 0
@@ -383,12 +386,13 @@ def test_bad_token_counts_give_no_cost(fake, usage):
     fake.mode = "usage:" + json.dumps(usage)
     step = make_step(fake)
     res = step.decide(ROW)
-    assert res.status == "ok" and res.cost_usd is None
+    assert res.status == "ok" and res.cost_usd is None and res.cost_uncached_usd is None
     assert all(0 <= n <= 10_000_000 for n in (res.prompt_tokens, res.completion_tokens, res.cached_tokens,
                                               res.cache_write_tokens))
     fake.mode = "usage:" + json.dumps({"prompt_tokens": 100, "completion_tokens": 10, "cost": -3})
     res = step.decide(ROW)
     assert res.cost_usd == pytest.approx(1.5e-5) and res.cost_reported is None
+    assert res.cost_uncached_usd == pytest.approx(1.5e-5)                  # nothing cached: the two costs agree
     step.close()
 
 
@@ -421,6 +425,19 @@ def test_list_cost():
     assert list_cost("other/model", 10, 10, 0, 0) is None
 
 
+def test_list_cost_uncached():
+    """MODELS.md prices a benchmark at uncached rates: every prompt token at the input price."""
+    assert list_cost_uncached("openai/gpt-6-luna-20260922", 1_000_000, 1_000_000) == pytest.approx(0.60)
+    assert list_cost_uncached("openai/gpt-6-luna", 3000, 50) == pytest.approx((3000 * 0.10 + 50 * 0.50) / 1e6)
+    assert list_cost_uncached("other/model", 10, 10) is None
+    unc = list_cost_uncached("openai/gpt-6-luna", 3000, 50)
+    assert unc == list_cost("openai/gpt-6-luna", 3000, 50, 0, 0)          # nothing cached: the same price
+    assert unc > list_cost("openai/gpt-6-luna", 3000, 50, 2500, 0)        # cache reads are a discount
+    # a cache write costs more than a plain input token (0.125 against 0.10), so it can put the cached-rate
+    # price above the uncached one
+    assert unc < list_cost("openai/gpt-6-luna", 3000, 50, 0, 2500)
+
+
 # ----------------------------------------------------------------------------- retrieval
 
 @pytest.fixture(scope="session")
@@ -432,10 +449,16 @@ def retriever():
 
 def test_retrieval_matches_llm_test_examples(retriever, split):
     ref = json.loads((ROOT / "experiments" / "llm_tail" / "retrieval.json").read_text())
-    rows = [project(r) for r in split("dev")[:200]]
-    match = sum([i for i, _ in retriever.top_k(r)] == [i for i, _ in ref[r["id"]]] for r in rows)
-    print(f"retrieval top-8 match: {match}/{len(rows)}")
-    assert match == len(rows)
+    rows = [project(r) for r in split("dev") + split("noisy")]
+    differ = []
+    for r in rows:
+        got = retriever.top_k(r)
+        if [i for i, _ in got] != [i for i, _ in ref[r["id"]]]:
+            # only the order of exactly tied candidates may differ: the tested examples used an unstable sort
+            assert [round(s, 4) for _, s in got] == [s for _, s in ref[r["id"]]], r["id"]
+            differ.append(r["id"])
+    print(f"retrieval top-8 differs only by tie order on {len(differ)}/{len(rows)}: {differ}")
+    assert len(differ) <= 4
     r = rows[0]
     got = retriever.top_k(r)
     assert [round(s, 4) for _, s in got] == [s for _, s in ref[r["id"]]]

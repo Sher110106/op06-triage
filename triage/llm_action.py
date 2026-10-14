@@ -4,8 +4,9 @@ action with the tested V3 prompt (static system prompt, 8 retrieved train exampl
 One pooled HTTP client, a hard deadline per call, no retries, a circuit breaker, and at most `max_in_flight` calls
 waiting at once (more come back "busy" at once, so a slow provider cannot hold every worker thread). Replies over
 MAX_REPLY bytes and answers over MAX_CONTENT characters are "invalid", and token counts outside [0, MAX_TOKENS]
-give no cost. `decide` never raises: any failure comes back as a status, and the caller keeps the CPU answer. The
-API key never appears in a repr, a result or an error text.
+give no cost (neither cost_usd, at cached rates, nor cost_uncached_usd). `decide` never raises: any failure comes
+back as a status, and the caller keeps the CPU answer. The API key never appears in a repr, a result or an error
+text.
 """
 from __future__ import annotations
 
@@ -103,7 +104,8 @@ class LLMResult:
     confidence: float | None = None          # the model's own figure, as returned
     needs_human: bool | None = None
     latency_s: float = 0.0
-    cost_usd: float | None = None            # list price from the token counts
+    cost_usd: float | None = None            # list price from the token counts, cache discounts applied
+    cost_uncached_usd: float | None = None   # list price with no cache discount (how MODELS.md prices a benchmark)
     cost_reported: float | None = None       # usage.cost when the server sends it (OpenRouter)
     prompt_tokens: int = 0
     completion_tokens: int = 0
@@ -182,6 +184,14 @@ def list_cost(model: str, prompt: int, completion: int, cached: int, cache_write
         return None
     return ((prompt - cached - cache_write) * p["in"] + cached * p["cache_read"] + cache_write * p["cache_write"]
             + completion * p["out"]) / 1e6
+
+
+def list_cost_uncached(model: str, prompt: int, completion: int) -> float | None:
+    """List price as if no prompt token were cached: every prompt token at the input rate."""
+    p = PRICES.get(model)
+    if p is None:
+        return None
+    return (prompt * p["in"] + completion * p["out"]) / 1e6
 
 
 def _num(v) -> float | None:
@@ -297,11 +307,12 @@ class LLMActionStep:
         sane = None not in counts and counts[2] + counts[3] <= counts[0]
         pt, ct, cr, cw = (c or 0 for c in counts)
         model = _str(data.get("model"))
+        priced = self.cfg.model if self.cfg.model in PRICES else model
         reported = _num(u.get("cost"))
         meta = dict(latency_s=lat, http_status=code, model=model, provider=_str(data.get("provider")),
                     prompt_tokens=pt, completion_tokens=ct, cached_tokens=cr, cache_write_tokens=cw,
-                    cost_usd=list_cost(self.cfg.model if self.cfg.model in PRICES else model, pt, ct, cr, cw)
-                    if sane else None,
+                    cost_usd=list_cost(priced, pt, ct, cr, cw) if sane else None,
+                    cost_uncached_usd=list_cost_uncached(priced, pt, ct) if sane else None,
                     cost_reported=reported if reported is not None and reported >= 0 else None)
 
         choices = data.get("choices")

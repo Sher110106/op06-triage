@@ -22,7 +22,8 @@ from fastapi.testclient import TestClient
 
 from triage.data import DATA, ROOT, project
 from triage import service as S
-from triage.service import MAX_BODY, MAX_DEPTH, PARSE_INLINE, create_app, parse_body, percentiles, request_id
+from triage.service import (MAX_BODY, MAX_DEPTH, PARSE_INLINE, create_app, parse_body, percentiles, request_id,
+                             trace_fields)
 
 BUNDLE = ROOT / "models" / "classical_v0.joblib"
 MARKER = "zq7xmarker-do-not-log"
@@ -30,6 +31,11 @@ ROW = {"id": "row-1", "turn_index": 3, "context": [
     {"speaker": "customer", "text": "hi, my order never arrived"},
     {"speaker": "agent", "text": "sorry to hear that, let me look"},
     {"speaker": "action", "text": "pull-up-account"}]}
+# one LLM call as the pipeline traces it: 2,000 prompt tokens (1,500 cached), 40 completion tokens, at Luna's prices
+# cached rate (500 x 0.10 + 1,500 x 0.01 + 40 x 0.50) / 1e6; uncached (2,000 x 0.10 + 40 x 0.50) / 1e6
+LLM_CALL = {"latency_s": 0.25, "cost_usd": 8.5e-05, "cost_uncached_usd": 2.2e-04, "prompt_tokens": 2000,
+            "completion_tokens": 40, "cached_tokens": 1500, "cache_write_tokens": 0}
+TOKENS = ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens")
 
 
 @cache
@@ -90,7 +96,7 @@ class FakeTriage:
                 "confidence": 0.31 if routed else self.conf.get(id(policy), 0.82), "needs_human": routed}
         trace = {"flags": ["empty_turns"] + (["second_intent"] if routed else []),
                  "route_reasons": ["low_confidence"] if routed else [],
-                 "llm": {"status": self.llm_status, "latency_s": 0.25, "cost_usd": 0.0001} if routed else None,
+                 "llm": {"status": self.llm_status, **LLM_CALL} if routed else None,
                  "policy_version": policy.version}
         return resp, trace
 
@@ -535,18 +541,33 @@ def test_degraded_llm_answers_expire(make_client):
 
 
 def test_bad_llm_cost_is_not_counted(make_client):
-    for cost in (-5e301, -1.0, 1e23, float("nan")):
+    for bad in (-5e301, -1.0, 1e23, float("nan"), True, "12", 2.5, 10_000_001):
         fake = FakeTriage()
         c = make_client(fake)
         orig = fake.handle
 
-        def handle(obj, rid, orig=orig, cost=cost):
+        def handle(obj, rid, orig=orig, bad=bad):
             resp, trace = orig(obj, rid)
-            return resp, {**trace, "llm": {"status": "ok", "cost_usd": cost}}
+            return resp, {**trace, "llm": {"status": "ok", "cost_usd": bad, "cost_uncached_usd": bad,
+                                           **dict.fromkeys(TOKENS, bad)}}
 
         fake.handle = handle
         post(c, ROW)
-        assert c.get("/metrics").json()["llm"]["cost_usd"] == 0
+        llm = c.get("/metrics").json()["llm"]
+        assert llm["calls"] == 1 and llm["cost_usd"] == 0 and llm["cost_uncached_usd"] == 0, bad
+        assert all(llm[k] == 0 for k in TOKENS), bad
+
+
+def test_trace_fields_tokens_and_costs():
+    f = trace_fields({"llm": {"status": "ok", **LLM_CALL}})
+    assert (f["llm_cost_usd"], f["llm_cost_uncached_usd"]) == (8.5e-05, 2.2e-04)
+    assert [f[f"llm_{k}"] for k in TOKENS] == [2000, 40, 1500, 0]
+    assert f["llm_latency_ms"] == 250.0
+    odd = trace_fields({"llm": {"status": "ok", "prompt_tokens": -1, "completion_tokens": 1e30, "cached_tokens": "9",
+                                "cache_write_tokens": 3.0, "cost_uncached_usd": float("inf")}})
+    assert [odd[f"llm_{k}"] for k in TOKENS] == [None, None, None, 3] and odd["llm_cost_uncached_usd"] is None
+    none = trace_fields({"llm": None})
+    assert all(none[k] is None for k in S.LLM_LOG_KEYS)
 
 
 def test_policy_reload_without_version_change_reaches_cached_body(tmp_path, triage_shipped, split, monkeypatch):
@@ -635,7 +656,9 @@ def test_metrics_counters(client):
     assert m["replays"] == 1 and m["routed"] == 1 and m["abstentions"] == 0
     assert m["flags"] == {"empty_turns": 2, "second_intent": 1}
     assert m["route_reasons"] == {"low_confidence": 1}
-    assert m["llm"] == {"calls": 1, "by_status": {"ok": 1}, "cost_usd": 0.0001}
+    assert m["llm"] == {"calls": 1, "by_status": {"ok": 1}, "cost_usd": 8.5e-05, "cost_uncached_usd": 2.2e-04,
+                        "prompt_tokens": 2000, "completion_tokens": 40, "cached_tokens": 1500,
+                        "cache_write_tokens": 0}                         # the replay adds nothing
     assert m["latency_ms"]["window"] == 6 and 0 <= m["latency_ms"]["p50"] <= m["latency_ms"]["p99"]
     assert m["idempotency"]["entries"] == 2 and m["policy_version"] == "test.1"
 
@@ -677,9 +700,13 @@ def test_logs_have_no_customer_text(make_client):
     assert [r["status"] for r in recs] == [200, 200, 400, 400, 200]
     first = recs[0]
     assert {"ts", "latency_ms", "flags", "route_reasons", "llm_status", "llm_latency_ms", "llm_cost_usd",
-            "policy_version", "needs_human", "abstained"} <= set(first)
+            "llm_cost_uncached_usd", "llm_prompt_tokens", "llm_completion_tokens", "llm_cached_tokens",
+            "llm_cache_write_tokens", "policy_version", "needs_human", "abstained"} <= set(first)
     assert first["needs_human"] is True and first["llm_status"] == "ok" and first["llm_latency_ms"] == 250.0
-    assert recs[1]["replay"] is True and recs[1]["llm_status"] is None
+    assert (first["llm_cost_usd"], first["llm_cost_uncached_usd"]) == (8.5e-05, 2.2e-04)
+    assert [first[f"llm_{k}"] for k in TOKENS] == [2000, 40, 1500, 0]
+    assert recs[1]["replay"] is True and all(recs[1][k] is None for k in S.LLM_LOG_KEYS)    # no call on a replay
+    assert all(set(r) <= {"ts", "request_id", "status", "latency_ms", *S.LOG_KEYS} for r in recs)
     assert recs[4]["error"] == "internal" and recs[4]["error_type"] == "RuntimeError"
 
 
@@ -741,27 +768,37 @@ def test_uvicorn_end_to_end(tmp_path, split):
 
 # ------------------------------------------------------------------ scripts/loadtest.py against the fake
 
-def test_loadtest_script(tmp_path):
-    import uvicorn
+def _loadtest():
     spec = importlib.util.spec_from_file_location("loadtest", ROOT / "scripts" / "loadtest.py")
     lt = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(lt)
-    rows = [{**ROW, "id": f"lt-{i}", "intent": "gold-only"} for i in range(6)]
+    return lt
+
+
+def _run_loadtest(fake, rows, tmp_path, args) -> tuple[int, dict]:
+    """scripts/loadtest.py against create_app(fake) under uvicorn on a free port."""
+    import uvicorn
     inputs = tmp_path / "rows.jsonl"
     inputs.write_text("".join(json.dumps(r) + "\n" for r in rows))
-    fake, port = FakeTriage(), _free_port()
+    port = _free_port()
     server = uvicorn.Server(uvicorn.Config(create_app(fake), host="127.0.0.1", port=port, log_level="warning"))
     th = threading.Thread(target=server.run, daemon=True)
     th.start()
+    out = tmp_path / "bench.json"
     try:
-        out, preds = tmp_path / "bench.json", tmp_path / "preds.jsonl"
-        code = lt.main(["--url", f"http://127.0.0.1:{port}", "--inputs", str(inputs), "--limit", "5", "--warmup", "2",
-                        "--repeat", "2", "--concurrency", "3", "--out", str(out), "--pred-out", str(preds),
-                        "--label", "test", "--wait-s", "10"])
+        code = _loadtest().main(["--url", f"http://127.0.0.1:{port}", "--inputs", str(inputs), "--out", str(out),
+                                 "--wait-s", "10", *args])
     finally:
         server.should_exit = True
         th.join(10)
-    rep = json.loads(out.read_text())
+    return code, json.loads(out.read_text())
+
+
+def test_loadtest_script(tmp_path):
+    rows = [{**ROW, "id": f"lt-{i}", "intent": "gold-only"} for i in range(6)]
+    fake, preds = FakeTriage(), tmp_path / "preds.jsonl"
+    code, rep = _run_loadtest(fake, rows, tmp_path, ["--limit", "5", "--warmup", "2", "--repeat", "2",
+                                                     "--concurrency", "3", "--pred-out", str(preds), "--label", "test"])
     assert code == 0 and rep["label"] == "test" and rep["sample_count"] == 10
     assert rep["errors"] == rep["non_200"] == rep["schema_invalid"] == rep["id_mismatch"] == 0
     assert rep["replays"] == 5 and fake.calls == 7                     # 2 warm-up + 5 rows; the second pass replays
@@ -769,6 +806,8 @@ def test_loadtest_script(tmp_path):
     assert rep["server_health"]["http_status"] == 200
     assert rep["server_metrics_after"]["requests"] - rep["server_metrics_before"]["requests"] == 10
     assert rep["llm_calls"] == 0 and rep["llm_cost_usd"] == 0 and rep["cost_per_message_usd"] == 0
+    assert rep["llm_cost_uncached_usd"] == 0 and rep["cost_per_message_uncached_usd"] == 0
+    assert all(rep[f"llm_{k}"] == 0 for k in TOKENS)
     recs = rep["requests"]
     assert [r["seq"] for r in recs] == list(range(10)) and len({r["request_id"] for r in recs}) == 10
     assert all(r["status"] == 200 and r["schema_valid"] and r["id_echo"] for r in recs)
@@ -776,3 +815,34 @@ def test_loadtest_script(tmp_path):
     assert [p["id"] for p in lines] == [f"lt-{i}" for i in range(5)] and all(schema_valid(p) for p in lines)
     assert all(r.startswith("lt-") for r in fake.request_ids)
     assert fake.keys == {"id", "turn_index", "context"}                # gold-only fields never sent
+    assert sum(r.startswith("lt-warmup-") for r in fake.request_ids) == 2
+
+
+def test_loadtest_llm_cost_and_tokens(tmp_path):
+    """Every measured row calls the (fake) LLM once; the warm-up calls stay out of the deltas."""
+    rows = [{"id": f"llm-{i}", "context": [{"speaker": "customer", "text": f"route me {i}"}]} for i in range(6)]
+    fake = FakeTriage()
+    code, rep = _run_loadtest(fake, rows, tmp_path, ["--limit", "5", "--warmup", "2", "--concurrency", "2"])
+    assert code == 0 and fake.calls == 7 and rep["sample_count"] == 5
+    assert rep["llm_calls"] == 5
+    assert rep["llm_cost_usd"] == pytest.approx(5 * LLM_CALL["cost_usd"])
+    assert rep["llm_cost_uncached_usd"] == pytest.approx(5 * LLM_CALL["cost_uncached_usd"])
+    assert rep["cost_per_message_usd"] == pytest.approx(LLM_CALL["cost_usd"])
+    assert rep["cost_per_message_uncached_usd"] == pytest.approx(LLM_CALL["cost_uncached_usd"])
+    assert rep["cost_per_message_uncached_usd"] >= rep["cost_per_message_usd"]
+    assert [rep[f"llm_{k}"] for k in TOKENS] == [5 * LLM_CALL[k] for k in TOKENS]
+    after = rep["server_metrics_after"]["llm"]
+    assert after["prompt_tokens"] == 7 * 2000 and after["calls"] == 7       # the service counted the warm-up too
+
+
+def test_loadtest_without_new_metrics_gives_null():
+    """Against a service that does not report the uncached cost or tokens, the report says null, not 0."""
+    lt = _loadtest()
+    a = SimpleNamespace(pred_out=None, label="old", url="u", concurrency=1, repeat=1)
+    recs = [{"seq": 0, "status": 200, "duration_ms": 5.0, "schema_valid": True, "id_echo": True, "replay": False,
+             "_pred": None}]
+    old = {"llm": {"calls": 3, "cost_usd": 0.001}}
+    rep = lt.summarise(a, [ROW], recs, 1.0, {}, old, {"llm": {"calls": 4, "cost_usd": 0.0012}})
+    assert rep["llm_calls"] == 1 and rep["llm_cost_usd"] == pytest.approx(0.0002)
+    assert rep["llm_cost_uncached_usd"] is None and rep["cost_per_message_uncached_usd"] is None
+    assert all(rep[f"llm_{k}"] is None for k in TOKENS)

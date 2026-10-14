@@ -11,6 +11,7 @@ import unicodedata
 import pytest
 
 from triage.data import project
+from triage import gate
 from triage.gate import FLAGS, MAX_TURNS, ROUTE_FLAGS, TURN_CAP, clean, envelope_error
 
 ZWSP = "\N{ZERO WIDTH SPACE}"
@@ -478,9 +479,22 @@ def test_no_known_text(text, flagged):
     assert ("no_known_text" in g.flags) == flagged
 
 
-def test_eight_big_turns_are_fast():
+def test_eight_big_turns_are_fast(monkeypatch):
+    """The work is bounded because each turn is cut to SCAN_CAP before NFKC (which can grow U+FDFA 18x). That
+    property is checked directly; the wall-clock bound is only a loose backstop, since a busy shared Linux box ran
+    this in 0.55 s against 0.15 s on the M1."""
+    import unicodedata
+    seen = []
+    real = unicodedata.normalize
+
+    def spy(form, s):
+        seen.append(len(s))
+        return real(form, s)
+
+    monkeypatch.setattr(gate.unicodedata, "normalize", spy)
     text = "\N{ARABIC LIGATURE SALLALLAHOU ALAYHE WASALLAM}" * (MIB // 24)    # about 1 MiB of UTF-8 in total
     t0 = time.perf_counter()
     g = clean(req(*[("agent", text)] * 8))
-    assert time.perf_counter() - t0 < 0.5
+    assert time.perf_counter() - t0 < 3.0
+    assert seen and max(seen) <= gate.SCAN_CAP
     assert all(len(t["text"]) == TURN_CAP for t in g.context)

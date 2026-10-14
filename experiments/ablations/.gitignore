@@ -1,1 +1,3 @@
+# Ablation bundles are rebuilt by train_nostate.py (about 100 s each: --state off for the ablation, --state on for
+# the control), so none is committed.
 models/

@@ -46,8 +46,12 @@ PARSE_WORKERS = 2                   # large bodies parsed at once, so they canno
 LATENCY_WINDOW = 10_000
 LLM_CALLED = frozenset({"ok", "timeout", "http_error", "invalid", "abstained"})    # statuses where a call went out
 DEGRADED = frozenset({"timeout", "http_error", "invalid", "breaker_open", "busy"})   # CPU answer kept for these
-LOG_KEYS = ("flags", "route_reasons", "llm_status", "llm_latency_ms", "llm_cost_usd", "policy_version",
-            "needs_human", "abstained", "replay", "error", "error_type")
+TOKEN_KEYS = ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens")
+MAX_CALL_TOKENS = 10_000_000        # one call's token count above this, or below 0, is bad data (as in llm_action)
+LLM_LOG_KEYS = ("llm_status", "llm_latency_ms", "llm_cost_usd", "llm_cost_uncached_usd",
+                *(f"llm_{k}" for k in TOKEN_KEYS))
+LOG_KEYS = ("flags", "route_reasons", *LLM_LOG_KEYS, "policy_version", "needs_human", "abstained", "replay", "error",
+            "error_type")
 _REQUEST_ID = re.compile(r"[A-Za-z0-9._:-]{1,128}")
 
 log = logging.getLogger("triage.service")
@@ -140,6 +144,16 @@ def valid_response(resp, rid: str) -> bool:
     return all(_num(resp[k]) is not None and resp[k] >= 0 for k in ("cost_usd", "latency_ms") if k in resp)
 
 
+def _tokens(v) -> int | None:
+    """A whole token count from 0 to MAX_CALL_TOKENS, else None."""
+    n = _num(v)
+    return int(n) if n is not None and n.is_integer() and 0 <= n <= MAX_CALL_TOKENS else None
+
+
+def _sane_cost(v) -> bool:
+    return isinstance(v, float) and 0 < v < 1.0     # one call costs well under a cent; anything else is bad data
+
+
 def _strs(v) -> list[str]:
     return [str(x) for x in v] if isinstance(v, (list, tuple, set, frozenset)) else []
 
@@ -155,6 +169,8 @@ def trace_fields(trace) -> dict:
     return {"flags": sorted(_strs(t.get("flags"))), "route_reasons": _strs(t.get("route_reasons")),
             "llm_status": status if isinstance(status, str) else None, "llm_latency_ms": lat_ms,
             "llm_cost_usd": _num(llm.get("cost_usd", t.get("llm_cost_usd"))),
+            "llm_cost_uncached_usd": _num(llm.get("cost_uncached_usd", t.get("llm_cost_uncached_usd"))),
+            **{f"llm_{k}": _tokens(llm.get(k, t.get(f"llm_{k}"))) for k in TOKEN_KEYS},
             "policy_version": pv if isinstance(pv, str) else None,
             "error_type": t["error"] if isinstance(t.get("error"), str) else None}
 
@@ -233,7 +249,9 @@ class Service:
         self.flags: Counter = Counter()
         self.reasons: Counter = Counter()
         self.llm_status: Counter = Counter()
-        self.llm_cost = 0.0
+        self.llm_cost = 0.0                              # list price, cache discounts applied
+        self.llm_cost_uncached = 0.0                     # list price, no cache discount
+        self.llm_tokens: Counter = Counter()
 
     # ------------------------------------------------------------------ life cycle
 
@@ -427,9 +445,14 @@ class Service:
             st = info.get("llm_status")
             if st:
                 self.llm_status[st] += 1
-            cost = info.get("llm_cost_usd")
-            if isinstance(cost, float) and 0 < cost < 1.0:   # one call costs well under a cent; anything else is bad data
-                self.llm_cost += cost
+            if _sane_cost(info.get("llm_cost_usd")):
+                self.llm_cost += info["llm_cost_usd"]
+            if _sane_cost(info.get("llm_cost_uncached_usd")):
+                self.llm_cost_uncached += info["llm_cost_uncached_usd"]
+            for k in TOKEN_KEYS:
+                n = info.get(f"llm_{k}")
+                if isinstance(n, int) and not isinstance(n, bool) and 0 <= n <= MAX_CALL_TOKENS:
+                    self.llm_tokens[k] += n
 
     def metrics(self) -> dict:
         with self.mlock:
@@ -440,7 +463,9 @@ class Service:
                    "abstentions": self.count["abstentions"], "replays": self.count["replays"],
                    "flags": dict(self.flags), "route_reasons": dict(self.reasons),
                    "llm": {"calls": sum(n for s, n in self.llm_status.items() if s in LLM_CALLED),
-                           "by_status": dict(self.llm_status), "cost_usd": round(self.llm_cost, 8)},
+                           "by_status": dict(self.llm_status), "cost_usd": round(self.llm_cost, 8),
+                           "cost_uncached_usd": round(self.llm_cost_uncached, 8),
+                           **{k: self.llm_tokens[k] for k in TOKEN_KEYS}},
                    "latency_ms": {"window": len(lat), **percentiles(lat)}}
         with self.lock:
             out["idempotency"] = {"entries": len(self.cache), "capacity": self.idem_size,
@@ -454,7 +479,7 @@ def _log_request(rid: str, status: int, ms: float, info: dict) -> None:
            "status": status, "latency_ms": round(ms, 2)}
     rec.update({k: info.get(k) for k in LOG_KEYS})
     if info.get("replay"):                             # no LLM call on a replay
-        rec.update(llm_status=None, llm_latency_ms=None, llm_cost_usd=None)
+        rec.update(dict.fromkeys(LLM_LOG_KEYS))
     log.info(json.dumps(rec, separators=(",", ":"), default=str))
 
 

@@ -16,17 +16,17 @@
   },
   "action": {
     "accuracy_all": 0.8365,
-    "accuracy_clean": 0.8395,
-    "accuracy_noisy": 0.8167,
-    "macro_f1_all": 0.8115,
+    "accuracy_clean": 0.8435,
+    "accuracy_noisy": 0.79,
+    "macro_f1_all": 0.8061,
     "matched_clean_accuracy": 0.8233,
-    "matched_noisy_gap": 0.0066,
-    "noisy_gap": 0.0228
+    "matched_noisy_gap": 0.0333,
+    "noisy_gap": 0.0535
   },
   "policy": {
     "predicted_actions_scored": 2300,
-    "violations": 195,
-    "violation_rate": 0.0848,
+    "violations": 193,
+    "violation_rate": 0.0839,
     "gold_violation_rate": 0.0883
   },
   "hostile": {
@@ -46,7 +46,7 @@
       "threshold": 0.796064,
       "overall_accuracy": 0.8365,
       "top70_accuracy": 0.9292,
-      "distinct_confidences": 2221
+      "distinct_confidences": 2227
     },
     "top70_error_ratio": 0.433
   },
@@ -72,7 +72,7 @@
       "pass": true
     },
     "noisy_gap": {
-      "value": 0.0228,
+      "value": 0.0535,
       "bar": 0.1,
       "pass": true
     },
