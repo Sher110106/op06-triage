@@ -1,0 +1,138 @@
+{
+  "model": "jhu-clsp/ettin-encoder-32m",
+  "tag": "ett32A",
+  "threads": 16,
+  "max_len": 256,
+  "bs": 32,
+  "lr": 0.0001,
+  "epochs_planned": 2.0,
+  "n_params": 31935496,
+  "fp32_mb": 121.8,
+  "trainable_params": 31935496,
+  "freeze_emb": false,
+  "train_rows": 14313,
+  "holdout_rows": 1721,
+  "len_mean": 94.85212673069726,
+  "len_p95": 137.0,
+  "evals": [
+    {
+      "step": 224,
+      "epoch": 0.5,
+      "min": 2.6,
+      "ho_intent": 0.6148,
+      "ho_flow": 0.8263,
+      "ho_action": 0.731
+    },
+    {
+      "step": 448,
+      "epoch": 1.0,
+      "min": 5.0,
+      "ho_intent": 0.692,
+      "ho_flow": 0.8652,
+      "ho_action": 0.7908
+    },
+    {
+      "step": 672,
+      "epoch": 1.5,
+      "min": 7.7,
+      "ho_intent": 0.7112,
+      "ho_flow": 0.8803,
+      "ho_action": 0.8019
+    },
+    {
+      "step": 896,
+      "epoch": 2.0,
+      "min": 10.0,
+      "ho_intent": 0.7228,
+      "ho_flow": 0.8832,
+      "ho_action": 0.8094
+    }
+  ],
+  "best_eval": {
+    "step": 896,
+    "epoch": 2.0,
+    "min": 10.0,
+    "ho_intent": 0.7228,
+    "ho_flow": 0.8832,
+    "ho_action": 0.8094
+  },
+  "train_min": 10.0,
+  "steps": 896,
+  "temperature": {
+    "intent": 1.0000000000000004,
+    "flow": 1.1500000000000006,
+    "action": 1.1000000000000005
+  },
+  "results": {
+    "intent_foldB_acc": 0.7423,
+    "intent_foldB_ece_raw": 0.0239,
+    "intent_foldB_ece_T": 0.0239,
+    "intent_foldB_f1": 0.7271,
+    "flow_foldB_acc": 0.8956,
+    "flow_foldB_ece_raw": 0.0065,
+    "flow_foldB_ece_T": 0.0201,
+    "action_foldB_acc": 0.8422,
+    "action_foldB_ece_raw": 0.0154,
+    "action_foldB_ece_T": 0.0237,
+    "intent_dev_acc": 0.724,
+    "intent_dev_ece_raw": 0.0289,
+    "intent_dev_ece_T": 0.0289,
+    "intent_dev_f1": 0.7122,
+    "flow_dev_acc": 0.8835,
+    "flow_dev_ece_raw": 0.0166,
+    "flow_dev_ece_T": 0.0254,
+    "action_dev_acc": 0.8275,
+    "action_dev_ece_raw": 0.0293,
+    "action_dev_ece_T": 0.0273,
+    "intent_noisy_acc": 0.71,
+    "intent_noisy_ece_raw": 0.071,
+    "intent_noisy_ece_T": 0.071,
+    "intent_noisy_f1": 0.6021,
+    "intent_noisy_by_kind": {
+      "code_mixed": 0.74,
+      "empty": 0.66,
+      "screenshot": 0.58,
+      "two_intents": 0.68,
+      "typo": 0.78,
+      "very_long": 0.82
+    },
+    "flow_noisy_acc": 0.8567,
+    "flow_noisy_ece_raw": 0.0471,
+    "flow_noisy_ece_T": 0.0601,
+    "flow_noisy_by_kind": {
+      "code_mixed": 0.88,
+      "empty": 0.9,
+      "screenshot": 0.76,
+      "two_intents": 0.84,
+      "typo": 0.9,
+      "very_long": 0.86
+    },
+    "action_noisy_acc": 0.7633,
+    "action_noisy_ece_raw": 0.0426,
+    "action_noisy_ece_T": 0.0574,
+    "action_noisy_by_kind": {
+      "code_mixed": 0.76,
+      "empty": 0.72,
+      "screenshot": 0.76,
+      "two_intents": 0.74,
+      "typo": 0.76,
+      "very_long": 0.84
+    }
+  },
+  "hostile_ok": true,
+  "latency_bs1": {
+    "threads_1": {
+      "p50_ms": 33.0,
+      "p95_ms": 45.3
+    },
+    "threads_2": {
+      "p50_ms": 20.6,
+      "p95_ms": 28.2
+    },
+    "threads_4": {
+      "p50_ms": 14.9,
+      "p95_ms": 21.7
+    }
+  },
+  "total_min": 10.9
+}

@@ -1,0 +1,65 @@
+tokenized in 14s; train len mean 95 p95 137 max 226 at cap 256: 0.000
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/62 [00:00<?, ?it/s]Loading weights: 100%|██████████| 62/62 [00:00<00:00, 29914.51it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: jhu-clsp/ettin-encoder-32m
+Key               | Status     |  | 
+------------------+------------+--+-
+head.norm.weight  | UNEXPECTED |  | 
+decoder.bias      | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+decoder.weight    | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+step 20/896 loss 8.899 0.70s/step eta_total 10.5min
+step 40/896 loss 8.030 0.63s/step eta_total 9.4min
+step 60/896 loss 6.857 0.64s/step eta_total 9.6min
+step 80/896 loss 5.465 0.65s/step eta_total 9.7min
+step 100/896 loss 4.682 0.65s/step eta_total 9.7min
+step 120/896 loss 4.489 0.65s/step eta_total 9.6min
+step 140/896 loss 2.970 0.65s/step eta_total 9.7min
+step 160/896 loss 3.956 0.66s/step eta_total 9.8min
+step 180/896 loss 3.916 0.66s/step eta_total 9.8min
+step 200/896 loss 3.565 0.66s/step eta_total 9.8min
+step 220/896 loss 3.407 0.66s/step eta_total 9.9min
+EVAL {"step": 224, "epoch": 0.5, "min": 2.6, "ho_intent": 0.6148, "ho_flow": 0.8263, "ho_action": 0.731}
+step 240/896 loss 3.384 0.69s/step eta_total 10.2min
+step 260/896 loss 2.422 0.68s/step eta_total 10.1min
+step 280/896 loss 1.856 0.67s/step eta_total 10.0min
+step 300/896 loss 1.750 0.67s/step eta_total 10.1min
+step 320/896 loss 2.923 0.67s/step eta_total 10.0min
+step 340/896 loss 1.811 0.67s/step eta_total 10.0min
+step 360/896 loss 2.059 0.67s/step eta_total 9.9min
+step 380/896 loss 1.366 0.66s/step eta_total 9.9min
+step 400/896 loss 2.276 0.66s/step eta_total 9.9min
+step 420/896 loss 1.576 0.66s/step eta_total 9.8min
+step 440/896 loss 2.833 0.66s/step eta_total 9.8min
+EVAL {"step": 448, "epoch": 1.0, "min": 5.0, "ho_intent": 0.692, "ho_flow": 0.8652, "ho_action": 0.7908}
+step 460/896 loss 0.963 0.67s/step eta_total 10.1min
+step 480/896 loss 0.922 0.67s/step eta_total 10.1min
+step 500/896 loss 1.155 0.67s/step eta_total 10.1min
+step 520/896 loss 1.070 0.68s/step eta_total 10.1min
+step 540/896 loss 1.644 0.68s/step eta_total 10.1min
+step 560/896 loss 1.512 0.68s/step eta_total 10.1min
+step 580/896 loss 0.807 0.68s/step eta_total 10.1min
+step 600/896 loss 1.250 0.68s/step eta_total 10.1min
+step 620/896 loss 0.999 0.68s/step eta_total 10.1min
+step 640/896 loss 2.247 0.68s/step eta_total 10.1min
+step 660/896 loss 1.803 0.68s/step eta_total 10.1min
+EVAL {"step": 672, "epoch": 1.5, "min": 7.7, "ho_intent": 0.7112, "ho_flow": 0.8803, "ho_action": 0.8019}
+step 680/896 loss 1.508 0.68s/step eta_total 10.2min
+step 700/896 loss 0.996 0.68s/step eta_total 10.2min
+step 720/896 loss 1.430 0.68s/step eta_total 10.1min
+step 740/896 loss 1.267 0.68s/step eta_total 10.1min
+step 760/896 loss 1.662 0.67s/step eta_total 10.1min
+step 780/896 loss 1.602 0.67s/step eta_total 10.0min
+step 800/896 loss 1.672 0.67s/step eta_total 10.0min
+step 820/896 loss 2.001 0.67s/step eta_total 10.0min
+step 840/896 loss 1.035 0.67s/step eta_total 9.9min
+step 860/896 loss 1.760 0.66s/step eta_total 9.9min
+step 880/896 loss 1.036 0.66s/step eta_total 9.9min
+EVAL {"step": 896, "epoch": 2.0, "min": 10.0, "ho_intent": 0.7228, "ho_flow": 0.8832, "ho_action": 0.8094}
+{"intent_foldB_acc": 0.7423, "intent_foldB_ece_raw": 0.0239, "intent_foldB_ece_T": 0.0239, "intent_foldB_f1": 0.7271, "flow_foldB_acc": 0.8956, "flow_foldB_ece_raw": 0.0065, "flow_foldB_ece_T": 0.0201, "action_foldB_acc": 0.8422, "action_foldB_ece_raw": 0.0154, "action_foldB_ece_T": 0.0237, "intent_dev_acc": 0.724, "intent_dev_ece_raw": 0.0289, "intent_dev_ece_T": 0.0289, "intent_dev_f1": 0.7122, "flow_dev_acc": 0.8835, "flow_dev_ece_raw": 0.0166, "flow_dev_ece_T": 0.0254, "action_dev_acc": 0.8275, "action_dev_ece_raw": 0.0293, "action_dev_ece_T": 0.0273, "intent_noisy_acc": 0.71, "intent_noisy_ece_raw": 0.071, "intent_noisy_ece_T": 0.071, "intent_noisy_f1": 0.6021, "intent_noisy_by_kind": {"code_mixed": 0.74, "empty": 0.66, "screenshot": 0.58, "two_intents": 0.68, "typo": 0.78, "very_long": 0.82}, "flow_noisy_acc": 0.8567, "flow_noisy_ece_raw": 0.0471, "flow_noisy_ece_T": 0.0601, "flow_noisy_by_kind": {"code_mixed": 0.88, "empty": 0.9, "screenshot": 0.76, "two_intents": 0.84, "typo": 0.9, "very_long": 0.86}, "action_noisy_acc": 0.7633, "action_noisy_ece_raw": 0.0426, "action_noisy_ece_T": 0.0574, "action_noisy_by_kind": {"code_mixed": 0.76, "empty": 0.72, "screenshot": 0.76, "two_intents": 0.74, "typo": 0.76, "very_long": 0.84}}
+latency 1 {'p50_ms': 33.0, 'p95_ms': 45.3}
+latency 2 {'p50_ms': 20.6, 'p95_ms': 28.2}
+latency 4 {'p50_ms': 14.9, 'p95_ms': 21.7}
