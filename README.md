@@ -218,9 +218,11 @@ Compute is outside the API budget.
   Linux and M1 gave the same examples on 2,300 of 2,300 rows (EXPERIMENT_LOG P3-4, no raw file kept), and 4 rows
   differ from the tested examples only in the order of tied examples. That run also failed a timing test (0.545 s
   against 0.5 s), since changed.
-- **No clean-machine run of the final code.** The Linux run from `git archive` (P3-1) came before the retrieval
-  fix (18:41) and before `triage/pipeline.py`, `service.py` and `llm_action.py` changed (18:52 to 19:02); no log
-  records the test suite passing on the final code. `dev-http-cpu` (p95 38 ms) also ran on older code and policy.
+- **Clean-machine run of the final code: CPU path only.** `git archive` of commit `dafe325`, unpacked on the Linux
+  box, passed `scripts/reproduce.sh all` with no API key: exit 0, 512 tests passed, 2 skipped, eval identical to
+  `dev-pipeline-cpu`, smoke passed (P5-3, `results/raw/linux-final-check/`). Only the docs and that log changed after
+  `dafe325`. The LLM step has not run on a clean machine, since the keys stay on the laptop. `dev-http-cpu` (p95
+  38 ms) ran on older code and policy.
 - **Luna returns an alias id.** All 6,276 Luna calls in `results/raw/llm-ledger/ledger.jsonl` (3,966 fold-B,
   2,300 dev, 10 smoke) asked for `openai/gpt-6-luna-20260922` and got back `openai/gpt-6-luna`, so no response
   proves which snapshot served it. The service log now records `llm_model`, `llm_provider` and `llm_response_id`
