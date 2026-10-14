@@ -1,0 +1,57 @@
+{
+ "run_id": "llm-tail-luna_V3_none_smoke",
+ "kind": "llm_calls",
+ "tag": "luna_V3_none_smoke",
+ "status_note": "every call returned (status ok)",
+ "script": "experiments/llm_tail/run_llm.py",
+ "preregistration": "experiments/llm_tail/PREREGISTRATION.md",
+ "model_requested": "openai/gpt-6-luna-20260922",
+ "variant": "V3",
+ "config": {
+  "model": "openai/gpt-6-luna-20260922",
+  "effort": null,
+  "thinking": null,
+  "temperature": null,
+  "logprobs": false,
+  "reasoning": {
+   "effort": "none"
+  },
+  "provider_order": [
+   "openai"
+  ],
+  "provider_ignore": null,
+  "no_fallbacks": true,
+  "prompt_version": "p1"
+ },
+ "models_returned": {
+  "openai/gpt-6-luna": 5
+ },
+ "providers_returned": {
+  "OpenAI": 5
+ },
+ "rows": 5,
+ "status": {
+  "ok": 5
+ },
+ "parse_status": {
+  "ok": 5
+ },
+ "input_files": [
+  "data/op06/dev.jsonl",
+  "data/op06/dev_noisy.jsonl"
+ ],
+ "created": "2026-10-14T13:20:09",
+ "finished": "2026-10-14T13:20:10",
+ "created_source": "first and last ledger line for this tag (local time, IST)",
+ "ledger": "results/raw/llm-ledger/ledger.jsonl",
+ "ledger_attempts": 5,
+ "files": {
+  "raw_calls.jsonl": {
+   "moved_from": "experiments/llm_tail/runs/luna_V3_none_smoke.jsonl",
+   "bytes": 6334,
+   "sha256": "161eb468a61f01ce8b73a0c6cceb447797d340f9b68815b55432fc01d827ed8c",
+   "mtime": "2026-10-14T13:20:10+0530"
+  }
+ },
+ "meta_written": "2026-10-14 by experiments/relocate/move_raw.py when the files moved here; the run itself wrote no meta.json"
+}

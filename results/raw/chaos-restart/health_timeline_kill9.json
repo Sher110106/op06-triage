@@ -1,0 +1,40 @@
+{
+ "every_s": 0.1,
+ "transitions": [
+  {
+   "t_s": 0.0,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 9.4,
+   "metrics_ms": 6.8
+  },
+  {
+   "t_s": 10.095,
+   "http": "ConnectError",
+   "breaker": null,
+   "healthz_ms": 5.1,
+   "metrics_ms": null
+  },
+  {
+   "t_s": 10.633,
+   "http": 503,
+   "breaker": null,
+   "healthz_ms": 5.2,
+   "metrics_ms": 5.0
+  },
+  {
+   "t_s": 13.303,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 10.8,
+   "metrics_ms": 5.4
+  },
+  {
+   "t_s": 23.371,
+   "http": "ConnectError",
+   "breaker": null,
+   "healthz_ms": 12.7,
+   "metrics_ms": null
+  }
+ ]
+}

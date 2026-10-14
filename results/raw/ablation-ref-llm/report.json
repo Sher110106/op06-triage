@@ -1,0 +1,127 @@
+{
+ "pred_file": "results/raw/ablation-ref-llm/predictions.jsonl",
+ "pred_sha256": "20b3d7b15a4d638a6ac4d0ace3ebda5163ee331df64770c874e2ba76668c4edf",
+ "grader_version": "2.1",
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.8361,
+  "action_acc_clean": 0.8405,
+  "action_acc_noisy": 0.8067,
+  "noisy_gap": 0.0338,
+  "matched_noisy_gap": 0.01,
+  "intent_acc_noisy": 0.65,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.4393,
+  "distinct_confidences": 2224,
+  "policy_violation": 0.0857,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "extras": {
+  "rows": 2300,
+  "excluded": 0,
+  "point": {
+   "intent_acc": 0.7091,
+   "action_acc": 0.8361,
+   "intent_acc_clean": 0.718,
+   "action_acc_clean": 0.8405,
+   "intent_acc_noisy": 0.65,
+   "action_acc_noisy": 0.8067,
+   "noisy_gap": 0.0338,
+   "macro_f1": 0.7015,
+   "top70_error_ratio": 0.4393
+  },
+  "ci95_conversation_bootstrap": {
+   "intent_acc": [
+    0.682,
+    0.7361
+   ],
+   "action_acc": [
+    0.8147,
+    0.8565
+   ],
+   "intent_acc_clean": [
+    0.6913,
+    0.7438
+   ],
+   "action_acc_clean": [
+    0.8201,
+    0.8602
+   ],
+   "intent_acc_noisy": [
+    0.5943,
+    0.7052
+   ],
+   "action_acc_noisy": [
+    0.7595,
+    0.8503
+   ],
+   "noisy_gap": [
+    -0.0076,
+    0.0759
+   ],
+   "macro_f1": [
+    0.6582,
+    0.7284
+   ],
+   "top70_error_ratio": [
+    0.3699,
+    0.4989
+   ]
+  },
+  "bootstrap_draws": 2000,
+  "policy_violation_alias": 0.0465,
+  "gold_policy_violation_alias": 0.057,
+  "noise_kinds": {
+   "code_mixed": {
+    "n": 50,
+    "intent_acc": 0.7,
+    "action_acc": 0.78
+   },
+   "empty": {
+    "n": 50,
+    "intent_acc": 0.62,
+    "action_acc": 0.84
+   },
+   "screenshot": {
+    "n": 50,
+    "intent_acc": 0.5,
+    "action_acc": 0.82
+   },
+   "two_intents": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.86
+   },
+   "typo": {
+    "n": 50,
+    "intent_acc": 0.72,
+    "action_acc": 0.76
+   },
+   "very_long": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.78
+   }
+  },
+  "action_acc_at_coverage": {
+   "50%": 0.953,
+   "60%": 0.942,
+   "70%": 0.928,
+   "80%": 0.9103,
+   "90%": 0.8802,
+   "100%": 0.8361
+  },
+  "needs_human_rate": 0.2404,
+  "action_acc_when_not_routed": 0.9136
+ },
+ "harness_matches_grader": true
+}

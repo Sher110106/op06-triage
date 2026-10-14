@@ -1,7 +1,8 @@
 """Score the encoder comparison exactly as PREREGISTRATION.md fixes it. Inputs: the remote run's cache files
-(copied into ./ett32A/), the classical bundle, and the fold-B CPU/LLM files from ../llm_confirm/.
+(copied into results/raw/encoder-ett32A/; they lived in experiments/encoder/ett32A/ until 14 Oct), the classical
+bundle, the fold-B CPU files from ../llm_confirm/ and the fold-B Luna answers (results/raw/llm-confirm-luna_B/).
 
-  python analyse_encoder.py --cache ett32A
+  python experiments/encoder/analyse_encoder.py [--cache results/raw/encoder-ett32A]
 """
 from __future__ import annotations
 
@@ -36,9 +37,9 @@ def enc_probs(cache, split, head, labels, target):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--cache", default="ett32A")
+    ap.add_argument("--cache", default="results/raw/encoder-ett32A", help="folder, relative to the repo root")
     a = ap.parse_args()
-    cache = HERE / a.cache
+    cache = ROOT / a.cache
     labels = json.loads((cache / "labels.json").read_text())
     pm = Predictor(DEFAULT_BUNDLE)
     icls, acts = list(pm.icls), list(pm.acts)
@@ -74,7 +75,7 @@ def main():
     c0 = read_preds(ROOT / "experiments/llm_confirm/cpu_B_predictions.jsonl")
     det = {json.loads(l)["id"]: json.loads(l) for l in open(ROOT / "experiments/llm_confirm/cpu_B_details.jsonl")}
     import analyse_B as AB
-    luna, _ = AB.answers(ROOT / "experiments/llm_confirm/runs/luna_B.jsonl")
+    luna, _ = AB.answers(ROOT / "results/raw/llm-confirm-luna_B/raw_calls.jsonl")
     s0 = AB.system(c0, det, act_src=luna)
 
     def system(PA, PI):

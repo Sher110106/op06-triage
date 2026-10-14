@@ -1,0 +1,499 @@
+{
+ "done": "2026-10-14T18:07:48+0530",
+ "script": "experiments/relocate/move_raw.py",
+ "rule": "raw benchmark outputs (every run, including failed ones) live under results/raw/",
+ "moves": [
+  {
+   "from": "experiments/llm_tail/runs/haiku_V3_low.jsonl",
+   "to": "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl",
+   "bytes": 2681913,
+   "sha256": "4bc8e2e52bf12184a56abeaae61634582e55264107f2c8f305368f90936f26de",
+   "mtime": "2026-10-14T13:29:28+0530"
+  },
+  {
+   "from": "experiments/llm_tail/runs/haiku_V3_low.log",
+   "to": "results/raw/llm-tail-haiku_V3_low/stdout.log",
+   "bytes": 316,
+   "sha256": "53565f6c48e3f034f1c942ecf8022c6f3f0a7b489c3305aa6dc104678bf0ddc0",
+   "mtime": "2026-10-14T13:29:28+0530"
+  },
+  {
+   "from": "experiments/llm_tail/runs/haiku_V3_low_smoke.jsonl",
+   "to": "results/raw/llm-tail-haiku_V3_low_smoke/raw_calls.jsonl",
+   "bytes": 5870,
+   "sha256": "55a373a0e454fbec2fea5c55da6ac1e87f4e00a0551c7b48afb07805bae38c2e",
+   "mtime": "2026-10-14T13:20:15+0530"
+  },
+  {
+   "from": "experiments/llm_tail/runs/luna_V3_none.jsonl",
+   "to": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+   "bytes": 2882279,
+   "sha256": "66bd8ce91d02423d4087a2fb285514a9eb89ea4436633bffe0d1802f5c699a61",
+   "mtime": "2026-10-14T13:28:36+0530"
+  },
+  {
+   "from": "experiments/llm_tail/runs/luna_V3_none.log",
+   "to": "results/raw/llm-tail-luna_V3_none/stdout.log",
+   "bytes": 478,
+   "sha256": "fff3df23085b5f2df45ddb84362f305ea65a916f7031249a54b5bdcb3da95482",
+   "mtime": "2026-10-14T13:28:36+0530"
+  },
+  {
+   "from": "experiments/llm_tail/runs/luna_V3_none_smoke.jsonl",
+   "to": "results/raw/llm-tail-luna_V3_none_smoke/raw_calls.jsonl",
+   "bytes": 6334,
+   "sha256": "161eb468a61f01ce8b73a0c6cceb447797d340f9b68815b55432fc01d827ed8c",
+   "mtime": "2026-10-14T13:20:10+0530"
+  },
+  {
+   "from": "experiments/llm_confirm/runs/haiku_B.jsonl",
+   "to": "results/raw/llm-confirm-haiku_B/raw_calls.jsonl",
+   "bytes": 2387654,
+   "sha256": "40022fd71e280a0a937e266a1f26c6dd9650117ab79fc2a52205baf51173b00f",
+   "mtime": "2026-10-14T13:54:06+0530"
+  },
+  {
+   "from": "experiments/llm_confirm/runs/haiku_B.log",
+   "to": "results/raw/llm-confirm-haiku_B/stdout.log",
+   "bytes": 310,
+   "sha256": "929b75bca58a5cbb0424345d63b8ee3f57d17740a271962d6af04f374c91bc8a",
+   "mtime": "2026-10-14T13:54:06+0530"
+  },
+  {
+   "from": "experiments/llm_confirm/runs/haiku_B_smoke.jsonl",
+   "to": "results/raw/llm-confirm-haiku_B_smoke/raw_calls.jsonl",
+   "bytes": 5827,
+   "sha256": "dd05b03a8f0cb4a55d553caa0ea525970871d15905bc9b4f6ac286477f302a2c",
+   "mtime": "2026-10-14T13:45:09+0530"
+  },
+  {
+   "from": "experiments/llm_confirm/runs/luna_B.jsonl",
+   "to": "results/raw/llm-confirm-luna_B/raw_calls.jsonl",
+   "bytes": 4939196,
+   "sha256": "c758657bef8a634d0cb6713cc61c8cc22ded493c723b6c7204b0f2ca3ac6c8ce",
+   "mtime": "2026-10-14T13:59:52+0530"
+  },
+  {
+   "from": "experiments/llm_confirm/runs/luna_B.log",
+   "to": "results/raw/llm-confirm-luna_B/stdout.log",
+   "bytes": 465,
+   "sha256": "20efa47c4133760ec0aecf12eb44cbc7f43d43eca54a852129fce53c048f6735",
+   "mtime": "2026-10-14T13:59:53+0530"
+  },
+  {
+   "from": "experiments/llm_confirm/runs/luna_B_smoke.jsonl",
+   "to": "results/raw/llm-confirm-luna_B_smoke/raw_calls.jsonl",
+   "bytes": 6260,
+   "sha256": "c35b1e8fef491fa36c8d535e6cb26e0ac1e794633e5e28618ddd47a1862a406f",
+   "mtime": "2026-10-14T13:45:05+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A.json",
+   "to": "results/raw/encoder-ett32A/ft_ett32A.json",
+   "bytes": 3062,
+   "sha256": "ad245a520f12acf9fa19601e0087c25f9ec5049996af6923bc49fd65aff5d319",
+   "mtime": "2026-10-14T14:45:28+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A.log",
+   "to": "results/raw/encoder-ett32A/ft_ett32A.log",
+   "bytes": 4892,
+   "sha256": "c92b37bba138ddc7fd1791981a5100608cc4405d3ebc209201b7b1c621fcc8a5",
+   "mtime": "2026-10-14T14:45:28+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__action__dev.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__action__dev.npy",
+   "bytes": 240128,
+   "sha256": "b607f0107cac03a25aedd3fc6b9460ed45590f1e32bc4a4b9cb6013ea5744ac8",
+   "mtime": "2026-10-14T14:45:26+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__action__foldB.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__action__foldB.npy",
+   "bytes": 476048,
+   "sha256": "d638e6cf005b3f7adae56edf36d38553e96b2fe9ef84828949bb83cd66b52328",
+   "mtime": "2026-10-14T14:45:26+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__action__hostile.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__action__hostile.npy",
+   "bytes": 1208,
+   "sha256": "056c005332713279b3c6ced218c12ef32ac5609ec2069294837ca6160d062fde",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__action__noisy.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__action__noisy.npy",
+   "bytes": 36128,
+   "sha256": "fb243fad02c4dfebd9138dfc570bd680e83eaade82e621b5085c23addc97a655",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__flow__dev.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__flow__dev.npy",
+   "bytes": 80128,
+   "sha256": "fa322e55a87780587ffccf0567fa43d0b7742dc1619ceb0cd378c45589e8c78c",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__flow__foldB.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__flow__foldB.npy",
+   "bytes": 158768,
+   "sha256": "eceba0aabc680593aae79e200ab173dc684bd0ddaaf9a16408fe6e28cdd5e41f",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__flow__hostile.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__flow__hostile.npy",
+   "bytes": 488,
+   "sha256": "6c8879738ee9a6f2b960248f45ea1fb232f2fa74ac482817c0d734ded8ee4fcf",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__flow__noisy.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__flow__noisy.npy",
+   "bytes": 12128,
+   "sha256": "0791cfb827e7d462233ef160a25cf04661719447dc40352b7faf680ac472b5a9",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__ids__dev.json",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__ids__dev.json",
+   "bytes": 21166,
+   "sha256": "c1b2a7f7d3b5f8f2a4b767322d8ad494c175f0c8f296ce5acd9c3a232afd1b8c",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__ids__foldB.json",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__ids__foldB.json",
+   "bytes": 41851,
+   "sha256": "e2b1e553551fd7b3a0092047853c29934aec9b99ce9f1267e8954d767bf1cc28",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__ids__hostile.json",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__ids__hostile.json",
+   "bytes": 135,
+   "sha256": "7a7e30250e64e2c9c662b9ea5cbb40366c7558ec7d4ae757bf0afd2eade40755",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__ids__noisy.json",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__ids__noisy.json",
+   "bytes": 4986,
+   "sha256": "660104cf270fab3120cae3e7aa31e33dc16bb6d39677b93679210ee01e98d0f3",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__intent__dev.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__intent__dev.npy",
+   "bytes": 768128,
+   "sha256": "214e97d8c1f22339349a0ab0292352c0b4767b7a69aba2cd47fa581c870f22fa",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__intent__foldB.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__intent__foldB.npy",
+   "bytes": 1523072,
+   "sha256": "613dbb38d2e1d4d1d021c994685d87a3c514925cf75c85e07293e61bb953558b",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__intent__hostile.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__intent__hostile.npy",
+   "bytes": 3584,
+   "sha256": "f3e82c5aa4798535c8499498832309063a79b7efc776c7173de0aad998e5a908",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/ft_ett32A__intent__noisy.npy",
+   "to": "results/raw/encoder-ett32A/ft_ett32A__intent__noisy.npy",
+   "bytes": 115328,
+   "sha256": "fd3aec57eb1fe9cac2cbb863ae0b43d2778fd810d92a11af9e0510e606d06ad4",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/encoder/ett32A/labels.json",
+   "to": "results/raw/encoder-ett32A/labels.json",
+   "bytes": 2436,
+   "sha256": "e31ec61183e97a2e4634f7cb1447cf834c169a73f9457fd30879ef2424406160",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  {
+   "from": "experiments/llm_tail/ledger.jsonl",
+   "to": "results/raw/llm-ledger/ledger.jsonl",
+   "bytes": 6001500,
+   "sha256": "c914238fa3cc97dfd291a7d6ec6823dc4baa1b11bff7bd22f47fe17c591c1f6e",
+   "mtime": "2026-10-14T13:59:52+0530"
+  },
+  {
+   "from": "experiments/llm_tail/keycheck.jsonl",
+   "to": "results/raw/llm-ledger/keycheck.jsonl",
+   "bytes": 1162,
+   "sha256": "92ec30a6540b9eaf0b95cab819f66dd7bfd5ee1dbabb51aedce1ad833894766f",
+   "mtime": "2026-10-14T13:59:53+0530"
+  }
+ ],
+ "joined": {
+  "results/raw/llm-ledger/run_summaries.jsonl": {
+   "joined_from": [
+    {
+     "path": "experiments/llm_tail/run_summaries.jsonl",
+     "bytes": 1264,
+     "sha256": "8b11fa0287503c83da43846bb6eab7934b8ed8fe8d8d8ad9f0d1958adb348710",
+     "lines": 4
+    },
+    {
+     "path": "experiments/llm_confirm/run_summaries.jsonl",
+     "bytes": 1242,
+     "sha256": "6c459c2cb340cd5f13ea4af6c7cb9a972c0370e880b511b1239ccd399d48bc65",
+     "lines": 4
+    }
+   ],
+   "bytes": 2506,
+   "sha256": "f1ee188827bfbf8c318920bfb40b6a8f9fe0a151e33fe0efb4019e8fdf737ff3",
+   "check": "bytes equal the sources joined in the order listed"
+  }
+ },
+ "meta_written": [
+  "results/raw/encoder-ett32A/meta.json",
+  "results/raw/llm-confirm-haiku_B/meta.json",
+  "results/raw/llm-confirm-haiku_B_smoke/meta.json",
+  "results/raw/llm-confirm-luna_B/meta.json",
+  "results/raw/llm-confirm-luna_B_smoke/meta.json",
+  "results/raw/llm-ledger/meta.json",
+  "results/raw/llm-tail-haiku_V3_low/meta.json",
+  "results/raw/llm-tail-haiku_V3_low_smoke/meta.json",
+  "results/raw/llm-tail-luna_V3_none/meta.json",
+  "results/raw/llm-tail-luna_V3_none_smoke/meta.json"
+ ],
+ "path_rewrites": {
+  "done": "2026-10-14T18:08:47+0530",
+  "map": {
+   "experiments/llm_tail/runs/luna_V3_none.jsonl": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+   "experiments/llm_tail/runs/haiku_V3_low.jsonl": "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl",
+   "experiments/llm_confirm/runs/luna_B.jsonl": "results/raw/llm-confirm-luna_B/raw_calls.jsonl",
+   "experiments/llm_confirm/runs/haiku_B.jsonl": "results/raw/llm-confirm-haiku_B/raw_calls.jsonl"
+  },
+  "why": "these run records name the raw file a run read; the bytes of that file are unchanged (see moves), only its path is new",
+  "files": [
+   {
+    "file": "results/raw/ablation-llm-10/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "26f0c62e93a5583baff764b5bc6a83ed53146ce190406cc37b6295be15716e24",
+    "sha256_after": "3500a02e412f1af44d7bfa83251ef7a850b3a6c7e5da10d941ddadb89365ffb8"
+   },
+   {
+    "file": "results/raw/ablation-llm-30/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "d07b8186f6df3ee833d6eea03038d662a774735ba270bddc0d05e26091fae0c0",
+    "sha256_after": "85c7692593674ce99c3f5a0b22b7395794716d7fc5ddf612551fe0f026a63aa0"
+   },
+   {
+    "file": "results/raw/ablation-ref-llm/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "24510714b1449506ae9425047b9ae46fa889db4788b889d45bb3720396501e73",
+    "sha256_after": "f690f769271cf93897c462781b9c113a623cc9ee2e7807262d4892fb19acde50"
+   },
+   {
+    "file": "results/raw/chaos-bad_enum/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "c9734da6a5ba38a3e282fd10af3fb33e38984d66e8826724b5431d5972dbcaf1",
+    "sha256_after": "8333ce15e2cc271cb63590f5dadbb0e6323fa8095ec3475ddd427db1c74cb51e"
+   },
+   {
+    "file": "results/raw/chaos-constant/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "63bf6bae575d469b87a72aa10c6d908841cf812b4f926ee096704ecc7c136abc",
+    "sha256_after": "6d40caa9d4fcd0b99de301e00e475db7c9e033a997f1f5a7639719a4bbdef926"
+   },
+   {
+    "file": "results/raw/chaos-error500/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "2ab717b5209ba1d34c09931a32ecd2e633a4f509d836a94fe063b40a106decda",
+    "sha256_after": "19290a13cfacecbd2c6a45b4e63b1c5fa2c1065152453f7feacc3d71ec2c196f"
+   },
+   {
+    "file": "results/raw/chaos-flaky/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "fb5b444a178744b63c47a6e169ede59ffb440d59a8fb2b50cba7c33950c90fc7",
+    "sha256_after": "63f601597753ae2ee0727cc7bb683829d6de1cbb4acb9527e2f3c595d81075d2"
+   },
+   {
+    "file": "results/raw/chaos-garbage/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "6c166b3ec002f07f16bedff703b6438e7b35782735388ace143a0fae1dde5b83",
+    "sha256_after": "57a9d8df1e6f4991e0093946e8ab2f6dfc0c00bf8916769e9c7b4b845d72e8df"
+   },
+   {
+    "file": "results/raw/chaos-garbage_content/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "d5be51b546dfea7f7b0a61be3485106f7bac19cdddba79a74a7f3fd46e5ba811",
+    "sha256_after": "dbd2486f97585ea2bfb56056ad690bfde129f80b526b4b16a9532d62a1b03480"
+   },
+   {
+    "file": "results/raw/chaos-hang/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "4af49752780fb4ec60bd8bb06e959b141f9891636f456854016ae1e970b8b1ad",
+    "sha256_after": "d3fe22ce7cf0b77ed40301b1750a7668183500db80c549fab9d80d0a6c082177"
+   },
+   {
+    "file": "results/raw/chaos-huge/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "d61670066261ea5860f0ed644b70b14f306e2dccfbe73f24bc9cf43a51745e5f",
+    "sha256_after": "b8b5ad6c052607acecb2c1cd937913deaaf0aee3f6920b6366354b23eb4e5256"
+   },
+   {
+    "file": "results/raw/chaos-ok/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "91aaa1461d30e7199677488cdfa0a9cb7eba9bfc3250744137fba1eaebc074af",
+    "sha256_after": "1525407acbd753f298b77c211595b37c51bc53f2ad81816da189c084b3d617e4"
+   },
+   {
+    "file": "results/raw/chaos-ok-c200/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "ea65f8c8b827e2fc38fdc4c825451507e96902773c86dab80012475a01baa4d9",
+    "sha256_after": "7cfe3e4c825115b15fc364f4f75436ad56b1c0842159c770646ce3175a3db5a5"
+   },
+   {
+    "file": "results/raw/chaos-ok-c200x4/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "e4b8c59c001b6d639724171cd78b3d778041cf688921ffc8de83c13331e85233",
+    "sha256_after": "6eedd0c6f7614d0cca602a650cb5359b4106462611bba44866af13dadda93413"
+   },
+   {
+    "file": "results/raw/chaos-ok-c80/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "4d10a0ad8b09b5d680484b9d34fcfd220192de2895b46d0aab1af8158df67309",
+    "sha256_after": "7b64e4afee0c65c4f89e1a788d0e5dfd87229e4161b4e95b1a9d2298a4f30131"
+   },
+   {
+    "file": "results/raw/chaos-ok-c80-r2/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "acbdd5c6fc210c348bfda4f2ed0f744872dcc31002223581a6e63d3fa9345f12",
+    "sha256_after": "831d558fcbb66f1cb023c3d9c6ce58d61567b95b0b4616d0cf6ec48c59eecb2c"
+   },
+   {
+    "file": "results/raw/chaos-ok-c80-r3/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "5f1083e2cff4c865051ac2306c7419b1eead89ba1af7a34d357794574822af24",
+    "sha256_after": "110188a5e2d5772349fabcfbec5bd8a5b493944f67a2fbbe016823a01f03816f"
+   },
+   {
+    "file": "results/raw/chaos-ref-replay/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "6249725bea87edacc578696a4f42bf81a93e0f68440a7b44f44946ffeedbef31",
+    "sha256_after": "26101add27d5c7bbc8c0317911158fa3bd1d76a03816b810551f26b92e01ba9f"
+   },
+   {
+    "file": "results/raw/chaos-slow/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "03d4ba53aa5440a04b7986125e61d84c968b12941aca98aef5781929411b90d2",
+    "sha256_after": "47a36423aa665f0815a3917fb9709757f7798a73a3f79dc90ede4604b81db60b"
+   },
+   {
+    "file": "results/raw/chaos-slow-c80/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "2d2522f45b3fd6dc5fcd6e780f3e20cc07874143174cbcc730d4c58f344cf683",
+    "sha256_after": "49752eddfd3528f535d8eb493520996df460c28447e4e75587da4d23e54fb631"
+   },
+   {
+    "file": "results/raw/dev-pipeline-llm-replay/meta.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "2dd4bd3f349fe06e7fc060041dad8b95a680ab9841fa20a3695670187bf3f20c",
+    "sha256_after": "1892a924d782ba9e2e8381992b26cb60f5a47af39d1f0a4f6b694a3970916054"
+   },
+   {
+    "file": "results/raw/ablation-llm-10/ablation.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "ec76cde1c0a8e4d7ec63b18d7467c20f8934f428580db90420836aa41c8c1823",
+    "sha256_after": "d793a99c4b13b481cf78be6258b66ef115cc5082625445ada7da085f25ec196f"
+   },
+   {
+    "file": "results/raw/ablation-llm-30/ablation.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "1e2388e8c2b54e655831f6a691f75d22a1fcd85a465a8535b6be338977955222",
+    "sha256_after": "75554e71f5fa9be64062a096b2fa4c553d4d0685ad95a1c0e4d1ce9dc0a657d6"
+   },
+   {
+    "file": "results/raw/ablation-ref-llm/ablation.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "eee61153eae81ffc6c5cb53364174b870f1883d29874a7cb6105450142b424f5",
+    "sha256_after": "869ff80ded795256c648cce27e1e559baa2f90207125ad18c3b2ac9a1bd7709e"
+   },
+   {
+    "file": "experiments/ablations/ablations.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 3
+    },
+    "sha256_before": "8bdc272fa134702ae32e85327667f7e07457658a9f64d952f523257d116c45a3",
+    "sha256_after": "a794e1f58585818f50bd9f96d3ea2de1a9a915580d9ac4d2d275252919d3050c"
+   },
+   {
+    "file": "experiments/chaos/chaos.json",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "5570f7e9ce66b51d7d622df5c4953a9582ae903fa70ac79108069db50a441852",
+    "sha256_after": "4bb1af6dd6719cdd039d853d7e0e6ca422ebd8654fbaffc235ffc8bec756452b"
+   },
+   {
+    "file": "experiments/chaos/chaos.md",
+    "replacements": {
+     "experiments/llm_tail/runs/luna_V3_none.jsonl": 1
+    },
+    "sha256_before": "979d886127e91088df58843dd8cb526a2f82045e6ea1a1391f62a31a7b608b02",
+    "sha256_after": "34129646c27faf9a35692af1ac7dac4371a49eb7689ddaf7d336ff2249c5345b"
+   }
+  ]
+ }
+}

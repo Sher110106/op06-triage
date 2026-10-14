@@ -15,12 +15,12 @@ rows = load_split("dev") + load_split("noisy")
 cpu = read_preds(ROOT / "results/raw/dev-classical-v0/predictions.jsonl")
 det = {json.loads(l)["id"]: json.loads(l) for l in open(ROOT / "results/raw/dev-classical-v0/details.jsonl")}
 hk = {}
-for l in open(ROOT / "experiments/llm_tail/runs/haiku_V3_low.jsonl"):
+for l in open(ROOT / "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl"):
     r = json.loads(l); p = r.get("pred")
     if r["status"] == "ok" and p and p["intent"] != "unknown" and p["action"] != "none":
         hk[r["id"]] = p["intent"]
 lu = {}
-for l in open(ROOT / "experiments/llm_tail/runs/luna_V3_none.jsonl"):
+for l in open(ROOT / "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl"):
     r = json.loads(l); p = r.get("pred")
     if r["status"] == "ok" and p and p["intent"] != "unknown" and p["action"] != "none":
         lu[r["id"]] = p["intent"]

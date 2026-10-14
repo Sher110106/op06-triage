@@ -1,0 +1,322 @@
+{
+ "audit_date": "2026-10-14",
+ "base_commit": "21f486d",
+ "headline_recomputed": {
+  "headline": {
+   "intent_accuracy": {
+    "own": 0.7091,
+    "official_report": 0.7091,
+    "manifest_claimed": 0.7091,
+    "own_eq_official": true,
+    "claimed_eq_own": true
+   },
+   "macro_f1": {
+    "own": 0.7015,
+    "official_report": 0.7015,
+    "manifest_claimed": 0.7015,
+    "own_eq_official": true,
+    "claimed_eq_own": true
+   },
+   "action_accuracy": {
+    "own": 0.8365,
+    "official_report": 0.8365,
+    "manifest_claimed": 0.8117,
+    "own_eq_official": true,
+    "claimed_eq_own": false
+   },
+   "action_clean": {
+    "own": 0.8395,
+    "official_report": 0.8395,
+    "manifest_claimed": null,
+    "own_eq_official": true,
+    "claimed_eq_own": null
+   },
+   "noisy_accuracy(action_noisy)": {
+    "own": 0.8167,
+    "official_report": 0.8167,
+    "manifest_claimed": 0.7933,
+    "own_eq_official": true,
+    "claimed_eq_own": false
+   },
+   "noisy_gap": {
+    "own": 0.0228,
+    "official_report": 0.0228,
+    "manifest_claimed": null,
+    "own_eq_official": true,
+    "claimed_eq_own": null
+   },
+   "top70_error_ratio": {
+    "own": 0.4331,
+    "official_report": 0.433,
+    "manifest_claimed": 0.376,
+    "own_eq_official": false,
+    "claimed_eq_own": false
+   },
+   "schema_valid_pct": {
+    "own": 100.0,
+    "official_report": 100.0,
+    "manifest_claimed": 100.0,
+    "own_eq_official": true,
+    "claimed_eq_own": true
+   },
+   "policy_violation": {
+    "own": 0.0848,
+    "official_report": 0.0848,
+    "manifest_claimed": null,
+    "own_eq_official": true,
+    "claimed_eq_own": null
+   }
+  },
+  "manifest_claimed_from_run": "dev-classical-v0",
+  "latency_cost": {
+   "n": 2309,
+   "concurrency": 8,
+   "status_200": 2309,
+   "p50_ms_linear": 8.877,
+   "p95_ms_linear": 1656.471,
+   "p95_ms_nearest_rank": 1656.778,
+   "p99_ms_linear": 2432.497,
+   "reported_p95_ms": 1656.471,
+   "requests_over_500ms": 460,
+   "llm_calls_reported": 460,
+   "llm_cost_usd_reported_by_service": 0.09318765,
+   "cost_per_message_usd": 4.0358445214378516e-05,
+   "cost_per_1000_usd": 0.040358445214378515,
+   "note": "per-request records carry no cost; cost is the service's own /metrics delta at list price with caching"
+  }
+ },
+ "leakage": {
+  "off": {
+   "rows": 2309,
+   "differ_projected_vs_full": 0,
+   "differ_projected_vs_scrambled": 0,
+   "llm_calls": 0,
+   "keys_seen_by_llm_step": null
+  },
+  "stub": {
+   "rows": 2309,
+   "differ_projected_vs_full": 0,
+   "differ_projected_vs_scrambled": 0,
+   "llm_calls": 1380,
+   "keys_seen_by_llm_step": [
+    "context",
+    "id",
+    "turn_index"
+   ]
+  }
+ },
+ "leakage_static": {
+  "policy_flows_equal_train_lists": true,
+  "dev_retrieval_examples_all_train": true,
+  "foldB_retrieval_examples_in_foldA": 9080,
+  "foldB_retrieval_examples_in_foldB": 0,
+  "fold_conversation_overlap": 0
+ },
+ "preregistration": [
+  {
+   "test": "llm_tail",
+   "commit": "7f4edfb 13:19:47+0530",
+   "pushed": "13:19:57",
+   "first_call_start": "13:20:05",
+   "ok": true
+  },
+  {
+   "test": "llm_confirm",
+   "commit": "bd6fc45 13:44:58+0530",
+   "pushed": "13:45:01",
+   "first_call_start": "13:45:02",
+   "ok": true
+  },
+  {
+   "test": "encoder",
+   "commit": "d1f7258 14:36:34+0530",
+   "pushed": "14:36:36",
+   "outputs_written": "14:45:26",
+   "ok": "outputs after commit; training start before commit (disclosed); not provable from files"
+  }
+ ],
+ "spend": {
+  "repo_ledger_per_provider": {
+   "openrouter": {
+    "attempts": 6276,
+    "ok": 6276,
+    "uncached": 3.972,
+    "cached": 1.2774,
+    "reported": 1.2774,
+    "in_tok": 38696959,
+    "out_tok": 204585
+   },
+   "anthropic": {
+    "attempts": 4370,
+    "ok": 4370,
+    "uncached": 4.7389,
+    "cached": 1.4068,
+    "reported": 0,
+    "in_tok": 43735327,
+    "out_tok": 730678
+   }
+  },
+  "service_run_dev_http_llm_usd_with_cache": 0.09440666,
+  "service_run_not_in_ledger": true,
+  "probe_13oct": {
+   "anthropic_with_cache": 0.4318,
+   "anthropic_uncached": 1.4845,
+   "openrouter_reported": 1.2858,
+   "openrouter_uncached": 1.8445
+  },
+  "total_with_cache_usd": 4.5,
+  "total_uncached_usd_approx": 12.33,
+  "under_50_ceiling": true,
+  "models_in_results": [
+   "openai/gpt-6-luna-20260922 (returned id openai/gpt-6-luna)",
+   "claude-haiku-5-5",
+   "jhu-clsp/ettin-encoder-32m (revision not recorded)",
+   "classical bundle c007c7a3 (shipped), 98f2da30 (Linux retrain), 17bbb0ab and 5596a6da (ablations)",
+   "published baseline"
+  ]
+ },
+ "reproduction": {
+  "audit-cpu_vs_dev-pipeline-cpu": "predictions.jsonl and report_official.json byte-identical; report.json differs only in pred_file; details differ only in timings/request_id",
+  "analyse_routing": "results_routing.json and replay predictions/report/report_official/meta byte-identical; traces.jsonl differs in timings, request_id, policy_version (.1 committed vs .2)"
+ },
+ "findings": [
+  {
+   "severity": "critical",
+   "file": "results/manifest.json",
+   "problem": "claimed comes from dev-classical-v0 (action 0.8117, noisy 0.7933, top-70 0.376) but results/predictions.jsonl is dev-http-llm (action 0.8365, noisy 0.8167, top-70 0.433); cost_per_message_usd and latency_p95_s are null although measured; note says they wait for Phase 3.",
+   "fix": "Set CLAIM_RUN to dev-http-llm in harness/manifest.py (the run that produced results/predictions.jsonl), fill cost_per_message_usd 0.0000404 and latency_p95_s 1.656 (concurrency 8, M1, LLM on), drop the stale note, rebuild."
+  },
+  {
+   "severity": "critical",
+   "file": "MEMO.md",
+   "problem": "Placeholder. None of the content the problem and JUDGMENT_REVIEW ask for.",
+   "fix": "Write it: what it gets right/wrong (dev action 0.8365, screenshot intent 0.50), 24.2% routed on dev (22.8% clean, 33.7% noisy) and why, $0.040 per 1,000 at list with caching ($0.13 uncached), Monday checks (routed share, LLM timeouts/breaker, off-policy flag rate, policy version), residual risk, who bears it, when to pause."
+  },
+  {
+   "severity": "major",
+   "file": "EXPERIMENT_LOG.md",
+   "problem": "No entry for dev-http-llm, the run behind every submitted results file (p95 1,656 ms at c=8, 24 req/s, 460 LLM calls, 3 timeouts, 36 abstentions, $0.093; live Luna differs from recorded answers on 64 of 460 rows).",
+   "fix": "Add a dated P3 entry with these numbers and the expected run-to-run spread."
+  },
+  {
+   "severity": "major",
+   "file": "EXPERIMENT_LOG.md",
+   "problem": "Pre-registered encoder test (commits d1f7258, 0e58158; experiments/encoder/results_encoder.json) is missing from the log and DECISIONS; only LANDSCAPE mentions it. It found a real CPU gain (+0.0273 [+0.0203, +0.0341] fold B) and missed the non-inferiority floor against the Luna step by 0.0003 (-0.0053 vs -0.005).",
+   "fix": "Add a dated entry with the rule outcome, and a line in D2 on why v1 keeps Luna over a CPU-only ensemble."
+  },
+  {
+   "severity": "major",
+   "file": "EXPERIMENT_LOG.md:267",
+   "problem": "P3-1 says 6 parity tests failed from the solver; the Linux log shows test_retrieval_matches_llm_test_examples (198/200: the retrieval index rebuilt on Linux differs, so LLM prompts differ on the reviewer's box) and test_eight_big_turns_are_fast (0.545 s > 0.5 s) failing for other reasons.",
+   "fix": "Report each failure and cause; ship retrieval.joblib as a reviewer-only artifact with SHA-256 in the manifest or make its build deterministic; recheck the gate speed test on Linux."
+  },
+  {
+   "severity": "major",
+   "file": "EXPERIMENT_LOG.md:245,260,261",
+   "problem": "P2-1 numbers don't match results_routing.json: v0 30.1%/0.946/44.0 vs 31.06%/0.9466/44.58; 5/3 routes 14.8% vs 16.41%; 20/10 routes 39.5% vs 40.17%.",
+   "fix": "Copy from the file, or name and save the configuration they came from (likely off-policy routing off)."
+  },
+  {
+   "severity": "major",
+   "file": "DECISIONS.md:13",
+   "problem": "D1 Option 2 says a hard mask gives near-zero violations; probe file shows 0.0774 and repo ablation-hard-mask (exploratory) 0.0743, because violations are scored against the gold flow.",
+   "fix": "Replace with the measured rate and the reason."
+  },
+  {
+   "severity": "major",
+   "file": "DECISIONS.md",
+   "problem": "First pre-registration passed B (macro-F1 +0.031 [+0.004, +0.054], adopt_B true) and D2 overrode it; the fold-B pre-registration then dropped macro-F1 from the intent bar, under which both fold-B intent steps would pass (Luna +0.0202 [+0.0072, +0.0323], Haiku +0.0219 [+0.0081, +0.0371]). D2 does not name the change.",
+   "fix": "State the override and the bar change plainly, with the fold-B macro-F1 result, and why accuracy is the right bar."
+  },
+  {
+   "severity": "major",
+   "file": "DECISIONS.md, LANDSCAPE.md, README.md",
+   "problem": "Stale text: D1 'provisional until Phase 1/2'; D2 p95 'about 1.8 s offline' and '$0.03 per 1,000' vs measured 1.66 s and $0.040; LANDSCAPE:19 'loadtest.py has yet to run with Luna', :9 'no result yet'; README 'Status: Phase 0', 'HTTP service arrives in Phase 1', 'models/ not committed'.",
+   "fix": "Update all three to the current system and measured numbers."
+  },
+  {
+   "severity": "major",
+   "file": "README.md",
+   "problem": "No known failure modes and limitations (Common Rules) and no runbook (rubric dimension 3).",
+   "fix": "Add both: dev numbers used for choices, hidden test will be lower, LLM non-determinism, Linux retrieval drift, screenshot intent 0.50, one worker at 84 req/s on Linux c=8; start, health, metrics, flag off, policy reload."
+  },
+  {
+   "severity": "major",
+   "file": "EXPERIMENT_LOG.md",
+   "problem": "Required analyses incomplete in committed docs: taxonomy only as reconstructed R1; intervention-by-category only in scratch e1_compare.json and uncommitted experiments/taxonomy; noise by kind only for v0; no hostile before/after section.",
+   "fix": "Commit the taxonomy with its table, add the shipped per-kind table (in AUDIT.md section 7) and a hostile before/after table."
+  },
+  {
+   "severity": "major",
+   "file": "(working tree)",
+   "problem": "35 deletions, 12 modified, 61 untracked paths (relocation, ablations, chaos, taxonomy, llm-ledger) not committed; HEAD's manifest has 19 runs and the old ledger path; harness/manifest.py is modified.",
+   "fix": "Commit as one change and check the manifest from a clean git archive before submitting."
+  },
+  {
+   "severity": "major",
+   "file": "results/manifest.json",
+   "problem": "dev-http-llm's 463 live Luna calls are not in the ledger (it ends 13:59:52) and no key check follows the run; its $0.0944 comes only from the service's own /metrics.",
+   "fix": "Write one ledger line per service LLM call (or key check before/after) and cite it in spend_usd."
+  },
+  {
+   "severity": "minor",
+   "file": "EXPERIMENT_LOG.md:230,233",
+   "problem": "Parity claims cite dev-pipeline-cpu, which was regenerated with Phase 2 thresholds: needs_human differs from v0 on 264 rows and from dev-http-cpu on 237; the claims hold for dev-pipeline-cpu-e2e (policy .1).",
+   "fix": "Cite dev-pipeline-cpu-e2e and say dev-pipeline-cpu was rerun after P2."
+  },
+  {
+   "severity": "minor",
+   "file": "EXPERIMENT_LOG.md:231",
+   "problem": "no_dialogue fires on 4432-4, its noisy twin and 12 train rows; log says 1 dev row.",
+   "fix": "State all counts."
+  },
+  {
+   "severity": "minor",
+   "file": "EXPERIMENT_LOG.md:67",
+   "problem": "R6 cites exp_n5_dedup600.json (600-char cap plus NFKC) as the effect of de-dup plus the 2,000-char cap; like-for-like e6_noise_final gives 0.16 -> 0.68.",
+   "fix": "Cite the like-for-like pair."
+  },
+  {
+   "severity": "minor",
+   "file": "DECISIONS.md:57-62",
+   "problem": "Per-flow, rare-intent and noisy figures are all-2,300-row numbers placed under the 1,940-fresh-row bullet; fresh-row values are +10.4 / -9.5 / +0.046 over 48 intents / noisy -3.9; no file stores them.",
+   "fix": "Label the split and save the analysis script and output."
+  },
+  {
+   "severity": "minor",
+   "file": "DECISIONS.md:75",
+   "problem": "Says fold B had seen no model choice; it chose the stacker, temperatures and routing thresholds.",
+   "fix": "Say 'no LLM choice'."
+  },
+  {
+   "severity": "minor",
+   "file": "experiments/encoder/PREREGISTRATION.md",
+   "problem": "Motive compares encoder clean-dev action 0.834 with classical pooled 0.810 (classical clean 0.8135).",
+   "fix": "Compare like with like."
+  },
+  {
+   "severity": "minor",
+   "file": "DECISIONS.md",
+   "problem": "Pin table names openai/gpt-6-luna-20260922, but every response returned 'openai/gpt-6-luna'; encoder HF revision not recorded.",
+   "fix": "Record requested and returned ids; mark the encoder revision unknown."
+  },
+  {
+   "severity": "minor",
+   "file": "EXPERIMENT_LOG.md:282-295",
+   "problem": "P3-2 thread throughput figures have no raw files.",
+   "fix": "Add raw outputs or mark unverifiable."
+  },
+  {
+   "severity": "minor",
+   "file": "results/raw/dev-pipeline-llm-replay/traces.jsonl",
+   "problem": "Committed traces carry policy_version 2026-10-14.1, the shipped policy is .2; rerun rewrites the file (predictions unchanged).",
+   "fix": "Commit the regenerated traces."
+  },
+  {
+   "severity": "minor",
+   "file": "EXPERIMENT_LOG.md:163,208",
+   "problem": "Cumulative OpenRouter $1.75 / $2.55 are key-balance figures; the ledger plus the probe gives $1.76 / $2.56.",
+   "fix": "Name the source."
+  }
+ ]
+}

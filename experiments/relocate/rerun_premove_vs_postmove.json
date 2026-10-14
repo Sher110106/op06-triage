@@ -1,0 +1,549 @@
+{
+ "A": "premove",
+ "B": "postmove",
+ "A_index": {
+  "kind": "rerun",
+  "layout": "old",
+  "started": "2026-10-14T18:04:19+0530",
+  "steps": [
+   {
+    "name": "llm_tail/analyse.py",
+    "cmd": [
+     "experiments/llm_tail/analyse.py",
+     "--cpu",
+     "results/raw/dev-classical-v0/predictions.jsonl",
+     "--luna",
+     "experiments/llm_tail/runs/luna_V3_none.jsonl",
+     "--haiku",
+     "experiments/llm_tail/runs/haiku_V3_low.jsonl"
+    ],
+    "returncode": 0,
+    "wall_s": 13.2
+   },
+   {
+    "name": "llm_confirm/analyse_B.py",
+    "cmd": [
+     "experiments/llm_confirm/analyse_B.py",
+     "--luna",
+     "experiments/llm_confirm/runs/luna_B.jsonl",
+     "--haiku",
+     "experiments/llm_confirm/runs/haiku_B.jsonl"
+    ],
+    "returncode": 0,
+    "wall_s": 7.2
+   },
+   {
+    "name": "encoder/analyse_encoder.py",
+    "cmd": [
+     "experiments/encoder/analyse_encoder.py",
+     "--cache",
+     "experiments/encoder/ett32A"
+    ],
+    "returncode": 0,
+    "wall_s": 11.6
+   },
+   {
+    "name": "llm_confirm/choose_rule.py",
+    "cmd": [
+     "experiments/llm_confirm/choose_rule.py"
+    ],
+    "returncode": 0,
+    "wall_s": 0.8
+   },
+   {
+    "name": "routing/analyse_routing.py",
+    "cmd": [
+     "experiments/routing/analyse_routing.py"
+    ],
+    "returncode": 0,
+    "wall_s": 14.8
+   },
+   {
+    "name": "ablations/run.py ref-llm llm-10 llm-30",
+    "cmd": [
+     "experiments/ablations/run.py",
+     "ref-llm",
+     "llm-10",
+     "llm-30"
+    ],
+    "returncode": 0,
+    "wall_s": 16.8
+   },
+   {
+    "name": "ablations/run.py llm-share-fold-b",
+    "cmd": [
+     "experiments/ablations/run.py",
+     "llm-share-fold-b"
+    ],
+    "returncode": 0,
+    "wall_s": 33.5
+   },
+   {
+    "name": "ablations/run.py table",
+    "cmd": [
+     "experiments/ablations/run.py",
+     "table"
+    ],
+    "returncode": 0,
+    "wall_s": 0.6
+   },
+   {
+    "name": "chaos/run_chaos.py ref-replay",
+    "cmd": [
+     "experiments/chaos/run_chaos.py",
+     "ref-replay"
+    ],
+    "returncode": 0,
+    "wall_s": 4.5
+   },
+   {
+    "name": "chaos/run_chaos.py report",
+    "cmd": [
+     "experiments/chaos/run_chaos.py",
+     "report"
+    ],
+    "returncode": 0,
+    "wall_s": 0.1
+   }
+  ]
+ },
+ "B_index": {
+  "kind": "rerun",
+  "layout": "new",
+  "started": "2026-10-14T18:12:33+0530",
+  "steps": [
+   {
+    "name": "llm_tail/analyse.py",
+    "cmd": [
+     "experiments/llm_tail/analyse.py",
+     "--cpu",
+     "results/raw/dev-classical-v0/predictions.jsonl",
+     "--luna",
+     "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+     "--haiku",
+     "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl"
+    ],
+    "returncode": 0,
+    "wall_s": 14.2
+   },
+   {
+    "name": "llm_confirm/analyse_B.py",
+    "cmd": [
+     "experiments/llm_confirm/analyse_B.py",
+     "--luna",
+     "results/raw/llm-confirm-luna_B/raw_calls.jsonl",
+     "--haiku",
+     "results/raw/llm-confirm-haiku_B/raw_calls.jsonl"
+    ],
+    "returncode": 0,
+    "wall_s": 7.8
+   },
+   {
+    "name": "encoder/analyse_encoder.py",
+    "cmd": [
+     "experiments/encoder/analyse_encoder.py",
+     "--cache",
+     "results/raw/encoder-ett32A"
+    ],
+    "returncode": 0,
+    "wall_s": 12.6
+   },
+   {
+    "name": "llm_confirm/choose_rule.py",
+    "cmd": [
+     "experiments/llm_confirm/choose_rule.py"
+    ],
+    "returncode": 0,
+    "wall_s": 1.1
+   },
+   {
+    "name": "routing/analyse_routing.py",
+    "cmd": [
+     "experiments/routing/analyse_routing.py"
+    ],
+    "returncode": 0,
+    "wall_s": 18.8
+   },
+   {
+    "name": "ablations/run.py ref-llm llm-10 llm-30",
+    "cmd": [
+     "experiments/ablations/run.py",
+     "ref-llm",
+     "llm-10",
+     "llm-30"
+    ],
+    "returncode": 0,
+    "wall_s": 21.8
+   },
+   {
+    "name": "ablations/run.py llm-share-fold-b",
+    "cmd": [
+     "experiments/ablations/run.py",
+     "llm-share-fold-b"
+    ],
+    "returncode": 0,
+    "wall_s": 39.3
+   },
+   {
+    "name": "ablations/run.py table",
+    "cmd": [
+     "experiments/ablations/run.py",
+     "table"
+    ],
+    "returncode": 0,
+    "wall_s": 0.7
+   },
+   {
+    "name": "chaos/run_chaos.py ref-replay",
+    "cmd": [
+     "experiments/chaos/run_chaos.py",
+     "ref-replay"
+    ],
+    "returncode": 0,
+    "wall_s": 5.1
+   },
+   {
+    "name": "chaos/run_chaos.py report",
+    "cmd": [
+     "experiments/chaos/run_chaos.py",
+     "report"
+    ],
+    "returncode": 0,
+    "wall_s": 0.1
+   }
+  ]
+ },
+ "rules": {
+  "wall_clock_fields_ignored": {
+   "created": "time the run was made",
+   "batch_wall_s": "seconds the batch took",
+   "timings_ms": "per-request stage timings",
+   "request_id": "random id per request (uuid4)",
+   "load_avg": "machine load average when the run started",
+   "loaded_at": "time the policy file was loaded"
+  },
+  "path_rewrites_applied_to_both": {
+   "experiments/llm_tail/runs/luna_V3_none.jsonl": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+   "experiments/llm_tail/runs/haiku_V3_low.jsonl": "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl",
+   "experiments/llm_confirm/runs/luna_B.jsonl": "results/raw/llm-confirm-luna_B/raw_calls.jsonl",
+   "experiments/llm_confirm/runs/haiku_B.jsonl": "results/raw/llm-confirm-haiku_B/raw_calls.jsonl"
+  }
+ },
+ "status_counts": {
+  "identical_after_path_rewrite": 5,
+  "byte_identical": 30,
+  "equal_except_wall_clock": 10
+ },
+ "unexplained_total": 0,
+ "files": [
+  {
+   "file": "experiments/ablations/ablations.json",
+   "old_path_strings": {
+    "A": 3,
+    "B": 0
+   },
+   "status": "identical_after_path_rewrite"
+  },
+  {
+   "file": "experiments/ablations/llm_share_fold_b.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "experiments/chaos/chaos.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "wall_clock_fields_differing": {
+    "created": 2,
+    "load_avg": 1,
+    "loaded_at": 1
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "experiments/encoder/results_encoder.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "experiments/llm_confirm/results_B.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "experiments/llm_confirm/rule_selection_dev.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "experiments/llm_tail/results.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "experiments/routing/results_routing.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-10/ablation.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "status": "identical_after_path_rewrite"
+  },
+  {
+   "file": "results/raw/ablation-llm-10/meta.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "wall_clock_fields_differing": {
+    "batch_wall_s": 1,
+    "created": 1
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/ablation-llm-10/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-10/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-10/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-10/traces.jsonl.gz",
+   "old_path_strings": {
+    "A": 0,
+    "B": 0
+   },
+   "lines": 2309,
+   "lines_differing": 2309,
+   "wall_clock_fields_differing": {
+    "timings_ms": 2309
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/ablation-llm-30/ablation.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "status": "identical_after_path_rewrite"
+  },
+  {
+   "file": "results/raw/ablation-llm-30/meta.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "wall_clock_fields_differing": {
+    "batch_wall_s": 1,
+    "created": 1
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/ablation-llm-30/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-30/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-30/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-llm-30/traces.jsonl.gz",
+   "old_path_strings": {
+    "A": 0,
+    "B": 0
+   },
+   "lines": 2309,
+   "lines_differing": 2309,
+   "wall_clock_fields_differing": {
+    "timings_ms": 2309
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/ablation-ref-llm/ablation.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "status": "identical_after_path_rewrite"
+  },
+  {
+   "file": "results/raw/ablation-ref-llm/meta.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "wall_clock_fields_differing": {
+    "batch_wall_s": 1,
+    "created": 1
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/ablation-ref-llm/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-ref-llm/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-ref-llm/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/ablation-ref-llm/traces.jsonl.gz",
+   "old_path_strings": {
+    "A": 0,
+    "B": 0
+   },
+   "lines": 2309,
+   "lines_differing": 2309,
+   "wall_clock_fields_differing": {
+    "timings_ms": 2309
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/chaos-ref-replay/meta.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "wall_clock_fields_differing": {
+    "created": 1,
+    "load_avg": 1,
+    "loaded_at": 1
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/chaos-ref-replay/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/chaos-ref-replay/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/chaos-ref-replay/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/chaos-ref-replay/traces.jsonl",
+   "old_path_strings": {
+    "A": 0,
+    "B": 0
+   },
+   "lines": 600,
+   "lines_differing": 600,
+   "wall_clock_fields_differing": {
+    "request_id": 600,
+    "timings_ms": 600
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/dev-pipeline-llm-replay/meta.json",
+   "old_path_strings": {
+    "A": 1,
+    "B": 0
+   },
+   "status": "identical_after_path_rewrite"
+  },
+  {
+   "file": "results/raw/dev-pipeline-llm-replay/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/dev-pipeline-llm-replay/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/dev-pipeline-llm-replay/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/dev-pipeline-llm-replay/traces.jsonl",
+   "old_path_strings": {
+    "A": 0,
+    "B": 0
+   },
+   "lines": 2309,
+   "lines_differing": 2309,
+   "wall_clock_fields_differing": {
+    "request_id": 2309,
+    "timings_ms": 2309
+   },
+   "unexplained": [],
+   "unexplained_count": 0,
+   "status": "equal_except_wall_clock"
+  },
+  {
+   "file": "results/raw/llm-tail-A_luna_tail/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-A_luna_tail/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-A_luna_tail/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-B_haiku_intent/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-B_haiku_intent/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-B_haiku_intent/report_official.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-C_both/predictions.jsonl",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-C_both/report.json",
+   "status": "byte_identical"
+  },
+  {
+   "file": "results/raw/llm-tail-C_both/report_official.json",
+   "status": "byte_identical"
+  }
+ ]
+}

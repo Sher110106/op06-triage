@@ -1,0 +1,80 @@
+{
+ "pred_file": "results/raw/chaos-restart/predictions.jsonl",
+ "pred_sha256": "21abd13c5b6d492415f127921d0027d00eba0991940105620284dadd95d3817f",
+ "grader_version": "2.1",
+ "official": {
+  "intent_acc": 0.0526,
+  "macro_f1": 0.0935,
+  "action_acc": 0.0591,
+  "action_acc_clean": 0.068,
+  "action_acc_noisy": 0.0,
+  "noisy_gap": 0.068,
+  "matched_noisy_gap": 0.4533,
+  "intent_acc_noisy": 0.0,
+  "schema_valid_pct": 7.28,
+  "top70_error_ratio": 1.0,
+  "distinct_confidences": 165,
+  "policy_violation": 0.0655,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": false,
+  "action_accuracy_all": false,
+  "macro_f1_all": false,
+  "schema_valid_pct": false,
+  "noisy_gap": true,
+  "top70_error_ratio": false
+ },
+ "extras": {
+  "rows": 168,
+  "excluded": 2132,
+  "point": {
+   "intent_acc": 0.7202,
+   "action_acc": 0.8095,
+   "intent_acc_clean": 0.7202,
+   "action_acc_clean": 0.8095,
+   "macro_f1": 0.729,
+   "top70_error_ratio": 0.5339
+  },
+  "ci95_conversation_bootstrap": {
+   "intent_acc": [
+    0.6503,
+    0.7882
+   ],
+   "action_acc": [
+    0.7515,
+    0.8639
+   ],
+   "intent_acc_clean": [
+    0.6503,
+    0.7882
+   ],
+   "action_acc_clean": [
+    0.7515,
+    0.8639
+   ],
+   "macro_f1": [
+    0.6549,
+    0.7883
+   ],
+   "top70_error_ratio": [
+    0.3047,
+    0.7528
+   ]
+  },
+  "bootstrap_draws": 2000,
+  "policy_violation_alias": 0.0298,
+  "gold_policy_violation_alias": 0.0536,
+  "noise_kinds": {},
+  "action_acc_at_coverage": {
+   "50%": 0.9524,
+   "60%": 0.9109,
+   "70%": 0.8983,
+   "80%": 0.8881,
+   "90%": 0.8411,
+   "100%": 0.8095
+  },
+  "needs_human_rate": 0.25,
+  "action_acc_when_not_routed": 0.9048
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "run_id": "chaos-restart",
+ "cold_start": {
+  "listening_s": 0.571,
+  "healthy_s": 3.216,
+  "first_answer_after_healthy_s": 0.018,
+  "first_answer_status": 200
+ },
+ "kill9": {
+  "killed_at_s": 10.009,
+  "kill_exit_code": -9,
+  "respawned_at_s": 10.029,
+  "restart_listening_s": 0.562,
+  "restart_healthy_s": 3.241,
+  "healthz_polls_during_restart": {
+   "ConnectError": 9,
+   "503": 36,
+   "200": 1
+  },
+  "kill_to_healthy_s": 3.261,
+  "probe_after_healthy": {
+   "status": 200,
+   "s": 0.017
+  },
+  "kill_to_probe_answer_s": 3.278,
+  "traffic_first_200_after_kill_s": 3.342,
+  "in_flight_at_kill": 3,
+  "in_flight_at_kill_outcomes": {
+   "RemoteProtocolError": 3
+  },
+  "failed_requests_during_restart": 54,
+  "failed_during_restart_by_kind": {
+   "ConnectError": 11,
+   "loading": 43
+  },
+  "answers_equal_ok_run": "168 of 168",
+  "answers_before_kill_equal": 80,
+  "answers_after_restart_equal": 88,
+  "answers_after_restart": 88
+ },
+ "sigterm_ok_upstream": {
+  "t_signal_s": 23.289,
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 1.359,
+  "forced_kill": false,
+  "in_flight_at_signal": 4,
+  "in_flight_outcomes": {
+   "200": 4
+  },
+  "in_flight_llm_status": {
+   "ok": 4
+  },
+  "in_flight_max_wait_after_signal_s": 1.304,
+  "sent_after_signal": 26,
+  "after_signal_outcomes": {
+   "200": 1,
+   "ConnectError": 25
+  },
+  "after_signal_before_exit_200": 1,
+  "log": {
+   "tracebacks": 0,
+   "error_lines": 0,
+   "shutdown_complete": true,
+   "finished_server_process": true,
+   "load_failed": false
+  },
+  "clean": true
+ },
+ "traffic": {
+  "requests": 250,
+  "status_counts": {
+   "200": 168,
+   "None": 39,
+   "503": 43
+  },
+  "client_errors": {
+   "RemoteProtocolError": 3,
+   "ConnectError": 36
+  },
+  "llm_status": {
+   "ok": 27,
+   "abstained": 4
+  }
+ },
+ "sigterm_hung_upstream": {
+  "t_signal_s": 1.531,
+  "client_requests_waiting_at_signal": 16,
+  "upstream_calls_in_flight_at_signal": 8,
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 2.792,
+  "forced_kill": false,
+  "in_flight_at_signal": 16,
+  "in_flight_outcomes": {
+   "200": 16
+  },
+  "in_flight_llm_status": {
+   "timeout": 8,
+   "busy": 2,
+   "None": 6
+  },
+  "in_flight_max_wait_after_signal_s": 2.701,
+  "sent_after_signal": 0,
+  "after_signal_outcomes": {},
+  "after_signal_before_exit_200": 0,
+  "log": {
+   "tracebacks": 0,
+   "error_lines": 0,
+   "shutdown_complete": true,
+   "finished_server_process": true,
+   "load_failed": false
+  },
+  "clean": true
+ },
+ "graded": {
+  "rows_scored": 168,
+  "intent_acc": 0.7202,
+  "action_acc": 0.8095,
+  "intent_acc_clean": 0.7202,
+  "action_acc_clean": 0.8095,
+  "macro_f1": 0.729,
+  "top70_error_ratio": 0.5339,
+  "needs_human_rate": 0.25,
+  "action_acc_when_not_routed": 0.9048,
+  "ci95_action_acc": [
+   0.7515,
+   0.8639
+  ]
+ }
+}

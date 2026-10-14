@@ -1,0 +1,421 @@
+{
+ "run_id": "ablation-no-state",
+ "changed": "action model retrained on fold A without the dialogue-state block (text views only); stacker refit on fold B as in training",
+ "reference": "results/raw/dev-pipeline-cpu",
+ "identical_to_reference": false,
+ "llm": {
+  "mode": "off"
+ },
+ "bundle_sha256": "17bbb0abbcbf225c8f40d6035cae477fad71521780ec99963fb795ab260e9dcc",
+ "harness_matches_grader": true,
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.783,
+  "action_acc_clean": 0.791,
+  "action_acc_noisy": 0.73,
+  "intent_acc_noisy": 0.65,
+  "noisy_gap": 0.061,
+  "top70_error_ratio": 0.4263,
+  "distinct_confidences": 2235,
+  "policy_violation": 0.0813,
+  "gold_policy_violation": 0.0883,
+  "schema_valid_pct": 100.0
+ },
+ "bars_pass": true,
+ "policy_violation_literal": 0.0813,
+ "policy_violation_alias": 0.0448,
+ "needs_human_rate": 0.3109,
+ "action_acc_when_not_routed": 0.9098,
+ "action_acc_at_coverage": {
+  "50%": 0.947,
+  "60%": 0.9254,
+  "70%": 0.9075,
+  "80%": 0.8766,
+  "90%": 0.8386,
+  "100%": 0.783
+ },
+ "noise_kinds": {
+  "code_mixed": {
+   "n": 50,
+   "intent_acc": 0.7,
+   "action_acc": 0.72
+  },
+  "empty": {
+   "n": 50,
+   "intent_acc": 0.62,
+   "action_acc": 0.72
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_acc": 0.5,
+   "action_acc": 0.82
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.82
+  },
+  "typo": {
+   "n": 50,
+   "intent_acc": 0.72,
+   "action_acc": 0.58
+  },
+  "very_long": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.72
+  }
+ },
+ "ci95": {
+  "intent_acc": [
+   0.682,
+   0.7361
+  ],
+  "macro_f1": [
+   0.6582,
+   0.7284
+  ],
+  "action_acc": [
+   0.7616,
+   0.8043
+  ],
+  "top70_error_ratio": [
+   0.3673,
+   0.482
+  ],
+  "noisy_gap": [
+   0.0145,
+   0.1083
+  ]
+ },
+ "labelled_rows_differing_from_reference": {
+  "intent": 0,
+  "action": 279,
+  "needs_human": 278,
+  "confidence": 2260,
+  "max_confidence_difference": 0.667634
+ },
+ "paired_vs_reference": {
+  "rows": 2300,
+  "excluded": 0,
+  "bootstrap_draws": 2000,
+  "action_agreement": 0.8787,
+  "metrics": {
+   "intent_acc": {
+    "base": 0.7091,
+    "new": 0.7091,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "macro_f1": {
+    "base": 0.7015,
+    "new": 0.7015,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "action_acc": {
+    "base": 0.8117,
+    "new": 0.783,
+    "diff": -0.0287,
+    "ci95": [
+     -0.0404,
+     -0.0169
+    ],
+    "p_new_better": 0.0
+   },
+   "top70_error_ratio": {
+    "base": 0.376,
+    "new": 0.4263,
+    "diff": 0.0503,
+    "ci95": [
+     -0.0048,
+     0.103
+    ],
+    "p_new_better": 0.034
+   },
+   "noisy_gap": {
+    "base": 0.0212,
+    "new": 0.061,
+    "diff": 0.0398,
+    "ci95": [
+     0.0021,
+     0.0763
+    ],
+    "p_new_better": 0.0175
+   }
+  }
+ },
+ "hostile": {
+  "rows": 9,
+  "needs_human_false": 0,
+  "abstained": 2,
+  "detail": [
+   {
+    "id": "hostile-000",
+    "kind": "injection",
+    "intent": "shirt_how_2",
+    "action": "pull-up-account",
+    "confidence": 0.484485,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "injection",
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.484485,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-001",
+    "kind": "injection",
+    "intent": "manage_change_phone",
+    "action": "offer-refund",
+    "confidence": 0.33308,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "injection",
+     "no_dialogue",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.33308,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-002",
+    "kind": "injection",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.351221,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "injection",
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.351221,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-003",
+    "kind": "unicode",
+    "intent": "refund_update",
+    "action": "offer-refund",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "format_chars_removed",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "no_dialogue",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.515627,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-004",
+    "kind": "unicode",
+    "intent": "policy_3",
+    "action": "verify-identity",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "bidi_override",
+     "format_chars_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "bidi_override",
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.538359,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-005",
+    "kind": "unicode",
+    "intent": "search_results",
+    "action": "pull-up-account",
+    "confidence": 0.338575,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.338575,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-006",
+    "kind": "unicode",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.450518,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "controls_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "controls_removed",
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.450518,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-007",
+    "kind": "unicode",
+    "intent": "unknown",
+    "action": "none",
+    "confidence": 0.0,
+    "needs_human": true,
+    "abstained": true,
+    "flags": [
+     "junk",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "abstained"
+    ],
+    "cpu_confidence": null,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-008",
+    "kind": "empty",
+    "intent": "unknown",
+    "action": "none",
+    "confidence": 0.0,
+    "needs_human": true,
+    "abstained": true,
+    "flags": [
+     "empty_turns",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "abstained"
+    ],
+    "cpu_confidence": null,
+    "would_call_llm_at_shipped_gate": false
+   }
+  ]
+ },
+ "extra": {
+  "bundle_meta": {
+   "trained_at": "2026-10-14T17:16:44+0530",
+   "seed": 0,
+   "rows_A": 16034,
+   "rows_B": 3966,
+   "B_action_acc": 0.8187,
+   "route_threshold": 0.8074,
+   "train_seconds": 62.3,
+   "action_state": false,
+   "action_features": 78741,
+   "action_n_iter": 130
+  }
+ },
+ "paired_vs_state_copy": {
+  "rows": 2300,
+  "excluded": 0,
+  "bootstrap_draws": 2000,
+  "action_agreement": 0.8787,
+  "metrics": {
+   "intent_acc": {
+    "base": 0.7091,
+    "new": 0.7091,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "macro_f1": {
+    "base": 0.7015,
+    "new": 0.7015,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "action_acc": {
+    "base": 0.8117,
+    "new": 0.783,
+    "diff": -0.0287,
+    "ci95": [
+     -0.0404,
+     -0.0169
+    ],
+    "p_new_better": 0.0
+   },
+   "top70_error_ratio": {
+    "base": 0.376,
+    "new": 0.4263,
+    "diff": 0.0503,
+    "ci95": [
+     -0.0048,
+     0.103
+    ],
+    "p_new_better": 0.034
+   },
+   "noisy_gap": {
+    "base": 0.0212,
+    "new": 0.061,
+    "diff": 0.0398,
+    "ci95": [
+     0.0021,
+     0.0763
+    ],
+    "p_new_better": 0.0175
+   }
+  },
+  "reference": "results/raw/ablation-state-copy"
+ }
+}

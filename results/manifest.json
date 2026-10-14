@@ -12,151 +12,64 @@
  },
  "claimed_from_run": "dev-classical-v0",
  "note": "Development measurements on the published dev split. cost and latency stay null until the Phase 3 load test measures them.",
+ "input_sha256_definition": "SHA-256 of the run's input_files concatenated in the order listed",
+ "spend_usd": {
+  "llm_call_runs_list_with_cache": 2.6841,
+  "llm_call_runs_list_uncached": 8.7108,
+  "llm_call_runs_reported_by_openrouter": 1.2774,
+  "service_runs_list": 0.0944,
+  "service_runs": [
+   "dev-http-llm"
+  ],
+  "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. Not included: the 13 Oct probe (outside this repo; see ledger.prior_spend_outside_repo)."
+ },
+ "ledger": {
+  "raw_path": "results/raw/llm-ledger/ledger.jsonl",
+  "keycheck": "results/raw/llm-ledger/keycheck.jsonl",
+  "run_summaries": "results/raw/llm-ledger/run_summaries.jsonl",
+  "about": "Not a run. One line per API attempt (failed ones too) across every LLM run in this repo, written by experiments/llm_tail/llm_common.ledger_write; run_llm.py and run_llm_B.py both append here, so spend caps count all runs. keycheck.jsonl: OpenRouter key balance before and after each run. run_summaries.jsonl: one summary line per run.",
+  "attempts": 10646,
+  "first": "2026-10-14T13:20:09",
+  "last": "2026-10-14T13:59:52",
+  "by_provider_usd": {
+   "openrouter": {
+    "attempts": 6276,
+    "ok": 6276,
+    "list_with_cache": 1.2774,
+    "list_uncached": 3.972,
+    "reported": 1.2774
+   },
+   "anthropic": {
+    "attempts": 4370,
+    "ok": 4370,
+    "list_with_cache": 1.4068,
+    "list_uncached": 4.7389,
+    "reported": 0.0
+   }
+  },
+  "prior_spend_outside_repo": "the 13 Oct probe's spend (Anthropic $0.4318, OpenRouter $1.2858) is counted as llm_common.PRIOR_SPEND; its ledger lives outside this repo"
+ },
  "runs": [
   {
-   "run_id": "dev-baseline",
-   "seed": 0,
-   "model": "published-baseline",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-baseline/predictions.jsonl",
-   "created": null,
-   "grader_version": "2.1",
-   "metrics": {
-    "intent_acc": 0.3748,
-    "macro_f1": 0.4508,
-    "action_acc": 0.3913,
-    "action_acc_clean": 0.401,
-    "action_acc_noisy": 0.3267,
-    "noisy_gap": 0.0743,
-    "matched_noisy_gap": 0.0566,
-    "intent_acc_noisy": 0.3,
-    "schema_valid_pct": 100.0,
-    "top70_error_ratio": 1.0,
-    "distinct_confidences": 1210,
-    "policy_violation": 0.1404,
-    "gold_policy_violation": 0.0883
-   },
-   "bars_pass": {
-    "intent_accuracy_all": false,
-    "action_accuracy_all": false,
-    "macro_f1_all": false,
-    "schema_valid_pct": true,
-    "noisy_gap": true,
-    "top70_error_ratio": false
-   },
-   "api_cost_usd": 0.0
-  },
-  {
-   "run_id": "dev-classical-v0",
-   "seed": 0,
-   "model": "classical@c007c7a3769a",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-classical-v0/predictions.jsonl",
-   "created": "2026-10-14T13:15:43+0530",
-   "grader_version": "2.1",
-   "metrics": {
-    "intent_acc": 0.7091,
-    "macro_f1": 0.7015,
-    "action_acc": 0.8117,
-    "action_acc_clean": 0.8145,
-    "action_acc_noisy": 0.7933,
-    "noisy_gap": 0.0212,
-    "matched_noisy_gap": 0.0034,
-    "intent_acc_noisy": 0.65,
-    "schema_valid_pct": 100.0,
-    "top70_error_ratio": 0.376,
-    "distinct_confidences": 2278,
-    "policy_violation": 0.0804,
-    "gold_policy_violation": 0.0883
-   },
-   "bars_pass": {
-    "intent_accuracy_all": true,
-    "action_accuracy_all": true,
-    "macro_f1_all": true,
-    "schema_valid_pct": true,
-    "noisy_gap": true,
-    "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
-  },
-  {
-   "run_id": "dev-http-cpu",
-   "seed": 0,
-   "model": "service-http@c007c7a3769a",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-http-cpu/predictions.jsonl",
-   "created": "2026-10-14T15:18:37+0530",
-   "grader_version": "2.1",
-   "metrics": {
-    "intent_acc": 0.7091,
-    "macro_f1": 0.7015,
-    "action_acc": 0.8117,
-    "action_acc_clean": 0.8145,
-    "action_acc_noisy": 0.7933,
-    "noisy_gap": 0.0212,
-    "matched_noisy_gap": 0.0034,
-    "intent_acc_noisy": 0.65,
-    "schema_valid_pct": 100.0,
-    "top70_error_ratio": 0.376,
-    "distinct_confidences": 2229,
-    "policy_violation": 0.0804,
-    "gold_policy_violation": 0.0883
-   },
-   "bars_pass": {
-    "intent_accuracy_all": true,
-    "action_accuracy_all": true,
-    "macro_f1_all": true,
-    "schema_valid_pct": true,
-    "noisy_gap": true,
-    "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
-  },
-  {
-   "run_id": "dev-http-llm",
-   "seed": 0,
-   "model": "service-http@c007c7a3769a",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-http-llm/predictions.jsonl",
-   "created": "2026-10-14T17:10:39+0530",
-   "grader_version": "2.1",
-   "metrics": {
-    "intent_acc": 0.7091,
-    "macro_f1": 0.7015,
-    "action_acc": 0.8365,
-    "action_acc_clean": 0.8395,
-    "action_acc_noisy": 0.8167,
-    "noisy_gap": 0.0228,
-    "matched_noisy_gap": 0.0066,
-    "intent_acc_noisy": 0.65,
-    "schema_valid_pct": 100.0,
-    "top70_error_ratio": 0.433,
-    "distinct_confidences": 2221,
-    "policy_violation": 0.0848,
-    "gold_policy_violation": 0.0883
-   },
-   "bars_pass": {
-    "intent_accuracy_all": true,
-    "action_accuracy_all": true,
-    "macro_f1_all": true,
-    "schema_valid_pct": true,
-    "noisy_gap": true,
-    "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
-  },
-  {
-   "run_id": "dev-pipeline-cpu",
+   "run_id": "ablation-conf-top-p",
+   "kind": "graded",
    "seed": 0,
    "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-pipeline-cpu/predictions.jsonl",
-   "created": "2026-10-14T16:33:56+0530",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-conf-top-p/predictions.jsonl",
+   "created": "2026-10-14T17:29:01+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "confidence = top action probability (after the prior) instead of the stacked correctness model; shipped thresholds kept",
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.7091,
@@ -168,8 +81,8 @@
     "matched_noisy_gap": 0.0034,
     "intent_acc_noisy": 0.65,
     "schema_valid_pct": 100.0,
-    "top70_error_ratio": 0.376,
-    "distinct_confidences": 2229,
+    "top70_error_ratio": 0.419,
+    "distinct_confidences": 2228,
     "policy_violation": 0.0804,
     "gold_policy_violation": 0.0883
    },
@@ -180,17 +93,433 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
+   }
   },
   {
-   "run_id": "dev-pipeline-cpu-e2e",
+   "run_id": "ablation-gate-no-nodialogue",
+   "kind": "graded",
    "seed": 0,
    "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-pipeline-cpu-e2e/predictions.jsonl",
-   "created": "2026-10-14T15:11:18+0530",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-gate-no-nodialogue/predictions.jsonl",
+   "created": "2026-10-14T17:29:31+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "exploratory: gate on, but the no_dialogue flag does not route (the content flags injection, controls, bidi, surrogates, junk, no_known_text still do)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2231,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-gate-noroute",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-gate-noroute/predictions.jsonl",
+   "created": "2026-10-14T17:29:20+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "gate cleans but its ROUTE flags are ignored (no routing, no cap, LLM not blocked); abstention for unreadable input kept",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2231,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-gate-off",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-gate-off/predictions.jsonl",
+   "created": "2026-10-14T17:29:24+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "no gate at all: no cleaning, no flags, no routing by flags, no abstention (envelope check kept)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "noisy_gap": 0.0478,
+    "matched_noisy_gap": 0.03,
+    "intent_acc_noisy": 0.5633,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3756,
+    "distinct_confidences": 2232,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-gate-off-nopol",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-gate-off-nopol/predictions.jsonl",
+   "created": "2026-10-14T17:29:35+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "exploratory: no gate and off-policy routing off too (only the confidence thresholds route; close to v0 with the shipped thresholds)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "noisy_gap": 0.0478,
+    "matched_noisy_gap": 0.03,
+    "intent_acc_noisy": 0.5633,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3725,
+    "distinct_confidences": 2280,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-hard-mask",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-hard-mask/predictions.jsonl",
+   "created": "2026-10-14T17:28:50+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "hard mask: only actions permitted by the flow model's argmax flow, instead of the soft expected permission",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8013,
+    "action_acc_clean": 0.806,
+    "action_acc_noisy": 0.77,
+    "noisy_gap": 0.036,
+    "matched_noisy_gap": 0.02,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3845,
+    "distinct_confidences": 2248,
+    "policy_violation": 0.0743,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-llm-10",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a + openai/gpt-6-luna-20260922 (recorded answers replayed, no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-llm-10/predictions.jsonl",
+   "created": "2026-10-14T17:28:29+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "LLM step on the 10% least-confident share: gate = 10% quantile of dev CPU confidence (0.433508) instead of the 20% one (0.642841)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8248,
+    "action_acc_clean": 0.828,
+    "action_acc_noisy": 0.8033,
+    "noisy_gap": 0.0247,
+    "matched_noisy_gap": 0.0167,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.4041,
+    "distinct_confidences": 2222,
+    "policy_violation": 0.0852,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-llm-30",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a + openai/gpt-6-luna-20260922 (recorded answers replayed, no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-llm-30/predictions.jsonl",
+   "created": "2026-10-14T17:28:34+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "LLM step on the 30% least-confident share: gate = 30% quantile of dev CPU confidence (0.795136) instead of the 20% one (0.642841)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8326,
+    "action_acc_clean": 0.8375,
+    "action_acc_noisy": 0.8,
+    "noisy_gap": 0.0375,
+    "matched_noisy_gap": 0.0133,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.4008,
+    "distinct_confidences": 2232,
+    "policy_violation": 0.0909,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-no-alias",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-no-alias/predictions.jsonl",
+   "created": "2026-10-14T17:28:56+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "no alias: literal published lists, so 'membership' is not permitted where only 'membership-privileges' is (prior and off-policy check both)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.7861,
+    "action_acc_clean": 0.7885,
+    "action_acc_noisy": 0.77,
+    "noisy_gap": 0.0185,
+    "matched_noisy_gap": 0.0,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3806,
+    "distinct_confidences": 2238,
+    "policy_violation": 0.0452,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-no-dedupe",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-no-dedupe/predictions.jsonl",
+   "created": "2026-10-14T17:28:40+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "gate keeps repeated sentences (the dedupe_text step removed)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "noisy_gap": 0.0478,
+    "matched_noisy_gap": 0.03,
+    "intent_acc_noisy": 0.5633,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3756,
+    "distinct_confidences": 2230,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-no-llm",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-no-llm/predictions.jsonl",
+   "created": "2026-10-14T17:28:24+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "LLM step off (the CPU pipeline; must equal dev-pipeline-cpu)",
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.7091,
@@ -214,17 +543,118 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
+   }
   },
   {
-   "run_id": "dev-pipeline-llm-replay",
+   "run_id": "ablation-no-prior",
+   "kind": "graded",
    "seed": 0,
-   "model": "pipeline with recorded GPT-6 Luna answers replayed (no API calls)",
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "results/raw/dev-pipeline-llm-replay/predictions.jsonl",
-   "created": null,
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-no-prior/predictions.jsonl",
+   "created": "2026-10-14T17:28:45+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "no policy prior: action = argmax of the raw action probabilities (the stacker and the off-policy check are unchanged)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8,
+    "action_acc_clean": 0.805,
+    "action_acc_noisy": 0.7667,
+    "noisy_gap": 0.0383,
+    "matched_noisy_gap": 0.0166,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.351,
+    "distinct_confidences": 2200,
+    "policy_violation": 0.12,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-no-state",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@17bbb0abbcbf",
+   "bundle_sha256": "17bbb0abbcbf225c8f40d6035cae477fad71521780ec99963fb795ab260e9dcc",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-no-state/predictions.jsonl",
+   "created": "2026-10-14T17:29:13+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "action model retrained on fold A without the dialogue-state block (text views only); stacker refit on fold B as in training",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.783,
+    "action_acc_clean": 0.791,
+    "action_acc_noisy": 0.73,
+    "noisy_gap": 0.061,
+    "matched_noisy_gap": 0.05,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.4263,
+    "distinct_confidences": 2235,
+    "policy_violation": 0.0813,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-ref-llm",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a + openai/gpt-6-luna-20260922 (recorded answers replayed, no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-ref-llm/predictions.jsonl",
+   "created": "2026-10-14T17:28:19+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "nothing: shipped pipeline, recorded Luna answers replayed at the shipped gate 0.642841; must reproduce dev-pipeline-llm-replay",
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.7091,
@@ -248,17 +678,1724 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "ablation-state-copy",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@5596a6dad9b6",
+   "bundle_sha256": "5596a6dad9b6de6b692587174593c6c9ba0d07f19e37493ec01ea4fd240c6859",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/ablation-state-copy/predictions.jsonl",
+   "created": "2026-10-14T17:29:07+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "changed": "nothing: CPU model retrained by this folder's copy of the training code with the state block kept (retraining noise for ablation 6)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2227,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "audit-cpu",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/audit-cpu/predictions.jsonl",
+   "created": "2026-10-14T18:27:06+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "chaos-bad_enum",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'bad_enum' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-bad_enum/predictions.jsonl",
+   "created": "2026-10-14T17:47:41+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'bad_enum'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 35.145,
+     "p95": 56.424,
+     "p99": 77.344,
+     "max": 119.779,
+     "mean": 36.867
+    },
+    "throughput_rps": 216.03
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-constant",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'constant' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-constant/predictions.jsonl",
+   "created": "2026-10-14T17:49:48+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'constant'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 13.64,
+     "p95": 1543.697,
+     "p99": 1559.694,
+     "max": 1648.945,
+     "mean": 388.978
+    },
+    "throughput_rps": 20.02
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.685,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.73,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.64,
+    "noisy_gap": 0.09,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.2949
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-cpu-c128",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-cpu-c128/predictions.jsonl",
+   "created": "2026-10-14T17:50:53+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode None",
+   "load": {
+    "concurrency": 128,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 497.413,
+     "p95": 712.65,
+     "p99": 731.786,
+     "max": 743.39,
+     "mean": 521.9
+    },
+    "throughput_rps": 215.99
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-cpu-c200",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-cpu-c200/predictions.jsonl",
+   "created": "2026-10-14T17:51:20+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 492,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode None",
+   "load": {
+    "concurrency": 200,
+    "sample_count": 600,
+    "errors": 4,
+    "non_200": 104,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 1336.799,
+     "p95": 5691.021,
+     "p99": 6320.107,
+     "max": 7864.077,
+     "mean": 2191.557
+    },
+    "throughput_rps": 73.82
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.555,
+    "action_acc": 0.6517,
+    "intent_acc_clean": 0.53,
+    "action_acc_clean": 0.59,
+    "intent_acc_noisy": 0.58,
+    "action_acc_noisy": 0.7133,
+    "noisy_gap": -0.1233,
+    "macro_f1": 0.5734,
+    "top70_error_ratio": 0.3965
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-cpu-c80",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-cpu-c80/predictions.jsonl",
+   "created": "2026-10-14T17:50:09+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode None",
+   "load": {
+    "concurrency": 80,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 317.858,
+     "p95": 475.503,
+     "p99": 493.118,
+     "max": 502.867,
+     "mean": 339.832
+    },
+    "throughput_rps": 219.29
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-cpu-ref",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-cpu-ref/predictions.jsonl",
+   "created": "2026-10-14T17:46:15+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM=off (reference: the CPU-only answer and latency)",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 34.055,
+     "p95": 55.413,
+     "p99": 63.426,
+     "max": 76.025,
+     "mean": 35.803
+    },
+    "throughput_rps": 222.73
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-down",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + LLM endpoint on 127.0.0.1 (fake upstream or a closed port; no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-down/predictions.jsonl",
+   "created": "2026-10-14T17:49:55+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at a 127.0.0.1 port with nothing listening",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 34.038,
+     "p95": 56.416,
+     "p99": 80.953,
+     "max": 127.788,
+     "mean": 36.472
+    },
+    "throughput_rps": 218.19
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-error500",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'error500' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-error500/predictions.jsonl",
+   "created": "2026-10-14T17:47:00+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'error500'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 34.392,
+     "p95": 55.369,
+     "p99": 89.419,
+     "max": 131.261,
+     "mean": 36.892
+    },
+    "throughput_rps": 215.43
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-flaky",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'flaky' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-flaky/predictions.jsonl",
+   "created": "2026-10-14T17:49:12+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'flaky'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 11.811,
+     "p95": 1534.907,
+     "p99": 1556.044,
+     "max": 1580.803,
+     "mean": 121.658
+    },
+    "throughput_rps": 61.52
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.8017,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.8033,
+    "noisy_gap": -0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4201
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-garbage",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'garbage' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-garbage/predictions.jsonl",
+   "created": "2026-10-14T17:47:23+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'garbage'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 36.082,
+     "p95": 54.668,
+     "p99": 83.116,
+     "max": 123.968,
+     "mean": 36.585
+    },
+    "throughput_rps": 217.2
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-garbage_content",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'garbage_content' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-garbage_content/predictions.jsonl",
+   "created": "2026-10-14T17:47:32+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'garbage_content'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 35.064,
+     "p95": 55.995,
+     "p99": 87.601,
+     "max": 149.768,
+     "mean": 37.111
+    },
+    "throughput_rps": 214.9
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-hang",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'hang' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-hang/predictions.jsonl",
+   "created": "2026-10-14T17:47:14+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'hang'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 26.807,
+     "p95": 44.971,
+     "p99": 4041.702,
+     "max": 4094.279,
+     "mean": 94.763
+    },
+    "throughput_rps": 73.28
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-huge",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'huge' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-huge/predictions.jsonl",
+   "created": "2026-10-14T17:50:03+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'huge'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 35.031,
+     "p95": 55.052,
+     "p99": 77.97,
+     "max": 116.699,
+     "mean": 36.676
+    },
+    "throughput_rps": 216.82
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.795,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.7967,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4532
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ok",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'ok' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ok/predictions.jsonl",
+   "created": "2026-10-14T17:46:51+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'ok'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 13.593,
+     "p95": 1544.927,
+     "p99": 1557.38,
+     "max": 1650.054,
+     "mean": 389.082
+    },
+    "throughput_rps": 20.01
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.8117,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8167,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.8067,
+    "noisy_gap": 0.01,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4174
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ok-c200",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'ok' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ok-c200/predictions.jsonl",
+   "created": "2026-10-14T17:51:09+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 461,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'ok'",
+   "load": {
+    "concurrency": 200,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 139,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 1308.211,
+     "p95": 5768.858,
+     "p99": 6233.859,
+     "max": 6628.588,
+     "mean": 2270.55
+    },
+    "throughput_rps": 60.07
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.52,
+    "action_acc": 0.6183,
+    "intent_acc_clean": 0.5033,
+    "action_acc_clean": 0.58,
+    "intent_acc_noisy": 0.5367,
+    "action_acc_noisy": 0.6567,
+    "noisy_gap": -0.0767,
+    "macro_f1": 0.5482,
+    "top70_error_ratio": 0.4116
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ok-c200x4",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'ok' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ok-c200x4/predictions.jsonl",
+   "created": "2026-10-14T17:51:28+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 163,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'ok'",
+   "load": {
+    "concurrency": 200,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 437,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 63.718,
+     "p95": 612.528,
+     "p99": 1685.155,
+     "max": 1840.24,
+     "mean": 190.98
+    },
+    "throughput_rps": 285.28
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.1983,
+    "action_acc": 0.2133,
+    "intent_acc_clean": 0.3233,
+    "action_acc_clean": 0.35,
+    "intent_acc_noisy": 0.0733,
+    "action_acc_noisy": 0.0767,
+    "noisy_gap": 0.2733,
+    "macro_f1": 0.2725,
+    "top70_error_ratio": 1.0
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ok-c80",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'ok' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ok-c80/predictions.jsonl",
+   "created": "2026-10-14T17:50:18+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'ok'",
+   "load": {
+    "concurrency": 80,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 319.04,
+     "p95": 430.013,
+     "p99": 1907.706,
+     "max": 1973.336,
+     "mean": 362.062
+    },
+    "throughput_rps": 177.76
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.7983,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7967,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.472
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ok-c80-r2",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'ok' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ok-c80-r2/predictions.jsonl",
+   "created": "2026-10-14T17:50:28+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'ok'",
+   "load": {
+    "concurrency": 80,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 323.877,
+     "p95": 440.043,
+     "p99": 1915.386,
+     "max": 1964.173,
+     "mean": 360.645
+    },
+    "throughput_rps": 177.6
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.7983,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7967,
+    "noisy_gap": 0.0033,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.472
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ok-c80-r3",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'ok' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ok-c80-r3/predictions.jsonl",
+   "created": "2026-10-14T17:50:38+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'ok'",
+   "load": {
+    "concurrency": 80,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 311.538,
+     "p95": 430.462,
+     "p99": 1906.068,
+     "max": 1957.414,
+     "mean": 357.404
+    },
+    "throughput_rps": 177.73
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.7967,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0067,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.457
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-recovery",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + LLM endpoint on 127.0.0.1 (fake upstream or a closed port; no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-recovery/predictions.jsonl",
+   "created": "2026-10-14T17:52:50+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 870,
+   "changed": "fake upstream in error500 mode, switched to ok at 20.1 s; LLM on",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 870 labelled rows sent; the grader's own report counts the 1430 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.7195,
+    "action_acc": 0.8184,
+    "intent_acc_clean": 0.7195,
+    "action_acc_clean": 0.8184,
+    "macro_f1": 0.7133,
+    "top70_error_ratio": 0.3888
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-ref-replay",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a + openai/gpt-6-luna-20260922 (recorded answers replayed, no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-ref-replay/predictions.jsonl",
+   "created": "2026-10-14T17:46:10+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "LLM step replaced by a replay of recorded answers; nothing else",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.8117,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8167,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.8067,
+    "noisy_gap": 0.01,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4174
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-restart",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + LLM endpoint on 127.0.0.1 (fake upstream or a closed port; no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-restart/predictions.jsonl",
+   "created": "2026-10-14T17:53:32+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 168,
+   "changed": "process faults: kill -9 under traffic then an immediate restart on the same port (fake upstream ok); SIGTERM under traffic (fake upstream ok); SIGTERM while LLM calls hang (fake upstream hang)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 168 labelled rows sent; the grader's own report counts the 2132 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.7202,
+    "action_acc": 0.8095,
+    "intent_acc_clean": 0.7202,
+    "action_acc_clean": 0.8095,
+    "macro_f1": 0.729,
+    "top70_error_ratio": 0.5339
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-slow",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'slow' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-slow/predictions.jsonl",
+   "created": "2026-10-14T17:48:56+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'slow'",
+   "load": {
+    "concurrency": 8,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 16.105,
+     "p95": 3548.737,
+     "p99": 3559.834,
+     "max": 3663.353,
+     "mean": 885.027
+    },
+    "throughput_rps": 8.8
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.8117,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8167,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.8067,
+    "noisy_gap": 0.01,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.4174
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "chaos-slow-c80",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + fake upstream in mode 'slow' (no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/chaos-slow-c80/predictions.jsonl",
+   "created": "2026-10-14T17:50:48+05:30",
+   "evidence": "exploratory, unaudited",
+   "rows": 600,
+   "input_files_match_run_record": true,
+   "input_subset_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+   "input_subset": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+   "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'slow'",
+   "load": {
+    "concurrency": 80,
+    "sample_count": 600,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 322.029,
+     "p95": 396.534,
+     "p99": 3654.2,
+     "max": 3743.212,
+     "mean": 362.668
+    },
+    "throughput_rps": 160.14
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics_scope": "harness numbers on the 600 labelled rows sent; the grader's own report counts the 1700 unsent rows as wrong",
+   "metrics": {
+    "intent_acc": 0.6817,
+    "action_acc": 0.7967,
+    "intent_acc_clean": 0.7133,
+    "action_acc_clean": 0.8,
+    "intent_acc_noisy": 0.65,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0067,
+    "macro_f1": 0.6452,
+    "top70_error_ratio": 0.457
+   },
+   "bars_pass": null
+  },
+  {
+   "run_id": "dev-baseline",
+   "kind": "graded",
+   "seed": null,
+   "seed_note": "the baseline has no random step",
+   "model": "published-baseline (data/op06/baseline.py)",
+   "bundle_sha256": null,
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-baseline/predictions.jsonl",
+   "created": null,
+   "evidence": "development measurement",
+   "rows": 2309,
+   "facts_source": "EXPERIMENT_LOG P0-2: data/op06/baseline.py rerun on 14 Oct and graded",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.3748,
+    "macro_f1": 0.4508,
+    "action_acc": 0.3913,
+    "action_acc_clean": 0.401,
+    "action_acc_noisy": 0.3267,
+    "noisy_gap": 0.0743,
+    "matched_noisy_gap": 0.0566,
+    "intent_acc_noisy": 0.3,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 1.0,
+    "distinct_confidences": 1210,
+    "policy_violation": 0.1404,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": false,
+    "action_accuracy_all": false,
+    "macro_f1_all": false,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": false
+   }
+  },
+  {
+   "run_id": "dev-classical-v0",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-classical-v0/predictions.jsonl",
+   "created": "2026-10-14T13:15:43+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2278,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "dev-http-cpu",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-http-cpu/predictions.jsonl",
+   "created": "2026-10-14T15:18:37+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "load": {
+    "concurrency": 8,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 25.934,
+     "p95": 38.419,
+     "p99": 46.648,
+     "max": 61.926,
+     "mean": 26.374
+    },
+    "throughput_rps": 302.14
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "dev-http-llm",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + openai/gpt-6-luna-20260922",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-http-llm/predictions.jsonl",
+   "created": "2026-10-14T17:10:39+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "load": {
+    "concurrency": 8,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 8.877,
+     "p95": 1656.471,
+     "p99": 2432.497,
+     "max": 4029.872,
+     "mean": 327.743
+    },
+    "throughput_rps": 24.14
+   },
+   "llm_calls": 460,
+   "api_cost_usd": 0.09318765,
+   "api_cost_note": "list price from the token counts the provider returned (GET /metrics before and after the run); per-call token counts were not kept",
+   "llm_calls_before_window": 3,
+   "api_cost_usd_before_window": 0.00121901,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8365,
+    "action_acc_clean": 0.8395,
+    "action_acc_noisy": 0.8167,
+    "noisy_gap": 0.0228,
+    "matched_noisy_gap": 0.0066,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.433,
+    "distinct_confidences": 2221,
+    "policy_violation": 0.0848,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "dev-pipeline-cpu",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-pipeline-cpu/predictions.jsonl",
+   "created": "2026-10-14T16:33:56+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "dev-pipeline-cpu-e2e",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-pipeline-cpu-e2e/predictions.jsonl",
+   "created": "2026-10-14T15:11:18+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "dev-pipeline-llm-replay",
+   "kind": "graded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a + openai/gpt-6-luna-20260922 (recorded answers replayed, no API call)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-pipeline-llm-replay/predictions.jsonl",
+   "created": null,
+   "evidence": "development measurement",
+   "rows": 2309,
+   "facts_source": "meta.json has no bundle hash; results/raw/ablation-ref-llm, run with this bundle, reproduces these predictions byte for byte",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8361,
+    "action_acc_clean": 0.8405,
+    "action_acc_noisy": 0.8067,
+    "noisy_gap": 0.0338,
+    "matched_noisy_gap": 0.01,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.4393,
+    "distinct_confidences": 2224,
+    "policy_violation": 0.0857,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "encoder-ett32A",
+   "kind": "encoder",
+   "seed": null,
+   "seed_note": "ft_ett32A.json does not record the seed; ft_foldA.py's default is 13",
+   "model": "jhu-clsp/ettin-encoder-32m (fine-tuned on train fold A, tag ett32A)",
+   "status": "completed",
+   "input_sha256": "a118d7106edae291007f085ea8ccf8ad177b6a12549dcb01d8e46e8405addcac",
+   "input_files": [
+    "data/op06/train.jsonl.gz",
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/encoder-ett32A",
+   "created": null,
+   "created_note": "trained on 14 Oct 2026 after the pre-registration commit (14:36 IST) and copied here before 14:45 IST; no timestamp inside the files",
+   "evidence": "pre-registered test",
+   "files": 19,
+   "config": {
+    "threads": 16,
+    "max_len": 256,
+    "bs": 32,
+    "lr": 0.0001,
+    "epochs_planned": 2.0,
+    "freeze_emb": false
+   },
+   "analysis": "experiments/encoder/analyse_encoder.py",
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "linux-cpu-c8",
+   "kind": "ungraded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/linux-cpu-c8/predictions.jsonl",
+   "created": "2026-10-14T11:34:11+00:00",
+   "evidence": "development measurement, Linux box",
+   "rows": 2309,
+   "load": {
+    "concurrency": 8,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 98.29,
+     "p95": 150.653,
+     "p99": 179.572,
+     "max": 297.154,
+     "mean": 94.779
+    },
+    "throughput_rps": 84.07
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "linux-cpu-c80",
+   "kind": "ungraded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/linux-cpu-c80/predictions.jsonl",
+   "created": "2026-10-14T11:34:40+00:00",
+   "evidence": "development measurement, Linux box",
+   "rows": 2309,
+   "load": {
+    "concurrency": 80,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 825.055,
+     "p95": 1143.135,
+     "p99": 1191.066,
+     "max": 1255.36,
+     "mean": 856.926
+    },
+    "throughput_rps": 91.56
    },
    "api_cost_usd": 0.0
   },
   {
    "run_id": "linux-retrained-cpu",
+   "kind": "graded",
    "seed": 0,
    "model": "pipeline@98f2da301acf",
+   "bundle_sha256": "98f2da301acf8d40adde9ac3b878d2ba0ad1d2b94b4114fd70fadecc004e88f5",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
    "raw_path": "results/raw/linux-retrained-cpu/predictions.jsonl",
    "created": "2026-10-14T16:29:17+0530",
+   "evidence": "development measurement, Linux box",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.7091,
@@ -282,17 +2419,208 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "llm-confirm-haiku_B",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
+   "input_files": [
+    "experiments/llm_confirm/rows_B.jsonl"
+   ],
+   "raw_path": "results/raw/llm-confirm-haiku_B/raw_calls.jsonl",
+   "created": "2026-10-14T13:45:17",
+   "finished": "2026-10-14T13:54:06",
+   "evidence": "pre-registered test",
+   "rows": 2060,
+   "calls_ok": 2060,
+   "ledger_attempts": 2060,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
    },
-   "api_cost_usd": 0.0
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "parse_status": {
+    "ok": 2060
+   },
+   "input_tokens": 20579313,
+   "cached_input_tokens": 17503820,
+   "output_tokens": 386235,
+   "api_cost_usd_list_with_cache": 0.6757,
+   "api_cost_usd_list_uncached": 2.251,
+   "api_cost_usd_reported_by_provider": null,
+   "script": "experiments/llm_confirm/run_llm_B.py"
+  },
+  {
+   "run_id": "llm-confirm-haiku_B_smoke",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
+   "input_files": [
+    "experiments/llm_confirm/rows_B.jsonl"
+   ],
+   "raw_path": "results/raw/llm-confirm-haiku_B_smoke/raw_calls.jsonl",
+   "created": "2026-10-14T13:45:08",
+   "finished": "2026-10-14T13:45:09",
+   "evidence": "pre-registered test",
+   "rows": 5,
+   "calls_ok": 5,
+   "ledger_attempts": 5,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "parse_status": {
+    "ok": 5
+   },
+   "input_tokens": 49708,
+   "cached_input_tokens": 0,
+   "output_tokens": 570,
+   "api_cost_usd_list_with_cache": 0.0063,
+   "api_cost_usd_list_uncached": 0.0053,
+   "api_cost_usd_reported_by_provider": null,
+   "script": "experiments/llm_confirm/run_llm_B.py"
+  },
+  {
+   "run_id": "llm-confirm-luna_B",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
+   "input_files": [
+    "experiments/llm_confirm/rows_B.jsonl"
+   ],
+   "raw_path": "results/raw/llm-confirm-luna_B/raw_calls.jsonl",
+   "created": "2026-10-14T13:45:17",
+   "finished": "2026-10-14T13:59:52",
+   "evidence": "pre-registered test",
+   "rows": 3966,
+   "calls_ok": 3966,
+   "ledger_attempts": 3966,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "parse_status": {
+    "ok": 3965,
+    "invalid_json": 1
+   },
+   "input_tokens": 24411916,
+   "cached_input_tokens": 20123484,
+   "output_tokens": 129390,
+   "api_cost_usd_list_with_cache": 0.8017,
+   "api_cost_usd_list_uncached": 2.5059,
+   "api_cost_usd_reported_by_provider": 0.8017,
+   "script": "experiments/llm_confirm/run_llm_B.py"
+  },
+  {
+   "run_id": "llm-confirm-luna_B_smoke",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
+   "input_files": [
+    "experiments/llm_confirm/rows_B.jsonl"
+   ],
+   "raw_path": "results/raw/llm-confirm-luna_B_smoke/raw_calls.jsonl",
+   "created": "2026-10-14T13:45:04",
+   "finished": "2026-10-14T13:45:05",
+   "evidence": "pre-registered test",
+   "rows": 5,
+   "calls_ok": 5,
+   "ledger_attempts": 5,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "parse_status": {
+    "ok": 5
+   },
+   "input_tokens": 30624,
+   "cached_input_tokens": 25370,
+   "output_tokens": 163,
+   "api_cost_usd_list_with_cache": 0.001,
+   "api_cost_usd_list_uncached": 0.0031,
+   "api_cost_usd_reported_by_provider": 0.001,
+   "script": "experiments/llm_confirm/run_llm_B.py"
   },
   {
    "run_id": "llm-tail-A_luna_tail",
+   "kind": "graded",
    "seed": 0,
-   "model": "llm-tail-A_luna_tail",
+   "model": "classical@c007c7a3769a + openai/gpt-6-luna-20260922 (answers from results/raw/llm-tail-luna_V3_none)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
    "raw_path": "results/raw/llm-tail-A_luna_tail/predictions.jsonl",
    "created": null,
+   "evidence": "pre-registered test",
+   "rows": 2309,
+   "facts_source": "experiments/llm_tail/analyse.py: dev-classical-v0 predictions with recorded LLM answers",
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.71,
@@ -316,17 +2644,27 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
+   }
   },
   {
    "run_id": "llm-tail-B_haiku_intent",
+   "kind": "graded",
    "seed": 0,
-   "model": "llm-tail-B_haiku_intent",
+   "model": "classical@c007c7a3769a + claude-haiku-5-5 (answers from results/raw/llm-tail-haiku_V3_low)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
    "raw_path": "results/raw/llm-tail-B_haiku_intent/predictions.jsonl",
    "created": null,
+   "evidence": "pre-registered test",
+   "rows": 2309,
+   "facts_source": "experiments/llm_tail/analyse.py: dev-classical-v0 predictions with recorded LLM answers",
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.7122,
@@ -350,17 +2688,27 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
-   },
-   "api_cost_usd": 0.0
+   }
   },
   {
    "run_id": "llm-tail-C_both",
+   "kind": "graded",
    "seed": 0,
-   "model": "llm-tail-C_both",
+   "model": "classical@c007c7a3769a + openai/gpt-6-luna-20260922 + claude-haiku-5-5 (answers from results/raw/llm-tail-luna_V3_none and llm-tail-haiku_V3_low)",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
    "raw_path": "results/raw/llm-tail-C_both/predictions.jsonl",
    "created": null,
+   "evidence": "pre-registered test",
+   "rows": 2309,
+   "facts_source": "experiments/llm_tail/analyse.py: dev-classical-v0 predictions with recorded LLM answers",
+   "api_cost_usd": 0.0,
    "grader_version": "2.1",
    "metrics": {
     "intent_acc": 0.7122,
@@ -384,248 +2732,495 @@
     "schema_valid_pct": true,
     "noisy_gap": true,
     "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "llm-tail-haiku_V3_low",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl",
+   "created": "2026-10-14T13:20:28",
+   "finished": "2026-10-14T13:29:28",
+   "evidence": "pre-registered test",
+   "rows": 2300,
+   "calls_ok": 2300,
+   "ledger_attempts": 2300,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
    },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "parse_status": {
+    "ok": 2300
+   },
+   "input_tokens": 23056184,
+   "cached_input_tokens": 19543100,
+   "output_tokens": 343207,
+   "api_cost_usd_list_with_cache": 0.7183,
+   "api_cost_usd_list_uncached": 2.4772,
+   "api_cost_usd_reported_by_provider": null,
+   "script": "experiments/llm_tail/run_llm.py"
+  },
+  {
+   "run_id": "llm-tail-haiku_V3_low_smoke",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/llm-tail-haiku_V3_low_smoke/raw_calls.jsonl",
+   "created": "2026-10-14T13:20:14",
+   "finished": "2026-10-14T13:20:15",
+   "evidence": "pre-registered test",
+   "rows": 5,
+   "calls_ok": 5,
+   "ledger_attempts": 5,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "parse_status": {
+    "ok": 5
+   },
+   "input_tokens": 50122,
+   "cached_input_tokens": 0,
+   "output_tokens": 666,
+   "api_cost_usd_list_with_cache": 0.0064,
+   "api_cost_usd_list_uncached": 0.0053,
+   "api_cost_usd_reported_by_provider": null,
+   "script": "experiments/llm_tail/run_llm.py"
+  },
+  {
+   "run_id": "llm-tail-luna_V3_none",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+   "created": "2026-10-14T13:20:30",
+   "finished": "2026-10-14T13:28:36",
+   "evidence": "pre-registered test",
+   "rows": 2300,
+   "calls_ok": 2300,
+   "ledger_attempts": 2300,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "parse_status": {
+    "ok": 2299,
+    "invalid_json": 1
+   },
+   "input_tokens": 14223519,
+   "cached_input_tokens": 11670200,
+   "output_tokens": 74868,
+   "api_cost_usd_list_with_cache": 0.4731,
+   "api_cost_usd_list_uncached": 1.4598,
+   "api_cost_usd_reported_by_provider": 0.4731,
+   "script": "experiments/llm_tail/run_llm.py"
+  },
+  {
+   "run_id": "llm-tail-luna_V3_none_smoke",
+   "kind": "llm_calls",
+   "seed": null,
+   "seed_note": "provider-side sampling; no seed can be set",
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl"
+   ],
+   "raw_path": "results/raw/llm-tail-luna_V3_none_smoke/raw_calls.jsonl",
+   "created": "2026-10-14T13:20:09",
+   "finished": "2026-10-14T13:20:10",
+   "evidence": "pre-registered test",
+   "rows": 5,
+   "calls_ok": 5,
+   "ledger_attempts": 5,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "parse_status": {
+    "ok": 5
+   },
+   "input_tokens": 30900,
+   "cached_input_tokens": 20296,
+   "output_tokens": 164,
+   "api_cost_usd_list_with_cache": 0.0016,
+   "api_cost_usd_list_uncached": 0.0032,
+   "api_cost_usd_reported_by_provider": 0.0016,
+   "script": "experiments/llm_tail/run_llm.py"
+  },
+  {
+   "run_id": "taxonomy-classical-nocap",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-classical-nocap/predictions.jsonl",
+   "created": "2026-10-14T17:29:04+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "run_note": "exploratory ablation, not pre-registered",
+   "changed": "triage.text.TURN_CAP monkeypatched from 2000 to 1e9 in this process: no per-turn length cap; dedupe on; model unchanged",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2278,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "taxonomy-classical-nodedupe",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-classical-nodedupe/predictions.jsonl",
+   "created": "2026-10-14T17:28:59+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "run_note": "required column (b) of the taxonomy",
+   "changed": "triage.classical.Predictor(models/classical_v0.joblib, dedupe=False): sentence de-duplication off; everything else as dev-classical-v0",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "noisy_gap": 0.0478,
+    "matched_noisy_gap": 0.03,
+    "intent_acc_noisy": 0.5633,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3725,
+    "distinct_confidences": 2280,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "taxonomy-classical-nodedupe-nocap",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-classical-nodedupe-nocap/predictions.jsonl",
+   "created": "2026-10-14T17:29:07+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "run_note": "exploratory ablation, not pre-registered",
+   "changed": "Predictor(dedupe=False) and triage.text.TURN_CAP monkeypatched from 2000 to 1e9: neither de-duplication nor the per-turn cap; model unchanged",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.6965,
+    "macro_f1": 0.6939,
+    "action_acc": 0.8078,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7633,
+    "noisy_gap": 0.0512,
+    "matched_noisy_gap": 0.0334,
+    "intent_acc_noisy": 0.5533,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3715,
+    "distinct_confidences": 2279,
+    "policy_violation": 0.0822,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "taxonomy-classical-nonfkc",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-classical-nonfkc/predictions.jsonl",
+   "created": "2026-10-14T17:29:10+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "run_note": "exploratory ablation, not pre-registered",
+   "changed": "triage.text.unicodedata monkeypatched so NFKC normalisation is skipped in clean_text; model unchanged",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2278,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "taxonomy-classical-nozw",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-classical-nozw/predictions.jsonl",
+   "created": "2026-10-14T17:29:13+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "run_note": "exploratory ablation, not pre-registered",
+   "changed": "triage.text._ZW monkeypatched to a pattern that matches nothing: zero-width and bidi format characters are no longer removed in clean_text; model unchanged",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2278,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "taxonomy-hostile-in-context",
+   "kind": "ungraded",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "5fd664f89b1249cb21548ce9dfeec39fcfb1a3a6dcb666a27e4e7ed915ca34f8",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-hostile-in-context/predictions.jsonl",
+   "created": "2026-10-14T17:30:04+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 38000,
+   "input_files_match_run_record": true,
+   "run_note": "exploratory, not pre-registered",
+   "changed": "inputs, not the system: each hostile text (and a matched control) appended as the newest customer turn of every dev conversation; v1 unchanged",
    "api_cost_usd": 0.0
   },
   {
-   "run_id": "llm_confirm-haiku_B",
-   "seed": null,
-   "model": "claude-haiku-5-5",
+   "run_id": "taxonomy-rule-stage",
+   "kind": "graded",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
    "status": "completed",
    "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_confirm/runs/haiku_B.jsonl",
-   "rows": 2060,
-   "calls_ok": 2060,
-   "config": {
-    "effort": "low",
-    "reasoning": null,
-    "provider_order": null,
-    "no_fallbacks": false,
-    "prompt_version": "p1",
-    "variant": "V3"
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/taxonomy-rule-stage/predictions.jsonl",
+   "created": "2026-10-14T17:29:02+0530",
+   "evidence": "exploratory, unaudited",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "run_note": "optional column: the 13 Oct probe's rule stage (EXPERIMENT_LOG R4), rebuilt; not a shipped system",
+   "changed": "probe-era rule stage rebuilt from the shipped bundle: bundle TF-IDF LinearSVC intent and flow models (no de-duplication), next action = most common action on train fold A for (predicted intent, last observed action), backing off to (flow of predicted intent, last action), (last action), global majority; soft policy prior with the membership alias (bundle 'perm'). confidence = the rule's p(action) after the prior; needs_human = confidence < 0.5 (not tuned, not meaningful)",
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.7122,
+    "action_acc_clean": 0.727,
+    "action_acc_noisy": 0.6133,
+    "noisy_gap": 0.1137,
+    "matched_noisy_gap": 0.1067,
+    "intent_acc_noisy": 0.5633,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.6755,
+    "distinct_confidences": 2016,
+    "policy_violation": 0.0983,
+    "gold_policy_violation": 0.0883
    },
-   "models_returned": [
-    "claude-haiku-5-5"
-   ],
-   "providers_returned": [
-    "anthropic"
-   ],
-   "input_tokens": 20579313,
-   "output_tokens": 386235,
-   "api_cost_usd_list_with_cache": 0.6757,
-   "api_cost_usd_list_uncached": 2.251
-  },
-  {
-   "run_id": "llm_confirm-haiku_B_smoke",
-   "seed": null,
-   "model": "claude-haiku-5-5",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_confirm/runs/haiku_B_smoke.jsonl",
-   "rows": 5,
-   "calls_ok": 5,
-   "config": {
-    "effort": "low",
-    "reasoning": null,
-    "provider_order": null,
-    "no_fallbacks": false,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "claude-haiku-5-5"
-   ],
-   "providers_returned": [
-    "anthropic"
-   ],
-   "input_tokens": 49708,
-   "output_tokens": 570,
-   "api_cost_usd_list_with_cache": 0.0063,
-   "api_cost_usd_list_uncached": 0.0053
-  },
-  {
-   "run_id": "llm_confirm-luna_B",
-   "seed": null,
-   "model": "openai/gpt-6-luna-20260922",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_confirm/runs/luna_B.jsonl",
-   "rows": 3966,
-   "calls_ok": 3966,
-   "config": {
-    "effort": null,
-    "reasoning": {
-     "effort": "none"
-    },
-    "provider_order": [
-     "openai"
-    ],
-    "no_fallbacks": true,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "openai/gpt-6-luna"
-   ],
-   "providers_returned": [
-    "OpenAI"
-   ],
-   "input_tokens": 24411916,
-   "output_tokens": 129390,
-   "api_cost_usd_list_with_cache": 0.8017,
-   "api_cost_usd_list_uncached": 2.5059
-  },
-  {
-   "run_id": "llm_confirm-luna_B_smoke",
-   "seed": null,
-   "model": "openai/gpt-6-luna-20260922",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_confirm/runs/luna_B_smoke.jsonl",
-   "rows": 5,
-   "calls_ok": 5,
-   "config": {
-    "effort": null,
-    "reasoning": {
-     "effort": "none"
-    },
-    "provider_order": [
-     "openai"
-    ],
-    "no_fallbacks": true,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "openai/gpt-6-luna"
-   ],
-   "providers_returned": [
-    "OpenAI"
-   ],
-   "input_tokens": 30624,
-   "output_tokens": 163,
-   "api_cost_usd_list_with_cache": 0.001,
-   "api_cost_usd_list_uncached": 0.0031
-  },
-  {
-   "run_id": "llm_tail-haiku_V3_low",
-   "seed": null,
-   "model": "claude-haiku-5-5",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_tail/runs/haiku_V3_low.jsonl",
-   "rows": 2300,
-   "calls_ok": 2300,
-   "config": {
-    "effort": "low",
-    "reasoning": null,
-    "provider_order": null,
-    "no_fallbacks": false,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "claude-haiku-5-5"
-   ],
-   "providers_returned": [
-    "anthropic"
-   ],
-   "input_tokens": 23056184,
-   "output_tokens": 343207,
-   "api_cost_usd_list_with_cache": 0.7183,
-   "api_cost_usd_list_uncached": 2.4772
-  },
-  {
-   "run_id": "llm_tail-haiku_V3_low_smoke",
-   "seed": null,
-   "model": "claude-haiku-5-5",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_tail/runs/haiku_V3_low_smoke.jsonl",
-   "rows": 5,
-   "calls_ok": 5,
-   "config": {
-    "effort": "low",
-    "reasoning": null,
-    "provider_order": null,
-    "no_fallbacks": false,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "claude-haiku-5-5"
-   ],
-   "providers_returned": [
-    "anthropic"
-   ],
-   "input_tokens": 50122,
-   "output_tokens": 666,
-   "api_cost_usd_list_with_cache": 0.0064,
-   "api_cost_usd_list_uncached": 0.0053
-  },
-  {
-   "run_id": "llm_tail-luna_V3_none",
-   "seed": null,
-   "model": "openai/gpt-6-luna-20260922",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_tail/runs/luna_V3_none.jsonl",
-   "rows": 2300,
-   "calls_ok": 2300,
-   "config": {
-    "effort": null,
-    "reasoning": {
-     "effort": "none"
-    },
-    "provider_order": [
-     "openai"
-    ],
-    "no_fallbacks": true,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "openai/gpt-6-luna"
-   ],
-   "providers_returned": [
-    "OpenAI"
-   ],
-   "input_tokens": 14223519,
-   "output_tokens": 74868,
-   "api_cost_usd_list_with_cache": 0.4731,
-   "api_cost_usd_list_uncached": 1.4598
-  },
-  {
-   "run_id": "llm_tail-luna_V3_none_smoke",
-   "seed": null,
-   "model": "openai/gpt-6-luna-20260922",
-   "status": "completed",
-   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
-   "raw_path": "experiments/llm_tail/runs/luna_V3_none_smoke.jsonl",
-   "rows": 5,
-   "calls_ok": 5,
-   "config": {
-    "effort": null,
-    "reasoning": {
-     "effort": "none"
-    },
-    "provider_order": [
-     "openai"
-    ],
-    "no_fallbacks": true,
-    "prompt_version": "p1",
-    "variant": "V3"
-   },
-   "models_returned": [
-    "openai/gpt-6-luna"
-   ],
-   "providers_returned": [
-    "OpenAI"
-   ],
-   "input_tokens": 30900,
-   "output_tokens": 164,
-   "api_cost_usd_list_with_cache": 0.0016,
-   "api_cost_usd_list_uncached": 0.0032
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": false,
+    "top70_error_ratio": true
+   }
   }
- ]
+ ],
+ "checks": {
+  "raw_paths_checked": 77,
+  "all_exist_inside_repo_no_symlinks": true,
+  "folders_in_results_raw": 70,
+  "all_folders_listed": true
+ }
 }

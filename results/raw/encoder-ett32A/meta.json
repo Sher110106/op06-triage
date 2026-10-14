@@ -1,0 +1,148 @@
+{
+ "run_id": "encoder-ett32A",
+ "kind": "encoder_finetune",
+ "tag": "ett32A",
+ "script": "experiments/encoder/ft_foldA.py (ran on the remote CPU box; outputs copied here)",
+ "preregistration": "experiments/encoder/PREREGISTRATION.md",
+ "analysis": "experiments/encoder/analyse_encoder.py",
+ "model": "jhu-clsp/ettin-encoder-32m",
+ "model_revision": null,
+ "model_revision_note": "the Hugging Face revision was not recorded",
+ "seed": null,
+ "seed_note": "ft_ett32A.json does not record the seed; ft_foldA.py's default is 13",
+ "config": {
+  "threads": 16,
+  "max_len": 256,
+  "bs": 32,
+  "lr": 0.0001,
+  "epochs_planned": 2.0,
+  "freeze_emb": false
+ },
+ "train_rows": 14313,
+ "holdout_rows": 1721,
+ "input_files": [
+  "data/op06/train.jsonl.gz",
+  "data/op06/dev.jsonl",
+  "data/op06/dev_noisy.jsonl",
+  "data/op06/hostile.jsonl"
+ ],
+ "created": null,
+ "created_note": "trained on 14 Oct 2026 after the pre-registration commit (14:36 IST) and copied here before 14:45 IST; no timestamp inside the files",
+ "files": {
+  "ft_ett32A.json": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A.json",
+   "bytes": 3062,
+   "sha256": "ad245a520f12acf9fa19601e0087c25f9ec5049996af6923bc49fd65aff5d319",
+   "mtime": "2026-10-14T14:45:28+0530"
+  },
+  "ft_ett32A.log": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A.log",
+   "bytes": 4892,
+   "sha256": "c92b37bba138ddc7fd1791981a5100608cc4405d3ebc209201b7b1c621fcc8a5",
+   "mtime": "2026-10-14T14:45:28+0530"
+  },
+  "ft_ett32A__action__dev.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__action__dev.npy",
+   "bytes": 240128,
+   "sha256": "b607f0107cac03a25aedd3fc6b9460ed45590f1e32bc4a4b9cb6013ea5744ac8",
+   "mtime": "2026-10-14T14:45:26+0530"
+  },
+  "ft_ett32A__action__foldB.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__action__foldB.npy",
+   "bytes": 476048,
+   "sha256": "d638e6cf005b3f7adae56edf36d38553e96b2fe9ef84828949bb83cd66b52328",
+   "mtime": "2026-10-14T14:45:26+0530"
+  },
+  "ft_ett32A__action__hostile.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__action__hostile.npy",
+   "bytes": 1208,
+   "sha256": "056c005332713279b3c6ced218c12ef32ac5609ec2069294837ca6160d062fde",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__action__noisy.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__action__noisy.npy",
+   "bytes": 36128,
+   "sha256": "fb243fad02c4dfebd9138dfc570bd680e83eaade82e621b5085c23addc97a655",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__flow__dev.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__flow__dev.npy",
+   "bytes": 80128,
+   "sha256": "fa322e55a87780587ffccf0567fa43d0b7742dc1619ceb0cd378c45589e8c78c",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__flow__foldB.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__flow__foldB.npy",
+   "bytes": 158768,
+   "sha256": "eceba0aabc680593aae79e200ab173dc684bd0ddaaf9a16408fe6e28cdd5e41f",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__flow__hostile.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__flow__hostile.npy",
+   "bytes": 488,
+   "sha256": "6c8879738ee9a6f2b960248f45ea1fb232f2fa74ac482817c0d734ded8ee4fcf",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__flow__noisy.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__flow__noisy.npy",
+   "bytes": 12128,
+   "sha256": "0791cfb827e7d462233ef160a25cf04661719447dc40352b7faf680ac472b5a9",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__ids__dev.json": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__ids__dev.json",
+   "bytes": 21166,
+   "sha256": "c1b2a7f7d3b5f8f2a4b767322d8ad494c175f0c8f296ce5acd9c3a232afd1b8c",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__ids__foldB.json": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__ids__foldB.json",
+   "bytes": 41851,
+   "sha256": "e2b1e553551fd7b3a0092047853c29934aec9b99ce9f1267e8954d767bf1cc28",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__ids__hostile.json": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__ids__hostile.json",
+   "bytes": 135,
+   "sha256": "7a7e30250e64e2c9c662b9ea5cbb40366c7558ec7d4ae757bf0afd2eade40755",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__ids__noisy.json": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__ids__noisy.json",
+   "bytes": 4986,
+   "sha256": "660104cf270fab3120cae3e7aa31e33dc16bb6d39677b93679210ee01e98d0f3",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__intent__dev.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__intent__dev.npy",
+   "bytes": 768128,
+   "sha256": "214e97d8c1f22339349a0ab0292352c0b4767b7a69aba2cd47fa581c870f22fa",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__intent__foldB.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__intent__foldB.npy",
+   "bytes": 1523072,
+   "sha256": "613dbb38d2e1d4d1d021c994685d87a3c514925cf75c85e07293e61bb953558b",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__intent__hostile.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__intent__hostile.npy",
+   "bytes": 3584,
+   "sha256": "f3e82c5aa4798535c8499498832309063a79b7efc776c7173de0aad998e5a908",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "ft_ett32A__intent__noisy.npy": {
+   "moved_from": "experiments/encoder/ett32A/ft_ett32A__intent__noisy.npy",
+   "bytes": 115328,
+   "sha256": "fd3aec57eb1fe9cac2cbb863ae0b43d2778fd810d92a11af9e0510e606d06ad4",
+   "mtime": "2026-10-14T14:45:27+0530"
+  },
+  "labels.json": {
+   "moved_from": "experiments/encoder/ett32A/labels.json",
+   "bytes": 2436,
+   "sha256": "e31ec61183e97a2e4634f7cb1447cf834c169a73f9457fd30879ef2424406160",
+   "mtime": "2026-10-14T14:45:27+0530"
+  }
+ },
+ "meta_written": "2026-10-14 by experiments/relocate/move_raw.py when the files moved here"
+}

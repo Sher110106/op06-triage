@@ -1,0 +1,59 @@
+{
+ "run_id": "ablation-state-copy",
+ "created": "2026-10-14T17:29:07+0530",
+ "script": "experiments/ablations/run.py state-copy",
+ "changed": "nothing: CPU model retrained by this folder's copy of the training code with the state block kept (retraining noise for ablation 6)",
+ "reference": "results/raw/dev-pipeline-cpu",
+ "bundle": "experiments/ablations/models/classical_state_copy.joblib",
+ "bundle_sha256": "5596a6dad9b6de6b692587174593c6c9ba0d07f19e37493ec01ea4fd240c6859",
+ "policy": {
+  "path": "policy/policy.toml",
+  "version": "2026-10-14.2",
+  "thresholds": {
+   "high": 0.8883,
+   "low": 0.7104
+  },
+  "alias": {
+   "membership-privileges": "membership"
+  }
+ },
+ "settings": {
+  "route_off_policy": true,
+  "route_second_intent": false,
+  "flag_conf_cap": 0.5
+ },
+ "llm": {
+  "mode": "off"
+ },
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "noisy": {
+   "file": "data/op06/dev_noisy.jsonl",
+   "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "rows": 2309,
+ "batch_wall_s": 3.37,
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "bundle_meta": {
+  "trained_at": "2026-10-14T17:18:29+0530",
+  "seed": 0,
+  "rows_A": 16034,
+  "rows_B": 3966,
+  "B_action_acc": 0.8333,
+  "route_threshold": 0.8498,
+  "train_seconds": 100.9,
+  "action_state": true,
+  "action_features": 78879,
+  "action_n_iter": 300
+ },
+ "identical_to_reference": false
+}

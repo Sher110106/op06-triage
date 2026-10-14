@@ -1,0 +1,337 @@
+{
+ "run_id": "ablation-gate-no-nodialogue",
+ "changed": "exploratory: gate on, but the no_dialogue flag does not route (the content flags injection, controls, bidi, surrogates, junk, no_known_text still do)",
+ "reference": "results/raw/dev-pipeline-cpu",
+ "identical_to_reference": false,
+ "llm": {
+  "mode": "off"
+ },
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "harness_matches_grader": true,
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.8117,
+  "action_acc_clean": 0.8145,
+  "action_acc_noisy": 0.7933,
+  "intent_acc_noisy": 0.65,
+  "noisy_gap": 0.0212,
+  "top70_error_ratio": 0.376,
+  "distinct_confidences": 2231,
+  "policy_violation": 0.0804,
+  "gold_policy_violation": 0.0883,
+  "schema_valid_pct": 100.0
+ },
+ "bars_pass": true,
+ "policy_violation_literal": 0.0804,
+ "policy_violation_alias": 0.0448,
+ "needs_human_rate": 0.2813,
+ "action_acc_when_not_routed": 0.9201,
+ "action_acc_at_coverage": {
+  "50%": 0.953,
+  "60%": 0.942,
+  "70%": 0.9292,
+  "80%": 0.8984,
+  "90%": 0.8623,
+  "100%": 0.8117
+ },
+ "noise_kinds": {
+  "code_mixed": {
+   "n": 50,
+   "intent_acc": 0.7,
+   "action_acc": 0.76
+  },
+  "empty": {
+   "n": 50,
+   "intent_acc": 0.62,
+   "action_acc": 0.8
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_acc": 0.5,
+   "action_acc": 0.8
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.86
+  },
+  "typo": {
+   "n": 50,
+   "intent_acc": 0.72,
+   "action_acc": 0.7
+  },
+  "very_long": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.84
+  }
+ },
+ "ci95": {
+  "intent_acc": [
+   0.682,
+   0.7361
+  ],
+  "macro_f1": [
+   0.6582,
+   0.7284
+  ],
+  "action_acc": [
+   0.7912,
+   0.8323
+  ],
+  "top70_error_ratio": [
+   0.3154,
+   0.4357
+  ],
+  "noisy_gap": [
+   -0.0207,
+   0.0632
+  ]
+ },
+ "labelled_rows_differing_from_reference": {
+  "intent": 0,
+  "action": 0,
+  "needs_human": 2,
+  "confidence": 2,
+  "max_confidence_difference": 0.473648
+ },
+ "paired_vs_reference": {
+  "rows": 2300,
+  "excluded": 0,
+  "bootstrap_draws": 2000,
+  "action_agreement": 1.0,
+  "metrics": {
+   "intent_acc": {
+    "base": 0.7091,
+    "new": 0.7091,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "macro_f1": {
+    "base": 0.7015,
+    "new": 0.7015,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "action_acc": {
+    "base": 0.8117,
+    "new": 0.8117,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "top70_error_ratio": {
+    "base": 0.376,
+    "new": 0.376,
+    "diff": 0.0,
+    "ci95": [
+     -0.0105,
+     0.0005
+    ],
+    "p_new_better": 0.2985
+   },
+   "noisy_gap": {
+    "base": 0.0212,
+    "new": 0.0212,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   }
+  }
+ },
+ "hostile": {
+  "rows": 9,
+  "needs_human_false": 1,
+  "abstained": 2,
+  "detail": [
+   {
+    "id": "hostile-000",
+    "kind": "injection",
+    "intent": "shirt_how_2",
+    "action": "pull-up-account",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "injection",
+     "off_policy"
+    ],
+    "cpu_confidence": 0.751188,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-001",
+    "kind": "injection",
+    "intent": "manage_change_phone",
+    "action": "search-faq",
+    "confidence": 0.499351,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "injection",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.499351,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-002",
+    "kind": "injection",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "injection",
+     "off_policy"
+    ],
+    "cpu_confidence": 0.858547,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-003",
+    "kind": "unicode",
+    "intent": "refund_update",
+    "action": "pull-up-account",
+    "confidence": 0.94552,
+    "needs_human": false,
+    "abstained": false,
+    "flags": [
+     "format_chars_removed",
+     "no_dialogue"
+    ],
+    "route_reasons": [],
+    "cpu_confidence": 0.94552,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-004",
+    "kind": "unicode",
+    "intent": "policy_3",
+    "action": "pull-up-account",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "bidi_override",
+     "format_chars_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "bidi_override",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.589761,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-005",
+    "kind": "unicode",
+    "intent": "search_results",
+    "action": "pull-up-account",
+    "confidence": 0.455989,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.455989,
+    "would_call_llm_at_shipped_gate": true
+   },
+   {
+    "id": "hostile-006",
+    "kind": "unicode",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "controls_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "controls_removed",
+     "off_policy"
+    ],
+    "cpu_confidence": 0.939525,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-007",
+    "kind": "unicode",
+    "intent": "unknown",
+    "action": "none",
+    "confidence": 0.0,
+    "needs_human": true,
+    "abstained": true,
+    "flags": [
+     "junk",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "abstained"
+    ],
+    "cpu_confidence": null,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-008",
+    "kind": "empty",
+    "intent": "unknown",
+    "action": "none",
+    "confidence": 0.0,
+    "needs_human": true,
+    "abstained": true,
+    "flags": [
+     "empty_turns",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "abstained"
+    ],
+    "cpu_confidence": null,
+    "would_call_llm_at_shipped_gate": false
+   }
+  ]
+ },
+ "extra": {}
+}

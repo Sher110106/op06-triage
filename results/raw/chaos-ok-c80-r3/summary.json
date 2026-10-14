@@ -1,0 +1,170 @@
+{
+ "run_id": "chaos-ok-c80-r3",
+ "mode": "ok",
+ "concurrency": 80,
+ "llm": true,
+ "loadtest_exit_code": 0,
+ "loadtest_stdout": "{\"label\": \"chaos-ok-c80-r3\", \"sample_count\": 600, \"errors\": 0, \"non_200\": 0, \"schema_invalid\": 0, \"id_mismatch\": 0, \"replays\": 0, \"latency_ms\": {\"p50\": 311.538, \"p95\": 430.462, \"p99\": 1906.068, \"max\": 1957.414, \"mean\": 357.404}, \"throughput_rps\": 177.73, \"wall_s\": 3.376, \"llm_calls\": 16, \"llm_cost_usd\": 0.0019539, \"cost_per_message_usd\": 3.2565e-06}",
+ "sample_count": 600,
+ "errors": 0,
+ "non_200": 0,
+ "schema_invalid": 0,
+ "id_mismatch": 0,
+ "status_counts": {
+  "200": 600
+ },
+ "error_codes": {},
+ "latency_ms": {
+  "p50": 311.538,
+  "p95": 430.462,
+  "p99": 1906.068,
+  "max": 1957.414,
+  "mean": 357.404
+ },
+ "throughput_rps": 177.73,
+ "wall_s": 3.376,
+ "llm_calls": 16,
+ "client_cpu_s": 0.761,
+ "metrics_after": {
+  "requests": 600,
+  "by_status": {
+   "200": 600
+  },
+  "errors": {},
+  "routed": 208,
+  "llm": {
+   "calls": 16,
+   "by_status": {
+    "busy": 132,
+    "ok": 13,
+    "abstained": 3
+   },
+   "cost_usd": 0.0019539
+  },
+  "latency_ms": {
+   "window": 600,
+   "p50": 285.436,
+   "p95": 421.121,
+   "p99": 1884.337
+  }
+ },
+ "breaker_after": "closed",
+ "breaker_seen": [
+  "closed"
+ ],
+ "breaker_first_not_closed_s": null,
+ "healthz_non_200_during_run": 0,
+ "probe_rtt_ms": {
+  "healthz_ms": {
+   "n": 15,
+   "p50": 21.6,
+   "max": 37.1
+  },
+  "metrics_ms": {
+   "n": 15,
+   "p50": 9.4,
+   "max": 16.2
+  }
+ },
+ "fake_upstream": {
+  "http_status": 200,
+  "mode": "ok",
+  "delay_s": 1.5,
+  "calls": {
+   "replay_hit": 16,
+   "outcome:ok": 16
+  },
+  "calls_total": 16,
+  "in_flight": 0,
+  "max_in_flight": 8,
+  "replay": {
+   "rows": 2300,
+   "keys": 2300,
+   "shared_keys": 0,
+   "ambiguous_keys": 0
+  },
+  "mode_changes": [],
+  "uptime_s": 6.75
+ },
+ "start": {
+  "listening_s": 0.583,
+  "healthy_s": 2.903,
+  "polls": {
+   "ConnectError": 5,
+   "503": 18,
+   "200": 1
+  }
+ },
+ "stop": {
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 0.196,
+  "forced_kill": false
+ },
+ "llm_status_by_row": {
+  "None": 452,
+  "ok": 13,
+  "abstained": 3,
+  "busy": 132
+ },
+ "rows_by_status": {
+  "None": {
+   "rows": 452,
+   "equal_cpu_only": 452,
+   "equal_replay_ref": 452
+  },
+  "abstained": {
+   "rows": 3,
+   "equal_cpu_only": 3,
+   "equal_replay_ref": 3
+  },
+  "busy": {
+   "rows": 132,
+   "equal_cpu_only": 132,
+   "equal_replay_ref": 12
+  },
+  "ok": {
+   "rows": 13,
+   "equal_cpu_only": 0,
+   "equal_replay_ref": 13
+  }
+ },
+ "llm_failed_rows": 132,
+ "llm_failed_equal_cpu_only": 132,
+ "rows_equal_cpu_only": 587,
+ "rows_equal_replay_ref": 480,
+ "action_changed_vs_cpu": 6,
+ "action_changed_and_routed": 6,
+ "answered": 600,
+ "intent_acc": 0.6817,
+ "action_acc": 0.7967,
+ "routed_share": 0.3467,
+ "auto_action_acc": 0.9235,
+ "requests_not_in_log": 0,
+ "log": {
+  "tracebacks": 0,
+  "error_lines": 0,
+  "shutdown_complete": true,
+  "finished_server_process": true,
+  "load_failed": false,
+  "shutdown_clean": true
+ },
+ "graded": {
+  "rows_scored": 600,
+  "intent_acc": 0.6817,
+  "action_acc": 0.7967,
+  "intent_acc_clean": 0.7133,
+  "action_acc_clean": 0.8,
+  "intent_acc_noisy": 0.65,
+  "action_acc_noisy": 0.7933,
+  "noisy_gap": 0.0067,
+  "macro_f1": 0.6452,
+  "top70_error_ratio": 0.457,
+  "needs_human_rate": 0.3467,
+  "action_acc_when_not_routed": 0.9235,
+  "ci95_action_acc": [
+   0.755,
+   0.8378
+  ]
+ }
+}

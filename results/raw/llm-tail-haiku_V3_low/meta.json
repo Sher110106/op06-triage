@@ -1,0 +1,59 @@
+{
+ "run_id": "llm-tail-haiku_V3_low",
+ "kind": "llm_calls",
+ "tag": "haiku_V3_low",
+ "status_note": "every call returned (status ok)",
+ "script": "experiments/llm_tail/run_llm.py",
+ "preregistration": "experiments/llm_tail/PREREGISTRATION.md",
+ "model_requested": "claude-haiku-5-5",
+ "variant": "V3",
+ "config": {
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "thinking": null,
+  "temperature": null,
+  "logprobs": false,
+  "reasoning": null,
+  "provider_order": null,
+  "provider_ignore": null,
+  "no_fallbacks": false,
+  "prompt_version": "p1"
+ },
+ "models_returned": {
+  "claude-haiku-5-5": 2300
+ },
+ "providers_returned": {
+  "anthropic": 2300
+ },
+ "rows": 2300,
+ "status": {
+  "ok": 2300
+ },
+ "parse_status": {
+  "ok": 2300
+ },
+ "input_files": [
+  "data/op06/dev.jsonl",
+  "data/op06/dev_noisy.jsonl"
+ ],
+ "created": "2026-10-14T13:20:28",
+ "finished": "2026-10-14T13:29:28",
+ "created_source": "first and last ledger line for this tag (local time, IST)",
+ "ledger": "results/raw/llm-ledger/ledger.jsonl",
+ "ledger_attempts": 2300,
+ "files": {
+  "raw_calls.jsonl": {
+   "moved_from": "experiments/llm_tail/runs/haiku_V3_low.jsonl",
+   "bytes": 2681913,
+   "sha256": "4bc8e2e52bf12184a56abeaae61634582e55264107f2c8f305368f90936f26de",
+   "mtime": "2026-10-14T13:29:28+0530"
+  },
+  "stdout.log": {
+   "moved_from": "experiments/llm_tail/runs/haiku_V3_low.log",
+   "bytes": 316,
+   "sha256": "53565f6c48e3f034f1c942ecf8022c6f3f0a7b489c3305aa6dc104678bf0ddc0",
+   "mtime": "2026-10-14T13:29:28+0530"
+  }
+ },
+ "meta_written": "2026-10-14 by experiments/relocate/move_raw.py when the files moved here; the run itself wrote no meta.json"
+}

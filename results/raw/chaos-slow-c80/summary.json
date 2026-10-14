@@ -1,0 +1,170 @@
+{
+ "run_id": "chaos-slow-c80",
+ "mode": "slow",
+ "concurrency": 80,
+ "llm": true,
+ "loadtest_exit_code": 0,
+ "loadtest_stdout": "{\"label\": \"chaos-slow-c80\", \"sample_count\": 600, \"errors\": 0, \"non_200\": 0, \"schema_invalid\": 0, \"id_mismatch\": 0, \"replays\": 0, \"latency_ms\": {\"p50\": 322.029, \"p95\": 396.534, \"p99\": 3654.2, \"max\": 3743.212, \"mean\": 362.668}, \"throughput_rps\": 160.14, \"wall_s\": 3.747, \"llm_calls\": 8, \"llm_cost_usd\": 0.001001, \"cost_per_message_usd\": 1.6683e-06}",
+ "sample_count": 600,
+ "errors": 0,
+ "non_200": 0,
+ "schema_invalid": 0,
+ "id_mismatch": 0,
+ "status_counts": {
+  "200": 600
+ },
+ "error_codes": {},
+ "latency_ms": {
+  "p50": 322.029,
+  "p95": 396.534,
+  "p99": 3654.2,
+  "max": 3743.212,
+  "mean": 362.668
+ },
+ "throughput_rps": 160.14,
+ "wall_s": 3.747,
+ "llm_calls": 8,
+ "client_cpu_s": 0.743,
+ "metrics_after": {
+  "requests": 600,
+  "by_status": {
+   "200": 600
+  },
+  "errors": {},
+  "routed": 209,
+  "llm": {
+   "calls": 8,
+   "by_status": {
+    "busy": 140,
+    "ok": 7,
+    "abstained": 1
+   },
+   "cost_usd": 0.001001
+  },
+  "latency_ms": {
+   "window": 600,
+   "p50": 292.702,
+   "p95": 389.474,
+   "p99": 3593.11
+  }
+ },
+ "breaker_after": "closed",
+ "breaker_seen": [
+  "closed"
+ ],
+ "breaker_first_not_closed_s": null,
+ "healthz_non_200_during_run": 0,
+ "probe_rtt_ms": {
+  "healthz_ms": {
+   "n": 16,
+   "p50": 24.0,
+   "max": 29.0
+  },
+  "metrics_ms": {
+   "n": 16,
+   "p50": 12.6,
+   "max": 19.5
+  }
+ },
+ "fake_upstream": {
+  "http_status": 200,
+  "mode": "slow",
+  "delay_s": 1.5,
+  "calls": {
+   "replay_hit": 8,
+   "outcome:slow": 8
+  },
+  "calls_total": 8,
+  "in_flight": 0,
+  "max_in_flight": 8,
+  "replay": {
+   "rows": 2300,
+   "keys": 2300,
+   "shared_keys": 0,
+   "ambiguous_keys": 0
+  },
+  "mode_changes": [],
+  "uptime_s": 7.243
+ },
+ "start": {
+  "listening_s": 0.571,
+  "healthy_s": 3.007,
+  "polls": {
+   "ConnectError": 5,
+   "503": 19,
+   "200": 1
+  }
+ },
+ "stop": {
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 0.2,
+  "forced_kill": false
+ },
+ "llm_status_by_row": {
+  "None": 452,
+  "ok": 7,
+  "abstained": 1,
+  "busy": 140
+ },
+ "rows_by_status": {
+  "None": {
+   "rows": 452,
+   "equal_cpu_only": 452,
+   "equal_replay_ref": 452
+  },
+  "abstained": {
+   "rows": 1,
+   "equal_cpu_only": 1,
+   "equal_replay_ref": 1
+  },
+  "busy": {
+   "rows": 140,
+   "equal_cpu_only": 140,
+   "equal_replay_ref": 14
+  },
+  "ok": {
+   "rows": 7,
+   "equal_cpu_only": 0,
+   "equal_replay_ref": 7
+  }
+ },
+ "llm_failed_rows": 140,
+ "llm_failed_equal_cpu_only": 140,
+ "rows_equal_cpu_only": 593,
+ "rows_equal_replay_ref": 474,
+ "action_changed_vs_cpu": 3,
+ "action_changed_and_routed": 3,
+ "answered": 600,
+ "intent_acc": 0.6817,
+ "action_acc": 0.7967,
+ "routed_share": 0.3483,
+ "auto_action_acc": 0.9233,
+ "requests_not_in_log": 0,
+ "log": {
+  "tracebacks": 0,
+  "error_lines": 0,
+  "shutdown_complete": true,
+  "finished_server_process": true,
+  "load_failed": false,
+  "shutdown_clean": true
+ },
+ "graded": {
+  "rows_scored": 600,
+  "intent_acc": 0.6817,
+  "action_acc": 0.7967,
+  "intent_acc_clean": 0.7133,
+  "action_acc_clean": 0.8,
+  "intent_acc_noisy": 0.65,
+  "action_acc_noisy": 0.7933,
+  "noisy_gap": 0.0067,
+  "macro_f1": 0.6452,
+  "top70_error_ratio": 0.457,
+  "needs_human_rate": 0.3483,
+  "action_acc_when_not_routed": 0.9233,
+  "ci95_action_acc": [
+   0.7558,
+   0.8388
+  ]
+ }
+}

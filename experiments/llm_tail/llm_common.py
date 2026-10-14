@@ -17,9 +17,20 @@ from pathlib import Path
 WORK = Path(__file__).resolve().parent
 ROOT = WORK.parent.parent
 REF = ROOT / "data" / "op06"
-RUNS = WORK / "runs"
-LEDGER = WORK / "ledger.jsonl"
+RAW = ROOT / "results" / "raw"
+# Raw outputs live under results/raw/ (moved there from experiments/ on 14 Oct; experiments/relocate/moves.json):
+# one folder per run, results/raw/<prefix>-<tag>/raw_calls.jsonl, and one ledger shared by every LLM run.
+LEDGER_DIR = RAW / "llm-ledger"
+LEDGER = LEDGER_DIR / "ledger.jsonl"            # one line per API attempt, failed ones too
+KEYCHECK = LEDGER_DIR / "keycheck.jsonl"        # OpenRouter key balance before and after each run
+RUN_SUMMARIES = LEDGER_DIR / "run_summaries.jsonl"
+_OLD_LEDGER = WORK / "ledger.jsonl"             # the pre-move location; must not come back
 SEED = 20261013
+
+
+def run_file(prefix: str, tag: str) -> Path:
+    """Raw call log of one run: results/raw/<prefix>-<tag>/raw_calls.jsonl (prefix llm-tail or llm-confirm)."""
+    return RAW / f"{prefix}-{tag}" / "raw_calls.jsonl"
 MAX_TURN_CHARS = 8000          # hard cap per turn in prompts; never triggers on the published data
 
 
@@ -465,6 +476,7 @@ _lock = threading.Lock()
 def ledger_write(rec):
     rec = dict(rec, ts=time.strftime("%Y-%m-%dT%H:%M:%S"))
     with _lock:
+        LEDGER_DIR.mkdir(parents=True, exist_ok=True)
         with open(LEDGER, "a", encoding="utf-8") as fh:
             fh.write(json.dumps(rec) + "\n")
 
@@ -476,6 +488,8 @@ PRIOR_SPEND = {"anthropic": 0.4318, "openrouter": 1.2858}
 def ledger_spend(provider):
     """Actual spend so far: Anthropic at list price with caching; OpenRouter as reported (fallback list)."""
     tot = PRIOR_SPEND.get(provider, 0.0)
+    if _OLD_LEDGER.exists():                    # a ledger at the old path would be missed and spend undercounted
+        raise RuntimeError(f"{_OLD_LEDGER} exists; the ledger lives at {LEDGER} (experiments/relocate/moves.json)")
     if not LEDGER.exists():
         return tot
     for l in open(LEDGER, encoding="utf-8"):

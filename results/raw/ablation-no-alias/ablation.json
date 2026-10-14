@@ -1,0 +1,352 @@
+{
+ "run_id": "ablation-no-alias",
+ "changed": "no alias: literal published lists, so 'membership' is not permitted where only 'membership-privileges' is (prior and off-policy check both)",
+ "reference": "results/raw/dev-pipeline-cpu",
+ "identical_to_reference": false,
+ "llm": {
+  "mode": "off"
+ },
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "harness_matches_grader": true,
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.7861,
+  "action_acc_clean": 0.7885,
+  "action_acc_noisy": 0.77,
+  "intent_acc_noisy": 0.65,
+  "noisy_gap": 0.0185,
+  "top70_error_ratio": 0.3806,
+  "distinct_confidences": 2238,
+  "policy_violation": 0.0452,
+  "gold_policy_violation": 0.0883,
+  "schema_valid_pct": 100.0
+ },
+ "bars_pass": true,
+ "policy_violation_literal": 0.0452,
+ "policy_violation_alias": 0.0435,
+ "needs_human_rate": 0.2961,
+ "action_acc_when_not_routed": 0.9135,
+ "action_acc_at_coverage": {
+  "50%": 0.9539,
+  "60%": 0.9391,
+  "70%": 0.9186,
+  "80%": 0.8815,
+  "90%": 0.8415,
+  "100%": 0.7861
+ },
+ "noise_kinds": {
+  "code_mixed": {
+   "n": 50,
+   "intent_acc": 0.7,
+   "action_acc": 0.78
+  },
+  "empty": {
+   "n": 50,
+   "intent_acc": 0.62,
+   "action_acc": 0.78
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_acc": 0.5,
+   "action_acc": 0.76
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.84
+  },
+  "typo": {
+   "n": 50,
+   "intent_acc": 0.72,
+   "action_acc": 0.68
+  },
+  "very_long": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.78
+  }
+ },
+ "ci95": {
+  "intent_acc": [
+   0.682,
+   0.7361
+  ],
+  "macro_f1": [
+   0.6582,
+   0.7284
+  ],
+  "action_acc": [
+   0.7659,
+   0.8063
+  ],
+  "top70_error_ratio": [
+   0.3211,
+   0.4351
+  ],
+  "noisy_gap": [
+   -0.0234,
+   0.0587
+  ]
+ },
+ "labelled_rows_differing_from_reference": {
+  "intent": 0,
+  "action": 86,
+  "needs_human": 70,
+  "confidence": 1894,
+  "max_confidence_difference": 0.719845
+ },
+ "paired_vs_reference": {
+  "rows": 2300,
+  "excluded": 0,
+  "bootstrap_draws": 2000,
+  "action_agreement": 0.9626,
+  "metrics": {
+   "intent_acc": {
+    "base": 0.7091,
+    "new": 0.7091,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "macro_f1": {
+    "base": 0.7015,
+    "new": 0.7015,
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "p_new_better": 0.0
+   },
+   "action_acc": {
+    "base": 0.8117,
+    "new": 0.7861,
+    "diff": -0.0256,
+    "ci95": [
+     -0.034,
+     -0.0176
+    ],
+    "p_new_better": 0.0
+   },
+   "top70_error_ratio": {
+    "base": 0.376,
+    "new": 0.3806,
+    "diff": 0.0046,
+    "ci95": [
+     -0.0281,
+     0.032
+    ],
+    "p_new_better": 0.4725
+   },
+   "noisy_gap": {
+    "base": 0.0212,
+    "new": 0.0185,
+    "diff": -0.0027,
+    "ci95": [
+     -0.0227,
+     0.0173
+    ],
+    "p_new_better": 0.627
+   }
+  }
+ },
+ "hostile": {
+  "rows": 9,
+  "needs_human_false": 0,
+  "abstained": 2,
+  "detail": [
+   {
+    "id": "hostile-000",
+    "kind": "injection",
+    "intent": "shirt_how_2",
+    "action": "pull-up-account",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "cpu_confidence": 0.755998,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-001",
+    "kind": "injection",
+    "intent": "manage_change_phone",
+    "action": "search-faq",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "injection",
+     "no_dialogue",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.503463,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-002",
+    "kind": "injection",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "injection",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "cpu_confidence": 0.860217,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-003",
+    "kind": "unicode",
+    "intent": "refund_update",
+    "action": "pull-up-account",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "format_chars_removed",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "no_dialogue"
+    ],
+    "cpu_confidence": 0.947826,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-004",
+    "kind": "unicode",
+    "intent": "policy_3",
+    "action": "pull-up-account",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "bidi_override",
+     "format_chars_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "bidi_override",
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.589777,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-005",
+    "kind": "unicode",
+    "intent": "search_results",
+    "action": "pull-up-account",
+    "confidence": 0.461344,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "no_dialogue",
+     "off_policy",
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.461344,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-006",
+    "kind": "unicode",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.5,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "controls_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "route_reasons": [
+     "controls_removed",
+     "no_dialogue",
+     "off_policy"
+    ],
+    "cpu_confidence": 0.940423,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-007",
+    "kind": "unicode",
+    "intent": "unknown",
+    "action": "none",
+    "confidence": 0.0,
+    "needs_human": true,
+    "abstained": true,
+    "flags": [
+     "junk",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "abstained"
+    ],
+    "cpu_confidence": null,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-008",
+    "kind": "empty",
+    "intent": "unknown",
+    "action": "none",
+    "confidence": 0.0,
+    "needs_human": true,
+    "abstained": true,
+    "flags": [
+     "empty_turns",
+     "no_dialogue"
+    ],
+    "route_reasons": [
+     "abstained"
+    ],
+    "cpu_confidence": null,
+    "would_call_llm_at_shipped_gate": false
+   }
+  ]
+ },
+ "extra": {
+  "flows_losing_membership": [
+   "order_issue",
+   "product_defect",
+   "purchase_dispute",
+   "subscription_inquiry"
+  ]
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "run_id": "chaos-recovery",
+ "created": "2026-10-14T17:52:50+05:30",
+ "system": "service-http (uvicorn, DESIGN.md serve flags)",
+ "changed": "fake upstream in error500 mode, switched to ok at 20.1 s; LLM on",
+ "traffic": "4 client threads, each at most 4 requests/s, dev then dev_noisy rows in order",
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "policy": {
+  "version": "2026-10-14.2",
+  "path": "policy/policy.toml",
+  "last_error": null,
+  "loaded_at": "2026-10-14T17:51:32+0530"
+ },
+ "llm": {
+  "enabled": true,
+  "mode": "on",
+  "model": "openai/gpt-6-luna-20260922",
+  "base_url_host": "127.0.0.1",
+  "gate": 0.642841,
+  "breaker_open": false,
+  "breaker": "closed",
+  "error": null
+ },
+ "inputs": {
+  "rows_sent": 870,
+  "first_id": "8645-22"
+ },
+ "grading_note": "graded on the rows sent (others excluded); read report.json extras",
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "cpu_count": 8,
+ "load_avg": [
+  1.42,
+  1.8,
+  2.23
+ ]
+}

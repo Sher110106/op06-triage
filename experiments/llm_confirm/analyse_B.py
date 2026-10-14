@@ -1,6 +1,8 @@
 """Score the fold-B confirmation test exactly as PREREGISTRATION.md fixes it. No API calls.
 
-  python analyse_B.py --luna runs/luna_B.jsonl --haiku runs/haiku_B.jsonl
+  python experiments/llm_confirm/analyse_B.py   # defaults: the 14 Oct runs,
+      --luna results/raw/llm-confirm-luna_B/raw_calls.jsonl --haiku results/raw/llm-confirm-haiku_B/raw_calls.jsonl
+(The raw call logs lived in experiments/llm_confirm/runs/ until 14 Oct; experiments/relocate/moves.json.)
 """
 from __future__ import annotations
 
@@ -74,8 +76,8 @@ def passes(m, key):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--luna", required=True)
-    ap.add_argument("--haiku", required=True)
+    ap.add_argument("--luna", default=str(ROOT / "results/raw/llm-confirm-luna_B/raw_calls.jsonl"))
+    ap.add_argument("--haiku", default=str(ROOT / "results/raw/llm-confirm-haiku_B/raw_calls.jsonl"))
     a = ap.parse_args()
     _, B = folds()
     rows = [dict(r, _group="clean") for r in B]

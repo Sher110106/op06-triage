@@ -1,0 +1,114 @@
+{
+ "per_tag": {
+  "anthropic/haiku_B": {
+   "attempts": 2060,
+   "ok": 2060,
+   "uncached": 2.251049,
+   "cached": 0.675705,
+   "reported": 0,
+   "in_tok": 20579313,
+   "out_tok": 386235
+  },
+  "anthropic/haiku_B_smoke": {
+   "attempts": 5,
+   "ok": 5,
+   "uncached": 0.005256,
+   "cached": 0.006318,
+   "reported": 0,
+   "in_tok": 49708,
+   "out_tok": 570
+  },
+  "anthropic/haiku_V3_low": {
+   "attempts": 2300,
+   "ok": 2300,
+   "uncached": 2.477222,
+   "cached": 0.718343,
+   "reported": 0,
+   "in_tok": 23056184,
+   "out_tok": 343207
+  },
+  "anthropic/haiku_V3_low_smoke": {
+   "attempts": 5,
+   "ok": 5,
+   "uncached": 0.005345,
+   "cached": 0.006407,
+   "reported": 0,
+   "in_tok": 50122,
+   "out_tok": 666
+  },
+  "openrouter/luna_B": {
+   "attempts": 3966,
+   "ok": 3966,
+   "uncached": 2.505887,
+   "cached": 0.801686,
+   "reported": 0.801686,
+   "in_tok": 24411916,
+   "out_tok": 129390
+  },
+  "openrouter/luna_B_smoke": {
+   "attempts": 5,
+   "ok": 5,
+   "uncached": 0.003144,
+   "cached": 0.000992,
+   "reported": 0.000992,
+   "in_tok": 30624,
+   "out_tok": 163
+  },
+  "openrouter/luna_V3_none": {
+   "attempts": 2300,
+   "ok": 2300,
+   "uncached": 1.459786,
+   "cached": 0.473128,
+   "reported": 0.473128,
+   "in_tok": 14223519,
+   "out_tok": 74868
+  },
+  "openrouter/luna_V3_none_smoke": {
+   "attempts": 5,
+   "ok": 5,
+   "uncached": 0.003172,
+   "cached": 0.00161,
+   "reported": 0.00161,
+   "in_tok": 30900,
+   "out_tok": 164
+  }
+ },
+ "per_provider": {
+  "openrouter": {
+   "attempts": 6276,
+   "ok": 6276,
+   "uncached": 3.972,
+   "cached": 1.2774,
+   "reported": 1.2774,
+   "in_tok": 38696959,
+   "out_tok": 204585
+  },
+  "anthropic": {
+   "attempts": 4370,
+   "ok": 4370,
+   "uncached": 4.7389,
+   "cached": 1.4068,
+   "reported": 0,
+   "in_tok": 43735327,
+   "out_tok": 730678
+  }
+ },
+ "rows_where_ledger_cost_differs_from_recomputed": 0,
+ "status_counts": {
+  "ok": 10646
+ },
+ "models_requested": [
+  "claude-haiku-5-5",
+  "openai/gpt-6-luna-20260922"
+ ],
+ "models_returned": [
+  "claude-haiku-5-5",
+  "openai/gpt-6-luna"
+ ],
+ "providers_returned": [
+  "OpenAI",
+  "anthropic"
+ ],
+ "first_ts": "2026-10-14T13:20:09",
+ "last_ts": "2026-10-14T13:59:52"
+}

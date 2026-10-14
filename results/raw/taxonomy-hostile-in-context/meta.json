@@ -1,0 +1,50 @@
+{
+ "run_id": "taxonomy-hostile-in-context",
+ "created": "2026-10-14T17:30:04+0530",
+ "system": "pipeline (LLM off)",
+ "status": "exploratory, not pre-registered",
+ "what_changed": "inputs, not the system: each hostile text (and a matched control) appended as the newest customer turn of every dev conversation; v1 unchanged",
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "policy": "policy/policy.toml",
+ "policy_sha256": "a83ddb9f6ee2516da904d4c43f8fec0aa08e0be8f1f17d41f7751a774a8a579b",
+ "script": "experiments/taxonomy/hostile_in_context.py",
+ "script_sha256": "ffcc8942615faa8c6de7dcfde07c87bbbec14e46b04ffa56f7971a3fd288e2a5",
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "rows": 38000,
+ "variants": [
+  "original",
+  "hostile-000",
+  "control:hostile-000",
+  "hostile-001",
+  "control:hostile-001",
+  "hostile-002",
+  "control:hostile-002",
+  "hostile-003",
+  "control:hostile-003",
+  "hostile-004",
+  "control:hostile-004",
+  "hostile-005",
+  "control:hostile-005",
+  "hostile-006",
+  "control:hostile-006",
+  "hostile-007",
+  "control:hostile-007",
+  "hostile-008",
+  "control:hostile-008"
+ ],
+ "batch_wall_s": 48.17,
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "llm_calls": 0,
+ "note": "no harness or grader report: the modified rows have no gold labels. predictions.jsonl ids are '<dev id>~<variant>'; traces.jsonl holds flags and route reasons, no text"
+}

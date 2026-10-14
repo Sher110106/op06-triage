@@ -1,0 +1,20 @@
+{
+ "off": {
+  "rows": 2309,
+  "differ_projected_vs_full": 0,
+  "differ_projected_vs_scrambled": 0,
+  "llm_calls": 0,
+  "keys_seen_by_llm_step": null
+ },
+ "stub": {
+  "rows": 2309,
+  "differ_projected_vs_full": 0,
+  "differ_projected_vs_scrambled": 0,
+  "llm_calls": 1380,
+  "keys_seen_by_llm_step": [
+   "context",
+   "id",
+   "turn_index"
+  ]
+ }
+}

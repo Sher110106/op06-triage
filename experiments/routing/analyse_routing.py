@@ -33,8 +33,8 @@ from triage.classical import folds  # noqa: E402
 from triage.data import load_split, project  # noqa: E402
 from triage.llm_action import LLMConfig, LLMResult  # noqa: E402
 
-LLM_B = ROOT / "experiments/llm_confirm/runs/luna_B.jsonl"
-LLM_DEV = ROOT / "experiments/llm_tail/runs/luna_V3_none.jsonl"
+LLM_B = ROOT / "results/raw/llm-confirm-luna_B/raw_calls.jsonl"         # recorded Luna answers, fold B
+LLM_DEV = ROOT / "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl"     # recorded Luna answers, dev + dev_noisy
 OOF_B = ROOT / "experiments/llm_confirm/cpu_B_predictions.jsonl"
 POLICY = ROOT / "policy/policy.toml"
 

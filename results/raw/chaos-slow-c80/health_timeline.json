@@ -1,0 +1,126 @@
+{
+ "every_s": 0.25,
+ "samples": [
+  {
+   "t_s": 0.0,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 13.1,
+   "metrics_ms": 7.2
+  },
+  {
+   "t_s": 0.252,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 18.0,
+   "metrics_ms": 10.0
+  },
+  {
+   "t_s": 0.503,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 27.1,
+   "metrics_ms": 14.2
+  },
+  {
+   "t_s": 0.756,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 27.0,
+   "metrics_ms": 13.0
+  },
+  {
+   "t_s": 1.011,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 22.3,
+   "metrics_ms": 19.2
+  },
+  {
+   "t_s": 1.266,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 24.6,
+   "metrics_ms": 9.8
+  },
+  {
+   "t_s": 1.524,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 24.0,
+   "metrics_ms": 6.6
+  },
+  {
+   "t_s": 1.774,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 24.8,
+   "metrics_ms": 12.8
+  },
+  {
+   "t_s": 2.024,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 29.0,
+   "metrics_ms": 19.5
+  },
+  {
+   "t_s": 2.284,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 22.3,
+   "metrics_ms": 14.0
+  },
+  {
+   "t_s": 2.535,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 25.1,
+   "metrics_ms": 16.3
+  },
+  {
+   "t_s": 2.785,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 26.3,
+   "metrics_ms": 10.5
+  },
+  {
+   "t_s": 3.038,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 8.6,
+   "metrics_ms": 7.0
+  },
+  {
+   "t_s": 3.298,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 19.6,
+   "metrics_ms": 12.2
+  },
+  {
+   "t_s": 3.558,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 17.6,
+   "metrics_ms": 12.6
+  },
+  {
+   "t_s": 3.808,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 17.5,
+   "metrics_ms": 12.0
+  }
+ ],
+ "transitions": [
+  {
+   "t_s": 0.0,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 13.1,
+   "metrics_ms": 7.2
+  }
+ ]
+}

@@ -1,5 +1,7 @@
 """Fold-B confirmation runner: run_llm.py with fold-B rows (rows_B.jsonl) and fold-A-only retrieval (retrieval_B.json).
-Rows come from --ids-file (ids_luna.json or ids_haiku.json).
+Rows come from --ids-file (ids_luna.json or ids_haiku.json). Output: results/raw/llm-confirm-<tag>/raw_calls.jsonl,
+plus one line per API attempt in the ledger shared with run_llm.py (results/raw/llm-ledger/). The runs of 14 Oct saved
+stdout to results/raw/llm-confirm-<tag>/stdout.log.
 
 Original docstring: run one model x variant over dev + dev_noisy at concurrency 8 (ported from the 13 Oct probe runner).
 One output jsonl per run under runs/, one ledger line per API attempt (failed ones too). Keys come only from
@@ -29,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "llm_tail"))
 import llm_common as C                     # same prompts, parser, prices; the shared ledger keeps spend cumulative
 
 HERE = Path(__file__).resolve().parent
-C.RUNS = HERE / "runs"
+RUN_PREFIX = "llm-confirm"
 
 CAPS = {"anthropic": 2.90, "openrouter": 3.40}          # cumulative with the probe; stop a little under the $3.00 / $3.50 caps
 BLOCKED = {"openai/gpt-5.6-terra"}                       # user decision: never run
@@ -65,7 +67,8 @@ def or_key_status():
     with urllib.request.urlopen(req, timeout=30) as resp:
         d = json.loads(resp.read())["data"]
     keep = {k: d.get(k) for k in ("limit", "limit_remaining", "usage", "usage_daily", "is_free_tier")}
-    with open(C.WORK / "keycheck.jsonl", "a") as fh:
+    C.KEYCHECK.parent.mkdir(parents=True, exist_ok=True)
+    with open(C.KEYCHECK, "a") as fh:
         fh.write(json.dumps(dict(keep, ts=time.strftime("%Y-%m-%dT%H:%M:%S"))) + "\n")
     return keep
 
@@ -221,8 +224,8 @@ def main():
            "no_fallbacks": a.no_fallbacks}
     if a.max_tokens:
         cfg["max_tokens"] = a.max_tokens
-    out_path = C.RUNS / f"{a.tag}.jsonl"
-    C.RUNS.mkdir(exist_ok=True)
+    out_path = C.run_file(RUN_PREFIX, a.tag)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     done = set()
     if out_path.exists():                                   # resume: keep rows that already have an answer
         for line in out_path.read_text(encoding="utf-8").splitlines():
@@ -322,7 +325,7 @@ def main():
             "providers_returned": dict(__import__("collections").Counter(r["provider_returned"] for r in recs)),
             "provider_spend_total": round(spend.total, 4)}
     print(json.dumps(summ), flush=True)
-    with open(HERE / "run_summaries.jsonl", "a") as fh:
+    with open(C.RUN_SUMMARIES, "a") as fh:            # shared with run_llm.py since the 14 Oct move
         fh.write(json.dumps(summ) + "\n")
     if provider == "openrouter":
         ks = or_key_status()

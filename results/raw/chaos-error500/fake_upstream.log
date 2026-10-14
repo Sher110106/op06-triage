@@ -1,0 +1,1 @@
+{"event": "fake_upstream_ready", "port": 50067, "mode": "error500", "replay": {"rows": 2300, "keys": 2300, "shared_keys": 0, "ambiguous_keys": 0}}

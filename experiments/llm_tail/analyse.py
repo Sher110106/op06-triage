@@ -1,7 +1,9 @@
 """Score the full-dev LLM test exactly as PREREGISTRATION.md fixes it.
 
-  python analyse.py --cpu ../../results/raw/dev-classical-v0/predictions.jsonl \
-      --luna runs/luna_V3_none.jsonl --haiku runs/haiku_V3_low.jsonl
+  python experiments/llm_tail/analyse.py      # the defaults below are the files the 14 Oct analysis used:
+      --cpu results/raw/dev-classical-v0/predictions.jsonl
+      --luna results/raw/llm-tail-luna_V3_none/raw_calls.jsonl --haiku results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl
+(The raw call logs lived in experiments/llm_tail/runs/ until 14 Oct; experiments/relocate/moves.json.)
 
 Writes system prediction files and reports under ../../results/raw/llm-tail-<system>/ and a summary to
 results.json next to this file. Nothing here calls an API.
@@ -106,9 +108,9 @@ def verdict(cmp, keys):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--cpu", required=True)
-    ap.add_argument("--luna", required=True)
-    ap.add_argument("--haiku", required=True)
+    ap.add_argument("--cpu", default=str(ROOT / "results/raw/dev-classical-v0/predictions.jsonl"))
+    ap.add_argument("--luna", default=str(ROOT / "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl"))
+    ap.add_argument("--haiku", default=str(ROOT / "results/raw/llm-tail-haiku_V3_low/raw_calls.jsonl"))
     a = ap.parse_args()
     cpu = read_preds(a.cpu)
     seen = set(json.loads((HERE / "seen_in_probe_ids.json").read_text()))

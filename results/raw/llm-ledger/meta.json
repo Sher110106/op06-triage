@@ -1,0 +1,96 @@
+{
+ "run_id": "llm-ledger",
+ "kind": "llm_ledger",
+ "about": "Not a run. One line per API attempt (failed ones too) across every LLM run in this repo, written by experiments/llm_tail/llm_common.ledger_write; run_llm.py and run_llm_B.py both append here, so spend caps count all runs. keycheck.jsonl: OpenRouter key balance before and after each run. run_summaries.jsonl: one summary line per run.",
+ "attempts": 10646,
+ "attempts_by_provider_model_tag": [
+  {
+   "provider": "anthropic",
+   "model": "claude-haiku-5-5",
+   "tag": "haiku_B",
+   "attempts": 2060
+  },
+  {
+   "provider": "anthropic",
+   "model": "claude-haiku-5-5",
+   "tag": "haiku_B_smoke",
+   "attempts": 5
+  },
+  {
+   "provider": "anthropic",
+   "model": "claude-haiku-5-5",
+   "tag": "haiku_V3_low",
+   "attempts": 2300
+  },
+  {
+   "provider": "anthropic",
+   "model": "claude-haiku-5-5",
+   "tag": "haiku_V3_low_smoke",
+   "attempts": 5
+  },
+  {
+   "provider": "openrouter",
+   "model": "openai/gpt-6-luna-20260922",
+   "tag": "luna_B",
+   "attempts": 3966
+  },
+  {
+   "provider": "openrouter",
+   "model": "openai/gpt-6-luna-20260922",
+   "tag": "luna_B_smoke",
+   "attempts": 5
+  },
+  {
+   "provider": "openrouter",
+   "model": "openai/gpt-6-luna-20260922",
+   "tag": "luna_V3_none",
+   "attempts": 2300
+  },
+  {
+   "provider": "openrouter",
+   "model": "openai/gpt-6-luna-20260922",
+   "tag": "luna_V3_none_smoke",
+   "attempts": 5
+  }
+ ],
+ "status": {
+  "ok": 10646
+ },
+ "first": "2026-10-14T13:20:09",
+ "last": "2026-10-14T13:59:52",
+ "prior_spend_not_in_this_ledger": "the 13 Oct probe's spend (Anthropic $0.4318, OpenRouter $1.2858) is counted as llm_common.PRIOR_SPEND; its ledger lives outside this repo",
+ "files": {
+  "ledger.jsonl": {
+   "moved_from": "experiments/llm_tail/ledger.jsonl",
+   "bytes": 6001500,
+   "sha256": "c914238fa3cc97dfd291a7d6ec6823dc4baa1b11bff7bd22f47fe17c591c1f6e",
+   "mtime": "2026-10-14T13:59:52+0530"
+  },
+  "keycheck.jsonl": {
+   "moved_from": "experiments/llm_tail/keycheck.jsonl",
+   "bytes": 1162,
+   "sha256": "92ec30a6540b9eaf0b95cab819f66dd7bfd5ee1dbabb51aedce1ad833894766f",
+   "mtime": "2026-10-14T13:59:53+0530"
+  },
+  "run_summaries.jsonl": {
+   "joined_from": [
+    {
+     "path": "experiments/llm_tail/run_summaries.jsonl",
+     "bytes": 1264,
+     "sha256": "8b11fa0287503c83da43846bb6eab7934b8ed8fe8d8d8ad9f0d1958adb348710",
+     "lines": 4
+    },
+    {
+     "path": "experiments/llm_confirm/run_summaries.jsonl",
+     "bytes": 1242,
+     "sha256": "6c459c2cb340cd5f13ea4af6c7cb9a972c0370e880b511b1239ccd399d48bc65",
+     "lines": 4
+    }
+   ],
+   "bytes": 2506,
+   "sha256": "f1ee188827bfbf8c318920bfb40b6a8f9fe0a151e33fe0efb4019e8fdf737ff3",
+   "check": "bytes equal the sources joined in the order listed"
+  }
+ },
+ "meta_written": "2026-10-14 by experiments/relocate/move_raw.py when the files moved here"
+}

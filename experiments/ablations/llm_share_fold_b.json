@@ -1,0 +1,153 @@
+{
+ "rows": 3966,
+ "about": "The dev gates for the 10% / 20% / 30% shares applied on train fold B (3,966 rows no model choice saw):\n    out-of-fold CPU confidence, recorded Luna answers for fold B, paired against the LLM step off. Not graded by\n    the official grader (fold B is train data); written to experiments/ablations/llm_share_fold_b.json.",
+ "shares": {
+  "10%": {
+   "gate": 0.4335079,
+   "llm_calls": 321,
+   "call_share": 0.0809,
+   "vs_llm_off": {
+    "action_acc": {
+     "base": 0.8333,
+     "new": 0.85,
+     "diff": 0.0167,
+     "ci95": [
+      0.0107,
+      0.0224
+     ],
+     "p_new_better": 1.0
+    },
+    "top70_error_ratio": {
+     "base": 0.3395,
+     "new": 0.3773,
+     "diff": 0.0378,
+     "ci95": [
+      0.0236,
+      0.0525
+     ],
+     "p_new_better": 0.0
+    }
+   },
+   "vs_shipped_20%": {
+    "action_acc": {
+     "base": 0.858,
+     "new": 0.85,
+     "diff": -0.008,
+     "ci95": [
+      -0.0134,
+      -0.0031
+     ],
+     "p_new_better": 0.001
+    },
+    "top70_error_ratio": {
+     "base": 0.3986,
+     "new": 0.3773,
+     "diff": -0.0213,
+     "ci95": [
+      -0.0367,
+      -0.0083
+     ],
+     "p_new_better": 0.999
+    }
+   }
+  },
+  "20% (shipped)": {
+   "gate": 0.642841,
+   "llm_calls": 664,
+   "call_share": 0.1674,
+   "vs_llm_off": {
+    "action_acc": {
+     "base": 0.8333,
+     "new": 0.858,
+     "diff": 0.0247,
+     "ci95": [
+      0.017,
+      0.0324
+     ],
+     "p_new_better": 1.0
+    },
+    "top70_error_ratio": {
+     "base": 0.3395,
+     "new": 0.3986,
+     "diff": 0.0591,
+     "ci95": [
+      0.0398,
+      0.0807
+     ],
+     "p_new_better": 0.0
+    }
+   },
+   "vs_shipped_20%": {
+    "action_acc": {
+     "base": 0.858,
+     "new": 0.858,
+     "diff": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "p_new_better": 0.0
+    },
+    "top70_error_ratio": {
+     "base": 0.3986,
+     "new": 0.3986,
+     "diff": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "p_new_better": 0.0
+    }
+   }
+  },
+  "30%": {
+   "gate": 0.7951364,
+   "llm_calls": 993,
+   "call_share": 0.2504,
+   "vs_llm_off": {
+    "action_acc": {
+     "base": 0.8333,
+     "new": 0.856,
+     "diff": 0.0227,
+     "ci95": [
+      0.0142,
+      0.0314
+     ],
+     "p_new_better": 1.0
+    },
+    "top70_error_ratio": {
+     "base": 0.3395,
+     "new": 0.3729,
+     "diff": 0.0334,
+     "ci95": [
+      -0.0058,
+      0.0645
+     ],
+     "p_new_better": 0.0475
+    }
+   },
+   "vs_shipped_20%": {
+    "action_acc": {
+     "base": 0.858,
+     "new": 0.856,
+     "diff": -0.002,
+     "ci95": [
+      -0.0057,
+      0.002
+     ],
+     "p_new_better": 0.1375
+    },
+    "top70_error_ratio": {
+     "base": 0.3986,
+     "new": 0.3729,
+     "diff": -0.0257,
+     "ci95": [
+      -0.0616,
+      0.0046
+     ],
+     "p_new_better": 0.952
+    }
+   }
+  }
+ }
+}

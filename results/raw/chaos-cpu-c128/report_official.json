@@ -1,0 +1,95 @@
+{
+  "grader_version": "2.1",
+  "counts": {
+    "clean": 2000,
+    "noisy": 300,
+    "hostile": 9,
+    "predictions": 600,
+    "missing_predictions": 1709
+  },
+  "intent": {
+    "accuracy_all": 0.1778,
+    "accuracy_clean": 0.107,
+    "accuracy_noisy": 0.65,
+    "macro_f1_all": 0.2456,
+    "macro_f1_clean": 0.1812
+  },
+  "action": {
+    "accuracy_all": 0.2074,
+    "accuracy_clean": 0.1195,
+    "accuracy_noisy": 0.7933,
+    "macro_f1_all": 0.285,
+    "matched_clean_accuracy": 0.7967,
+    "matched_noisy_gap": 0.0034,
+    "noisy_gap": -0.6738
+  },
+  "policy": {
+    "predicted_actions_scored": 600,
+    "violations": 51,
+    "violation_rate": 0.085,
+    "gold_violation_rate": 0.0883
+  },
+  "hostile": {
+    "structural_only": true,
+    "runtime_and_behavior_verified": false,
+    "note": "Prediction files cannot prove absence of crashes, hangs or instruction following; run the service checks."
+  },
+  "schema": {
+    "inputs_including_hostile": 2309,
+    "valid": 600,
+    "valid_rate_all_inputs": 0.25985275010827197
+  },
+  "confidence": {
+    "all": {
+      "n": 2300,
+      "kept_in_top70": 2300,
+      "threshold": 0.0,
+      "overall_accuracy": 0.2074,
+      "top70_accuracy": 0.2074,
+      "distinct_confidences": 575
+    },
+    "top70_error_ratio": 1.0
+  },
+  "bars": {
+    "intent_accuracy_all": {
+      "value": 0.1778,
+      "bar": 0.55,
+      "pass": false
+    },
+    "action_accuracy_all": {
+      "value": 0.2074,
+      "bar": 0.55,
+      "pass": false
+    },
+    "macro_f1_all": {
+      "value": 0.2456,
+      "bar": 0.5,
+      "pass": false
+    },
+    "schema_valid_pct": {
+      "value": 25.9852750108272,
+      "bar": 100.0,
+      "pass": false
+    },
+    "noisy_gap": {
+      "value": -0.6738,
+      "bar": 0.1,
+      "pass": true
+    },
+    "top70_error_ratio": {
+      "value": 1.0,
+      "bar": 0.85,
+      "pass": false
+    }
+  },
+  "baseline": {
+    "intent_accuracy": 0.3748,
+    "action_accuracy": 0.3913,
+    "macro_f1": 0.4508,
+    "noisy_gap": 0.0743,
+    "schema_valid_pct": 100.0,
+    "policy_violation_rate": 0.1404,
+    "gold_policy_violation_rate": 0.0883,
+    "top70_error_ratio": 1.0
+  }
+}

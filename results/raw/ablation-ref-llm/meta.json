@@ -1,0 +1,50 @@
+{
+ "run_id": "ablation-ref-llm",
+ "created": "2026-10-14T17:28:19+0530",
+ "script": "experiments/ablations/run.py ref-llm",
+ "changed": "nothing: shipped pipeline, recorded Luna answers replayed at the shipped gate 0.642841; must reproduce dev-pipeline-llm-replay",
+ "reference": "results/raw/dev-pipeline-llm-replay",
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "policy": {
+  "path": "policy/policy.toml",
+  "version": "2026-10-14.2",
+  "thresholds": {
+   "high": 0.8883,
+   "low": 0.7104
+  },
+  "alias": {
+   "membership-privileges": "membership"
+  }
+ },
+ "settings": {
+  "route_off_policy": true,
+  "route_second_intent": false,
+  "flag_conf_cap": 0.5
+ },
+ "llm": {
+  "mode": "replay",
+  "answers": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+  "gate": 0.642841,
+  "rows_called": 460
+ },
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "noisy": {
+   "file": "data/op06/dev_noisy.jsonl",
+   "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "rows": 2309,
+ "batch_wall_s": 2.95,
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "identical_to_reference": true
+}

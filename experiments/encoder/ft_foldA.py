@@ -2,6 +2,7 @@
 with the shipped system on train fold B. Copied from the 13 Oct probe's ft.py; changes: trains on fold A only
 (the same seed-0 split as triage.classical.folds(), ids in folds_ids.json), early-stops on 10% of fold A by
 conversation hash, and writes probabilities for fold B, dev, dev_noisy and hostile. Runs on the remote CPU box.
+The 14 Oct run's cache/ and logs/ files for tag ett32A were copied into results/raw/encoder-ett32A/.
 
 Original docstring follows.
 B3: fine-tune a small encoder on CPU with intent (96) + flow (10) + next-action (30) heads.

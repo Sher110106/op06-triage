@@ -1,0 +1,302 @@
+{
+ "run_id": "ablation-gate-off-nopol",
+ "changed": "exploratory: no gate and off-policy routing off too (only the confidence thresholds route; close to v0 with the shipped thresholds)",
+ "reference": "results/raw/dev-pipeline-cpu",
+ "identical_to_reference": false,
+ "llm": {
+  "mode": "off"
+ },
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "harness_matches_grader": true,
+ "official": {
+  "intent_acc": 0.6978,
+  "macro_f1": 0.6962,
+  "action_acc": 0.8083,
+  "action_acc_clean": 0.8145,
+  "action_acc_noisy": 0.7667,
+  "intent_acc_noisy": 0.5633,
+  "noisy_gap": 0.0478,
+  "top70_error_ratio": 0.3725,
+  "distinct_confidences": 2280,
+  "policy_violation": 0.0817,
+  "gold_policy_violation": 0.0883,
+  "schema_valid_pct": 100.0
+ },
+ "bars_pass": true,
+ "policy_violation_literal": 0.0817,
+ "policy_violation_alias": 0.0465,
+ "needs_human_rate": 0.2674,
+ "action_acc_when_not_routed": 0.9151,
+ "action_acc_at_coverage": {
+  "50%": 0.9539,
+  "60%": 0.942,
+  "70%": 0.9286,
+  "80%": 0.9,
+  "90%": 0.8599,
+  "100%": 0.8083
+ },
+ "noise_kinds": {
+  "code_mixed": {
+   "n": 50,
+   "intent_acc": 0.7,
+   "action_acc": 0.76
+  },
+  "empty": {
+   "n": 50,
+   "intent_acc": 0.62,
+   "action_acc": 0.8
+  },
+  "screenshot": {
+   "n": 50,
+   "intent_acc": 0.5,
+   "action_acc": 0.8
+  },
+  "two_intents": {
+   "n": 50,
+   "intent_acc": 0.68,
+   "action_acc": 0.86
+  },
+  "typo": {
+   "n": 50,
+   "intent_acc": 0.72,
+   "action_acc": 0.7
+  },
+  "very_long": {
+   "n": 50,
+   "intent_acc": 0.16,
+   "action_acc": 0.68
+  }
+ },
+ "ci95": {
+  "intent_acc": [
+   0.6711,
+   0.7243
+  ],
+  "macro_f1": [
+   0.6524,
+   0.7233
+  ],
+  "action_acc": [
+   0.7874,
+   0.829
+  ],
+  "top70_error_ratio": [
+   0.3158,
+   0.4312
+  ],
+  "noisy_gap": [
+   0.0039,
+   0.0924
+  ]
+ },
+ "labelled_rows_differing_from_reference": {
+  "intent": 32,
+  "action": 9,
+  "needs_human": 42,
+  "confidence": 100,
+  "max_confidence_difference": 0.500525
+ },
+ "paired_vs_reference": {
+  "rows": 2300,
+  "excluded": 0,
+  "bootstrap_draws": 2000,
+  "action_agreement": 0.9961,
+  "metrics": {
+   "intent_acc": {
+    "base": 0.7091,
+    "new": 0.6978,
+    "diff": -0.0113,
+    "ci95": [
+     -0.0156,
+     -0.0072
+    ],
+    "p_new_better": 0.0
+   },
+   "macro_f1": {
+    "base": 0.7015,
+    "new": 0.6962,
+    "diff": -0.0053,
+    "ci95": [
+     -0.0078,
+     -0.0031
+    ],
+    "p_new_better": 0.0
+   },
+   "action_acc": {
+    "base": 0.8117,
+    "new": 0.8083,
+    "diff": -0.0034,
+    "ci95": [
+     -0.0061,
+     -0.0013
+    ],
+    "p_new_better": 0.0
+   },
+   "top70_error_ratio": {
+    "base": 0.376,
+    "new": 0.3725,
+    "diff": -0.0035,
+    "ci95": [
+     -0.0286,
+     0.0205
+    ],
+    "p_new_better": 0.6235
+   },
+   "noisy_gap": {
+    "base": 0.0212,
+    "new": 0.0478,
+    "diff": 0.0266,
+    "ci95": [
+     0.0097,
+     0.0464
+    ],
+    "p_new_better": 0.0
+   }
+  }
+ },
+ "hostile": {
+  "rows": 9,
+  "needs_human_false": 4,
+  "abstained": 0,
+  "detail": [
+   {
+    "id": "hostile-000",
+    "kind": "injection",
+    "intent": "shirt_how_2",
+    "action": "pull-up-account",
+    "confidence": 0.751188,
+    "needs_human": false,
+    "abstained": false,
+    "flags": [
+     "off_policy"
+    ],
+    "route_reasons": [],
+    "cpu_confidence": 0.751188,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-001",
+    "kind": "injection",
+    "intent": "manage_change_phone",
+    "action": "search-faq",
+    "confidence": 0.499351,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [],
+    "route_reasons": [
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.499351,
+    "would_call_llm_at_shipped_gate": true
+   },
+   {
+    "id": "hostile-002",
+    "kind": "injection",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.858547,
+    "needs_human": false,
+    "abstained": false,
+    "flags": [
+     "off_policy"
+    ],
+    "route_reasons": [],
+    "cpu_confidence": 0.858547,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-003",
+    "kind": "unicode",
+    "intent": "refund_update",
+    "action": "pull-up-account",
+    "confidence": 0.94552,
+    "needs_human": false,
+    "abstained": false,
+    "flags": [],
+    "route_reasons": [],
+    "cpu_confidence": 0.94552,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-004",
+    "kind": "unicode",
+    "intent": "policy_3",
+    "action": "pull-up-account",
+    "confidence": 0.589761,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "off_policy"
+    ],
+    "route_reasons": [
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.589761,
+    "would_call_llm_at_shipped_gate": true
+   },
+   {
+    "id": "hostile-005",
+    "kind": "unicode",
+    "intent": "search_results",
+    "action": "pull-up-account",
+    "confidence": 0.455989,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [
+     "off_policy"
+    ],
+    "route_reasons": [
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.455989,
+    "would_call_llm_at_shipped_gate": true
+   },
+   {
+    "id": "hostile-006",
+    "kind": "unicode",
+    "intent": "reset_2fa",
+    "action": "search-faq",
+    "confidence": 0.939525,
+    "needs_human": false,
+    "abstained": false,
+    "flags": [
+     "off_policy"
+    ],
+    "route_reasons": [],
+    "cpu_confidence": 0.939525,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-007",
+    "kind": "unicode",
+    "intent": "promo_code_out_of_date",
+    "action": "search-faq",
+    "confidence": 0.647621,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [],
+    "route_reasons": [
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.647621,
+    "would_call_llm_at_shipped_gate": false
+   },
+   {
+    "id": "hostile-008",
+    "kind": "empty",
+    "intent": "promo_code_out_of_date",
+    "action": "search-faq",
+    "confidence": 0.647621,
+    "needs_human": true,
+    "abstained": false,
+    "flags": [],
+    "route_reasons": [
+     "low_confidence"
+    ],
+    "cpu_confidence": 0.647621,
+    "would_call_llm_at_shipped_gate": false
+   }
+  ]
+ },
+ "extra": {}
+}

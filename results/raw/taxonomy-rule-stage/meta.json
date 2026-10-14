@@ -1,0 +1,32 @@
+{
+ "run_id": "taxonomy-rule-stage",
+ "created": "2026-10-14T17:29:02+0530",
+ "system": "classical (experiment)",
+ "what_changed": "probe-era rule stage rebuilt from the shipped bundle: bundle TF-IDF LinearSVC intent and flow models (no de-duplication), next action = most common action on train fold A for (predicted intent, last observed action), backing off to (flow of predicted intent, last action), (last action), global majority; soft policy prior with the membership alias (bundle 'perm'). confidence = the rule's p(action) after the prior; needs_human = confidence < 0.5 (not tuned, not meaningful)",
+ "compare_with": "results/raw/dev-baseline",
+ "status": "optional column: the 13 Oct probe's rule stage (EXPERIMENT_LOG R4), rebuilt; not a shipped system",
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "script": "experiments/taxonomy/build_runs.py",
+ "script_sha256": "9d2a29caba7fbe0fe29e531abf990a3d8ad1a4393b46edf9d021b6e597c68be7",
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "noisy": {
+   "file": "data/op06/dev_noisy.jsonl",
+   "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "rows": 2309,
+ "batch_wall_s": 2.07,
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "llm_calls": 0,
+ "note": "batch prediction over the projected inputs (id, turn_index, context); no API call"
+}

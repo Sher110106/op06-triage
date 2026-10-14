@@ -1,0 +1,185 @@
+{
+ "run_id": "chaos-recovery",
+ "switch_to_ok_at_s": 20.071,
+ "total_s": 75.0,
+ "requests": 870,
+ "status_counts": {
+  "200": 870
+ },
+ "client_errors": {},
+ "llm_status": {
+  "http_error": 7,
+  "breaker_open": 87,
+  "ok": 66,
+  "abstained": 1
+ },
+ "breaker_opened_at_s": 1.802,
+ "breaker_closed_again_at_s": 33.489,
+ "first_llm_ok_after_switch_s": 31.8107,
+ "seconds_from_upstream_healthy_to_llm_used": 11.74,
+ "llm_status_per_5s": {
+  "0": {
+   "http_error": 7,
+   "breaker_open": 9
+  },
+  "5": {
+   "breaker_open": 19
+  },
+  "10": {
+   "breaker_open": 12
+  },
+  "15": {
+   "breaker_open": 11
+  },
+  "20": {
+   "breaker_open": 18
+  },
+  "25": {
+   "breaker_open": 9
+  },
+  "30": {
+   "breaker_open": 9,
+   "ok": 5
+  },
+  "35": {
+   "ok": 8
+  },
+  "40": {
+   "ok": 7
+  },
+  "45": {
+   "ok": 7
+  },
+  "50": {
+   "ok": 7
+  },
+  "55": {
+   "ok": 7,
+   "abstained": 1
+  },
+  "60": {
+   "ok": 8
+  },
+  "65": {
+   "ok": 9
+  },
+  "70": {
+   "ok": 8
+  }
+ },
+ "breaker_transitions": [
+  {
+   "t_s": 0.0,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 42.8,
+   "metrics_ms": 7.8
+  },
+  {
+   "t_s": 1.802,
+   "http": 200,
+   "breaker": "open",
+   "healthz_ms": 34.9,
+   "metrics_ms": 12.2
+  },
+  {
+   "t_s": 31.666,
+   "http": 200,
+   "breaker": "half_open",
+   "healthz_ms": 15.1,
+   "metrics_ms": 11.1
+  },
+  {
+   "t_s": 33.489,
+   "http": 200,
+   "breaker": "closed",
+   "healthz_ms": 17.4,
+   "metrics_ms": 13.3
+  }
+ ],
+ "fake_upstream": {
+  "http_status": 200,
+  "mode": "ok",
+  "delay_s": 1.5,
+  "calls": {
+   "outcome:error500": 7,
+   "replay_hit": 67,
+   "outcome:ok": 67
+  },
+  "calls_total": 74,
+  "in_flight": 0,
+  "max_in_flight": 4,
+  "replay": {
+   "rows": 2300,
+   "keys": 2300,
+   "shared_keys": 0,
+   "ambiguous_keys": 0
+  },
+  "mode_changes": [
+   {
+    "t_s": 23.138,
+    "from": "error500",
+    "to": "ok",
+    "unix": 1791980513.920644
+   }
+  ],
+  "uptime_s": 79.394
+ },
+ "metrics_after": {
+  "requests": 870,
+  "by_status": {
+   "200": 870
+  },
+  "llm": {
+   "calls": 74,
+   "by_status": {
+    "http_error": 7,
+    "breaker_open": 87,
+    "ok": 66,
+    "abstained": 1
+   },
+   "cost_usd": 0.0078858
+  },
+  "latency_ms": {
+   "window": 870,
+   "p50": 29.726,
+   "p95": 1539.424,
+   "p99": 1551.482
+  }
+ },
+ "breaker_after": "closed",
+ "degraded_rows_in_cpu_ref": 58,
+ "degraded_rows_equal_cpu_only": 58,
+ "start": {
+  "listening_s": 0.59,
+  "healthy_s": 2.872
+ },
+ "stop": {
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 0.243,
+  "forced_kill": false
+ },
+ "log": {
+  "tracebacks": 0,
+  "error_lines": 0,
+  "shutdown_complete": true,
+  "finished_server_process": true,
+  "load_failed": false
+ },
+ "graded": {
+  "rows_scored": 870,
+  "intent_acc": 0.7195,
+  "action_acc": 0.8184,
+  "intent_acc_clean": 0.7195,
+  "action_acc_clean": 0.8184,
+  "macro_f1": 0.7133,
+  "top70_error_ratio": 0.3888,
+  "needs_human_rate": 0.246,
+  "action_acc_when_not_routed": 0.9116,
+  "ci95_action_acc": [
+   0.7894,
+   0.8457
+  ]
+ }
+}

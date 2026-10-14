@@ -1,0 +1,5434 @@
+{
+ "about": "Ablations of the v1 pipeline on dev + dev_noisy (2,300 labelled rows) and the 9 hostile rows. Official grader numbers; paired differences against the reference with 95% conversation-bootstrap intervals (2,000 draws, harness.eval.paired). CPU ablations: LLM step off, reference results/raw/dev-pipeline-cpu. LLM ablations: recorded GPT-6 Luna answers replayed, reference results/raw/dev-pipeline-llm-replay. Script: experiments/ablations/run.py.",
+ "runs": [
+  {
+   "run_id": "ablation-ref-llm",
+   "changed": "nothing: shipped pipeline, recorded Luna answers replayed at the shipped gate 0.642841; must reproduce dev-pipeline-llm-replay",
+   "reference": "results/raw/dev-pipeline-llm-replay",
+   "identical_to_reference": true,
+   "llm": {
+    "mode": "replay",
+    "answers": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+    "gate": 0.642841,
+    "rows_called": 460
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8361,
+    "action_acc_clean": 0.8405,
+    "action_acc_noisy": 0.8067,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0338,
+    "top70_error_ratio": 0.4393,
+    "distinct_confidences": 2224,
+    "policy_violation": 0.0857,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0857,
+   "policy_violation_alias": 0.0465,
+   "needs_human_rate": 0.2404,
+   "action_acc_when_not_routed": 0.9136,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.928,
+    "80%": 0.9103,
+    "90%": 0.8802,
+    "100%": 0.8361
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.78
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.84
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.82
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.76
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.78
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.8147,
+     0.8565
+    ],
+    "top70_error_ratio": [
+     0.3699,
+     0.4989
+    ],
+    "noisy_gap": [
+     -0.0076,
+     0.0759
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 0,
+    "needs_human": 0,
+    "confidence": 0,
+    "max_confidence_difference": 0.0
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 1.0,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8361,
+      "new": 0.8361,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.4393,
+      "new": 0.4393,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "noisy_gap": {
+      "base": 0.0338,
+      "new": 0.0338,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "ref-llm",
+   "group": "control"
+  },
+  {
+   "run_id": "ablation-no-llm",
+   "changed": "LLM step off (the CPU pipeline; must equal dev-pipeline-cpu)",
+   "reference": "results/raw/dev-pipeline-llm-replay",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0212,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0804,
+   "policy_violation_alias": 0.0448,
+   "needs_human_rate": 0.2822,
+   "action_acc_when_not_routed": 0.92,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.9292,
+    "80%": 0.8978,
+    "90%": 0.8623,
+    "100%": 0.8117
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7912,
+     0.8323
+    ],
+    "top70_error_ratio": [
+     0.318,
+     0.437
+    ],
+    "noisy_gap": [
+     -0.0207,
+     0.0632
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 225,
+    "needs_human": 96,
+    "confidence": 427,
+    "max_confidence_difference": 0.417009
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9022,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8361,
+      "new": 0.8117,
+      "diff": -0.0244,
+      "ci95": [
+       -0.0352,
+       -0.0134
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.4393,
+      "new": 0.376,
+      "diff": -0.0633,
+      "ci95": [
+       -0.0954,
+       -0.0206
+      ],
+      "p_new_better": 0.998
+     },
+     "noisy_gap": {
+      "base": 0.0338,
+      "new": 0.0212,
+      "diff": -0.0126,
+      "ci95": [
+       -0.0504,
+       0.0233
+      ],
+      "p_new_better": 0.7485
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "identical_to_dev_pipeline_cpu": true,
+   "name": "no-llm",
+   "group": "llm"
+  },
+  {
+   "run_id": "ablation-llm-10",
+   "changed": "LLM step on the 10% least-confident share: gate = 10% quantile of dev CPU confidence (0.433508) instead of the 20% one (0.642841)",
+   "reference": "results/raw/dev-pipeline-llm-replay",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "replay",
+    "answers": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+    "gate": 0.4335079,
+    "rows_called": 230
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8248,
+    "action_acc_clean": 0.828,
+    "action_acc_noisy": 0.8033,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0247,
+    "top70_error_ratio": 0.4041,
+    "distinct_confidences": 2222,
+    "policy_violation": 0.0852,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0852,
+   "policy_violation_alias": 0.0461,
+   "needs_human_rate": 0.2791,
+   "action_acc_when_not_routed": 0.9192,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.9292,
+    "80%": 0.8995,
+    "90%": 0.8667,
+    "100%": 0.8248
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.74
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.84
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.82
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.74
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.82
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.804,
+     0.845
+    ],
+    "top70_error_ratio": [
+     0.3411,
+     0.4672
+    ],
+    "noisy_gap": [
+     -0.0154,
+     0.0646
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 100,
+    "needs_human": 89,
+    "confidence": 217,
+    "max_confidence_difference": 0.321066
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9565,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8361,
+      "new": 0.8248,
+      "diff": -0.0113,
+      "ci95": [
+       -0.0185,
+       -0.0047
+      ],
+      "p_new_better": 0.0005
+     },
+     "top70_error_ratio": {
+      "base": 0.4393,
+      "new": 0.4041,
+      "diff": -0.0352,
+      "ci95": [
+       -0.0619,
+       0.0027
+      ],
+      "p_new_better": 0.962
+     },
+     "noisy_gap": {
+      "base": 0.0338,
+      "new": 0.0247,
+      "diff": -0.0091,
+      "ci95": [
+       -0.0334,
+       0.0123
+      ],
+      "p_new_better": 0.784
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {
+    "llm_share_target": 0.1,
+    "llm_gate_unrounded": 0.4335079
+   },
+   "name": "llm-10",
+   "group": "llm"
+  },
+  {
+   "run_id": "ablation-llm-30",
+   "changed": "LLM step on the 30% least-confident share: gate = 30% quantile of dev CPU confidence (0.795136) instead of the 20% one (0.642841)",
+   "reference": "results/raw/dev-pipeline-llm-replay",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "replay",
+    "answers": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl",
+    "gate": 0.7951364,
+    "rows_called": 690
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8326,
+    "action_acc_clean": 0.8375,
+    "action_acc_noisy": 0.8,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0375,
+    "top70_error_ratio": 0.4008,
+    "distinct_confidences": 2232,
+    "policy_violation": 0.0909,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0909,
+   "policy_violation_alias": 0.0513,
+   "needs_human_rate": 0.2409,
+   "action_acc_when_not_routed": 0.9227,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.9329,
+    "80%": 0.9196,
+    "90%": 0.8763,
+    "100%": 0.8326
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.84
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.82
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.78
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.76
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.8109,
+     0.8526
+    ],
+    "top70_error_ratio": [
+     0.3398,
+     0.4666
+    ],
+    "noisy_gap": [
+     -0.0049,
+     0.0793
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 88,
+    "needs_human": 77,
+    "confidence": 221,
+    "max_confidence_difference": 0.397265
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9617,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8361,
+      "new": 0.8326,
+      "diff": -0.0035,
+      "ci95": [
+       -0.0107,
+       0.0047
+      ],
+      "p_new_better": 0.173
+     },
+     "top70_error_ratio": {
+      "base": 0.4393,
+      "new": 0.4008,
+      "diff": -0.0385,
+      "ci95": [
+       -0.0781,
+       0.0129
+      ],
+      "p_new_better": 0.9145
+     },
+     "noisy_gap": {
+      "base": 0.0338,
+      "new": 0.0375,
+      "diff": 0.0037,
+      "ci95": [
+       -0.0182,
+       0.0258
+      ],
+      "p_new_better": 0.377
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {
+    "llm_share_target": 0.3,
+    "llm_gate_unrounded": 0.7951364
+   },
+   "name": "llm-30",
+   "group": "llm"
+  },
+  {
+   "run_id": "ablation-no-dedupe",
+   "changed": "gate keeps repeated sentences (the dedupe_text step removed)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "intent_acc_noisy": 0.5633,
+    "noisy_gap": 0.0478,
+    "top70_error_ratio": 0.3756,
+    "distinct_confidences": 2230,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0817,
+   "policy_violation_alias": 0.0465,
+   "needs_human_rate": 0.2835,
+   "action_acc_when_not_routed": 0.9187,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.928,
+    "80%": 0.8967,
+    "90%": 0.8599,
+    "100%": 0.8083
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.16,
+     "action_acc": 0.68
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.6711,
+     0.7243
+    ],
+    "macro_f1": [
+     0.6524,
+     0.7233
+    ],
+    "action_acc": [
+     0.7874,
+     0.829
+    ],
+    "top70_error_ratio": [
+     0.3152,
+     0.4338
+    ],
+    "noisy_gap": [
+     0.0039,
+     0.0924
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 32,
+    "action": 9,
+    "needs_human": 7,
+    "confidence": 49,
+    "max_confidence_difference": 0.500525
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9961,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.6978,
+      "diff": -0.0113,
+      "ci95": [
+       -0.0156,
+       -0.0072
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.6962,
+      "diff": -0.0053,
+      "ci95": [
+       -0.0078,
+       -0.0031
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8083,
+      "diff": -0.0034,
+      "ci95": [
+       -0.0061,
+       -0.0013
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.3756,
+      "diff": -0.0004,
+      "ci95": [
+       -0.0137,
+       0.013
+      ],
+      "p_new_better": 0.596
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0478,
+      "diff": 0.0266,
+      "ci95": [
+       0.0097,
+       0.0464
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "paired_very_long_rows": {
+    "rows": 50,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.82,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.68,
+      "new": 0.16,
+      "diff": -0.52,
+      "ci95": [
+       -0.66,
+       -0.3846
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.84,
+      "new": 0.68,
+      "diff": -0.16,
+      "ci95": [
+       -0.2653,
+       -0.06
+      ],
+      "p_new_better": 0.0
+     }
+    },
+    "noise_kind": "very_long"
+   },
+   "name": "no-dedupe",
+   "group": "cpu"
+  },
+  {
+   "run_id": "ablation-no-prior",
+   "changed": "no policy prior: action = argmax of the raw action probabilities (the stacker and the off-policy check are unchanged)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8,
+    "action_acc_clean": 0.805,
+    "action_acc_noisy": 0.7667,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0383,
+    "top70_error_ratio": 0.351,
+    "distinct_confidences": 2200,
+    "policy_violation": 0.12,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.12,
+   "policy_violation_alias": 0.0848,
+   "needs_human_rate": 0.34,
+   "action_acc_when_not_routed": 0.9335,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.9442,
+    "70%": 0.9298,
+    "80%": 0.8962,
+    "90%": 0.8517,
+    "100%": 0.8
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.8
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.76
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.78
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.82
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.66
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.78
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7787,
+     0.8214
+    ],
+    "top70_error_ratio": [
+     0.2968,
+     0.4102
+    ],
+    "noisy_gap": [
+     -0.0077,
+     0.0843
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 111,
+    "needs_human": 137,
+    "confidence": 2252,
+    "max_confidence_difference": 0.566414
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9517,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8,
+      "diff": -0.0117,
+      "ci95": [
+       -0.0199,
+       -0.0035
+      ],
+      "p_new_better": 0.0015
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.351,
+      "diff": -0.025,
+      "ci95": [
+       -0.0571,
+       0.012
+      ],
+      "p_new_better": 0.902
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0383,
+      "diff": 0.0171,
+      "ci95": [
+       -0.0055,
+       0.0422
+      ],
+      "p_new_better": 0.0725
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.533116,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.422489,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.422489,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.695475,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.754584,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.591474,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.431376,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.431376,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.895864,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "no-prior",
+   "group": "cpu"
+  },
+  {
+   "run_id": "ablation-hard-mask",
+   "changed": "hard mask: only actions permitted by the flow model's argmax flow, instead of the soft expected permission",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8013,
+    "action_acc_clean": 0.806,
+    "action_acc_noisy": 0.77,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.036,
+    "top70_error_ratio": 0.3845,
+    "distinct_confidences": 2248,
+    "policy_violation": 0.0743,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0743,
+   "policy_violation_alias": 0.0383,
+   "needs_human_rate": 0.2678,
+   "action_acc_when_not_routed": 0.9091,
+   "action_acc_at_coverage": {
+    "50%": 0.9487,
+    "60%": 0.9348,
+    "70%": 0.9236,
+    "80%": 0.8918,
+    "90%": 0.8536,
+    "100%": 0.8013
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.74
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.74
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.76
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.88
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.8
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7806,
+     0.8219
+    ],
+    "top70_error_ratio": [
+     0.3302,
+     0.4437
+    ],
+    "noisy_gap": [
+     -0.007,
+     0.0797
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 80,
+    "needs_human": 43,
+    "confidence": 2084,
+    "max_confidence_difference": 0.63789
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9652,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8013,
+      "diff": -0.0104,
+      "ci95": [
+       -0.0175,
+       -0.0035
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.3845,
+      "diff": 0.0085,
+      "ci95": [
+       -0.0183,
+       0.0385
+      ],
+      "p_new_better": 0.257
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.036,
+      "diff": 0.0148,
+      "ci95": [
+       -0.0059,
+       0.0359
+      ],
+      "p_new_better": 0.078
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.931652,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.482021,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.482021,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.960995,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.945637,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.623098,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "log-out-in",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.743265,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.959464,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "hard-mask",
+   "group": "cpu"
+  },
+  {
+   "run_id": "ablation-no-alias",
+   "changed": "no alias: literal published lists, so 'membership' is not permitted where only 'membership-privileges' is (prior and off-policy check both)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.7861,
+    "action_acc_clean": 0.7885,
+    "action_acc_noisy": 0.77,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0185,
+    "top70_error_ratio": 0.3806,
+    "distinct_confidences": 2238,
+    "policy_violation": 0.0452,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0452,
+   "policy_violation_alias": 0.0435,
+   "needs_human_rate": 0.2961,
+   "action_acc_when_not_routed": 0.9135,
+   "action_acc_at_coverage": {
+    "50%": 0.9539,
+    "60%": 0.9391,
+    "70%": 0.9186,
+    "80%": 0.8815,
+    "90%": 0.8415,
+    "100%": 0.7861
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.78
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.78
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.76
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.68
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.78
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7659,
+     0.8063
+    ],
+    "top70_error_ratio": [
+     0.3211,
+     0.4351
+    ],
+    "noisy_gap": [
+     -0.0234,
+     0.0587
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 86,
+    "needs_human": 70,
+    "confidence": 1894,
+    "max_confidence_difference": 0.719845
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9626,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.7861,
+      "diff": -0.0256,
+      "ci95": [
+       -0.034,
+       -0.0176
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.3806,
+      "diff": 0.0046,
+      "ci95": [
+       -0.0281,
+       0.032
+      ],
+      "p_new_better": 0.4725
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0185,
+      "diff": -0.0027,
+      "ci95": [
+       -0.0227,
+       0.0173
+      ],
+      "p_new_better": 0.627
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.755998,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.503463,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.860217,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.947826,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589777,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.461344,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.461344,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.940423,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {
+    "flows_losing_membership": [
+     "order_issue",
+     "product_defect",
+     "purchase_dispute",
+     "subscription_inquiry"
+    ]
+   },
+   "name": "no-alias",
+   "group": "cpu"
+  },
+  {
+   "run_id": "ablation-conf-top-p",
+   "changed": "confidence = top action probability (after the prior) instead of the stacked correctness model; shipped thresholds kept",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0212,
+    "top70_error_ratio": 0.419,
+    "distinct_confidences": 2228,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0804,
+   "policy_violation_alias": 0.0448,
+   "needs_human_rate": 0.3074,
+   "action_acc_when_not_routed": 0.9222,
+   "action_acc_at_coverage": {
+    "50%": 0.9539,
+    "60%": 0.9428,
+    "70%": 0.9211,
+    "80%": 0.888,
+    "90%": 0.857,
+    "100%": 0.8117
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7912,
+     0.8323
+    ],
+    "top70_error_ratio": [
+     0.3521,
+     0.483
+    ],
+    "noisy_gap": [
+     -0.0207,
+     0.0632
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 0,
+    "needs_human": 128,
+    "confidence": 2250,
+    "max_confidence_difference": 0.594987
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 1.0,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8117,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.419,
+      "diff": 0.043,
+      "ci95": [
+       0.0062,
+       0.0843
+      ],
+      "p_new_better": 0.011
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0212,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.657654,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.51278,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.789238,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.860563,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.451499,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.451499,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.466157,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.466157,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.935323,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "conf-top-p",
+   "group": "cpu"
+  },
+  {
+   "run_id": "ablation-state-copy",
+   "changed": "nothing: CPU model retrained by this folder's copy of the training code with the state block kept (retraining noise for ablation 6)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "5596a6dad9b6de6b692587174593c6c9ba0d07f19e37493ec01ea4fd240c6859",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0212,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2227,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0804,
+   "policy_violation_alias": 0.0448,
+   "needs_human_rate": 0.2822,
+   "action_acc_when_not_routed": 0.92,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.9292,
+    "80%": 0.8978,
+    "90%": 0.8623,
+    "100%": 0.8117
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7912,
+     0.8323
+    ],
+    "top70_error_ratio": [
+     0.318,
+     0.437
+    ],
+    "noisy_gap": [
+     -0.0207,
+     0.0632
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 0,
+    "needs_human": 0,
+    "confidence": 488,
+    "max_confidence_difference": 1.2e-05
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 1.0,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8117,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.376,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0212,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751187,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499353,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499353,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.85855,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue"
+      ],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589759,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {
+    "bundle_meta": {
+     "trained_at": "2026-10-14T17:18:29+0530",
+     "seed": 0,
+     "rows_A": 16034,
+     "rows_B": 3966,
+     "B_action_acc": 0.8333,
+     "route_threshold": 0.8498,
+     "train_seconds": 100.9,
+     "action_state": true,
+     "action_features": 78879,
+     "action_n_iter": 300
+    }
+   },
+   "name": "state-copy",
+   "group": "control"
+  },
+  {
+   "run_id": "ablation-no-state",
+   "changed": "action model retrained on fold A without the dialogue-state block (text views only); stacker refit on fold B as in training",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "17bbb0abbcbf225c8f40d6035cae477fad71521780ec99963fb795ab260e9dcc",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.783,
+    "action_acc_clean": 0.791,
+    "action_acc_noisy": 0.73,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.061,
+    "top70_error_ratio": 0.4263,
+    "distinct_confidences": 2235,
+    "policy_violation": 0.0813,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0813,
+   "policy_violation_alias": 0.0448,
+   "needs_human_rate": 0.3109,
+   "action_acc_when_not_routed": 0.9098,
+   "action_acc_at_coverage": {
+    "50%": 0.947,
+    "60%": 0.9254,
+    "70%": 0.9075,
+    "80%": 0.8766,
+    "90%": 0.8386,
+    "100%": 0.783
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.72
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.72
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.82
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.82
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.58
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.72
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7616,
+     0.8043
+    ],
+    "top70_error_ratio": [
+     0.3673,
+     0.482
+    ],
+    "noisy_gap": [
+     0.0145,
+     0.1083
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 279,
+    "needs_human": 278,
+    "confidence": 2260,
+    "max_confidence_difference": 0.667634
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.8787,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.783,
+      "diff": -0.0287,
+      "ci95": [
+       -0.0404,
+       -0.0169
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.4263,
+      "diff": 0.0503,
+      "ci95": [
+       -0.0048,
+       0.103
+      ],
+      "p_new_better": 0.034
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.061,
+      "diff": 0.0398,
+      "ci95": [
+       0.0021,
+       0.0763
+      ],
+      "p_new_better": 0.0175
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 0,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.484485,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.484485,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "offer-refund",
+      "confidence": 0.33308,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.33308,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.351221,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.351221,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "offer-refund",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.515627,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "verify-identity",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.538359,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.338575,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.338575,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.450518,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.450518,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {
+    "bundle_meta": {
+     "trained_at": "2026-10-14T17:16:44+0530",
+     "seed": 0,
+     "rows_A": 16034,
+     "rows_B": 3966,
+     "B_action_acc": 0.8187,
+     "route_threshold": 0.8074,
+     "train_seconds": 62.3,
+     "action_state": false,
+     "action_features": 78741,
+     "action_n_iter": 130
+    }
+   },
+   "paired_vs_state_copy": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.8787,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.783,
+      "diff": -0.0287,
+      "ci95": [
+       -0.0404,
+       -0.0169
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.4263,
+      "diff": 0.0503,
+      "ci95": [
+       -0.0048,
+       0.103
+      ],
+      "p_new_better": 0.034
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.061,
+      "diff": 0.0398,
+      "ci95": [
+       0.0021,
+       0.0763
+      ],
+      "p_new_better": 0.0175
+     }
+    },
+    "reference": "results/raw/ablation-state-copy"
+   },
+   "name": "no-state",
+   "group": "cpu"
+  },
+  {
+   "run_id": "ablation-gate-noroute",
+   "changed": "gate cleans but its ROUTE flags are ignored (no routing, no cap, LLM not blocked); abstention for unreadable input kept",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0212,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2231,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0804,
+   "policy_violation_alias": 0.0448,
+   "needs_human_rate": 0.2813,
+   "action_acc_when_not_routed": 0.9201,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.9292,
+    "80%": 0.8984,
+    "90%": 0.8623,
+    "100%": 0.8117
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7912,
+     0.8323
+    ],
+    "top70_error_ratio": [
+     0.3154,
+     0.4357
+    ],
+    "noisy_gap": [
+     -0.0207,
+     0.0632
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 0,
+    "needs_human": 2,
+    "confidence": 2,
+    "max_confidence_difference": 0.473648
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 1.0,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8117,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.376,
+      "diff": 0.0,
+      "ci95": [
+       -0.0105,
+       0.0005
+      ],
+      "p_new_better": 0.2985
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0212,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 1,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.94552,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "gate-noroute",
+   "group": "gate"
+  },
+  {
+   "run_id": "ablation-gate-off",
+   "changed": "no gate at all: no cleaning, no flags, no routing by flags, no abstention (envelope check kept)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "intent_acc_noisy": 0.5633,
+    "noisy_gap": 0.0478,
+    "top70_error_ratio": 0.3756,
+    "distinct_confidences": 2232,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0817,
+   "policy_violation_alias": 0.0465,
+   "needs_human_rate": 0.2826,
+   "action_acc_when_not_routed": 0.9188,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.928,
+    "80%": 0.8973,
+    "90%": 0.8599,
+    "100%": 0.8083
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.16,
+     "action_acc": 0.68
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.6711,
+     0.7243
+    ],
+    "macro_f1": [
+     0.6524,
+     0.7233
+    ],
+    "action_acc": [
+     0.7874,
+     0.829
+    ],
+    "top70_error_ratio": [
+     0.3146,
+     0.4332
+    ],
+    "noisy_gap": [
+     0.0039,
+     0.0924
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 32,
+    "action": 9,
+    "needs_human": 9,
+    "confidence": 51,
+    "max_confidence_difference": 0.500525
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9961,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.6978,
+      "diff": -0.0113,
+      "ci95": [
+       -0.0156,
+       -0.0072
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.6962,
+      "diff": -0.0053,
+      "ci95": [
+       -0.0078,
+       -0.0031
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8083,
+      "diff": -0.0034,
+      "ci95": [
+       -0.0061,
+       -0.0013
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.3756,
+      "diff": -0.0004,
+      "ci95": [
+       -0.0148,
+       0.0115
+      ],
+      "p_new_better": 0.6805
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0478,
+      "diff": 0.0266,
+      "ci95": [
+       0.0097,
+       0.0464
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 1,
+    "abstained": 0,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.94552,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "promo_code_out_of_date",
+      "action": "search-faq",
+      "confidence": 0.647621,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.647621,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "promo_code_out_of_date",
+      "action": "search-faq",
+      "confidence": 0.647621,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.647621,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "paired_very_long_rows": {
+    "rows": 50,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.82,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.68,
+      "new": 0.16,
+      "diff": -0.52,
+      "ci95": [
+       -0.66,
+       -0.3846
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.84,
+      "new": 0.68,
+      "diff": -0.16,
+      "ci95": [
+       -0.2653,
+       -0.06
+      ],
+      "p_new_better": 0.0
+     }
+    },
+    "noise_kind": "very_long"
+   },
+   "name": "gate-off",
+   "group": "gate"
+  },
+  {
+   "run_id": "ablation-gate-no-nodialogue",
+   "changed": "exploratory: gate on, but the no_dialogue flag does not route (the content flags injection, controls, bidi, surrogates, junk, no_known_text still do)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "intent_acc_noisy": 0.65,
+    "noisy_gap": 0.0212,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2231,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0804,
+   "policy_violation_alias": 0.0448,
+   "needs_human_rate": 0.2813,
+   "action_acc_when_not_routed": 0.9201,
+   "action_acc_at_coverage": {
+    "50%": 0.953,
+    "60%": 0.942,
+    "70%": 0.9292,
+    "80%": 0.8984,
+    "90%": 0.8623,
+    "100%": 0.8117
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.84
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.682,
+     0.7361
+    ],
+    "macro_f1": [
+     0.6582,
+     0.7284
+    ],
+    "action_acc": [
+     0.7912,
+     0.8323
+    ],
+    "top70_error_ratio": [
+     0.3154,
+     0.4357
+    ],
+    "noisy_gap": [
+     -0.0207,
+     0.0632
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 0,
+    "action": 0,
+    "needs_human": 2,
+    "confidence": 2,
+    "max_confidence_difference": 0.473648
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 1.0,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.7091,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.7015,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8117,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.376,
+      "diff": 0.0,
+      "ci95": [
+       -0.0105,
+       0.0005
+      ],
+      "p_new_better": 0.2985
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0212,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 1,
+    "abstained": 2,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "injection",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "injection",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "injection",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.94552,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [
+       "format_chars_removed",
+       "no_dialogue"
+      ],
+      "route_reasons": [],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "bidi_override",
+       "format_chars_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "bidi_override",
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "off_policy",
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.5,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "controls_removed",
+       "no_dialogue",
+       "off_policy"
+      ],
+      "route_reasons": [
+       "controls_removed",
+       "off_policy"
+      ],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "junk",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "unknown",
+      "action": "none",
+      "confidence": 0.0,
+      "needs_human": true,
+      "abstained": true,
+      "flags": [
+       "empty_turns",
+       "no_dialogue"
+      ],
+      "route_reasons": [
+       "abstained"
+      ],
+      "cpu_confidence": null,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "gate-no-nodialogue",
+   "group": "gate"
+  },
+  {
+   "run_id": "ablation-gate-off-nopol",
+   "changed": "exploratory: no gate and off-policy routing off too (only the confidence thresholds route; close to v0 with the shipped thresholds)",
+   "reference": "results/raw/dev-pipeline-cpu",
+   "identical_to_reference": false,
+   "llm": {
+    "mode": "off"
+   },
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "harness_matches_grader": true,
+   "official": {
+    "intent_acc": 0.6978,
+    "macro_f1": 0.6962,
+    "action_acc": 0.8083,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7667,
+    "intent_acc_noisy": 0.5633,
+    "noisy_gap": 0.0478,
+    "top70_error_ratio": 0.3725,
+    "distinct_confidences": 2280,
+    "policy_violation": 0.0817,
+    "gold_policy_violation": 0.0883,
+    "schema_valid_pct": 100.0
+   },
+   "bars_pass": true,
+   "policy_violation_literal": 0.0817,
+   "policy_violation_alias": 0.0465,
+   "needs_human_rate": 0.2674,
+   "action_acc_when_not_routed": 0.9151,
+   "action_acc_at_coverage": {
+    "50%": 0.9539,
+    "60%": 0.942,
+    "70%": 0.9286,
+    "80%": 0.9,
+    "90%": 0.8599,
+    "100%": 0.8083
+   },
+   "noise_kinds": {
+    "code_mixed": {
+     "n": 50,
+     "intent_acc": 0.7,
+     "action_acc": 0.76
+    },
+    "empty": {
+     "n": 50,
+     "intent_acc": 0.62,
+     "action_acc": 0.8
+    },
+    "screenshot": {
+     "n": 50,
+     "intent_acc": 0.5,
+     "action_acc": 0.8
+    },
+    "two_intents": {
+     "n": 50,
+     "intent_acc": 0.68,
+     "action_acc": 0.86
+    },
+    "typo": {
+     "n": 50,
+     "intent_acc": 0.72,
+     "action_acc": 0.7
+    },
+    "very_long": {
+     "n": 50,
+     "intent_acc": 0.16,
+     "action_acc": 0.68
+    }
+   },
+   "ci95": {
+    "intent_acc": [
+     0.6711,
+     0.7243
+    ],
+    "macro_f1": [
+     0.6524,
+     0.7233
+    ],
+    "action_acc": [
+     0.7874,
+     0.829
+    ],
+    "top70_error_ratio": [
+     0.3158,
+     0.4312
+    ],
+    "noisy_gap": [
+     0.0039,
+     0.0924
+    ]
+   },
+   "labelled_rows_differing_from_reference": {
+    "intent": 32,
+    "action": 9,
+    "needs_human": 42,
+    "confidence": 100,
+    "max_confidence_difference": 0.500525
+   },
+   "paired_vs_reference": {
+    "rows": 2300,
+    "excluded": 0,
+    "bootstrap_draws": 2000,
+    "action_agreement": 0.9961,
+    "metrics": {
+     "intent_acc": {
+      "base": 0.7091,
+      "new": 0.6978,
+      "diff": -0.0113,
+      "ci95": [
+       -0.0156,
+       -0.0072
+      ],
+      "p_new_better": 0.0
+     },
+     "macro_f1": {
+      "base": 0.7015,
+      "new": 0.6962,
+      "diff": -0.0053,
+      "ci95": [
+       -0.0078,
+       -0.0031
+      ],
+      "p_new_better": 0.0
+     },
+     "action_acc": {
+      "base": 0.8117,
+      "new": 0.8083,
+      "diff": -0.0034,
+      "ci95": [
+       -0.0061,
+       -0.0013
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.376,
+      "new": 0.3725,
+      "diff": -0.0035,
+      "ci95": [
+       -0.0286,
+       0.0205
+      ],
+      "p_new_better": 0.6235
+     },
+     "noisy_gap": {
+      "base": 0.0212,
+      "new": 0.0478,
+      "diff": 0.0266,
+      "ci95": [
+       0.0097,
+       0.0464
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "hostile": {
+    "rows": 9,
+    "needs_human_false": 4,
+    "abstained": 0,
+    "detail": [
+     {
+      "id": "hostile-000",
+      "kind": "injection",
+      "intent": "shirt_how_2",
+      "action": "pull-up-account",
+      "confidence": 0.751188,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [],
+      "cpu_confidence": 0.751188,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-001",
+      "kind": "injection",
+      "intent": "manage_change_phone",
+      "action": "search-faq",
+      "confidence": 0.499351,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.499351,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-002",
+      "kind": "injection",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.858547,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [],
+      "cpu_confidence": 0.858547,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-003",
+      "kind": "unicode",
+      "intent": "refund_update",
+      "action": "pull-up-account",
+      "confidence": 0.94552,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [],
+      "cpu_confidence": 0.94552,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-004",
+      "kind": "unicode",
+      "intent": "policy_3",
+      "action": "pull-up-account",
+      "confidence": 0.589761,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.589761,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-005",
+      "kind": "unicode",
+      "intent": "search_results",
+      "action": "pull-up-account",
+      "confidence": 0.455989,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.455989,
+      "would_call_llm_at_shipped_gate": true
+     },
+     {
+      "id": "hostile-006",
+      "kind": "unicode",
+      "intent": "reset_2fa",
+      "action": "search-faq",
+      "confidence": 0.939525,
+      "needs_human": false,
+      "abstained": false,
+      "flags": [
+       "off_policy"
+      ],
+      "route_reasons": [],
+      "cpu_confidence": 0.939525,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-007",
+      "kind": "unicode",
+      "intent": "promo_code_out_of_date",
+      "action": "search-faq",
+      "confidence": 0.647621,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.647621,
+      "would_call_llm_at_shipped_gate": false
+     },
+     {
+      "id": "hostile-008",
+      "kind": "empty",
+      "intent": "promo_code_out_of_date",
+      "action": "search-faq",
+      "confidence": 0.647621,
+      "needs_human": true,
+      "abstained": false,
+      "flags": [],
+      "route_reasons": [
+       "low_confidence"
+      ],
+      "cpu_confidence": 0.647621,
+      "would_call_llm_at_shipped_gate": false
+     }
+    ]
+   },
+   "extra": {},
+   "name": "gate-off-nopol",
+   "group": "gate"
+  }
+ ],
+ "llm_share_fold_b": {
+  "rows": 3966,
+  "about": "The dev gates for the 10% / 20% / 30% shares applied on train fold B (3,966 rows no model choice saw):\n    out-of-fold CPU confidence, recorded Luna answers for fold B, paired against the LLM step off. Not graded by\n    the official grader (fold B is train data); written to experiments/ablations/llm_share_fold_b.json.",
+  "shares": {
+   "10%": {
+    "gate": 0.4335079,
+    "llm_calls": 321,
+    "call_share": 0.0809,
+    "vs_llm_off": {
+     "action_acc": {
+      "base": 0.8333,
+      "new": 0.85,
+      "diff": 0.0167,
+      "ci95": [
+       0.0107,
+       0.0224
+      ],
+      "p_new_better": 1.0
+     },
+     "top70_error_ratio": {
+      "base": 0.3395,
+      "new": 0.3773,
+      "diff": 0.0378,
+      "ci95": [
+       0.0236,
+       0.0525
+      ],
+      "p_new_better": 0.0
+     }
+    },
+    "vs_shipped_20%": {
+     "action_acc": {
+      "base": 0.858,
+      "new": 0.85,
+      "diff": -0.008,
+      "ci95": [
+       -0.0134,
+       -0.0031
+      ],
+      "p_new_better": 0.001
+     },
+     "top70_error_ratio": {
+      "base": 0.3986,
+      "new": 0.3773,
+      "diff": -0.0213,
+      "ci95": [
+       -0.0367,
+       -0.0083
+      ],
+      "p_new_better": 0.999
+     }
+    }
+   },
+   "20% (shipped)": {
+    "gate": 0.642841,
+    "llm_calls": 664,
+    "call_share": 0.1674,
+    "vs_llm_off": {
+     "action_acc": {
+      "base": 0.8333,
+      "new": 0.858,
+      "diff": 0.0247,
+      "ci95": [
+       0.017,
+       0.0324
+      ],
+      "p_new_better": 1.0
+     },
+     "top70_error_ratio": {
+      "base": 0.3395,
+      "new": 0.3986,
+      "diff": 0.0591,
+      "ci95": [
+       0.0398,
+       0.0807
+      ],
+      "p_new_better": 0.0
+     }
+    },
+    "vs_shipped_20%": {
+     "action_acc": {
+      "base": 0.858,
+      "new": 0.858,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     },
+     "top70_error_ratio": {
+      "base": 0.3986,
+      "new": 0.3986,
+      "diff": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "p_new_better": 0.0
+     }
+    }
+   },
+   "30%": {
+    "gate": 0.7951364,
+    "llm_calls": 993,
+    "call_share": 0.2504,
+    "vs_llm_off": {
+     "action_acc": {
+      "base": 0.8333,
+      "new": 0.856,
+      "diff": 0.0227,
+      "ci95": [
+       0.0142,
+       0.0314
+      ],
+      "p_new_better": 1.0
+     },
+     "top70_error_ratio": {
+      "base": 0.3395,
+      "new": 0.3729,
+      "diff": 0.0334,
+      "ci95": [
+       -0.0058,
+       0.0645
+      ],
+      "p_new_better": 0.0475
+     }
+    },
+    "vs_shipped_20%": {
+     "action_acc": {
+      "base": 0.858,
+      "new": 0.856,
+      "diff": -0.002,
+      "ci95": [
+       -0.0057,
+       0.002
+      ],
+      "p_new_better": 0.1375
+     },
+     "top70_error_ratio": {
+      "base": 0.3986,
+      "new": 0.3729,
+      "diff": -0.0257,
+      "ci95": [
+       -0.0616,
+       0.0046
+      ],
+      "p_new_better": 0.952
+     }
+    }
+   }
+  }
+ }
+}

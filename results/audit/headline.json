@@ -1,0 +1,84 @@
+{
+ "headline": {
+  "intent_accuracy": {
+   "own": 0.7091,
+   "official_report": 0.7091,
+   "manifest_claimed": 0.7091,
+   "own_eq_official": true,
+   "claimed_eq_own": true
+  },
+  "macro_f1": {
+   "own": 0.7015,
+   "official_report": 0.7015,
+   "manifest_claimed": 0.7015,
+   "own_eq_official": true,
+   "claimed_eq_own": true
+  },
+  "action_accuracy": {
+   "own": 0.8365,
+   "official_report": 0.8365,
+   "manifest_claimed": 0.8117,
+   "own_eq_official": true,
+   "claimed_eq_own": false
+  },
+  "action_clean": {
+   "own": 0.8395,
+   "official_report": 0.8395,
+   "manifest_claimed": null,
+   "own_eq_official": true,
+   "claimed_eq_own": null
+  },
+  "noisy_accuracy(action_noisy)": {
+   "own": 0.8167,
+   "official_report": 0.8167,
+   "manifest_claimed": 0.7933,
+   "own_eq_official": true,
+   "claimed_eq_own": false
+  },
+  "noisy_gap": {
+   "own": 0.0228,
+   "official_report": 0.0228,
+   "manifest_claimed": null,
+   "own_eq_official": true,
+   "claimed_eq_own": null
+  },
+  "top70_error_ratio": {
+   "own": 0.4331,
+   "official_report": 0.433,
+   "manifest_claimed": 0.376,
+   "own_eq_official": false,
+   "claimed_eq_own": false
+  },
+  "schema_valid_pct": {
+   "own": 100.0,
+   "official_report": 100.0,
+   "manifest_claimed": 100.0,
+   "own_eq_official": true,
+   "claimed_eq_own": true
+  },
+  "policy_violation": {
+   "own": 0.0848,
+   "official_report": 0.0848,
+   "manifest_claimed": null,
+   "own_eq_official": true,
+   "claimed_eq_own": null
+  }
+ },
+ "manifest_claimed_from_run": "dev-classical-v0",
+ "latency_cost": {
+  "n": 2309,
+  "concurrency": 8,
+  "status_200": 2309,
+  "p50_ms_linear": 8.877,
+  "p95_ms_linear": 1656.471,
+  "p95_ms_nearest_rank": 1656.778,
+  "p99_ms_linear": 2432.497,
+  "reported_p95_ms": 1656.471,
+  "requests_over_500ms": 460,
+  "llm_calls_reported": 460,
+  "llm_cost_usd_reported_by_service": 0.09318765,
+  "cost_per_message_usd": 4.0358445214378516e-05,
+  "cost_per_1000_usd": 0.040358445214378515,
+  "note": "per-request records carry no cost; cost is the service's own /metrics delta at list price with caching"
+ }
+}

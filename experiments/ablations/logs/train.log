@@ -1,0 +1,19 @@
+fold A 16034 rows, fold B 3966 rows, action state off
+features built 6s
+intent and flow models 29s (T_i=0.144, T_f=0.269)
+action model fit 31s, 78741 features, n_iter 130
+{"trained_at": "2026-10-14T17:16:44+0530", "seed": 0, "rows_A": 16034, "rows_B": 3966, "B_action_acc": 0.8187, "route_threshold": 0.8074, "train_seconds": 62.3, "action_state": false, "action_features": 78741, "action_n_iter": 130, "bundle_bytes": 39825480}
+fold A 16034 rows, fold B 3966 rows, action state on
+features built 6s
+intent and flow models 31s (T_i=0.144, T_f=0.269)
+/Users/sher/.t3/projects/work-01/solution/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 300 iteration(s) (status=1):
+STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT
+
+Increase the number of iterations to improve the convergence (max_iter=300).
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+action model fit 68s, 78879 features, n_iter 300
+{"trained_at": "2026-10-14T17:18:29+0530", "seed": 0, "rows_A": 16034, "rows_B": 3966, "B_action_acc": 0.8333, "route_threshold": 0.8498, "train_seconds": 100.9, "action_state": true, "action_features": 78879, "action_n_iter": 300, "bundle_bytes": 39967383}

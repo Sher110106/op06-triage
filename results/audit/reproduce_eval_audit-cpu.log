@@ -1,0 +1,4 @@
+reproduce: LLM step: off (TRIAGE_LLM=off); the CPU model answers every request
+{"run_id": "audit-cpu", "rows": 2309, "batch_wall_s": 3.02}
+{"intent": 0.7091, "macro_f1": 0.7015, "action": 0.8117, "gap": 0.0212, "top70": 0.376, "schema": 100.0, "ci_action": [0.7912, 0.8323], "needs_human": 0.2822, "bars_pass": true}
+exit 0

@@ -1,0 +1,88 @@
+{"intent": 0.7091, "macro_f1": 0.7015, "action": 0.8361, "gap": 0.0338, "top70": 0.4393, "schema": 100.0, "ci_action": [0.8147, 0.8565], "needs_human": 0.2404, "bars_pass": true}
+{
+ "config": "off_policy=True,second_intent=False",
+ "configs": {
+  "off_policy=True,second_intent=False": [
+   {
+    "high": 0.8883,
+    "low": 0.7104
+   },
+   40.49,
+   0.2052
+  ],
+  "off_policy=True,second_intent=True": [
+   {
+    "high": 0.8883,
+    "low": 0.7104
+   },
+   44.5,
+   0.2602
+  ],
+  "off_policy=False,second_intent=False": [
+   {
+    "high": 0.8883,
+    "low": 0.7104
+   },
+   39.94,
+   0.1914
+  ],
+  "off_policy=False,second_intent=True": [
+   {
+    "high": 0.8883,
+    "low": 0.7104
+   },
+   43.9,
+   0.2474
+  ]
+ },
+ "thresholds": {
+  "high": 0.8883,
+  "low": 0.7104
+ },
+ "fold_B": {
+  "rows": 3966,
+  "routed_share": 0.2052,
+  "auto_action_acc": 0.9207,
+  "routed_action_acc": 0.6155,
+  "by_tier": {
+   "high": {
+    "rows": 474,
+    "routed_share": 0.5591,
+    "auto_action_acc": 0.9713
+   },
+   "low": {
+    "rows": 3492,
+    "routed_share": 0.1572,
+    "auto_action_acc": 0.9171
+   }
+  },
+  "cost_per_100": 40.49
+ },
+ "dev_routing": {
+  "rows": 2300,
+  "routed_share": 0.2404,
+  "auto_action_acc": 0.9136,
+  "routed_action_acc": 0.5913,
+  "by_tier": {
+   "high": {
+    "rows": 288,
+    "routed_share": 0.6146,
+    "auto_action_acc": 0.9279
+   },
+   "low": {
+    "rows": 2012,
+    "routed_share": 0.1869,
+    "auto_action_acc": 0.9126
+   }
+  },
+  "cost_per_100": 46.17
+ },
+ "dev_official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.8361,
+  "noisy_gap": 0.0338,
+  "top70_error_ratio": 0.4393
+ }
+}
+exit 0

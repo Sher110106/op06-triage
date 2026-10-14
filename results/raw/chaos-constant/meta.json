@@ -1,0 +1,70 @@
+{
+ "run_id": "chaos-constant",
+ "created": "2026-10-14T17:49:48+05:30",
+ "system": "service-http (uvicorn, DESIGN.md serve flags, host 127.0.0.1)",
+ "changed": "TRIAGE_LLM_BASE_URL points at experiments/chaos/fake_upstream.py in mode 'constant'",
+ "concurrency": 8,
+ "service_env": {
+  "TRIAGE_LLM": "on",
+  "TRIAGE_LLM_BASE_URL": "http://127.0.0.1:51253/v1",
+  "TRIAGE_LLM_API_KEY": "test-key"
+ },
+ "fake_upstream": {
+  "mode": "constant",
+  "delay_s": 1.5,
+  "slow_s": 3.5,
+  "hang_s": 30,
+  "replay": "results/raw/llm-tail-luna_V3_none/raw_calls.jsonl"
+ },
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "policy": {
+  "version": "2026-10-14.2",
+  "path": "policy/policy.toml",
+  "last_error": null,
+  "loaded_at": "2026-10-14T17:49:16+0530"
+ },
+ "llm": {
+  "enabled": true,
+  "mode": "on",
+  "model": "openai/gpt-6-luna-20260922",
+  "base_url_host": "127.0.0.1",
+  "gate": 0.642841,
+  "breaker_open": false,
+  "breaker": "closed",
+  "error": null
+ },
+ "inputs": {
+  "rows": 600,
+  "recipe": "first 300 rows of dev, then the first 300 rows of dev_noisy, projected with triage.data.project",
+  "inputs_sha256": "41211d070a8b9fbaddc80f869033942d187f54cd623722ca112c082d9e82195f",
+  "first_id": "8645-22",
+  "last_id": "7079-6-noisy",
+  "data": {
+   "dev": {
+    "file": "data/op06/dev.jsonl",
+    "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+   },
+   "noisy": {
+    "file": "data/op06/dev_noisy.jsonl",
+    "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+   }
+  }
+ },
+ "loadtest": "scripts/loadtest.py --warmup 0, 1 process(es)",
+ "load_avg_before": [
+  2.03,
+  2.03,
+  2.42
+ ],
+ "grading_note": "graded with the 1,700 unsent dev + dev_noisy rows excluded: read report.json extras; report_official.json counts unsent rows as wrong",
+ "started": "2026-10-14T17:49:14",
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "cpu_count": 8,
+ "load_avg": [
+  1.88,
+  2.0,
+  2.39
+ ]
+}

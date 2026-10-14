@@ -1,0 +1,149 @@
+{
+ "run_id": "chaos-cpu-c200",
+ "mode": null,
+ "concurrency": 200,
+ "llm": false,
+ "loadtest_exit_code": 1,
+ "loadtest_stdout": "{\"label\": \"chaos-cpu-c200\", \"sample_count\": 600, \"errors\": 4, \"non_200\": 104, \"schema_invalid\": 0, \"id_mismatch\": 0, \"replays\": 0, \"latency_ms\": {\"p50\": 1336.799, \"p95\": 5691.021, \"p99\": 6320.107, \"max\": 7864.077, \"mean\": 2191.557}, \"throughput_rps\": 73.82, \"wall_s\": 8.128, \"llm_calls\": 0, \"llm_cost_usd\": 0.0, \"cost_per_message_usd\": 0.0}",
+ "sample_count": 600,
+ "errors": 4,
+ "non_200": 104,
+ "schema_invalid": 0,
+ "id_mismatch": 0,
+ "status_counts": {
+  "200": 492,
+  "503": 104,
+  "None": 4
+ },
+ "error_codes": {
+  "overloaded": 104,
+  "ReadError: ": 4
+ },
+ "latency_ms": {
+  "p50": 1336.799,
+  "p95": 5691.021,
+  "p99": 6320.107,
+  "max": 7864.077,
+  "mean": 2191.557
+ },
+ "throughput_rps": 73.82,
+ "wall_s": 8.128,
+ "llm_calls": 0,
+ "client_cpu_s": 6.078,
+ "metrics_after": {
+  "requests": 596,
+  "by_status": {
+   "503": 104,
+   "200": 492
+  },
+  "errors": {
+   "overloaded": 104
+  },
+  "routed": 170,
+  "llm": {
+   "calls": 0,
+   "by_status": {},
+   "cost_usd": 0.0
+  },
+  "latency_ms": {
+   "window": 596,
+   "p50": 87.085,
+   "p95": 548.646,
+   "p99": 612.206
+  }
+ },
+ "breaker_after": null,
+ "breaker_seen": [
+  "None"
+ ],
+ "breaker_first_not_closed_s": null,
+ "healthz_non_200_during_run": 0,
+ "probe_rtt_ms": {
+  "healthz_ms": {
+   "n": 33,
+   "p50": 5.3,
+   "max": 53.0
+  },
+  "metrics_ms": {
+   "n": 33,
+   "p50": 4.7,
+   "max": 24.4
+  }
+ },
+ "fake_upstream": null,
+ "start": {
+  "listening_s": 0.572,
+  "healthy_s": 1.883,
+  "polls": {
+   "ConnectError": 5,
+   "503": 11,
+   "200": 1
+  }
+ },
+ "stop": {
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 0.205,
+  "forced_kill": false
+ },
+ "llm_status_by_row": {
+  "None": 492,
+  "http_503": 104,
+  "client_error": 4
+ },
+ "rows_by_status": {
+  "None": {
+   "rows": 492,
+   "equal_cpu_only": 492,
+   "equal_replay_ref": 383
+  },
+  "client_error": {
+   "rows": 4,
+   "equal_cpu_only": 0,
+   "equal_replay_ref": 0
+  },
+  "http_503": {
+   "rows": 104,
+   "equal_cpu_only": 0,
+   "equal_replay_ref": 0
+  }
+ },
+ "llm_failed_rows": 0,
+ "llm_failed_equal_cpu_only": 0,
+ "rows_equal_cpu_only": 492,
+ "rows_equal_replay_ref": 383,
+ "action_changed_vs_cpu": 0,
+ "action_changed_and_routed": 0,
+ "answered": 492,
+ "intent_acc": 0.6768,
+ "action_acc": 0.7947,
+ "routed_share": 0.3455,
+ "auto_action_acc": 0.9224,
+ "requests_not_in_log": 4,
+ "log": {
+  "tracebacks": 0,
+  "error_lines": 0,
+  "shutdown_complete": true,
+  "finished_server_process": true,
+  "load_failed": false,
+  "shutdown_clean": true
+ },
+ "graded": {
+  "rows_scored": 600,
+  "intent_acc": 0.555,
+  "action_acc": 0.6517,
+  "intent_acc_clean": 0.53,
+  "action_acc_clean": 0.59,
+  "intent_acc_noisy": 0.58,
+  "action_acc_noisy": 0.7133,
+  "noisy_gap": -0.1233,
+  "macro_f1": 0.5734,
+  "top70_error_ratio": 0.3965,
+  "needs_human_rate": 0.3455,
+  "action_acc_when_not_routed": 0.6615,
+  "ci95_action_acc": [
+   0.6051,
+   0.6952
+  ]
+ }
+}

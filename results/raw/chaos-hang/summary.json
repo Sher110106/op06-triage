@@ -1,0 +1,161 @@
+{
+ "run_id": "chaos-hang",
+ "mode": "hang",
+ "concurrency": 8,
+ "llm": true,
+ "loadtest_exit_code": 0,
+ "loadtest_stdout": "{\"label\": \"chaos-hang\", \"sample_count\": 600, \"errors\": 0, \"non_200\": 0, \"schema_invalid\": 0, \"id_mismatch\": 0, \"replays\": 0, \"latency_ms\": {\"p50\": 26.807, \"p95\": 44.971, \"p99\": 4041.702, \"max\": 4094.279, \"mean\": 94.763}, \"throughput_rps\": 73.28, \"wall_s\": 8.188, \"llm_calls\": 10, \"llm_cost_usd\": 0.0, \"cost_per_message_usd\": 0.0}",
+ "sample_count": 600,
+ "errors": 0,
+ "non_200": 0,
+ "schema_invalid": 0,
+ "id_mismatch": 0,
+ "status_counts": {
+  "200": 600
+ },
+ "error_codes": {},
+ "latency_ms": {
+  "p50": 26.807,
+  "p95": 44.971,
+  "p99": 4041.702,
+  "max": 4094.279,
+  "mean": 94.763
+ },
+ "throughput_rps": 73.28,
+ "wall_s": 8.188,
+ "llm_calls": 10,
+ "client_cpu_s": 0.605,
+ "metrics_after": {
+  "requests": 600,
+  "by_status": {
+   "200": 600
+  },
+  "errors": {},
+  "routed": 211,
+  "llm": {
+   "calls": 10,
+   "by_status": {
+    "timeout": 10,
+    "breaker_open": 138
+   },
+   "cost_usd": 0.0
+  },
+  "latency_ms": {
+   "window": 600,
+   "p50": 20.687,
+   "p95": 33.971,
+   "p99": 4038.197
+  }
+ },
+ "breaker_after": "open",
+ "breaker_seen": [
+  "closed",
+  "open"
+ ],
+ "breaker_first_not_closed_s": 4.389,
+ "healthz_non_200_during_run": 0,
+ "probe_rtt_ms": {
+  "healthz_ms": {
+   "n": 33,
+   "p50": 17.8,
+   "max": 38.2
+  },
+  "metrics_ms": {
+   "n": 33,
+   "p50": 11.6,
+   "max": 19.4
+  }
+ },
+ "fake_upstream": {
+  "http_status": 200,
+  "mode": "hang",
+  "delay_s": 1.5,
+  "calls": {},
+  "calls_total": 0,
+  "in_flight": 10,
+  "max_in_flight": 10,
+  "replay": {
+   "rows": 2300,
+   "keys": 2300,
+   "shared_keys": 0,
+   "ambiguous_keys": 0
+  },
+  "mode_changes": [],
+  "uptime_s": 11.392
+ },
+ "start": {
+  "listening_s": 0.579,
+  "healthy_s": 2.931,
+  "polls": {
+   "ConnectError": 5,
+   "503": 19,
+   "200": 1
+  }
+ },
+ "stop": {
+  "signal": "SIGTERM",
+  "exit_code": -15,
+  "exit_s": 0.147,
+  "forced_kill": false
+ },
+ "llm_status_by_row": {
+  "None": 452,
+  "timeout": 10,
+  "breaker_open": 138
+ },
+ "rows_by_status": {
+  "None": {
+   "rows": 452,
+   "equal_cpu_only": 452,
+   "equal_replay_ref": 452
+  },
+  "breaker_open": {
+   "rows": 138,
+   "equal_cpu_only": 138,
+   "equal_replay_ref": 14
+  },
+  "timeout": {
+   "rows": 10,
+   "equal_cpu_only": 10,
+   "equal_replay_ref": 1
+  }
+ },
+ "llm_failed_rows": 148,
+ "llm_failed_equal_cpu_only": 148,
+ "rows_equal_cpu_only": 600,
+ "rows_equal_replay_ref": 467,
+ "action_changed_vs_cpu": 0,
+ "action_changed_and_routed": 0,
+ "answered": 600,
+ "intent_acc": 0.6817,
+ "action_acc": 0.795,
+ "routed_share": 0.3517,
+ "auto_action_acc": 0.9229,
+ "requests_not_in_log": 0,
+ "log": {
+  "tracebacks": 0,
+  "error_lines": 0,
+  "shutdown_complete": true,
+  "finished_server_process": true,
+  "load_failed": false,
+  "shutdown_clean": true
+ },
+ "graded": {
+  "rows_scored": 600,
+  "intent_acc": 0.6817,
+  "action_acc": 0.795,
+  "intent_acc_clean": 0.7133,
+  "action_acc_clean": 0.7967,
+  "intent_acc_noisy": 0.65,
+  "action_acc_noisy": 0.7933,
+  "noisy_gap": 0.0033,
+  "macro_f1": 0.6452,
+  "top70_error_ratio": 0.4532,
+  "needs_human_rate": 0.3517,
+  "action_acc_when_not_routed": 0.9229,
+  "ci95_action_acc": [
+   0.7533,
+   0.8367
+  ]
+ }
+}

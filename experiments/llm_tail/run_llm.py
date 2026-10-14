@@ -1,6 +1,8 @@
 """Run one model x variant over dev + dev_noisy at concurrency 8 (ported from the 13 Oct probe runner).
-One output jsonl per run under runs/, one ledger line per API attempt (failed ones too). Keys come only from
-the environment; nothing here prints or stores them. An interrupted run resumes: rows already answered are skipped.
+One output jsonl per run at results/raw/llm-tail-<tag>/raw_calls.jsonl, one line per API attempt (failed ones too)
+in the shared ledger results/raw/llm-ledger/ledger.jsonl. Keys come only from the environment; nothing here prints
+or stores them. An interrupted run resumes: rows already answered are skipped. The runs of 14 Oct saved stdout to
+results/raw/llm-tail-<tag>/stdout.log.
 
   python run_llm.py --model claude-haiku-5-5 --variant V3 --rows smoke --tag haiku_V3_low_smoke --effort low
   python run_llm.py --model openai/gpt-6-luna-20260922 --variant V3 --rows all --tag luna_V3_none \
@@ -58,7 +60,8 @@ def or_key_status():
     with urllib.request.urlopen(req, timeout=30) as resp:
         d = json.loads(resp.read())["data"]
     keep = {k: d.get(k) for k in ("limit", "limit_remaining", "usage", "usage_daily", "is_free_tier")}
-    with open(C.WORK / "keycheck.jsonl", "a") as fh:
+    C.KEYCHECK.parent.mkdir(parents=True, exist_ok=True)
+    with open(C.KEYCHECK, "a") as fh:
         fh.write(json.dumps(dict(keep, ts=time.strftime("%Y-%m-%dT%H:%M:%S"))) + "\n")
     return keep
 
@@ -214,8 +217,8 @@ def main():
            "no_fallbacks": a.no_fallbacks}
     if a.max_tokens:
         cfg["max_tokens"] = a.max_tokens
-    out_path = C.RUNS / f"{a.tag}.jsonl"
-    C.RUNS.mkdir(exist_ok=True)
+    out_path = C.run_file("llm-tail", a.tag)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     done = set()
     if out_path.exists():                                   # resume: keep rows that already have an answer
         for line in out_path.read_text(encoding="utf-8").splitlines():
@@ -313,7 +316,7 @@ def main():
             "providers_returned": dict(__import__("collections").Counter(r["provider_returned"] for r in recs)),
             "provider_spend_total": round(spend.total, 4)}
     print(json.dumps(summ), flush=True)
-    with open(C.WORK / "run_summaries.jsonl", "a") as fh:
+    with open(C.RUN_SUMMARIES, "a") as fh:
         fh.write(json.dumps(summ) + "\n")
     if provider == "openrouter":
         ks = or_key_status()
