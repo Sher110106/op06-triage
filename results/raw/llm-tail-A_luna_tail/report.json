@@ -1,0 +1,127 @@
+{
+ "pred_file": "results/raw/llm-tail-A_luna_tail/predictions.jsonl",
+ "pred_sha256": "88d6cad9fcb1162bec2a0d017ab1a68bcae5939d9acc6974bed2bfb7cd069194",
+ "grader_version": "2.1",
+ "official": {
+  "intent_acc": 0.71,
+  "macro_f1": 0.714,
+  "action_acc": 0.8261,
+  "action_acc_clean": 0.8305,
+  "action_acc_noisy": 0.7967,
+  "noisy_gap": 0.0338,
+  "matched_noisy_gap": 0.0066,
+  "intent_acc_noisy": 0.64,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.3824,
+  "distinct_confidences": 2276,
+  "policy_violation": 0.0935,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "extras": {
+  "rows": 2300,
+  "excluded": 0,
+  "point": {
+   "intent_acc": 0.71,
+   "action_acc": 0.8261,
+   "intent_acc_clean": 0.7205,
+   "action_acc_clean": 0.8305,
+   "intent_acc_noisy": 0.64,
+   "action_acc_noisy": 0.7967,
+   "noisy_gap": 0.0338,
+   "macro_f1": 0.714,
+   "top70_error_ratio": 0.3824
+  },
+  "ci95_conversation_bootstrap": {
+   "intent_acc": [
+    0.6848,
+    0.7357
+   ],
+   "action_acc": [
+    0.8043,
+    0.8463
+   ],
+   "intent_acc_clean": [
+    0.6954,
+    0.7452
+   ],
+   "action_acc_clean": [
+    0.8092,
+    0.8507
+   ],
+   "intent_acc_noisy": [
+    0.583,
+    0.6965
+   ],
+   "action_acc_noisy": [
+    0.7517,
+    0.8416
+   ],
+   "noisy_gap": [
+    -0.0084,
+    0.0739
+   ],
+   "macro_f1": [
+    0.6753,
+    0.7429
+   ],
+   "top70_error_ratio": [
+    0.3178,
+    0.442
+   ]
+  },
+  "bootstrap_draws": 2000,
+  "policy_violation_alias": 0.0539,
+  "gold_policy_violation_alias": 0.057,
+  "noise_kinds": {
+   "code_mixed": {
+    "n": 50,
+    "intent_acc": 0.6,
+    "action_acc": 0.74
+   },
+   "empty": {
+    "n": 50,
+    "intent_acc": 0.58,
+    "action_acc": 0.84
+   },
+   "screenshot": {
+    "n": 50,
+    "intent_acc": 0.56,
+    "action_acc": 0.82
+   },
+   "two_intents": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.84
+   },
+   "typo": {
+    "n": 50,
+    "intent_acc": 0.76,
+    "action_acc": 0.78
+   },
+   "very_long": {
+    "n": 50,
+    "intent_acc": 0.66,
+    "action_acc": 0.76
+   }
+  },
+  "action_acc_at_coverage": {
+   "50%": 0.9548,
+   "60%": 0.9464,
+   "70%": 0.9335,
+   "80%": 0.9223,
+   "90%": 0.8691,
+   "100%": 0.8261
+  },
+  "needs_human_rate": 0.2713,
+  "action_acc_when_not_routed": 0.9308
+ },
+ "harness_matches_grader": true
+}

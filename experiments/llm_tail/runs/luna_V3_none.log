@@ -1,0 +1,3 @@
+key before: {'limit_remaining': 3.7086343680000002, 'usage': 1.291365632}
+{"tag": "luna_V3_none", "rows": 2300, "ok": 2300, "parse": {"ok": 2299, "invalid_json": 1}, "p50": 1.53, "p95": 2.77, "wall_s": 489.5, "cost_list_uncached": 1.4598, "cost_list_actual": 0.4731, "cost_reported": 0.4731, "models_returned": {"openai/gpt-6-luna": 2300}, "providers_returned": {"OpenAI": 2300}, "provider_spend_total": 1.7605}
+key after: {'limit_remaining': 3.251469738, 'usage': 1.748530262}

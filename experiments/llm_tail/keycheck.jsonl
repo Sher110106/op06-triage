@@ -1,0 +1,4 @@
+{"limit": 5, "limit_remaining": 3.7086343680000002, "usage": 1.291365632, "usage_daily": 0, "is_free_tier": false, "ts": "2026-10-14T13:20:04"}
+{"limit": 5, "limit_remaining": 3.7086343680000002, "usage": 1.291365632, "usage_daily": 0, "is_free_tier": false, "ts": "2026-10-14T13:20:10"}
+{"limit": 5, "limit_remaining": 3.7086343680000002, "usage": 1.291365632, "usage_daily": 0, "is_free_tier": false, "ts": "2026-10-14T13:20:26"}
+{"limit": 5, "limit_remaining": 3.251469738, "usage": 1.748530262, "usage_daily": 0.45716463, "is_free_tier": false, "ts": "2026-10-14T13:28:36"}

@@ -1,0 +1,1 @@
+{"tag": "haiku_V3_low", "rows": 2300, "ok": 2300, "parse": {"ok": 2300}, "p50": 1.66, "p95": 3.31, "wall_s": 541.3, "cost_list_uncached": 2.4772, "cost_list_actual": 0.7183, "cost_reported": 0, "models_returned": {"claude-haiku-5-5": 2300}, "providers_returned": {"anthropic": 2300}, "provider_spend_total": 1.1566}

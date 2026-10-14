@@ -477,7 +477,7 @@ def ledger_spend(provider):
     """Actual spend so far: Anthropic at list price with caching; OpenRouter as reported (fallback list)."""
     tot = PRIOR_SPEND.get(provider, 0.0)
     if not LEDGER.exists():
-        return 0.0
+        return tot
     for l in open(LEDGER, encoding="utf-8"):
         r = json.loads(l)
         if r.get("provider") != provider:

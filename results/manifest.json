@@ -1,0 +1,307 @@
+{
+ "problem": "OP-06",
+ "claimed": {
+  "intent_accuracy": 0.7091,
+  "macro_f1": 0.7015,
+  "action_accuracy": 0.8117,
+  "noisy_accuracy": 0.7933,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.376,
+  "cost_per_message_usd": null,
+  "latency_p95_s": null
+ },
+ "claimed_from_run": "dev-classical-v0",
+ "note": "Development measurements on the published dev split. cost and latency stay null until the Phase 3 load test measures them.",
+ "runs": [
+  {
+   "run_id": "dev-baseline",
+   "seed": 0,
+   "model": "published-baseline",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/dev-baseline/predictions.jsonl",
+   "created": null,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.3748,
+    "macro_f1": 0.4508,
+    "action_acc": 0.3913,
+    "action_acc_clean": 0.401,
+    "action_acc_noisy": 0.3267,
+    "noisy_gap": 0.0743,
+    "matched_noisy_gap": 0.0566,
+    "intent_acc_noisy": 0.3,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 1.0,
+    "distinct_confidences": 1210,
+    "policy_violation": 0.1404,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": false,
+    "action_accuracy_all": false,
+    "macro_f1_all": false,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": false
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "dev-classical-v0",
+   "seed": 0,
+   "model": "classical@c007c7a3769a",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/dev-classical-v0/predictions.jsonl",
+   "created": "2026-10-14T13:15:43+0530",
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2278,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "llm-tail-A_luna_tail",
+   "seed": 0,
+   "model": "llm-tail-A_luna_tail",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/llm-tail-A_luna_tail/predictions.jsonl",
+   "created": null,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.71,
+    "macro_f1": 0.714,
+    "action_acc": 0.8261,
+    "action_acc_clean": 0.8305,
+    "action_acc_noisy": 0.7967,
+    "noisy_gap": 0.0338,
+    "matched_noisy_gap": 0.0066,
+    "intent_acc_noisy": 0.64,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3824,
+    "distinct_confidences": 2276,
+    "policy_violation": 0.0935,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "llm-tail-B_haiku_intent",
+   "seed": 0,
+   "model": "llm-tail-B_haiku_intent",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/llm-tail-B_haiku_intent/predictions.jsonl",
+   "created": null,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7122,
+    "macro_f1": 0.7348,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.6367,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2278,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "llm-tail-C_both",
+   "seed": 0,
+   "model": "llm-tail-C_both",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/llm-tail-C_both/predictions.jsonl",
+   "created": null,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7122,
+    "macro_f1": 0.7348,
+    "action_acc": 0.8261,
+    "action_acc_clean": 0.8305,
+    "action_acc_noisy": 0.7967,
+    "noisy_gap": 0.0338,
+    "matched_noisy_gap": 0.0066,
+    "intent_acc_noisy": 0.6367,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.3824,
+    "distinct_confidences": 2276,
+    "policy_violation": 0.0935,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "llm_tail-haiku_V3_low",
+   "seed": null,
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_tail/runs/haiku_V3_low.jsonl",
+   "rows": 2300,
+   "calls_ok": 2300,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "input_tokens": 23056184,
+   "output_tokens": 343207,
+   "api_cost_usd_list_with_cache": 0.7183,
+   "api_cost_usd_list_uncached": 2.4772
+  },
+  {
+   "run_id": "llm_tail-haiku_V3_low_smoke",
+   "seed": null,
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_tail/runs/haiku_V3_low_smoke.jsonl",
+   "rows": 5,
+   "calls_ok": 5,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "input_tokens": 50122,
+   "output_tokens": 666,
+   "api_cost_usd_list_with_cache": 0.0064,
+   "api_cost_usd_list_uncached": 0.0053
+  },
+  {
+   "run_id": "llm_tail-luna_V3_none",
+   "seed": null,
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_tail/runs/luna_V3_none.jsonl",
+   "rows": 2300,
+   "calls_ok": 2300,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "input_tokens": 14223519,
+   "output_tokens": 74868,
+   "api_cost_usd_list_with_cache": 0.4731,
+   "api_cost_usd_list_uncached": 1.4598
+  },
+  {
+   "run_id": "llm_tail-luna_V3_none_smoke",
+   "seed": null,
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_tail/runs/luna_V3_none_smoke.jsonl",
+   "rows": 5,
+   "calls_ok": 5,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "input_tokens": 30900,
+   "output_tokens": 164,
+   "api_cost_usd_list_with_cache": 0.0016,
+   "api_cost_usd_list_uncached": 0.0032
+  }
+ ]
+}
