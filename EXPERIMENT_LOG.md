@@ -64,7 +64,8 @@ remain unaudited.
 
 The six noise kinds have 50 dev_noisy rows each.
 
-- **What fixed it:** dropping repeated sentences inside a turn, plus the existing 2,000-character cap per turn. `very_long` intent went from 0.15 to 0.90, and the action gap from 0.050 to 0.024.
+- **What fixed it:** dropping repeated sentences inside a turn, plus the existing 2,000-character cap per turn. On the 50 `very_long` rows, intent went from 0.10 to 0.68 (`scratch/probe_noise/out/exp_n0_raw.json` against `exp_n5_dedup600.json`; the rebuilt model also scores 0.68, P0-3), and the action gap from 0.050 to 0.024.
+  - *Corrected 14 Oct.* This line first said 0.15 to 0.90. Those figures came from the 20-row very_long slice of the LLM probe (R9), and the 0.90 was a different noise-hardened variant. The `LANDSCAPE.md` fact-check found the mismatch.
 - **What changed nothing:** Unicode normalisation alone, and collapsing repeated characters.
 - **Inconclusive:** synthetic noise augmentation of train. Its effect sat inside the intervals.
 

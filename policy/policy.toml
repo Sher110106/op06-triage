@@ -1,0 +1,108 @@
+# Support policy for the triage service.
+#
+# This file says which actions the service may suggest in each flow, which actions are risky, when to
+# send a case to a person, and any extra rules. It is the only place to change the procedure: the service
+# picks up a saved change within a few seconds, with no restart and no retraining.
+#
+# How to edit:
+# - Change one thing at a time and raise `version` (for example 2026-10-14.1 to 2026-10-14.2), so the logs
+#   and /healthz show which policy made each decision.
+# - Use the action names exactly as they appear below. A misspelt name is an error, not a silent change.
+# - Before you ship a change, run: python scripts/replay_policy.py --policy <your file>
+#   It re-scores the dev conversations and counts how many suggestions, routes and warnings change.
+# - If the saved file has a mistake, the service keeps the last good version and shows the error at /healthz.
+#
+# scripts/build_policy.py made this file from the lists published with the training data.
+# Running that script again rewrites the file and drops your edits.
+
+version = "2026-10-14.1"
+
+# One action, two names: the published lists say "membership-privileges", the service says "membership".
+# An action allowed under the first name is allowed under the second.
+alias = { "membership-privileges" = "membership" }
+
+[flows]
+# The actions each flow allows, exactly as published. Some published names (such as "n-a" or "boots") are
+# never suggested by the service; they do no harm. The service favours allowed actions and marks any other
+# suggestion as "off_policy".
+account_access = [
+    "enter-details", "make-password", "n-a", "pull-up-account", "send-link", "verify-identity",
+]
+manage_account = [
+    "ask-the-oracle", "n-a", "offer-refund", "promo-code", "pull-up-account", "record-reason",
+    "search-boots", "search-faq", "search-jacket", "search-jeans", "search-membership",
+    "search-policy", "search-pricing", "search-shirt", "search-timing", "select-faq", "send-link",
+    "update-account", "verify-identity",
+]
+order_issue = [
+    "ask-the-oracle", "make-purchase", "membership-privileges", "offer-refund", "pull-up-account",
+    "search-boots", "search-faq", "search-jacket", "search-jeans", "search-membership",
+    "search-policy", "search-pricing", "search-shirt", "search-timing", "select-faq",
+    "shipping-status", "update-order", "verify-identity",
+]
+product_defect = [
+    "end-conversation", "enter-details", "membership-privileges", "n-a", "notify-internal-team",
+    "notify-team", "offer-refund", "pull-up-account", "record-reason", "update-order",
+    "validate-purchase",
+]
+purchase_dispute = [
+    "ask-the-oracle", "make-purchase", "membership-privileges", "n-a", "notify-internal-team",
+    "notify-team", "promo-code", "pull-up-account", "record-reason", "search-boots", "search-faq",
+    "search-jacket", "search-jeans", "search-membership", "search-policy", "search-pricing",
+    "search-shirt", "search-timing", "select-faq", "update-order", "validate-purchase",
+    "verify-identity",
+]
+shipping_issue = [
+    "ask-the-oracle", "make-purchase", "n-a", "offer-refund", "pull-up-account", "record-reason",
+    "search-boots", "search-faq", "search-jacket", "search-jeans", "search-membership",
+    "search-policy", "search-pricing", "search-shirt", "search-timing", "select-faq",
+    "shipping-status", "update-order", "validate-purchase", "verify-identity",
+]
+single_item_query = [
+    "ask-the-oracle", "boots", "jacket", "jeans", "n-a", "search-boots", "search-faq",
+    "search-jacket", "search-jeans", "search-membership", "search-policy", "search-pricing",
+    "search-shirt", "search-timing", "select-answer", "select-faq", "shirt",
+]
+storewide_query = [
+    "ask-the-oracle", "membership", "n-a", "policy", "pricing", "search-boots", "search-faq",
+    "search-jacket", "search-jeans", "search-membership", "search-policy", "search-pricing",
+    "search-shirt", "search-timing", "select-answer", "select-faq", "timing",
+]
+subscription_inquiry = [
+    "ask-the-oracle", "enter-detail", "enter-details", "membership-privileges", "n-a",
+    "offer-refund", "pull-up-account", "search-boots", "search-faq", "search-jacket",
+    "search-jeans", "search-membership", "search-policy", "search-pricing", "search-shirt",
+    "search-timing", "select-faq", "send-link", "subscription-status", "update-account",
+    "verify-identity",
+]
+troubleshoot_site = [
+    "enter-details", "instructions", "log-out-in", "make-purchase", "notify-internal-team",
+    "notify-team", "try-again",
+]
+
+[risk]
+# Actions that change money, orders or accounts. Each tier has its own routing point under [thresholds].
+# Actions not listed here are "low".
+high = [
+    "offer-refund", "update-order", "update-account", "make-purchase", "promo-code",
+    "make-password",
+]
+
+[thresholds]
+# The service sends a case to a person when its confidence is below the point for the action's tier.
+# Phase 2 will set real values. For now both tiers use the v0 model's routing point (written in full, so the
+# service routes exactly as that model does), and high-risk actions get no extra care yet.
+high = 0.8498168103175511
+low = 0.8498168103175511
+
+# Rules (none yet). A rule says an action needs one of some other actions to have happened earlier in the
+# conversation. effect = "route" sends the case to a person when the rule is broken; effect = "mask" stops
+# the service from suggesting the action until the rule is met. A broken rule shows up as "rule:<name>".
+# Example: a refund needs the customer's identity or purchase checked first. To turn it on, remove the "# "
+# from the five lines that start at [[rules]].
+#
+# [[rules]]
+# name = "refund-needs-verification"
+# action = "offer-refund"
+# requires_any_observed = ["verify-identity", "validate-purchase"]
+# effect = "route"

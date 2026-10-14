@@ -1,0 +1,50 @@
+{
+ "run_id": "dev-http-cpu",
+ "created": "2026-10-14T15:18:37+0530",
+ "system": "service-http",
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "policy": {
+  "version": "2026-10-14.1",
+  "path": "policy/policy.toml",
+  "last_error": null,
+  "loaded_at": "2026-10-14T15:18:28+0530"
+ },
+ "llm": {
+  "enabled": false,
+  "mode": "off",
+  "model": "openai/gpt-6-luna-20260922",
+  "base_url_host": "openrouter.ai",
+  "gate": 0.642841,
+  "breaker_open": false,
+  "breaker": null,
+  "error": null
+ },
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "noisy": {
+   "file": "data/op06/dev_noisy.jsonl",
+   "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "rows": 2309,
+ "concurrency": 8,
+ "wall_s": 7.642,
+ "latency_ms": {
+  "p50": 25.934,
+  "p95": 38.419,
+  "p99": 46.648,
+  "max": 61.926,
+  "mean": 26.374
+ },
+ "python": "3.12.4",
+ "machine": "Darwin arm64",
+ "note": "every prediction came back over HTTP from the running service (scripts/loadtest.py)"
+}

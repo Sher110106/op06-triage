@@ -65,7 +65,25 @@ def load_system(name: str, bundle: str | None):
         pred = Predictor(path)
         return pred, {"system": "classical", "bundle": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path),
                       "bundle_sha256": sha256(path), "bundle_meta": pred.b.get("meta")}
+    if name == "pipeline":
+        import os
+        from triage.pipeline import Triage
+        tri = Triage.from_env(dict(os.environ, TRIAGE_BUNDLE=bundle) if bundle else None)
+        h = tri.health()
+        return PipelineSystem(tri), {"system": "pipeline", "bundle": h["bundle"], "bundle_sha256": h["bundle_sha256"],
+                                     "bundle_meta": tri.cpu.b.get("meta"), "policy": h["policy"], "llm": h["llm"]}
     raise SystemExit(f"unknown system {name}")
+
+
+class PipelineSystem:
+    """predict_many over Triage.handle_many; detail=True adds the trace (no customer text) as "_detail"."""
+
+    def __init__(self, triage):
+        self.triage = triage
+
+    def predict_many(self, reqs: list[dict], detail: bool = False) -> list[dict]:
+        out = self.triage.handle_many(reqs, [f"eval-{i}" for i in range(len(reqs))])
+        return [dict(resp, _detail=trace) if detail else resp for resp, trace in out]
 
 
 def cmd_predict(a):

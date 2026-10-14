@@ -82,6 +82,108 @@
    "api_cost_usd": 0.0
   },
   {
+   "run_id": "dev-http-cpu",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/dev-http-cpu/predictions.jsonl",
+   "created": "2026-10-14T15:18:37+0530",
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "dev-pipeline-cpu",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/dev-pipeline-cpu/predictions.jsonl",
+   "created": "2026-10-14T16:16:28+0530",
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
+   "run_id": "dev-pipeline-cpu-e2e",
+   "seed": 0,
+   "model": "pipeline@c007c7a3769a",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "results/raw/dev-pipeline-cpu-e2e/predictions.jsonl",
+   "created": "2026-10-14T15:11:18+0530",
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   },
+   "api_cost_usd": 0.0
+  },
+  {
    "run_id": "llm-tail-A_luna_tail",
    "seed": 0,
    "model": "llm-tail-A_luna_tail",

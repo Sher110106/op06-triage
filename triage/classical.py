@@ -40,6 +40,14 @@ def softmax(z, temp=1.0):
     return e / e.sum(1, keepdims=True)
 
 
+def apply_prior(pa, pf, perm):
+    """Soft policy prior: p(action) x E_flow[action permitted], renormalised; a row with no mass left stays 0."""
+    pa = pa * (pf @ perm)
+    s = pa.sum(1, keepdims=True)
+    s[s == 0] = 1
+    return pa / s
+
+
 def _intent_matrix(vecs, views_all):
     return sp.hstack([vecs["all_w"].transform(views_all), vecs["all_c"].transform(views_all)]).tocsr() * np.float32(0.7071)
 
@@ -182,21 +190,36 @@ class Predictor:
         ti = ti if isinstance(ti, int) and not isinstance(ti, bool) and 0 <= ti < 10000 else len(clean)
         return {"id": str(req.get("id", "")) if isinstance(req, dict) else "", "context": clean, "turn_index": ti}
 
-    def _probs(self, rows):
+    @staticmethod
+    def state(rows) -> np.ndarray:
+        return np.vstack([T.state_dense(r) for r in rows]).astype(np.float32)
+
+    def raw_probs(self, rows, st=None) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """(pa, pi, pf): action probabilities before any policy prior or mask, intent and flow probabilities.
+        `st` is self.state(rows) when the caller already has it."""
         b = self.b
         va = [T.view_all(r) for r in rows]
         xi = _intent_matrix(b["vecs"], va)
         pi = softmax(b["svc"].decision_function(xi), b["T_i"])
         pf = softmax(b["fsvc"].decision_function(xi), b["T_f"])
-        st = np.vstack([T.state_dense(r) for r in rows]).astype(np.float32)
+        st = self.state(rows) if st is None else st
         raw = b["action_model"].predict_proba(_action_matrix(b["vecs"], rows, va, st))
         pa = np.zeros((len(rows), len(self.acts)))
         for j, c in enumerate(b["action_model"].classes_):
             pa[:, self._aidx[c]] = raw[:, j]
-        pa = pa * (pf @ b["perm"])                                        # soft policy prior
-        s = pa.sum(1, keepdims=True)
-        s[s == 0] = 1
-        return pa / s, pi, pf
+        return pa, pi, pf
+
+    def intent_probs(self, views: list[str]) -> np.ndarray:
+        """The intent model on any text written like T.view_all, for example one turn on its own."""
+        return softmax(self.b["svc"].decision_function(_intent_matrix(self.b["vecs"], views)), self.b["T_i"])
+
+    def confidence(self, pa, pi, pf, st, turn_index) -> np.ndarray:
+        """The stacker's p(chosen action is right), unrounded."""
+        return self.b["stacker"].predict_proba(_conf_features(pa, pi, pf, st, turn_index))[:, 1]
+
+    def _probs(self, rows):
+        pa, pi, pf = self.raw_probs(rows)
+        return apply_prior(pa, pf, self.b["perm"]), pi, pf
 
     @staticmethod
     def abstain(rid: str, msg: str) -> dict:
@@ -215,8 +238,7 @@ class Predictor:
         if live:
             lrows = [rows[i] for i in live]
             pa, pi, pf = self._probs(lrows)
-            st = np.vstack([T.state_dense(r) for r in lrows]).astype(np.float32)
-            conf = self.b["stacker"].predict_proba(_conf_features(pa, pi, pf, st, [r["turn_index"] for r in lrows]))[:, 1]
+            conf = self.confidence(pa, pi, pf, self.state(lrows), [r["turn_index"] for r in lrows])
             for k, i in enumerate(live):
                 c = float(min(1.0, max(0.0, round(float(conf[k]), 6))))
                 rec = {"id": rows[i]["id"], "intent": str(self.icls[pi[k].argmax()]),

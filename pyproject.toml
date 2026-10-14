@@ -8,10 +8,16 @@ dependencies = [
     "scipy==1.18.1",
     "scikit-learn==1.9.1",
     "joblib==1.6.0",
-    "threadpoolctl>=3.5",
+    "threadpoolctl==3.7.0",
+    "fastapi==0.143.0",
+    "uvicorn==0.54.0",
+    "httpx==0.28.1",
 ]
 
 [dependency-groups]
+dev = [
+    "pytest==9.1.1",
+]
 # Only the LLM experiments need these; the CPU service does not.
 llm = ["anthropic==1.13.0", "openai==3.29.0"]
 
