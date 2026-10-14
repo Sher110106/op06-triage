@@ -1,0 +1,11 @@
+{
+ "run_id": "linux-final-check",
+ "kind": "measurement",
+ "created": "2026-10-14T22:06+05:30",
+ "commit": "dafe325a47fb14ed9b0fba40cede6a5747735960",
+ "what": "git archive of the commit unpacked into an empty folder on the shared Linux box (Ubuntu, 2x Xeon Gold 6330, Python 3.12 from uv), then `scripts/reproduce.sh all` with no API key (LLM step off), BLAS threads 4",
+ "result": "exit 0: setup, verify, baseline 0.3748/0.4508/0.3913, tests 512 passed 2 skipped, eval identical to dev-pipeline-cpu (0.7091/0.7015/0.8117, gap 0.0212, top-70 0.376), smoke passed, retrain check 5 of 2,300 actions differ (documented in EXPERIMENT_LOG P3-1)",
+ "files": [
+  "reproduce_all.log"
+ ]
+}

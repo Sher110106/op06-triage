@@ -2456,6 +2456,25 @@
    "api_cost_usd": 0.0
   },
   {
+   "run_id": "linux-final-check",
+   "kind": "measurement",
+   "seed": null,
+   "model": "classical_v0 bundle (in-process, LLM off)",
+   "status": "completed",
+   "input_sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331",
+   "input_files": [
+    "data/op06/dev.jsonl"
+   ],
+   "raw_path": "results/raw/linux-final-check",
+   "files": [
+    "meta.json",
+    "reproduce_all.log"
+   ],
+   "api_cost_usd": 0.0,
+   "evidence": "development measurement, Linux box",
+   "note": "git archive of the commit unpacked into an empty folder on the shared Linux box (Ubuntu, 2x Xeon Gold 6330, Python 3.12 from uv), then `scripts/reproduce.sh all` with no API key (LLM step off), BLAS threads 4"
+  },
+  {
    "run_id": "linux-retrained-cpu",
    "kind": "graded",
    "seed": 0,
@@ -3478,9 +3497,9 @@
   }
  ],
  "checks": {
-  "raw_paths_checked": 82,
+  "raw_paths_checked": 83,
   "all_exist_inside_repo_no_symlinks": true,
-  "folders_in_results_raw": 75,
+  "folders_in_results_raw": 76,
   "all_folders_listed": true
  }
 }

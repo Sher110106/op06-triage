@@ -1,0 +1,86 @@
+Using CPython 3.12.15
+Creating virtual environment at: .venv
+Installed 29 packages in 35ms
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + click==8.5.0
+ + cloudpickle==3.1.2
+ + fastapi==0.143.0
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + iniconfig==2.3.1
+ + joblib==1.6.0
+ + narwhals==2.27.1
+ + numpy==2.5.4
+ + opentelemetry-api==1.45.1
+ + packaging==26.3
+ + pluggy==1.6.0
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + starlette==1.8.0
+ + threadpoolctl==3.7.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + uvicorn==0.54.0
+README.md: OK
+baseline.py: OK
+dev.jsonl: OK
+dev_noisy.jsonl: OK
+evaluation_inputs.py: OK
+grader.py: OK
+guidelines.json: OK
+hostile.jsonl: OK
+input.schema.json: OK
+manifest.json: OK
+schema.json: OK
+train.jsonl.gz: OK
+wrote 2309 predictions to results/raw/dev-baseline/predictions.jsonl
+{"intent": 0.3748, "macro_f1": 0.4508, "action": 0.3913, "gap": 0.0743, "top70": 1.0, "schema": 100.0, "ci_action": [0.3688, 0.4137], "needs_human": 0.7526, "bars_pass": false}
+........................................................................ [ 14%]
+........................................................................ [ 28%]
+........................................................................ [ 42%]
+........................................................................ [ 56%]
+.....................ss................................................. [ 70%]
+........................................................................ [ 84%]
+........................................................................ [ 98%]
+..........                                                               [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/sher/op06/final/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+512 passed, 2 skipped, 1 warning in 139.39s (0:02:19)
+reproduce: LLM step: off (no API key set); the CPU model answers every request
+{"run_id": "dev-pipeline-cpu", "rows": 2309, "batch_wall_s": 5.96}
+{"intent": 0.7091, "macro_f1": 0.7015, "action": 0.8117, "gap": 0.0212, "top70": 0.376, "schema": 100.0, "ci_action": [0.7912, 0.8323], "needs_human": 0.2822, "bars_pass": true}
+reproduce: LLM step: off (no API key set); the CPU model answers every request
+reproduce: service ready at http://127.0.0.1:36259 (pid 2491218)
+{"rows": 29, "probes": 5, "failures": 0, "slowest_s": 0.028, "by_status": {"200": 29, "400": 4, "413": 1}, "llm_calls": 0}
+reproduce: smoke passed
+fold A 16034 rows, fold B 3966 rows
+features built 9s
+intent and flow models 40s (T_i=0.144, T_f=0.269)
+/home/sher/op06/final/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 300 iteration(s) (status=1):
+STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT
+
+Increase the number of iterations to improve the convergence (max_iter=300).
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+action model fit 97s
+{"trained_at": "2026-10-14T21:59:15+0530", "seed": 0, "rows_A": 16034, "rows_B": 3966, "B_action_acc": 0.8331, "route_threshold": 0.8492, "train_seconds": 139.0, "bundle_bytes": 35336753}
+{"rows": 2300, "labels_differing": {"intent": 0, "action": 5, "needs_human": 3}, "max_confidence_difference": 0.03591, "shipped": {"intent_acc": 0.7091, "action_acc": 0.8117}, "retrained": {"intent_acc": 0.7091, "action_acc": 0.8104}}
+{"rows": 20000, "features": 79073, "nnz": 14294925, "build_s": 10.1, "save_s": 8.6, "file_mb": 126.0, "path": "/home/sher/op06/final/models/retrieval.joblib"}
+policy/policy.toml: flows and alias match the published lists; identical to a fresh build
+exit=0

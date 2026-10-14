@@ -275,7 +275,8 @@ def measurement_run(d: Path) -> dict:
             "status": "completed", "input_sha256": sha256_files(["data/op06/dev.jsonl"]),
             "input_files": ["data/op06/dev.jsonl"], "raw_path": str(d.relative_to(ROOT)), "files": files,
             "api_cost_usd": 0.0, "evidence": evidence(d.name),
-            "note": "throughput by thread count, written by experiments/linux_threads/scaling.py"}
+            "note": ("throughput by thread count, written by experiments/linux_threads/scaling.py"
+                     if (d / "scaling.json").exists() else read_json(d / "meta.json").get("what", ""))}
 
 
 def policy_replay_run(d: Path) -> dict:
@@ -446,7 +447,7 @@ def main():
             runs.append(encoder_run(d))
         elif (d / "predictions.jsonl").exists():
             runs.append(system_run(d, seeds))
-        elif (d / "scaling.json").exists():
+        elif (d / "scaling.json").exists() or (d / "reproduce_all.log").exists():
             runs.append(measurement_run(d))
         elif d.name.startswith("policy-replay-") and (d / "report.json").exists():
             runs.append(policy_replay_run(d))

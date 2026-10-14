@@ -837,3 +837,13 @@ fake provider.*
   `openai` dialect has met only the fake. `scripts/reproduce.sh smoke` counts a failed call as an LLM call: run
   with the wrong dialect against the strict fake, it printed `llm_calls 3` and passed while all 3 calls failed.
   So read `/metrics` `llm.by_status` after a run.
+
+### P5-3. Final clean-machine check on Linux (`results/raw/linux-final-check/`)
+
+- **Run:** `git archive` of commit `dafe325`, unpacked into an empty folder on the shared Linux box (2× Xeon Gold 6330, Python 3.12.15 from uv). Then `scripts/reproduce.sh all` with no API key and BLAS threads at 4.
+- **Result:** exit 0.
+  - **Baseline:** 0.3748 / 0.4508 / 0.3913, as published.
+  - **Tests:** 512 passed, 2 skipped. The skipped two need the LLM retrieval index, which `all` builds only at its last step, `train`.
+  - **Eval:** identical to `dev-pipeline-cpu`: intent 0.7091, macro-F1 0.7015, action 0.8117, noisy gap 0.0212, top-70 0.376, 28.2% routed.
+  - **Smoke:** passed.
+  - **Retrain check:** 5 of 2,300 actions differ from the shipped model, 0.8104 against 0.8117. This is the cross-platform effect in P3-1, within the 1% tolerance.
