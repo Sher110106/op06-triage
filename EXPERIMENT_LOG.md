@@ -185,3 +185,36 @@ At 20%, the top-70 ratio worsens by 0.07, from 0.37 to 0.43, which is still far 
 - No pre-registered system moves action by 2 points. Luna at 20% might, but that share was picked after seeing the results.
 
 The decision is in `DECISIONS.md` D2.
+
+### P0-5. Confirmation on train fold B (pre-registered)
+
+- **Pre-registration:** `experiments/llm_confirm/PREREGISTRATION.md`, pushed in `bd6fc45` before any call.
+- **Rule chosen on dev first:** 5-fold cross-validation by conversation over six candidate intent combinations (`rule_selection_dev.json`). The best was "LLM intent when CPU p(intent) < 0.95, accepted only if it is in the CPU top 3", at 0.750 out-of-fold with Haiku and 0.747 with Luna, against 0.709 for the CPU model. Switching per flow scored 0.730, and always using Haiku scored 0.712.
+
+**Test rows:** fold B, 3,966 clean rows.
+- The CPU model scores 0.745 intent and 0.833 action there.
+- Its confidences are out-of-fold. `prep.py` asserts they reproduce the training threshold exactly.
+- The LLMs' retrieval index is fold A only.
+
+**Runs:**
+
+| Model | Rows | p50 / p95 | Cost | Notes |
+|---|---|---|---|---|
+| Luna | all 3,966 | 1.6 / 2.8 s | $0.80 billed | 1 invalid output, 145 abstentions |
+| Haiku | the 2,060 gated rows | 1.9 / 3.4 s | $0.68 at list with caching | 215 abstentions |
+
+- **Failed calls:** none.
+- **Cumulative spend:** Anthropic $1.84, OpenRouter $2.55 (the key shows $2.45 left).
+
+**Result** (paired with the CPU model; 95% conversation bootstrap):
+
+| Step | Intent | Macro-F1 | Action | Top-70 ratio | Rule |
+|---|---|---|---|---|---|
+| Luna action, CPU conf < 0.642841 (16.7% of rows) | 0 | 0 | +0.0247 [+0.017, +0.032] | +0.056 (0.324 → 0.380) | passes |
+| Luna intent, gated top 3 (51.9% of rows gated) | +0.0144 [+0.004, +0.024] | +0.020 | 0 | 0 | fails (< 0.020) |
+| Haiku intent, gated top 3 | +0.0129 [+0.003, +0.023] | +0.022 | 0 | 0 | fails (< 0.020) |
+
+- **Action step cost:** $0.03 per 1,000 messages billed, $0.11 at list uncached.
+- **Latency with the action step:** p50 15 ms, p95 about 1.8 s, p99 about 2.7 s. This is an offline estimate: single calls at concurrency 8, not yet a load test.
+- **Reading:** dev's 20% share gave +0.024 on dev, and fold B gives +0.025 on rows no choice had seen. The intent combination helps, but by less than the bar fixed in advance.
+- **Decision:** `DECISIONS.md` D2.

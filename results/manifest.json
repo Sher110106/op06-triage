@@ -184,6 +184,126 @@
    "api_cost_usd": 0.0
   },
   {
+   "run_id": "llm_confirm-haiku_B",
+   "seed": null,
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_confirm/runs/haiku_B.jsonl",
+   "rows": 2060,
+   "calls_ok": 2060,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "input_tokens": 20579313,
+   "output_tokens": 386235,
+   "api_cost_usd_list_with_cache": 0.6757,
+   "api_cost_usd_list_uncached": 2.251
+  },
+  {
+   "run_id": "llm_confirm-haiku_B_smoke",
+   "seed": null,
+   "model": "claude-haiku-5-5",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_confirm/runs/haiku_B_smoke.jsonl",
+   "rows": 5,
+   "calls_ok": 5,
+   "config": {
+    "effort": "low",
+    "reasoning": null,
+    "provider_order": null,
+    "no_fallbacks": false,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "claude-haiku-5-5"
+   ],
+   "providers_returned": [
+    "anthropic"
+   ],
+   "input_tokens": 49708,
+   "output_tokens": 570,
+   "api_cost_usd_list_with_cache": 0.0063,
+   "api_cost_usd_list_uncached": 0.0053
+  },
+  {
+   "run_id": "llm_confirm-luna_B",
+   "seed": null,
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_confirm/runs/luna_B.jsonl",
+   "rows": 3966,
+   "calls_ok": 3966,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "input_tokens": 24411916,
+   "output_tokens": 129390,
+   "api_cost_usd_list_with_cache": 0.8017,
+   "api_cost_usd_list_uncached": 2.5059
+  },
+  {
+   "run_id": "llm_confirm-luna_B_smoke",
+   "seed": null,
+   "model": "openai/gpt-6-luna-20260922",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "raw_path": "experiments/llm_confirm/runs/luna_B_smoke.jsonl",
+   "rows": 5,
+   "calls_ok": 5,
+   "config": {
+    "effort": null,
+    "reasoning": {
+     "effort": "none"
+    },
+    "provider_order": [
+     "openai"
+    ],
+    "no_fallbacks": true,
+    "prompt_version": "p1",
+    "variant": "V3"
+   },
+   "models_returned": [
+    "openai/gpt-6-luna"
+   ],
+   "providers_returned": [
+    "OpenAI"
+   ],
+   "input_tokens": 30624,
+   "output_tokens": 163,
+   "api_cost_usd_list_with_cache": 0.001,
+   "api_cost_usd_list_uncached": 0.0031
+  },
+  {
    "run_id": "llm_tail-haiku_V3_low",
    "seed": null,
    "model": "claude-haiku-5-5",

@@ -1,9 +1,8 @@
 # Decisions
 
 Each entry gives the question, the options, the evidence, the choice, and what would change it. Numbers
-come from `EXPERIMENT_LOG.md`. Status: **both are provisional.** D1 waits until Phase 1 moves the policy into
-a versioned file and Phase 2 sets the routing point. D2 waits for the owner's call on the shipping
-question below.
+come from `EXPERIMENT_LOG.md`. Status: **D2 is decided** by a pre-registered confirmation test. **D1 is provisional** until
+Phase 1 moves the policy into a versioned file and Phase 2 sets the routing point.
 
 ## D1. The 9% of gold actions that break the written procedure
 
@@ -69,17 +68,39 @@ An unplanned finding:
 - Sending a smaller share (the least-confident 20%) to Luna gave action +0.024 [+0.012, +0.035] on the same rows.
 - That share was picked after seeing the results, so it is a hypothesis, not evidence. It needs a fresh test.
 
-**Choice.** Pending the owner's call.
-- The rule as written passes B.
-- The pre-registration says "adopt only if", which makes the rule a minimum bar, not a guarantee. `analyse.py` reports a pass as "adopt".
+**First result.** The dev test passed B on macro-F1 alone, and flagged two leads. Shipping B wasn't
+recommended: intent accuracy stayed flat, and it added an LLM call to every row. Both leads were found by
+looking at dev, so they needed fresh rows.
 
-The recommendation is **not** to ship B as the default:
-- Its whole gain is in one metric (macro-F1) that the CPU model already clears with a wide margin (0.70 against a bar of 0.50).
-- It adds 3.3 s p95 and an outside dependency to every request.
-- It costs $0.31–1.08 per 1,000 messages.
+**Confirmation test** (`experiments/llm_confirm/`, pre-registered and pushed before any call):
+- **Rows:** 3,966 rows of train fold B, which no model choice had seen.
+- **Leakage measures:** the CPU confidences are out-of-fold, and the LLM examples were retrieved from fold A only.
+- **Frozen rules, all fixed from dev:**
+  - Luna's action when the CPU confidence is below 0.642841 (16.7% of fold-B rows).
+  - The LLM's intent when the CPU model's p(intent) is below 0.95 and the LLM's intent is among the CPU model's top 3.
 
-The two models' different strengths point to a better use: combine them per flow or by probability. That is a new hypothesis and needs a fresh test.
+| Step | Intent acc | Action acc | Top-70 ratio | Rule (+0.020, interval above 0) |
+|---|---|---|---|---|
+| Luna action on low-confidence rows | 0 | **+0.025 [+0.017, +0.032]** (0.833 → 0.858) | 0.324 → 0.380 | **passes** |
+| Luna intent, gated, top 3 | +0.014 [+0.004, +0.024] | 0 | 0 | fails (too small) |
+| Haiku intent, gated, top 3 | +0.013 [+0.003, +0.023] | 0 | 0 | fails (too small) |
 
-**What would change it.** Either of these would justify a scoped LLM step:
-- A confirmation test on held-out train rows (fold B, never seen by any model choice) that reproduces Luna-on-the-least-confident-20% at +2 points of action.
-- A Haiku–CPU combination that lifts intent accuracy, not just macro-F1.
+**Choice.** v1 ships the **Luna action step**, behind a config flag and with the CPU answer as the
+fallback. Nothing else in v1 uses an LLM.
+
+| | Value |
+|---|---|
+| Rows that call the LLM | 17–20%. The rest are answered by the CPU model in about 15 ms. |
+| Cost per 1,000 messages at list price | $0.03 with caching, $0.11–0.13 uncached |
+| Latency (offline estimate from single calls) | p50 15 ms, **p95 about 1.8 s**, p99 about 2.7 s. The p95 lands inside the LLM rows, because more than 5% of rows call it. |
+| Confidence ordering | Slightly worse (top-70 ratio 0.32 → 0.38), still far under the 0.85 bar |
+| Pinning | `openai/gpt-6-luna-20260922`, OpenAI host only, fallbacks off, reasoning off |
+
+**What the intent step shows.** Its gain is real (the interval is above zero) but under the bar set in
+advance, so it stays out. Writing this down instead of lowering the bar after the fact is the point of
+pre-registering.
+
+**What would change it.**
+- If the latency budget can't absorb a p95 near 2 s, run the step on fewer rows (dev showed +0.011 at 10%) or turn the flag off. The service stays correct either way.
+- If the provider is down or slow, the timeout returns the CPU answer, and that degradation should show up in monitoring, not in errors.
+- If Phase 3's load test finds tail latency much worse than these single-call numbers, revisit the share.
