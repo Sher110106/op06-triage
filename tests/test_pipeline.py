@@ -160,7 +160,9 @@ def test_v0_policy_is_the_shipped_file_with_v0_points(triage_off):
     assert V0_ROUTE_THRESHOLD == triage_off.cpu.b["route_threshold"]
     assert v0p.thresholds == {"high": V0_ROUTE_THRESHOLD, "low": V0_ROUTE_THRESHOLD}
     assert v0p.version != shipped.version
-    assert dataclasses.replace(v0p, version=shipped.version, thresholds=shipped.thresholds) == shipped
+    assert v0p.permission_review == {}
+    assert dataclasses.replace(v0p, version=shipped.version, thresholds=shipped.thresholds,
+                               permission_review=shipped.permission_review) == shipped
 
 
 # ----------------------------------------------------------------------------- hostile pack, garbage, traces
@@ -298,7 +300,8 @@ def test_llm_agree_raises_confidence(triage_off, soft, monkeypatch):
     assert resp["action"] == cpu["action"] and resp["intent"] == cpu["intent"]   # the LLM's intent is not used
     assert resp["confidence"] == round((cpu["confidence"] + 1.0) / 2, 6)
     assert resp["needs_human"] is True and tr["route_reasons"] == ["low_confidence"]   # still under 0.8498
-    assert tr["llm"] == {"status": "ok", "action": cpu["action"], "used": True, "latency_s": 0.5,
+    assert tr["llm"] == {"status": "ok", "action": cpu["action"], "used": True,
+                         "agrees_with_cpu": True, "rejected_by_mask": False, "latency_s": 0.5,
                          "cost_usd": 0.0001, "cost_uncached_usd": 0.0003, "prompt_tokens": 2900,
                          "completion_tokens": 20, "cached_tokens": 2300, "cache_write_tokens": 100,
                          "model": "openai/gpt-6-luna", "provider": "OpenAI", "response_id": "gen-1760000000-AbCd"}
@@ -333,7 +336,8 @@ def test_llm_trace_holds_no_text(triage_off, soft, monkeypatch):
     secret = "zq7x-provider-said-this"
     monkeypatch.setattr(triage_off, "llm", FakeStep(LLMResult("http_error", error=secret, prompt_tokens=7)))
     _, tr = triage_off.handle(row, "r")
-    assert set(tr["llm"]) == {"status", "action", "used", "latency_s", "cost_usd", "cost_uncached_usd",
+    assert set(tr["llm"]) == {"status", "action", "used", "agrees_with_cpu", "rejected_by_mask",
+                              "latency_s", "cost_usd", "cost_uncached_usd",
                               "prompt_tokens", "completion_tokens", "cached_tokens", "cache_write_tokens", "model",
                               "provider", "response_id"}
     text = json.dumps(tr)
@@ -579,14 +583,15 @@ def _flag_routes(tr: dict) -> list[str]:
     return [x for x in tr["route_reasons"] if x != "low_confidence"]
 
 
-def test_shipped_points_change_routing_only(triage_shipped, dev_out, shipped_out):
-    """Against v0's single point, the shipped points move needs_human and the "low_confidence" reason, and nothing
+def test_phase2_points_change_routing_only(triage_phase2, dev_out, labelled):
+    """Against v0's single point, Phase 2 points move needs_human and the "low_confidence" reason, and nothing
     else: the high point is higher, so only high-risk rows start going to a person; the low point is lower, so
     only low-risk rows stop."""
-    policy = triage_shipped.store.current()
+    policy = triage_phase2.store.current()
+    phase2_out = triage_phase2.handle_many([project(r) for r in labelled])
     assert policy.thresholds["low"] < V0_ROUTE_THRESHOLD < policy.thresholds["high"]
     changed = Counter()
-    for (a, ta), (b, tb) in zip(dev_out, shipped_out):
+    for (a, ta), (b, tb) in zip(dev_out, phase2_out):
         assert {**a, "needs_human": None} == {**b, "needs_human": None}
         assert (ta["flags"], ta["cpu"], _flag_routes(ta)) == (tb["flags"], tb["cpu"], _flag_routes(tb))
         if a["needs_human"] != b["needs_human"]:
@@ -630,9 +635,9 @@ def test_shipped_points_at_the_edges(triage_shipped, shipped_out, labelled, monk
     assert tr["route_reasons"] == (["low_confidence"] if routed else [])
 
 
-def test_policy_note_matches_llm_off_routing(shipped_out, labelled):
-    """The [thresholds] note in policy/policy.toml gives the LLM-off dev share sent to a person, and the action
-    accuracy on the rest; both must hold for the shipped file."""
+def test_policy_note_matches_historical_llm_off_routing(triage_phase2, labelled):
+    """The labelled historical Phase 2 note must still match its original routing configuration."""
+    shipped_out = triage_phase2.handle_many([project(r) for r in labelled])
     note = DEFAULT_POLICY.read_text(encoding="utf-8")
     m = re.search(r"with it off, the service sends ([0-9.]+)% of dev cases and gets ([0-9.]+)% of the rest right",
                   note)

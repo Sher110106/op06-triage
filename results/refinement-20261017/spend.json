@@ -1,0 +1,46 @@
+{
+ "new_budget_usd": 10,
+ "parts": [
+  {
+   "run": "claude-review",
+   "kind": "Claude API critique",
+   "reported_usd": 0.0045366,
+   "uncached_list_usd": 0.0045366
+  },
+  {
+   "run": "claude-review-visible",
+   "kind": "Claude API critique",
+   "reported_usd": 0.0032784,
+   "uncached_list_usd": 0.0032784
+  },
+  {
+   "run": "refined_hybrid_capped",
+   "kind": "Luna HTTP run, INCLUDING warmup",
+   "cached_list_usd": 0.09442052,
+   "uncached_list_usd": 0.2931909,
+   "calls": 463
+  },
+  {
+   "run": "refined_hybrid",
+   "kind": "Luna HTTP run, INCLUDING warmup",
+   "cached_list_usd": 0.09440027,
+   "uncached_list_usd": 0.2931713,
+   "calls": 463
+  },
+  {
+   "run": "live_smoke",
+   "kind": "Luna smoke",
+   "cached_list_usd": 0.00123113,
+   "uncached_list_usd": 0.0019283,
+   "calls": 3
+  }
+ ],
+ "recorded_reported_or_cached_list_usd": 0.19786692,
+ "uncached_list_total_usd": 0.5961055,
+ "gateway_credit_meter": {
+  "limit": 10,
+  "limit_remaining": 9.80213308,
+  "usage": 0.19786692
+ },
+ "note": "Gateway meter and calculated list cost are different measurements. Includes the empty first Claude attempt and all warmup calls. Does not include older October14 work or assistant subscription usage."
+}

@@ -1,0 +1,61 @@
+{
+ "run_id": "completion-http-cpu-20261017",
+ "created": "2026-10-17T23:10:38+0530",
+ "system": "service-http",
+ "bundle": "models/classical_v0.joblib",
+ "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+ "policy": {
+  "version": "2026-10-17.2",
+  "path": "policy/policy.toml",
+  "last_error": null,
+  "loaded_at": "2026-10-17T23:10:11+0530"
+ },
+ "llm": {
+  "enabled": false,
+  "mode": "off",
+  "model": "openai/gpt-6-luna-20260922",
+  "base_url_host": "openrouter.ai",
+  "dialect": "openrouter",
+  "dialect_setting": "auto",
+  "gate": 0.642841,
+  "breaker_open": false,
+  "breaker": null,
+  "error": null
+ },
+ "inputs": {
+  "dev": {
+   "file": "data/op06/dev.jsonl",
+   "sha256": "0d6502b4bac26bb23fe9108d3933fb1f734410d2540dada00207a8f2ca1e1331"
+  },
+  "noisy": {
+   "file": "data/op06/dev_noisy.jsonl",
+   "sha256": "534d5a365a644bb8ab6d0e758b39dcb6968b983ca13d4e6065ea5729f7a2cabe"
+  },
+  "hostile": {
+   "file": "data/op06/hostile.jsonl",
+   "sha256": "460209c96047f89231fc0b8a56786563eb8fbcf514331e09ec54f9a3ec2e2d1d"
+  }
+ },
+ "rows": 2309,
+ "concurrency": 8,
+ "wall_s": 25.329,
+ "latency_ms": {
+  "p50": 92.71,
+  "p95": 138.238,
+  "p99": 162.321,
+  "max": 270.257,
+  "mean": 87.402
+ },
+ "python": "3.12.15",
+ "machine": "Linux x86_64",
+ "service_log": {
+  "file": "service_log.jsonl",
+  "lines": 2330,
+  "request_lines": 2329,
+  "measured_request_lines": 2309,
+  "warmup_request_lines": 20,
+  "llm_calls": 0
+ },
+ "service_log_note": "the service's stdout: one JSON line per request, plus its start-up line. It holds the warm-up requests too (request ids starting lt-warmup-), which latency_bench.json leaves out; a measured request has its request_id in latency_bench.json requests. A line with an LLM call gives its status, latency, token counts, llm_cost_usd (list price, cache discounts applied) and llm_cost_uncached_usd (list price, no cache discount). No customer text.",
+ "note": "every prediction came back over HTTP from the running service (scripts/loadtest.py)"
+}

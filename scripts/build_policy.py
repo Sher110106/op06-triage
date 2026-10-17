@@ -19,10 +19,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from triage import policy as P                                       # noqa: E402
 from triage.data import load_split                                   # noqa: E402
 
-VERSION = "2026-10-14.2"
+VERSION = "2026-10-17.2"
 ALIAS = {"membership-privileges": "membership"}
 HIGH_RISK = ["offer-refund", "update-order", "update-account", "make-purchase", "promo-code", "make-password"]
 THRESHOLDS = {"high": 0.8883, "low": 0.7104}     # Phase 2, experiments/routing/results_routing.json
+PERMISSION_REVIEW = {"high": 0.90}              # 17 Oct, held-out guard-only confirmation
 
 HEADER = """\
 # Support policy for the triage service.
@@ -58,6 +59,7 @@ THRESHOLD_NOTE = """\
 # The service sends a case to a person when its confidence is below the point for the action's tier:
 # 0.8883 for a high-risk action, 0.7104 for any other.
 #
+# Historical Phase 2 measurements below predate the additional permission-review guard.
 # How we chose them: we priced each outcome. A person reading a case costs 1. A wrong answer that goes out on
 # its own costs 10 for a high-risk action and 3 for any other. For each tier we took the point with the lowest
 # total cost on 3,966 training cases that the model did not learn from. On those cases the service sends
@@ -75,6 +77,14 @@ THRESHOLD_NOTE = """\
 #   20, 10                                  0.9094   0.9071   40.2%              96.1%
 # Full analysis: experiments/routing/analyse_routing.py, with its results in results_routing.json next to it.
 # The LLM-off figures come from the eval run in results/raw/dev-pipeline-cpu.
+"""
+
+PERMISSION_NOTE = """\
+# Additional review for high-risk suggestions when likely flows do not sufficiently agree that the action
+# is permitted. This is probability mass from the independent flow classifier, not proof of permission.
+# Omit a tier or set it to 0 to disable this extra guard. Actions and model weights are unchanged.
+# Frozen train-only confirmation: high-risk forbidden automatic suggestions 8 -> 3 with 15 additional
+# reviews among 3,004 cases. See experiments/refinement/PROTOCOL.md and results/refinement-20261017/.
 """
 
 RULES_NOTE = """\
@@ -117,10 +127,12 @@ def _toml_list(items: list[str], indent: str = "    ", width: int = 100) -> str:
 
 def render(flows: dict[str, list[str]]) -> str:
     alias = ", ".join(f"{json.dumps(k)} = {json.dumps(v)}" for k, v in ALIAS.items())
+    review = ", ".join(f"{tier} = {value:.2f}" for tier, value in PERMISSION_REVIEW.items())
     out = [HEADER, f'version = "{VERSION}"', "",
            '# One action, two names: the published lists say "membership-privileges", the service says "membership".',
            "# An action allowed under the first name is allowed under the second.",
-           f"alias = {{ {alias} }}", "", "[flows]", FLOWS_NOTE.rstrip()]
+           f"alias = {{ {alias} }}", "", PERMISSION_NOTE.rstrip(),
+           f"permission_review = {{ {review} }}", "", "[flows]", FLOWS_NOTE.rstrip()]
     out += [f"{f} = {_toml_list(acts)}" for f, acts in flows.items()]
     out += ["", "[risk]", RISK_NOTE.rstrip(), f"high = {_toml_list(HIGH_RISK)}",
             "", "[thresholds]", THRESHOLD_NOTE.rstrip()]

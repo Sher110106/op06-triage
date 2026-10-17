@@ -1,7 +1,7 @@
 """Load test for the running service: sends rows to POST /triage at a fixed concurrency and times each request.
 
   .venv/bin/python scripts/loadtest.py [--url http://127.0.0.1:8000] [--concurrency 8] [--inputs rows.jsonl]
-      [--limit N] [--repeat 1] [--warmup 20] [--out results/latency_bench.json] [--pred-out preds.jsonl]
+      [--limit N] [--repeat 1] [--warmup 20] [--out results/loadtest-latest.json] [--pred-out preds.jsonl]
       [--label NAME] [--timeout-s 30]
 
 Default inputs: dev + dev_noisy + hostile, projected with triage.data.project (id, turn_index, context only).
@@ -203,7 +203,7 @@ def main(argv=None) -> int:
     ap.add_argument("--limit", type=int, default=0, help="use the first N rows")
     ap.add_argument("--repeat", type=int, default=1)
     ap.add_argument("--warmup", type=int, default=20, help="requests sent first and not recorded")
-    ap.add_argument("--out", default=str(ROOT / "results" / "latency_bench.json"))
+    ap.add_argument("--out", default=str(ROOT / "results" / "loadtest-latest.json"))
     ap.add_argument("--pred-out", help="write each 200 response body as one JSON line (grader format)")
     ap.add_argument("--label", default="loadtest")
     ap.add_argument("--timeout-s", type=float, default=30.0)

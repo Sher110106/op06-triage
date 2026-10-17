@@ -50,7 +50,8 @@ TOKEN_KEYS = ("prompt_tokens", "completion_tokens", "cached_tokens", "cache_writ
 MAX_CALL_TOKENS = 10_000_000        # one call's token count above this, or below 0, is bad data (as in llm_action)
 MAX_LABEL = 200                     # characters kept of the returned model, provider and response id
 LABEL_KEYS = ("model", "provider", "response_id")                 # what the LLM server says about its own answer
-LLM_LOG_KEYS = ("llm_status", "llm_latency_ms", "llm_cost_usd", "llm_cost_uncached_usd",
+LLM_DECISIONS = frozenset({"accepted_agreement", "accepted_disagreement", "rejected_by_mask"})
+LLM_LOG_KEYS = ("llm_status", "llm_decision", "llm_latency_ms", "llm_cost_usd", "llm_cost_uncached_usd",
                 *(f"llm_{k}" for k in TOKEN_KEYS), *(f"llm_{k}" for k in LABEL_KEYS))
 LOG_KEYS = ("flags", "route_reasons", *LLM_LOG_KEYS, "policy_version", "needs_human", "abstained", "replay", "error",
             "error_type")
@@ -173,8 +174,17 @@ def trace_fields(trace) -> dict:
     lat = _num(llm.get("latency_s"))
     lat_ms = round(lat * 1000, 1) if lat is not None else _num(t.get("llm_latency_ms"))
     pv = t.get("policy_version")
+    decision = None
+    if status == "ok":
+        if llm.get("used") is True and llm.get("agrees_with_cpu") is True:
+            decision = "accepted_agreement"
+        elif llm.get("used") is True and llm.get("agrees_with_cpu") is False:
+            decision = "accepted_disagreement"
+        elif llm.get("used") is False and llm.get("rejected_by_mask") is True:
+            decision = "rejected_by_mask"
     return {"flags": sorted(_strs(t.get("flags"))), "route_reasons": _strs(t.get("route_reasons")),
-            "llm_status": status if isinstance(status, str) else None, "llm_latency_ms": lat_ms,
+            "llm_status": status if isinstance(status, str) else None, "llm_decision": decision,
+            "llm_latency_ms": lat_ms,
             "llm_cost_usd": _num(llm.get("cost_usd", t.get("llm_cost_usd"))),
             "llm_cost_uncached_usd": _num(llm.get("cost_uncached_usd", t.get("llm_cost_uncached_usd"))),
             **{f"llm_{k}": _tokens(llm.get(k, t.get(f"llm_{k}"))) for k in TOKEN_KEYS},
@@ -257,6 +267,7 @@ class Service:
         self.flags: Counter = Counter()
         self.reasons: Counter = Counter()
         self.llm_status: Counter = Counter()
+        self.llm_decisions: Counter = Counter()
         self.llm_cost = 0.0                              # list price, cache discounts applied
         self.llm_cost_uncached = 0.0                     # list price, no cache discount
         self.llm_tokens: Counter = Counter()
@@ -453,6 +464,9 @@ class Service:
             st = info.get("llm_status")
             if st:
                 self.llm_status[st] += 1
+            decision = info.get("llm_decision")
+            if isinstance(decision, str) and decision in LLM_DECISIONS:
+                self.llm_decisions[decision] += 1
             if _sane_cost(info.get("llm_cost_usd")):
                 self.llm_cost += info["llm_cost_usd"]
             if _sane_cost(info.get("llm_cost_uncached_usd")):
@@ -471,7 +485,8 @@ class Service:
                    "abstentions": self.count["abstentions"], "replays": self.count["replays"],
                    "flags": dict(self.flags), "route_reasons": dict(self.reasons),
                    "llm": {"calls": sum(n for s, n in self.llm_status.items() if s in LLM_CALLED),
-                           "by_status": dict(self.llm_status), "cost_usd": round(self.llm_cost, 8),
+                           "by_status": dict(self.llm_status), "decisions": dict(self.llm_decisions),
+                           "cost_usd": round(self.llm_cost, 8),
                            "cost_uncached_usd": round(self.llm_cost_uncached, 8),
                            **{k: self.llm_tokens[k] for k in TOKEN_KEYS}},
                    "latency_ms": {"window": len(lat), **percentiles(lat)}}

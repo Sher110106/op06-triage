@@ -667,7 +667,8 @@ def test_metrics_counters(client):
     assert m["replays"] == 1 and m["routed"] == 1 and m["abstentions"] == 0
     assert m["flags"] == {"empty_turns": 2, "second_intent": 1}
     assert m["route_reasons"] == {"low_confidence": 1}
-    assert m["llm"] == {"calls": 1, "by_status": {"ok": 1}, "cost_usd": 8.5e-05, "cost_uncached_usd": 2.2e-04,
+    assert m["llm"] == {"calls": 1, "by_status": {"ok": 1}, "decisions": {},
+                        "cost_usd": 8.5e-05, "cost_uncached_usd": 2.2e-04,
                         "prompt_tokens": 2000, "completion_tokens": 40, "cached_tokens": 1500,
                         "cache_write_tokens": 0}                         # the replay adds nothing
     assert m["latency_ms"]["window"] == 6 and 0 <= m["latency_ms"]["p50"] <= m["latency_ms"]["p99"]

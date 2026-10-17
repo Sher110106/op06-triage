@@ -3,6 +3,11 @@
 For whoever runs the triage service. "Normal" figures come from the dev runs named beside them; real traffic will
 set its own. `docs/DESIGN.md` lists every setting and limit.
 
+Policy `2026-10-17.2` has a completed current HTTP check in `results/refinement-20261017/refined_hybrid/`:
+all dev bars pass, 24.26% of labelled rows reviewed, 460 measured LLM calls, and 1.505 s request p95 at eight
+clients on M1. This single run does not replace production baselines. The tables below are labelled historical;
+the [refinement report](experiments/refinement/REPORT.md) also records the unchanged public-dev forbidden counts.
+
 ## Start, stop, restart
 
 - **Start:** `scripts/reproduce.sh serve` (`PORT` 8000, `HOST` 0.0.0.0 by default). It checks the settings and the
@@ -25,15 +30,18 @@ Fields: `status`, `bundle`, `bundle_sha256` (shipped `c007c7a3…`), `policy` (`
 `loaded_at`), `llm` (`enabled`, `mode`, `model`, `base_url_host`, `dialect` and `dialect_setting`, `gate`,
 `breaker` closed/open/half_open, `breaker_open`, `error`), `started_at`, `uptime_s`. After any change, check
 `policy.version`, `llm.enabled` and `llm.dialect`, and that `policy.last_error` and `llm.error` (set when the
-retrieval index fails to load) are null.
+retrieval index fails to load) are null. The current policy version is `2026-10-17.2`.
 
 ## Metrics: `GET /metrics`
 
 Counters since start: `requests`, `by_status`, `errors`, `routed`, `abstentions`, `replays`, `flags`,
-`route_reasons`, `llm` (`calls`, `by_status`, `cost_usd` at cached list price, `cost_uncached_usd`, token sums),
+`route_reasons`, `llm` (`calls`, `by_status`, `decisions`, `cost_usd` at cached list price, `cost_uncached_usd`, token sums),
 `latency_ms` (p50/p95/p99 of the last 10,000 requests, timed inside the app, so uvicorn queueing is left out),
-`idempotency` and `policy_version`. Normal over 2,309 dev, dev_noisy and hostile requests (each run's
-`service_log.jsonl` or `details.jsonl`). The routed shares here are of all 2,309 requests; elsewhere this file and
+`idempotency` and `policy_version`. `llm.decisions` is limited to `accepted_agreement`, `accepted_disagreement`,
+and `rejected_by_mask`. Replays count as requests, routed/abstention responses when applicable, and replays, but do
+not count flags, route reasons, LLM calls or decisions twice. Normal historical values over 2,309 dev, dev_noisy and hostile requests (each run's
+`service_log.jsonl` or `details.jsonl`, policy `2026-10-14.2`) are shown below for reference only; they are not current
+default-routing measurements. The routed shares here are of all 2,309 requests; elsewhere this file and
 the README give them over the 2,300 labelled rows (24.3% and 28.2%), which leave out the 9 hostile rows, all routed:
 
 | | LLM on (`dev-http-llm`) | LLM off (`dev-pipeline-cpu`) |
@@ -47,19 +55,22 @@ the README give them over the 2,300 labelled rows (24.3% and 28.2%), which leave
 | Request p95, 8 clients, M1 | 1,913 ms | 38 ms (`dev-http-cpu`) |
 | LLM cost per message, uncached | $0.000125 | $0 |
 
-`MEMO.md`'s Monday checks come from these fields, as shares of a day's change in each counter (save `/metrics`
+`MEMO.md`'s historical Monday checks come from these fields, as shares of a day's change in each counter (save `/metrics`
 each morning; a restart resets it): sent to a person = `routed` ÷ `requests`; unreadable = `abstentions` ÷
 `requests`; AI timeouts = `llm.by_status.timeout` ÷ `llm.calls`; AI step on = `/healthz` `llm.breaker` closed;
-off-procedure = `route_reasons.off_policy` ÷ `requests`; policy = `/healthz` `policy.version` and `last_error`.
+off-procedure = `route_reasons.off_policy` ÷ `requests`; permission uncertainty and changed-LLM review are
+`route_reasons.policy_uncertainty` and `route_reasons.llm_disagreement`; policy = `/healthz` `policy.version` and
+`last_error`. Establish new expected share levels from a current HTTP run before setting alerts.
 
 ## Logs
 
-One JSON line per request on stdout, with no customer text, intent or action: `ts`, `request_id` (the caller's
+One JSON line per request on stdout, with no customer text, intent, action, prompt or answer text: `ts`, `request_id` (the caller's
 `X-Request-ID` if sent), `status`, `latency_ms`, `flags`, `route_reasons`, `needs_human`, `abstained`, `replay`,
 `error`, `error_type`, `policy_version`, and the LLM call's status, latency, costs and token counts. A request that
 called the LLM also logs what the provider said about its answer: `llm_model`, `llm_provider` and `llm_response_id`
 (the completion's id, such as OpenRouter's `gen-...`), each cut to 200 characters; they are null on a replay or
-when no call was made. All 6,276 Luna calls in `results/raw/llm-ledger/ledger.jsonl` (3,966 fold-B, 2,300 dev and
+when no call was made. `llm_decision` is one of the three bounded values listed above. All 6,276 historical Luna
+calls in `results/raw/llm-ledger/ledger.jsonl` (3,966 fold-B, 2,300 dev and
 10 smoke calls) asked for `openai/gpt-6-luna-20260922` and got back `openai/gpt-6-luna`; another `llm_model` value
 means the provider changed what serves the calls. The two live runs predate these fields. Start-up writes a
 `loaded` or `load_failed` line; uvicorn writes to stderr. The API key never appears.
@@ -72,11 +83,14 @@ names), `TRIAGE_LLM_PROVIDER` (openai; the OpenRouter host pin, sent only in the
 `TRIAGE_LLM_TIMEOUT_S` (4.0), `TRIAGE_LLM_GATE` (0.642841), `TRIAGE_POLICY_PATH`, `TRIAGE_ROUTE_OFF_POLICY` (1).
 The LLM cap (8 calls waiting) and the breaker (5 failures, 30 s) are fixed in code.
 
-**Two safety properties hold only for the current numbers, and nothing checks them.** A changed action gets
-confidence under gate / 2 (now 0.3214), and an agreeing one under (gate + 1) / 2 (now 0.8214). So every action
-the LLM changes goes to a person only while both routing points stay above gate / 2, and an LLM answer cannot send
-a high-risk action out alone only while the high-risk point (0.8883) stays above (gate + 1) / 2. A gate above
-0.7766, or a high-risk point below 0.8214, breaks the second. Check both before changing either.
+There is no numerical-coincidence safety rule for LLM changes: every accepted changed action routes with
+`llm_disagreement`, even if policy confidence thresholds change. The separate policy-support rule checks the final
+selected action after the LLM step. Current `permission_review = { high = 0.90 }` routes a high-risk action when
+the independent flow classifier assigns less than 0.90 probability mass to flows that permit that action. This is
+an uncertainty signal, not proof of permission or a guarantee that an action is allowed in the real case. A
+`policy_uncertainty`-only route preserves action-correctness confidence because the permission and correctness
+signals answer different questions. Other flag-based routes, including `llm_disagreement`, still cap confidence at
+`TRIAGE_FLAG_CONF_CAP` (0.5). No confidence arithmetic is used as a substitute for the explicit disagreement route.
 
 **To turn the LLM step off**, set `TRIAGE_LLM=off` and restart. On dev, action accuracy falls from 0.8365 to
 0.8117, the routed share of labelled rows rises from 24.3% to 28.2%, p95 drops from 1.9 s to 38 ms and LLM cost
@@ -87,16 +101,20 @@ goes to zero; intent and hostile handling do not change. To call it on fewer row
 ## Changing the policy safely
 
 1. Copy `policy/policy.toml`, make one change and raise `version`.
-2. Run `.venv/bin/python scripts/replay_policy.py --policy NEW.toml`. It reruns dev and dev_noisy under both files,
+2. `permission_review` is an optional table of risk-tier minimum permission-support values from 0 to 1. A missing
+   tier or value 0 disables that tier's extra review rule. The current high-risk value is 0.90. It changes routing,
+   not the action label; do not interpret support mass as case-level authorization.
+3. Run `.venv/bin/python scripts/replay_policy.py --policy NEW.toml`. It reruns dev and dev_noisy under both files,
    LLM step off, and counts changed actions, routes and violations; exit status 2 means the file has a mistake. Prefer
    `effect = "route"` for a rule that needs an earlier step, since the service sees only 8 turns: with the example
    refund rule at the end of the file, `route` changed no action and routed 8 more rows, while `mask` changed 39
    actions, 26 from right to wrong (`results/raw/policy-replay-refund-{route,mask}/report.txt`; rerun with
    `.venv/bin/python experiments/policy_replay/run.py`).
-3. Move the file over `policy/policy.toml` in one step (`mv`). The service looks for a change at most every 2 s,
+4. Move the file over `policy/policy.toml` in one step (`mv`). The service looks for a change at most every 2 s,
    on the next request or `/healthz` call, and clears its answer cache when the policy changes.
-4. Check `/healthz` for the new version and a null `last_error`, then compare `route_reasons` with the replay.
-5. **Roll back** by moving the previous file back the same way.
+5. Check `/healthz` for the new version and a null `last_error`, then compare `route_reasons` (including
+   `policy_uncertainty`) with the replay.
+6. **Roll back** by moving the previous file back the same way.
 
 After a deliberate change to `[flows]`, `scripts/reproduce.sh train` will report that the flows differ from the
 published lists; that is expected.
@@ -119,12 +137,11 @@ or turn the step off. If every call fails with `http_error` from the first reque
 `llm.dialect`: a gateway that rejects unknown fields fails every `openrouter`-dialect call (against the strict
 fake, five 400s opened the breaker). A 429 counts as an `http_error`: no retry, and `Retry-After` is not read.
 
-**Up but wrong:** no check catches well-formed wrong answers. When the fake provider always said `offer-refund`,
-every changed action went to a person, so the routed share rose to the LLM-off level while `llm.by_status` showed
-only `ok`. That pattern is one sign, and a weak one: on dev the two levels are 24.3% and 28.2% of labelled rows.
-The other is a new `llm_model` value in the log, which shows only if the provider renames what it serves. There
-is no agreement counter; Luna agreed with the CPU action on 47.4% of dev calls in the replay and 48.9% in the
-`ok` fault run (`chaos.md`).
+**Up but wrong:** syntactically valid wrong answers can still be adopted. Every accepted disagreement now routes,
+and `/metrics` increments `llm.decisions.accepted_disagreement`; agreement, disagreement and mask rejection are
+separate counters. These indicate what the service did, not whether either model was correct. The high-risk
+permission-support review also runs on the final action. The fake provider's old `offer-refund` run predates these
+changes and is historical evidence only; it is not a current-default HTTP measurement.
 
 ### Bad policy file
 
@@ -147,6 +164,9 @@ header timeout comes from reading its code.
 ### High routed share or many abstentions
 
 Read `route_reasons`. `low_confidence` up: check the breaker, then `policy_version`, then the traffic (new topics).
+`llm_disagreement` up means more accepted LLM actions differed from the CPU suggestion; those requests are always
+sent for review. `policy_uncertainty` up means the final action has less predicted permission support than the
+current policy requires; inspect the policy version and flow distribution before changing the cutoff.
 Text in another language shows as its own reason, `no_known_text`. `off_policy` up: a policy edit, or conversations the procedure no longer
 fits. `injection`, `junk`, `controls_removed` or `bidi_override` up: an attack or an upstream encoding fault; read
 a sample upstream, since the log holds no text. Abstentions up: upstream is sending empty contexts. `MEMO.md` says

@@ -1,0 +1,5 @@
+reproduce: LLM step: off (TRIAGE_LLM=off); the CPU model answers every request
+reproduce: service ready at http://127.0.0.1:55157 (pid 3207148)
+{"label": "completion-http-cpu-20261017", "sample_count": 2309, "errors": 0, "non_200": 0, "schema_invalid": 0, "id_mismatch": 0, "replays": 0, "latency_ms": {"p50": 92.71, "p95": 138.238, "p99": 162.321, "max": 270.257, "mean": 87.402}, "throughput_rps": 91.16, "wall_s": 25.329, "llm_calls": 0, "llm_cost_usd": 0.0, "cost_per_message_usd": 0.0, "llm_cost_uncached_usd": 0.0, "cost_per_message_uncached_usd": 0.0, "llm_prompt_tokens": 0, "llm_completion_tokens": 0, "llm_cached_tokens": 0, "llm_cache_write_tokens": 0}
+wrote 2309 predictions to results/raw/completion-http-cpu-20261017/predictions.jsonl; canonical submission preserved (diagnostic run)
+{"intent": 0.7091, "macro_f1": 0.7015, "action": 0.8117, "gap": 0.0212, "top70": 0.376, "schema": 100.0, "ci_action": [0.7912, 0.8323], "needs_human": 0.2839, "bars_pass": true}

@@ -53,8 +53,7 @@ V0_ROUTE_THRESHOLD = 0.8498168103175511     # route_threshold of models/classica
 
 
 def v0_policy_text(version: str | None = None) -> str:
-    """policy/policy.toml with both routing points set to v0's and the version changed (default: the shipped
-    version plus "-v0"). Everything else is the shipped file."""
+    """Historical v0 routing: its thresholds, no later permission-review guard, and a distinct version."""
     from triage.policy import DEFAULT_POLICY, loads
     text = DEFAULT_POLICY.read_text(encoding="utf-8")
     shipped = loads(text)
@@ -63,7 +62,21 @@ def v0_policy_text(version: str | None = None) -> str:
     assert sep and n == 2, "policy/policy.toml has no [thresholds] section with high and low"
     head, n = re.subn(r'(?m)^version = ".*"$', f'version = "{version or shipped.version + "-v0"}"', head)
     assert n == 1, "policy/policy.toml has no version line"
+    head = re.sub(r"(?m)^permission_review = .*?$", "permission_review = {}", head)
     return head + sep + tail
+
+
+@pytest.fixture(scope="session")
+def triage_phase2(tmp_path_factory):
+    """Historical two-tier thresholds without the new permission-review guard."""
+    from triage.policy import DEFAULT_POLICY
+    text = re.sub(r"(?m)^permission_review = .*?$", "permission_review = {}",
+                  DEFAULT_POLICY.read_text(encoding="utf-8"))
+    path = tmp_path_factory.mktemp("phase2") / "policy.toml"
+    path.write_text(text, encoding="utf-8")
+    tri = _triage(path)
+    yield tri
+    tri.close()
 
 
 @pytest.fixture(scope="session")

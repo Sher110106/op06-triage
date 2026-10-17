@@ -26,7 +26,7 @@ def built():
 
 def test_claim_run_is_the_http_run_with_the_llm_step(built):
     run, bench, _, _ = built
-    assert M.CLAIM_RUN == "dev-http-llm"
+    assert M.CLAIM_RUN == "dev-http-llm-20261017"
     assert run["kind"] == "graded" and run["status"] == "completed" and run["rows"] == 2309
     assert bench["sample_count"] == 2309 and bench["concurrency"] == 8
     assert bench["errors"] == bench["non_200"] == bench["schema_invalid"] == bench["id_mismatch"] == 0
@@ -80,3 +80,29 @@ def test_manifest_on_disk_holds_the_claim(built):
     assert m["claimed_from_run"] == M.CLAIM_RUN
     assert m["claimed"] == claimed and m["claimed_notes"] == notes
     assert "stay null" not in m["note"]
+
+
+def test_canonical_predictions_are_the_current_claim_run(built):
+    """A reviewer must receive exactly the predictions described by the manifest."""
+    canonical = ROOT / "results" / "predictions.jsonl"
+    assert canonical.read_bytes() == (M.RAW / M.CLAIM_RUN / "predictions.jsonl").read_bytes()
+    split_bytes = b"".join((ROOT / "results" / name).read_bytes() for name in
+                           ("dev_predictions.jsonl", "noisy_predictions.jsonl", "hostile_results.jsonl"))
+    assert canonical.read_bytes() == split_bytes
+    assert json.loads((ROOT / "results" / "latency_bench.json").read_text()) == json.loads(BENCH.read_text())
+
+
+def test_original_submission_remains_inspectable():
+    archive = ROOT / "results" / "history" / "2026-10-14"
+    original = json.loads((archive / "manifest.json").read_text())
+    assert original["claimed_from_run"] == "dev-http-llm"
+    assert (archive / "predictions.jsonl").read_bytes() == (M.RAW / "dev-http-llm" / "predictions.jsonl").read_bytes()
+
+
+def test_refinement_spend_is_not_double_counted():
+    manifest = json.loads((ROOT / "results" / "manifest.json").read_text())
+    extra = manifest["spend_usd"]["refinement_20261017"]
+    ledger = json.loads((ROOT / extra["source"]).read_text())
+    assert extra["recorded_total_with_cache"] == ledger["recorded_reported_or_cached_list_usd"]
+    assert extra["already_in_service_runs_list"] + extra["additional_to_service_runs_list"] == pytest.approx(
+        extra["recorded_total_with_cache"], abs=1e-8)

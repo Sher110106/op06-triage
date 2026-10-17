@@ -14,7 +14,7 @@
 {"id": "5730-16-noisy", "intent": "status_due_amount", "action": "enter-details", "confidence": 0.6435, "needs_human": true}
 {"id": "9978-7-noisy", "intent": "out_of_stock_one_item", "action": "notify-team", "confidence": 0.303851, "needs_human": true}
 {"id": "1256-18-noisy", "intent": "status_credit_missing", "action": "ask-the-oracle", "confidence": 0.872442, "needs_human": false}
-{"id": "3305-15-noisy", "intent": "manage_dispute_bill", "action": "validate-purchase", "confidence": 0.223115, "needs_human": true}
+{"id": "3305-15-noisy", "intent": "manage_dispute_bill", "action": "verify-identity", "confidence": 0.723116, "needs_human": false}
 {"id": "3230-11-noisy", "intent": "search_results", "action": "log-out-in", "confidence": 0.943892, "needs_human": false}
 {"id": "9722-19-noisy", "intent": "status_due_date", "action": "enter-details", "confidence": 0.644754, "needs_human": true}
 {"id": "10022-17-noisy", "intent": "missing", "action": "update-order", "confidence": 0.915294, "needs_human": false}
@@ -27,7 +27,7 @@
 {"id": "5424-12-noisy", "intent": "boots_how_2", "action": "pull-up-account", "confidence": 0.5, "needs_human": true}
 {"id": "9999-13-noisy", "intent": "status", "action": "ask-the-oracle", "confidence": 0.507862, "needs_human": true}
 {"id": "865-9-noisy", "intent": "pricing_1", "action": "record-reason", "confidence": 0.5, "needs_human": true}
-{"id": "8032-28-noisy", "intent": "missing", "action": "notify-team", "confidence": 0.160268, "needs_human": true}
+{"id": "8032-28-noisy", "intent": "missing", "action": "record-reason", "confidence": 0.320535, "needs_human": true}
 {"id": "9534-11-noisy", "intent": "return_size", "action": "validate-purchase", "confidence": 0.892199, "needs_human": false}
 {"id": "3898-7-noisy", "intent": "membership_3", "action": "search-membership", "confidence": 0.734185, "needs_human": false}
 {"id": "7958-19-noisy", "intent": "refund_initiate", "action": "offer-refund", "confidence": 0.703375, "needs_human": true}
@@ -41,7 +41,7 @@
 {"id": "5660-7-noisy", "intent": "return_color", "action": "pull-up-account", "confidence": 0.962393, "needs_human": false}
 {"id": "2725-11-noisy", "intent": "status_credit_missing", "action": "record-reason", "confidence": 0.907736, "needs_human": false}
 {"id": "7626-6-noisy", "intent": "policy_3", "action": "select-faq", "confidence": 0.283074, "needs_human": true}
-{"id": "773-18-noisy", "intent": "pricing_3", "action": "membership", "confidence": 0.143731, "needs_human": true}
+{"id": "773-18-noisy", "intent": "pricing_3", "action": "search-faq", "confidence": 0.143731, "needs_human": true}
 {"id": "9600-5-noisy", "intent": "cost", "action": "pull-up-account", "confidence": 0.966115, "needs_human": false}
 {"id": "1150-10-noisy", "intent": "shirt_how_2", "action": "select-faq", "confidence": 0.943441, "needs_human": false}
 {"id": "7823-12-noisy", "intent": "bad_price_competitor", "action": "verify-identity", "confidence": 0.914072, "needs_human": false}
@@ -69,7 +69,7 @@
 {"id": "8428-11-noisy", "intent": "mistimed_billing_already_returned", "action": "validate-purchase", "confidence": 0.936221, "needs_human": false}
 {"id": "8633-18-noisy", "intent": "missing", "action": "shipping-status", "confidence": 0.635537, "needs_human": true}
 {"id": "1894-7-noisy", "intent": "cost", "action": "pull-up-account", "confidence": 0.967946, "needs_human": false}
-{"id": "5793-18-noisy", "intent": "manage_dispute_bill", "action": "membership", "confidence": 0.086663, "needs_human": true}
+{"id": "5793-18-noisy", "intent": "manage_dispute_bill", "action": "update-order", "confidence": 0.5, "needs_human": true}
 {"id": "6766-8-noisy", "intent": "promo_code_invalid", "action": "pull-up-account", "confidence": 0.968233, "needs_human": false}
 {"id": "5891-13-noisy", "intent": "status", "action": "ask-the-oracle", "confidence": 0.877541, "needs_human": false}
 {"id": "7727-8-noisy", "intent": "recover_password", "action": "pull-up-account", "confidence": 0.962815, "needs_human": false}
@@ -107,13 +107,13 @@
 {"id": "5597-5-noisy", "intent": "out_of_stock_general", "action": "pull-up-account", "confidence": 0.946777, "needs_human": false}
 {"id": "9729-16-noisy", "intent": "cost", "action": "shipping-status", "confidence": 0.643184, "needs_human": true}
 {"id": "3838-21-noisy", "intent": "manage_extension", "action": "update-account", "confidence": 0.821139, "needs_human": true}
-{"id": "928-9-noisy", "intent": "status_due_date", "action": "subscription-status", "confidence": 0.290101, "needs_human": true}
+{"id": "928-9-noisy", "intent": "status_due_date", "action": "search-membership", "confidence": 0.290101, "needs_human": true}
 {"id": "756-8-noisy", "intent": "status_service_added", "action": "record-reason", "confidence": 0.732512, "needs_human": false}
 {"id": "1831-8-noisy", "intent": "out_of_stock_one_item", "action": "notify-team", "confidence": 0.948955, "needs_human": false}
 {"id": "8525-5-noisy", "intent": "out_of_stock_general", "action": "pull-up-account", "confidence": 0.895056, "needs_human": false}
 {"id": "4957-12-noisy", "intent": "status_due_date", "action": "verify-identity", "confidence": 0.704851, "needs_human": true}
 {"id": "6703-16-noisy", "intent": "manage_create", "action": "membership", "confidence": 0.716713, "needs_human": false}
-{"id": "8544-12-noisy", "intent": "status", "action": "ask-the-oracle", "confidence": 0.760992, "needs_human": false}
+{"id": "8544-12-noisy", "intent": "status", "action": "ask-the-oracle", "confidence": 0.521984, "needs_human": true}
 {"id": "7715-4-noisy", "intent": "pricing_4", "action": "search-pricing", "confidence": 0.843503, "needs_human": false}
 {"id": "2385-17-noisy", "intent": "recover_password", "action": "verify-identity", "confidence": 0.930036, "needs_human": false}
 {"id": "3779-27-noisy", "intent": "status_delivery_time", "action": "pull-up-account", "confidence": 0.7171, "needs_human": false}
@@ -122,12 +122,12 @@
 {"id": "1294-4-noisy", "intent": "shopping_cart", "action": "log-out-in", "confidence": 0.800127, "needs_human": false}
 {"id": "1676-9-noisy", "intent": "jeans_other_2", "action": "search-jeans", "confidence": 0.775707, "needs_human": false}
 {"id": "814-19-noisy", "intent": "manage_pay_bill", "action": "enter-details", "confidence": 0.853741, "needs_human": false}
-{"id": "4198-21-noisy", "intent": "missing", "action": "record-reason", "confidence": 0.281687, "needs_human": true}
+{"id": "4198-21-noisy", "intent": "missing", "action": "make-purchase", "confidence": 0.140844, "needs_human": true}
 {"id": "9808-6-noisy", "intent": "shopping_cart", "action": "log-out-in", "confidence": 0.9653, "needs_human": false}
 {"id": "5131-7-noisy", "intent": "shirt_other_1", "action": "select-faq", "confidence": 0.948994, "needs_human": false}
 {"id": "930-6-noisy", "intent": "status_due_date", "action": "pull-up-account", "confidence": 0.702162, "needs_human": true}
 {"id": "4169-15-noisy", "intent": "shopping_cart", "action": "log-out-in", "confidence": 0.903419, "needs_human": false}
-{"id": "792-8-noisy", "intent": "missing", "action": "verify-identity", "confidence": 0.253265, "needs_human": true}
+{"id": "792-8-noisy", "intent": "missing", "action": "validate-purchase", "confidence": 0.753265, "needs_human": false}
 {"id": "4829-11-noisy", "intent": "manage", "action": "pull-up-account", "confidence": 0.820584, "needs_human": false}
 {"id": "2825-21-noisy", "intent": "cost", "action": "shipping-status", "confidence": 0.725623, "needs_human": false}
 {"id": "5724-19-noisy", "intent": "refund_initiate", "action": "record-reason", "confidence": 0.948705, "needs_human": false}
@@ -147,7 +147,7 @@
 {"id": "4515-11-noisy", "intent": "manage_dispute_bill", "action": "verify-identity", "confidence": 0.96112, "needs_human": false}
 {"id": "4432-4-noisy", "intent": "timing_3", "action": "search-faq", "confidence": 0.5, "needs_human": true}
 {"id": "1396-20-noisy", "intent": "manage_dispute_bill", "action": "ask-the-oracle", "confidence": 0.084051, "needs_human": true}
-{"id": "177-34-noisy", "intent": "recover_password", "action": "notify-team", "confidence": 0.149985, "needs_human": true}
+{"id": "177-34-noisy", "intent": "recover_password", "action": "verify-identity", "confidence": 0.299971, "needs_human": true}
 {"id": "651-4-noisy", "intent": "timing_4", "action": "search-timing", "confidence": 0.770266, "needs_human": false}
 {"id": "2778-13-noisy", "intent": "bad_price_competitor", "action": "select-faq", "confidence": 0.769858, "needs_human": false}
 {"id": "6716-9-noisy", "intent": "status_credit_missing", "action": "ask-the-oracle", "confidence": 0.887156, "needs_human": false}
@@ -158,7 +158,7 @@
 {"id": "6798-10-noisy", "intent": "manage_pay_bill", "action": "verify-identity", "confidence": 0.961157, "needs_human": false}
 {"id": "5251-23-noisy", "intent": "return_stain", "action": "membership", "confidence": 0.688402, "needs_human": true}
 {"id": "7168-15-noisy", "intent": "manage_dispute_bill", "action": "ask-the-oracle", "confidence": 0.713829, "needs_human": false}
-{"id": "3630-16-noisy", "intent": "missing", "action": "update-order", "confidence": 0.221842, "needs_human": true}
+{"id": "3630-16-noisy", "intent": "missing", "action": "membership", "confidence": 0.5, "needs_human": true}
 {"id": "8484-6-noisy", "intent": "jacket_how_3", "action": "search-faq", "confidence": 0.971521, "needs_human": false}
 {"id": "3464-11-noisy", "intent": "status", "action": "ask-the-oracle", "confidence": 0.723084, "needs_human": false}
 {"id": "5260-14-noisy", "intent": "slow_speed", "action": "try-again", "confidence": 0.69534, "needs_human": true}
@@ -171,7 +171,7 @@
 {"id": "6110-8-noisy", "intent": "status_due_amount", "action": "verify-identity", "confidence": 0.912447, "needs_human": false}
 {"id": "4411-16-noisy", "intent": "bad_price_yesterday", "action": "promo-code", "confidence": 0.957291, "needs_human": false}
 {"id": "4701-7-noisy", "intent": "manage", "action": "shipping-status", "confidence": 0.751758, "needs_human": false}
-{"id": "2018-22-noisy", "intent": "manage", "action": "update-order", "confidence": 0.915276, "needs_human": false}
+{"id": "2018-22-noisy", "intent": "manage", "action": "update-order", "confidence": 0.915276, "needs_human": true}
 {"id": "7362-8-noisy", "intent": "status_delivery_time", "action": "verify-identity", "confidence": 0.962693, "needs_human": false}
 {"id": "8857-14-noisy", "intent": "status_due_date", "action": "subscription-status", "confidence": 0.495674, "needs_human": true}
 {"id": "2996-33-noisy", "intent": "missing", "action": "make-purchase", "confidence": 0.72548, "needs_human": true}
@@ -238,7 +238,7 @@
 {"id": "3019-10-noisy", "intent": "out_of_stock_one_item", "action": "record-reason", "confidence": 0.951683, "needs_human": false}
 {"id": "6905-9-noisy", "intent": "manage_dispute_bill", "action": "membership", "confidence": 0.216109, "needs_human": true}
 {"id": "3219-4-noisy", "intent": "search_results", "action": "search-faq", "confidence": 0.5, "needs_human": true}
-{"id": "2803-14-noisy", "intent": "status_service_added", "action": "promo-code", "confidence": 0.344387, "needs_human": true}
+{"id": "2803-14-noisy", "intent": "status_service_added", "action": "update-account", "confidence": 0.172193, "needs_human": true}
 {"id": "4880-14-noisy", "intent": "status_questions", "action": "verify-identity", "confidence": 0.795215, "needs_human": false}
 {"id": "5486-25-noisy", "intent": "status_payment_method", "action": "update-order", "confidence": 0.73655, "needs_human": true}
 {"id": "3908-13-noisy", "intent": "manage_pay_bill", "action": "verify-identity", "confidence": 0.958983, "needs_human": false}
@@ -260,14 +260,14 @@
 {"id": "5830-27-noisy", "intent": "status_service_added", "action": "pull-up-account", "confidence": 0.736704, "needs_human": false}
 {"id": "3955-4-noisy", "intent": "membership_3", "action": "search-faq", "confidence": 0.969226, "needs_human": false}
 {"id": "7704-12-noisy", "intent": "credit_card", "action": "log-out-in", "confidence": 0.945293, "needs_human": false}
-{"id": "9072-17-noisy", "intent": "return_size", "action": "membership", "confidence": 0.690565, "needs_human": true}
+{"id": "9072-17-noisy", "intent": "return_size", "action": "enter-details", "confidence": 0.190565, "needs_human": true}
 {"id": "3702-30-noisy", "intent": "recover_username", "action": "verify-identity", "confidence": 0.213815, "needs_human": true}
-{"id": "9670-5-noisy", "intent": "jacket_other_2", "action": "search-jacket", "confidence": 0.31338, "needs_human": true}
+{"id": "9670-5-noisy", "intent": "jacket_other_2", "action": "search-shirt", "confidence": 0.15669, "needs_human": true}
 {"id": "10275-26-noisy", "intent": "refund_initiate", "action": "offer-refund", "confidence": 0.887298, "needs_human": true}
 {"id": "9929-15-noisy", "intent": "credit_card", "action": "log-out-in", "confidence": 0.877762, "needs_human": false}
 {"id": "5992-12-noisy", "intent": "jacket_how_2", "action": "select-faq", "confidence": 0.945807, "needs_human": false}
 {"id": "3702-28-noisy", "intent": "status_delivery_time", "action": "verify-identity", "confidence": 0.918587, "needs_human": false}
-{"id": "1245-28-noisy", "intent": "search_results", "action": "enter-details", "confidence": 0.136214, "needs_human": true}
+{"id": "1245-28-noisy", "intent": "search_results", "action": "membership", "confidence": 0.5, "needs_human": true}
 {"id": "3990-6-noisy", "intent": "manage_pay_bill", "action": "pull-up-account", "confidence": 0.969997, "needs_human": false}
 {"id": "10544-7-noisy", "intent": "status_delivery_time", "action": "pull-up-account", "confidence": 0.971124, "needs_human": false}
 {"id": "8205-7-noisy", "intent": "bad_price_competitor", "action": "pull-up-account", "confidence": 0.898665, "needs_human": false}
@@ -296,5 +296,5 @@
 {"id": "6569-9-noisy", "intent": "recover_password", "action": "enter-details", "confidence": 0.945843, "needs_human": false}
 {"id": "5852-11-noisy", "intent": "out_of_stock_general", "action": "record-reason", "confidence": 0.81162, "needs_human": false}
 {"id": "10544-17-noisy", "intent": "status_delivery_time", "action": "ask-the-oracle", "confidence": 0.938837, "needs_human": false}
-{"id": "2778-12-noisy", "intent": "out_of_stock_general", "action": "search-pricing", "confidence": 0.246674, "needs_human": true}
+{"id": "2778-12-noisy", "intent": "out_of_stock_general", "action": "search-timing", "confidence": 0.746674, "needs_human": false}
 {"id": "7079-6-noisy", "intent": "shopping_cart", "action": "select-faq", "confidence": 0.5, "needs_human": true}

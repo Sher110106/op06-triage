@@ -1,0 +1,45 @@
+{
+ "mode": "cpu",
+ "repository": "/home/sher/op06/refinement-20261017",
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.8117,
+  "action_acc_clean": 0.8145,
+  "action_acc_noisy": 0.7933,
+  "noisy_gap": 0.0212,
+  "matched_noisy_gap": 0.0034,
+  "intent_acc_noisy": 0.65,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.3824,
+  "distinct_confidences": 2204,
+  "policy_violation": 0.0804,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "review_rate": 0.2839,
+ "safety": {
+  "automatic": 1647,
+  "forbidden_automatic": 25,
+  "high_risk_forbidden_automatic": 3
+ },
+ "latency_ms": {
+  "p50": 95.382,
+  "p95": 135.938,
+  "p99": 154.877,
+  "max": 279.966,
+  "mean": 88.882
+ },
+ "concurrency": 8,
+ "llm_calls": 0,
+ "llm_cost_usd": 0.0,
+ "llm_cost_uncached_usd": 0.0,
+ "llm_statuses": {}
+}

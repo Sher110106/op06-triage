@@ -3,14 +3,14 @@
  "claimed": {
   "intent_accuracy": 0.7091,
   "macro_f1": 0.7015,
-  "action_accuracy": 0.8365,
-  "noisy_accuracy": 0.79,
+  "action_accuracy": 0.8361,
+  "noisy_accuracy": 0.82,
   "schema_valid_pct": 100.0,
-  "top70_error_ratio": 0.433,
-  "cost_per_message_usd": 0.0001247657,
-  "latency_p95_s": 1.913
+  "top70_error_ratio": 0.4356,
+  "cost_per_message_usd": 0.0001261379,
+  "latency_p95_s": 1.505
  },
- "claimed_from_run": "dev-http-llm",
+ "claimed_from_run": "dev-http-llm-20261017",
  "claimed_notes": {
   "intent_accuracy": "share of the 2,300 labelled rows (dev 2,000 + dev_noisy 300) with the right intent",
   "macro_f1": "intent macro-F1 over the same 2,300 rows",
@@ -19,23 +19,32 @@
   "schema_valid_pct": "per cent of all 2,309 answers (the 9 hostile rows included) that pass the grader's schema check",
   "top70_error_ratio": "error rate on the 70% of rows with the highest confidence divided by the error rate on all rows; lower is better",
   "latency_p95_s": "p95 of client-measured request time in seconds (latency_bench.json latency_ms.p95 / 1000): all 2,309 rows over HTTP, concurrency 8, Apple M1 laptop (macOS-26.5-arm64-arm-64bit), LLM step on, one uvicorn worker",
-  "cost_per_message_usd": "API list price per message at uncached rates, every prompt token at the full input price (MODELS.md: cache discounts are not credited to benchmark cost): the run's LLM cost over the 2,309 messages of the run (latency_bench.json llm cost / sample_count). At cached rates it was 4.01631e-05 USD per message.",
+  "cost_per_message_usd": "API list price per message at uncached rates, every prompt token at the full input price (MODELS.md: cache discounts are not credited to benchmark cost): the run's LLM cost over the 2,309 messages of the run (latency_bench.json llm cost / sample_count). At cached rates it was 4.06082e-05 USD per message.",
   "cost_source": "latency_bench.json cost_per_message_uncached_usd",
-  "cost_per_message_usd_cached_rate": 4.01631e-05,
-  "cost_per_message_usd_uncached_rate": 0.0001247657
+  "cost_per_message_usd_cached_rate": 4.06082e-05,
+  "cost_per_message_usd_uncached_rate": 0.0001261379
  },
- "note": "Development measurements on the published dev, dev_noisy and hostile files, all from run dev-http-llm: every answer came over HTTP from the running service. claimed_notes says what each claim measures.",
+ "note": "Development measurements on the published dev, dev_noisy and hostile files, all from run dev-http-llm-20261017: every answer came over HTTP from the running service. claimed_notes says what each claim measures.",
  "input_sha256_definition": "SHA-256 of the run's input_files concatenated in the order listed",
  "spend_usd": {
   "llm_call_runs_list_with_cache": 2.6841,
   "llm_call_runs_list_uncached": 8.7108,
   "llm_call_runs_reported_by_openrouter": 1.2774,
-  "service_runs_list": 0.1884,
+  "service_runs_list": 0.2828,
   "service_runs": [
    "dev-http-llm",
+   "dev-http-llm-20261017",
    "dev-http-llm-r1"
   ],
-  "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. Not included: the 13 Oct probe, made before this repo (see ledger.prior_spend_outside_repo); its call ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl and summed under that entry's probe_spend_usd."
+  "note": "US dollars at the list prices in experiments/llm_tail/llm_common.PRICES and triage/llm_action.py. Not included: the 13 Oct probe, made before this repo (see ledger.prior_spend_outside_repo); its call ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl and summed under that entry's probe_spend_usd.",
+  "refinement_20261017": {
+   "source": "results/refinement-20261017/spend.json",
+   "recorded_total_with_cache": 0.19786692,
+   "uncached_list_total": 0.5961055,
+   "already_in_service_runs_list": 0.09440027,
+   "additional_to_service_runs_list": 0.10346665,
+   "note": "The final live run is already in service_runs_list. Add only additional_to_service_runs_list to that total; the full refinement total also includes the intermediate live run, smoke and both Claude review attempts. Historical probe/ledger costs remain separate."
+  }
  },
  "ledger": {
   "raw_path": "results/raw/llm-ledger/ledger.jsonl",
@@ -1951,6 +1960,65 @@
    "bars_pass": null
   },
   {
+   "run_id": "completion-http-cpu-20261017",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/completion-http-cpu-20261017/predictions.jsonl",
+   "created": "2026-10-17T23:10:38+0530",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "input_files_match_run_record": true,
+   "load": {
+    "concurrency": 8,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 92.71,
+     "p95": 138.238,
+     "p99": 162.321,
+     "max": 270.257,
+     "mean": 87.402
+    },
+    "throughput_rps": 91.16
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
    "run_id": "dev-baseline",
    "kind": "graded",
    "seed": null,
@@ -2099,6 +2167,64 @@
    }
   },
   {
+   "run_id": "dev-http-cpu-20261017",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-http-cpu-20261017/predictions.jsonl",
+   "created": "2026-10-17T17:25:03+00:00",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "load": {
+    "concurrency": 8,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 96.403,
+     "p95": 136.184,
+     "p99": 156.594,
+     "max": 173.7,
+     "mean": 88.944
+    },
+    "throughput_rps": 89.57
+   },
+   "api_cost_usd": 0.0,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8117,
+    "action_acc_clean": 0.8145,
+    "action_acc_noisy": 0.7933,
+    "noisy_gap": 0.0212,
+    "matched_noisy_gap": 0.0034,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.376,
+    "distinct_confidences": 2229,
+    "policy_violation": 0.0804,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
    "run_id": "dev-http-llm",
    "kind": "graded",
    "seed": 0,
@@ -2150,6 +2276,69 @@
     "schema_valid_pct": 100.0,
     "top70_error_ratio": 0.433,
     "distinct_confidences": 2227,
+    "policy_violation": 0.0839,
+    "gold_policy_violation": 0.0883
+   },
+   "bars_pass": {
+    "intent_accuracy_all": true,
+    "action_accuracy_all": true,
+    "macro_f1_all": true,
+    "schema_valid_pct": true,
+    "noisy_gap": true,
+    "top70_error_ratio": true
+   }
+  },
+  {
+   "run_id": "dev-http-llm-20261017",
+   "kind": "graded",
+   "seed": 0,
+   "model": "service-http@c007c7a3769a + openai/gpt-6-luna-20260922",
+   "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+   "status": "completed",
+   "input_sha256": "de16a0ab831dbe9841086acaf1e8868ec4ff057df08669353e16814466707314",
+   "input_files": [
+    "data/op06/dev.jsonl",
+    "data/op06/dev_noisy.jsonl",
+    "data/op06/hostile.jsonl"
+   ],
+   "raw_path": "results/raw/dev-http-llm-20261017/predictions.jsonl",
+   "created": "2026-10-17T17:27:02+00:00",
+   "evidence": "development measurement",
+   "rows": 2309,
+   "load": {
+    "concurrency": 8,
+    "sample_count": 2309,
+    "errors": 0,
+    "non_200": 0,
+    "schema_invalid": 0,
+    "latency_ms": {
+     "p50": 8.578,
+     "p95": 1504.782,
+     "p99": 1859.153,
+     "max": 3119.911,
+     "mean": 296.601
+    },
+    "throughput_rps": 26.61
+   },
+   "llm_calls": 460,
+   "api_cost_usd": 0.09376428,
+   "api_cost_usd_uncached": 0.2912524,
+   "api_cost_note": "list price from the token counts the provider returned (GET /metrics before and after the run); per-call token counts and costs are in service_log.jsonl",
+   "llm_calls_before_window": 3,
+   "api_cost_usd_before_window": 0.00063599,
+   "grader_version": "2.1",
+   "metrics": {
+    "intent_acc": 0.7091,
+    "macro_f1": 0.7015,
+    "action_acc": 0.8361,
+    "action_acc_clean": 0.8385,
+    "action_acc_noisy": 0.82,
+    "noisy_gap": 0.0185,
+    "matched_noisy_gap": -0.0033,
+    "intent_acc_noisy": 0.65,
+    "schema_valid_pct": 100.0,
+    "top70_error_ratio": 0.4356,
+    "distinct_confidences": 2223,
     "policy_violation": 0.0839,
     "gold_policy_violation": 0.0883
    },
@@ -2541,7 +2730,7 @@
    "run_id": "llm-confirm-haiku_B",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "claude-haiku-5-5",
    "status": "completed",
    "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
@@ -2584,7 +2773,7 @@
    "run_id": "llm-confirm-haiku_B_smoke",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "claude-haiku-5-5",
    "status": "completed",
    "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
@@ -2627,7 +2816,7 @@
    "run_id": "llm-confirm-luna_B",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "openai/gpt-6-luna-20260922",
    "status": "completed",
    "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
@@ -2675,7 +2864,7 @@
    "run_id": "llm-confirm-luna_B_smoke",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "openai/gpt-6-luna-20260922",
    "status": "completed",
    "input_sha256": "1ee831219a2d724ad7e85f8b7729371b63b3bd0fde957cd94e102862be34ff9a",
@@ -2854,7 +3043,7 @@
    "run_id": "llm-tail-haiku_V3_low",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "claude-haiku-5-5",
    "status": "completed",
    "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
@@ -2898,7 +3087,7 @@
    "run_id": "llm-tail-haiku_V3_low_smoke",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "claude-haiku-5-5",
    "status": "completed",
    "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
@@ -2942,7 +3131,7 @@
    "run_id": "llm-tail-luna_V3_none",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "openai/gpt-6-luna-20260922",
    "status": "completed",
    "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
@@ -2991,7 +3180,7 @@
    "run_id": "llm-tail-luna_V3_none_smoke",
    "kind": "llm_calls",
    "seed": null,
-   "seed_note": "provider-side sampling; no seed can be set",
+   "seed_note": "provider-side sampling; these requests did not specify a seed",
    "model": "openai/gpt-6-luna-20260922",
    "status": "completed",
    "input_sha256": "d25a563712f2ebc33642782e0ad8cd957d3a3b544cf76518c5ce65048429135a",
@@ -3496,10 +3685,17 @@
    }
   }
  ],
+ "refinement_review": {
+  "report": "experiments/refinement/REPORT.md",
+  "protocol": "experiments/refinement/PROTOCOL.md",
+  "results": "results/refinement-20261017/",
+  "historical_submission": "results/history/2026-10-14/",
+  "note": "Includes negative experiments, controlled confirmation, intermediate and final service runs, and the new API budget ledger. Canonical predictions now identify the final validated run."
+ },
  "checks": {
-  "raw_paths_checked": 83,
+  "raw_paths_checked": 86,
   "all_exist_inside_repo_no_symlinks": true,
-  "folders_in_results_raw": 76,
+  "folders_in_results_raw": 79,
   "all_folders_listed": true
  }
 }

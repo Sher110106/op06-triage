@@ -35,7 +35,9 @@
 # fresh model beside the shipped one and reports the difference. serve, eval, smoke and http-eval train only if
 # the shipped model is missing, and build models/retrieval.joblib (120 MB, too big for git, rebuilt in about
 # 15 s) first if the LLM step is on and the index is missing.
-# Default RUN: dev-pipeline-cpu or dev-pipeline-llm (eval), dev-http-cpu or dev-http-llm (http-eval).
+# Default RUN: dev-pipeline-{cpu,llm}-20261017 (eval), dev-http-{cpu,llm}-20261017 (http-eval).
+# Only the HTTP run named by harness.manifest.CLAIM_RUN replaces canonical submission files;
+# other runs are diagnostics, so a CPU-only rerun cannot silently replace the LLM submission.
 # Each run writes results/raw/<RUN>/: predictions.jsonl, report.json (harness summary) and report_official.json
 # (grader.py output, unchanged); eval adds details.jsonl and meta.json, http-eval adds meta.json,
 # latency_bench.json and service_log.jsonl (the service's stdout: one JSON line per request, warm-up included,
@@ -258,7 +260,7 @@ cmd_eval() {
   ensure_models "$LLM_ON"
   local run="${1:-}"
   if [ -z "$run" ]; then
-    if [ "$LLM_ON" = 1 ]; then run=dev-pipeline-llm; else run=dev-pipeline-cpu; fi
+    if [ "$LLM_ON" = 1 ]; then run=dev-pipeline-llm-20261017; else run=dev-pipeline-cpu-20261017; fi
   fi
   "$PY" -m harness.eval predict --system pipeline --run-id "$run" --force
   manifest
@@ -330,14 +332,13 @@ cmd_http_eval() {
   local run="${1:-}"
   start_service
   if [ -z "$run" ]; then
-    if [ "$LLM_ON" = 1 ]; then run=dev-http-llm; else run=dev-http-cpu; fi
+    if [ "$LLM_ON" = 1 ]; then run=dev-http-llm-20261017; else run=dev-http-cpu-20261017; fi
   fi
   local out="results/raw/$run"
   mkdir -p "$out"
   "$PY" scripts/loadtest.py --url "$URL" --concurrency 8 --wait-s 10 --label "$run" \
-    --out results/latency_bench.json --pred-out "$TMP/predictions.jsonl"
+    --out "$out/latency_bench.json" --pred-out "$TMP/predictions.jsonl"
   stop_service
-  cp results/latency_bench.json "$out/latency_bench.json"
   # SERVER_LOG holds the service's stdout and stderr; keep the JSON lines (stdout), drop uvicorn's text (stderr)
   "$PY" - "$SERVER_LOG" "$out/service_log.jsonl" <<'EOF'
 import json, sys
@@ -353,9 +354,10 @@ with open(sys.argv[2], "w", encoding="utf-8") as fh:
     fh.writelines(keep)
 EOF
   "$PY" - "$TMP/predictions.jsonl" "$out" <<'EOF'
-import json, platform, sys, time
+import json, platform, shutil, sys, time
 from pathlib import Path
 from harness.eval import sha256
+from harness.manifest import CLAIM_RUN
 from triage.data import DATA, SPLITS, load_split
 
 preds = {p["id"]: p for p in map(json.loads, Path(sys.argv[1]).read_text(encoding="utf-8").splitlines())}
@@ -363,11 +365,15 @@ out = Path(sys.argv[2])
 files = {"dev": "results/dev_predictions.jsonl", "noisy": "results/noisy_predictions.jsonl",
          "hostile": "results/hostile_results.jsonl"}
 every = []
+publish = out.name == CLAIM_RUN
 for split, path in files.items():
     lines = [json.dumps(preds[r["id"]], ensure_ascii=False) + "\n" for r in load_split(split) if r["id"] in preds]
-    Path(path).write_text("".join(lines), encoding="utf-8")
+    if publish:
+        Path(path).write_text("".join(lines), encoding="utf-8")
     every += lines
-Path("results/predictions.jsonl").write_text("".join(every), encoding="utf-8")
+if publish:
+    Path("results/predictions.jsonl").write_text("".join(every), encoding="utf-8")
+    shutil.copyfile(out / "latency_bench.json", "results/latency_bench.json")
 (out / "predictions.jsonl").write_text("".join(every), encoding="utf-8")
 bench = json.loads((out / "latency_bench.json").read_text(encoding="utf-8"))
 h = bench["server_health"]
@@ -394,9 +400,10 @@ meta = {"run_id": out.name, "created": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "sy
                             "discount). No customer text.",
         "note": "every prediction came back over HTTP from the running service (scripts/loadtest.py)"}
 (out / "meta.json").write_text(json.dumps(meta, indent=1))
-print(f"wrote {len(every)} predictions to results/predictions.jsonl and the three split files")
+print(f"wrote {len(every)} predictions to {out / 'predictions.jsonl'}; canonical submission "
+      f"{'updated' if publish else 'preserved (diagnostic run)'}")
 EOF
-  "$PY" -m harness.eval grade --pred results/predictions.jsonl --out "$out/report.json"
+  "$PY" -m harness.eval grade --pred "$out/predictions.jsonl" --out "$out/report.json"
   manifest
 }
 

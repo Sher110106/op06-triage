@@ -98,6 +98,7 @@ class _Work:
     flow: str = ""
     action: str = ""
     conf: float = 0.0
+    flow_probs: np.ndarray | None = None
     second: list | None = None               # [intent, p] from the last customer turn alone
     llm: LLMResult | None = None
 
@@ -321,6 +322,7 @@ class Triage:
             w.flow = self.intent_flow.get(w.intent) or str(self.cpu.fcls[pf[k].argmax()])
             w.action = str(self.cpu.acts[pa[k].argmax()])
             w.conf = float(min(1.0, max(0.0, round(float(conf[k]), 6))))
+            w.flow_probs = pf[k].copy()
         for j, k in enumerate(has):
             w, top = live[k], int(p2[j].argmax())
             second, p = str(self.cpu.icls[top]), float(p2[j][top])
@@ -367,23 +369,36 @@ class Triage:
                 action, conf, used = r.action, round((conf + agree) / 2, 6), True
             policy, s = w.policy, self.settings
             w.flags.update(policy.violations(action, w.flow, w.observed))
+            support = float(w.flow_probs @ self._prior(policy)[:, self._aidx[action]])
             reasons = sorted(w.flags & gate.ROUTE_FLAGS)
+            # Review is a product rule, independent of editable risk thresholds
+            # and the heuristic confidence update used after an LLM result.
+            if used and action != w.action:
+                reasons.append("llm_disagreement")
+            if support < policy.minimum_permission_support(action):
+                w.flags.add("policy_uncertainty")
+                reasons.append("policy_uncertainty")
             if s.route_off_policy and "off_policy" in w.flags:
                 reasons.append("off_policy")
             # route rules; a broken mask rule only shows up when every candidate was masked, and routes too
             reasons += sorted(f for f in w.flags if f.startswith("rule:"))
             if s.route_second_intent and "second_intent" in w.flags:
                 reasons.append("second_intent")
-            flagged = bool(reasons)                               # routed by a flag, not by the threshold alone
+            # Permission uncertainty needs review, but is not evidence that the
+            # predicted next-action label is wrong. Preserve its correctness
+            # score unless another flag independently calls for the old cap.
+            cap_confidence = any(reason != "policy_uncertainty" for reason in reasons)
             if conf < policy.threshold_for(action):
                 reasons.append("low_confidence")
-            if flagged:
+            if cap_confidence:
                 conf = min(conf, s.flag_conf_cap)
             resp = {"id": w.rid, "intent": w.intent, "action": action, "confidence": float(conf),
                     "needs_human": bool(reasons)}
             # labels, counts, costs and the server's own ids (returned model, provider, response id): never the prompt
             # or the answer text
             llm = None if r is None else {"status": r.status, "action": r.action, "used": used,
+                                          "agrees_with_cpu": r.action == w.action if r.status == "ok" and r.action in self._aidx else None,
+                                          "rejected_by_mask": r.status == "ok" and r.action in w.masked,
                                           "latency_s": round(r.latency_s, 4), "cost_usd": r.cost_usd,
                                           "cost_uncached_usd": r.cost_uncached_usd,
                                           "prompt_tokens": r.prompt_tokens, "completion_tokens": r.completion_tokens,
@@ -392,7 +407,8 @@ class Triage:
                                           "model": r.model, "provider": r.provider,
                                           "response_id": r.response_id}
             cpu = {"intent": w.intent, "flow": w.flow, "action": w.action, "confidence": w.conf,
-                   "second_intent": w.second, "masked": sorted(w.masked)}
+                   "second_intent": w.second, "masked": sorted(w.masked),
+                   "final_action_permission_support": round(support, 6)}
             return resp, self._trace(w, resp, reasons, cpu=cpu, llm=llm, finish_ms=(time.perf_counter() - t) * 1000)
         except Exception as e:
             return self._failed({"id": w.rid}, w.request_id, e)

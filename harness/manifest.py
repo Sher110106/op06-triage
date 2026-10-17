@@ -41,7 +41,7 @@ from pathlib import Path
 from triage.data import DATA, ROOT
 
 RAW = ROOT / "results" / "raw"
-CLAIM_RUN = "dev-http-llm"
+CLAIM_RUN = "dev-http-llm-20261017"
 CLAIM_MACHINE = "Apple M1 laptop"         # where CLAIM_RUN ran; change both together
 LEDGER_DIR = RAW / "llm-ledger"
 ALL_ROWS = ["data/op06/dev.jsonl", "data/op06/dev_noisy.jsonl", "data/op06/hostile.jsonl"]
@@ -150,7 +150,7 @@ def llm_run(d: Path, ledger: Counter) -> dict:
     u = [r.get("usage") or {} for r in recs]
     return {
         "run_id": d.name, "kind": "llm_calls", "seed": None,
-        "seed_note": "provider-side sampling; no seed can be set",
+        "seed_note": "provider-side sampling; these requests did not specify a seed",
         "model": recs[0].get("model"), "status": "completed" if st.get("ok") == len(recs) else "partial",
         "input_sha256": sha256_files(files), "input_files": files, "raw_path": str(f.relative_to(ROOT)),
         "created": meta.get("created"), "finished": meta.get("finished"), "evidence": evidence(d.name),
@@ -471,12 +471,36 @@ def main():
                 "call ledger is archived in results/raw/probe-2026-10-13/llm/ledger.jsonl and summed under that "
                 "entry's probe_spend_usd.",
     }
+    refinement_path = ROOT / "results" / "refinement-20261017" / "spend.json"
+    if refinement_path.exists():
+        review_spend = read_json(refinement_path)
+        promoted = next((r for r in paid if r["run_id"] == "dev-http-llm-20261017"), {})
+        included = (promoted.get("api_cost_usd") or 0) + (promoted.get("api_cost_usd_before_window") or 0)
+        total = review_spend["recorded_reported_or_cached_list_usd"]
+        spend["refinement_20261017"] = {
+            "source": "results/refinement-20261017/spend.json",
+            "recorded_total_with_cache": total,
+            "uncached_list_total": review_spend["uncached_list_total_usd"],
+            "already_in_service_runs_list": round(included, 8),
+            "additional_to_service_runs_list": round(total - included, 8),
+            "note": "The final live run is already in service_runs_list. Add only additional_to_service_runs_list "
+                    "to that total; the full refinement total also includes the intermediate live run, smoke "
+                    "and both Claude review attempts. Historical probe/ledger costs remain separate.",
+        }
     manifest = {"problem": "OP-06", "claimed": claimed, "claimed_from_run": CLAIM_RUN, "claimed_notes": claimed_notes,
                 "note": f"Development measurements on the published dev, dev_noisy and hostile files, all from run "
                         f"{CLAIM_RUN}: every answer came over HTTP from the running service. claimed_notes says "
                         "what each claim measures.",
                 "input_sha256_definition": "SHA-256 of the run's input_files concatenated in the order listed",
                 "spend_usd": spend, "ledger": ledger, "runs": runs}
+    manifest["refinement_review"] = {
+        "report": "experiments/refinement/REPORT.md",
+        "protocol": "experiments/refinement/PROTOCOL.md",
+        "results": "results/refinement-20261017/",
+        "historical_submission": "results/history/2026-10-14/",
+        "note": "Includes negative experiments, controlled confirmation, intermediate and final service runs, "
+                "and the new API budget ledger. Canonical predictions now identify the final validated run.",
+    }
     manifest["checks"] = check(runs, ledger)
     (ROOT / "results" / "manifest.json").write_text(json.dumps(manifest, indent=1))
     print(json.dumps({"runs": len(runs), "kinds": dict(Counter(r["kind"] for r in runs)), "claimed": claimed,

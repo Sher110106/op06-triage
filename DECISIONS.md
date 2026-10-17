@@ -157,20 +157,69 @@ run only against a local fake (P5-2). No LLM intent step; no encoder.
   +0.022] on fold B with 8.1% of rows calling; `experiments/ablations/llm_share_fold_b.json`) or turn the flag off.
 - The encoder blend, with its confidence model and thresholds refit, matching the Luna step on fresh rows within
   the floor. The rule does not name it the v2 path, but it removes every outside call, so I would try it first.
-- A CPU combination of the old (intent, last action) lookup and the learned action model, not tested. Either is
-  right on clean dev 86.9% of the time, against 81.5% for the learned model alone, and 35 of the 37 "state ignored"
-  rows Luna fixed were already right under the lookup (the same counts in both live runs; `taxonomy.json`
-  `rule_vs_learned_and_luna`). If such a combination matched the Luna step on fold B, it would replace it.
+- A deployable combination of transition lookup and the learned action model matching the Luna step on new
+  validation. The earlier 86.9% clean-dev union was an oracle diagnostic using gold intent. It motivated the
+  17 Oct predicted-intent smoothed-blend test, which failed its confirmation criterion (D3); it is not a
+  performance promise. Other combinations would need a new fitting/selection/confirmation comparison.
 - A hidden-test or production noisy gap near 0.10. Then skip Luna on rows with noise signs, or turn it off.
 - A fall in Luna/CPU agreement (47.4% on dev, `experiments/chaos/chaos.md`), the first sign of a different model
-  behind the alias. The service does not count agreement yet.
+  behind the alias. Since 17 Oct the service counts accepted agreement/disagreement and mask rejection in
+  `llm.decisions`; the older runs predate these counters.
 - A change to the gate or the high-risk routing point that breaks (gate + 1) / 2 < high-risk point (now 0.8214
-  against 0.8883), or gate / 2 < both points. Then an agreeing LLM could send a high-risk action out alone, or a
-  changed action could skip review. Nothing in the code checks this (`RUNBOOK.md`, Configuration).
+  against 0.8883). Then an agreeing LLM could send a high-risk action out alone. Since 17 Oct an accepted
+  changed action explicitly receives `llm_disagreement` review, independently of thresholds (D3 below);
+  agreement-based confidence still needs validation after a change (`RUNBOOK.md`, Configuration).
 - Reviewers ignoring the suggestion on routed rows. Then the step buys only the lower routed share.
 
 Provider faults do not reverse it: in fake-provider runs, 1,785 of 1,785 rows with a failed call kept the CPU
 answer (`chaos.md`, exploratory).
+
+## D3. Additional review for uncertain permission (17 October)
+
+**Observation.** Astra's review found 28 automatic suggestions forbidden by the labelled flow in the saved
+submitted run, including three high-risk suggestions. The existing off-policy check knows only an inferred
+flow. A high-confidence action can therefore pass that check under a mistaken intent/flow.
+
+**Options.** Keep the existing guard; review every high-risk suggestion; hard-mask actions under one guessed
+flow; or add a review threshold for the flow classifier's probability mass on flows permitting the final
+action. Only the last is tested/adopted here. Making both checks use the same guessed flow would make them
+consistent without establishing actual permission.
+
+**Experiment.** The fixed protocol in `experiments/refinement/PROTOCOL.md` refits all models on a new
+conversation-grouped 70/15/15 training partition. Selection chooses .90 permission support for high-risk
+actions from {off, .80, .90, .95}. The guard-only contrast was explicitly written before confirmation:
+identical reference actions/calibration/cutoffs with and without its selected guard.
+
+On 3,004 confirmation cases, automatic forbidden suggestions fall 37 to 32, including high-risk 8 to 3,
+with 15 extra reviews (752 to 767). Forbidden-automatic rate delta has 95% conversation-bootstrap interval
+[-0.003656, -0.000330]. Original action-only cost changes 47.7031 to 47.5366 per 100, interval for delta
+[-1.1091, +0.4995]; a cost saving is not established. One review costs 1, wrong high/low-risk automatic actions
+10/3; selection also prices a forbidden automatic suggestion at 10. The guard passes the pre-specified point
+limits of fewer forbidden suggestions, at most +5 review points and +2 original cost units per 100.
+
+**Choice.** `permission_review = { high = 0.90 }` in policy version `2026-10-17.2`, checked on the final
+post-LLM action. Missing tiers or zero disable it. It adds `policy_uncertainty` review without changing the
+action. When this is the only non-threshold reason, action-correctness confidence is preserved rather than
+arbitrarily capped; an intermediate service check and regression test exposed that distinction. Three
+high-risk forbidden suggestions remain on confirmation: this reduces risk, it does not prove
+permission. Public-dev and real-HTTP regression measurements are recorded in `experiments/refinement/REPORT.md`.
+
+**Related rejected option.** A smoothed state-transition probability blend selected at .30 gained only
+0.005992 action accuracy on confirmation, interval [-0.000657, +0.012480]. It fails the fixed +.010/positive-
+lower-interval criterion. The model bundle, action selector and LLM gate remain unchanged. The earlier 86.9%
+lookup/classifier union was an oracle diagnostic with gold intent, not deployable blend performance.
+
+**Safety implementation.** Every accepted LLM action change now explicitly forces `llm_disagreement` review.
+A real-pipeline test reproduced automatic handling under zero thresholds before this fix. Agreement and mask
+rejection have their own bounded telemetry; replays do not count decisions twice. This does not calibrate the
+hybrid confidence heuristic.
+
+**What would reverse the guard.** On new conversations, review increases over five points or original action-
+only cost increases over two units/100 without enough policy benefit; a new flow distribution makes permission
+mass uninformative; or the manager changes the error costs or authoritative permitted lists. Re-score a policy
+change before shipping and monitor `policy_uncertainty`, disagreement and automatic outcomes. Confidence in the
+actual intent and permission remains a separate residual risk. The new comparison is a held-out re-split of a
+previously studied public dataset, not a new hidden test.
 
 ## Smaller decisions
 

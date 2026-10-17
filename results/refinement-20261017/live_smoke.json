@@ -1,0 +1,109 @@
+{
+ "purpose": "Compatibility/routing/telemetry smoke only, not an accuracy estimate",
+ "key_balance_before": 9.992185,
+ "results": [
+  {
+   "id": "3652-24",
+   "http_status": 200,
+   "response": {
+    "id": "3652-24",
+    "intent": "status_service_added",
+    "action": "pull-up-account",
+    "confidence": 0.633383,
+    "needs_human": true
+   }
+  },
+  {
+   "id": "5730-16",
+   "http_status": 200,
+   "response": {
+    "id": "5730-16",
+    "intent": "status_due_amount",
+    "action": "enter-details",
+    "confidence": 0.147,
+    "needs_human": true
+   }
+  },
+  {
+   "id": "3582-10",
+   "http_status": 200,
+   "response": {
+    "id": "3582-10",
+    "intent": "slow_speed",
+    "action": "notify-team",
+    "confidence": 0.8064,
+    "needs_human": false
+   }
+  }
+ ],
+ "metrics": {
+  "uptime_s": 5.013,
+  "ready": true,
+  "requests": 4,
+  "by_status": {
+   "200": 4
+  },
+  "errors": {},
+  "routed": 3,
+  "abstentions": 0,
+  "replays": 1,
+  "flags": {},
+  "route_reasons": {
+   "low_confidence": 2,
+   "llm_disagreement": 1
+  },
+  "llm": {
+   "calls": 3,
+   "by_status": {
+    "ok": 3
+   },
+   "decisions": {
+    "accepted_agreement": 2,
+    "accepted_disagreement": 1
+   },
+   "cost_usd": 0.00123113,
+   "cost_uncached_usd": 0.0019283,
+   "prompt_tokens": 18803,
+   "completion_tokens": 96,
+   "cached_tokens": 10148,
+   "cache_write_tokens": 8646
+  },
+  "latency_ms": {
+   "window": 4,
+   "p50": 1408.89,
+   "p95": 2062.752,
+   "p99": 2151.046
+  },
+  "idempotency": {
+   "entries": 3,
+   "capacity": 10000,
+   "in_flight": 0
+  },
+  "policy_version": "2026-10-14.2"
+ },
+ "health": {
+  "status": "ok",
+  "bundle": "models/classical_v0.joblib",
+  "bundle_sha256": "c007c7a3769a48e845f21d079230d62b46d860bebe6ebcfdb47863cab195357c",
+  "policy": {
+   "version": "2026-10-14.2",
+   "path": "policy/policy.toml",
+   "last_error": null,
+   "loaded_at": "2026-10-17T22:41:13+0530"
+  },
+  "llm": {
+   "enabled": true,
+   "mode": "on",
+   "model": "openai/gpt-6-luna-20260922",
+   "base_url_host": "openrouter.ai",
+   "dialect": "openrouter",
+   "dialect_setting": "auto",
+   "gate": 0.642841,
+   "breaker_open": false,
+   "breaker": "closed",
+   "error": null
+  },
+  "started_at": "2026-10-17T22:41:13+0530",
+  "uptime_s": 5.015
+ }
+}

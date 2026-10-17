@@ -29,9 +29,10 @@ def test_run_command_matches_the_launcher():
     assert "--no-access-log" in run
 
 
-def test_parity_clause_names_every_default_route():
-    para = DESIGN[DESIGN.index("The CPU path must reproduce"):DESIGN.index("## Modules and interfaces")]
+def test_request_flow_and_parity_name_every_default_route():
+    para = DESIGN.split("## Request flow", 1)[1].split("## Modules and interfaces", 1)[0]
     assert "gate ROUTE flag" in para and "off_policy" in para and "TRIAGE_ROUTE_OFF_POLICY" in para
+    assert "policy_uncertainty" in para and "llm_disagreement" in para
 
 
 def test_route_flags_listed():

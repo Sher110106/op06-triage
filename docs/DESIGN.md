@@ -1,4 +1,4 @@
-# v1 service design: the build contract
+# Service design: build contract and 17 October runtime
 
 This file fixes the module boundaries and interfaces so the parts can be built separately and still fit.
 Measured facts behind each choice live in `EXPERIMENT_LOG.md`; the choices themselves in `DECISIONS.md`.
@@ -14,35 +14,50 @@ HTTP POST /triage
       abstain_reason set                 -> abstention envelope, stop
     classical raw probabilities          -> pa_raw (actions), pi (intents), pf (flows)
     policy prior                         -> pa = normalise(pa_raw * (pf @ P)), P from the policy file
-    intent = argmax pi; action = argmax pa; confidence = stacker(pa, pi, pf, state)   (as classical v0)
+    intent = argmax pi; CPU action = argmax pa; confidence = stacker(pa, pi, pf, state)
+                                                                                      (CPU action correctness)
     second-intent check                  -> flag "second_intent" (intent model on the last customer turn)
     LLM action step (if enabled, confidence < gate, and no ROUTE flag)
-                                         -> action := LLM action when usable;
-                                            confidence := (confidence + agree) / 2
+                                         -> final action := usable LLM action unless rejected by mask;
+                                            confidence := (CPU confidence + agreement bit) / 2 (heuristic)
     policy rules on the final action     -> flags "off_policy", "rule:<name>"
-    routing                              -> needs_human, confidence cap for flagged rows
+    permission support                   -> flow probability mass on flows permitting the final action
+    routing                              -> llm_disagreement always routes changed accepted actions;
+                                            policy_uncertainty routes below the configured support floor;
+                                            confidence cap for other flag-routed rows
   response {id, intent, action, confidence, needs_human} (+ error object on abstention only)
 ```
 
-The CPU path must reproduce `dev-classical-v0` exactly when the LLM step is off and the policy file equals
+The historical CPU parity check reproduces `dev-classical-v0` when the LLM step is off and the policy file equals
 the bundle's table, with both thresholds equal to the bundle's `route_threshold` written in full
 (0.8498168103175511; the shipped file has the Phase 2 points instead, so the tests check parity on a copy of it
-with both points set back): same intent and action on all 2,309 rows, and same confidence and `needs_human` on
-every row not routed by a flag. A row routed by a flag may change `needs_human` and has its confidence capped at
-`TRIAGE_FLAG_CONF_CAP` (0.5). With the default settings two kinds of flag route: a gate ROUTE flag, and
-`off_policy` (`TRIAGE_ROUTE_OFF_POLICY=1`, decision D1 in `DECISIONS.md`). Measured on dev + dev_noisy against
+with both points set back and `permission_review = {}`): same intent and action on all 2,309 rows, and same confidence and `needs_human` on
+every row not routed by a flag. This is a compatibility test for an earlier configuration, not parity under the
+current default. Current policy `2026-10-17.2` enables high-risk `permission_review = 0.90`, which can add
+`policy_uncertainty` routes without changing model actions. A route caused only by that reason preserves the
+action-correctness confidence; other flag routes cap confidence at `TRIAGE_FLAG_CONF_CAP` (0.5). With the
+14 October settings two kinds of flag routed: a gate ROUTE flag and `off_policy` (`TRIAGE_ROUTE_OFF_POLICY=1`,
+decision D1 in `DECISIONS.md`). Measured on dev + dev_noisy against
 `dev-classical-v0`: 49 rows with no gate ROUTE flag differ only through `off_policy` (confidence capped on all 49,
 `needs_human` false to true on 25), and the 2 `no_dialogue` rows (4432-4 and its noisy copy) are routed and
 capped. With `TRIAGE_ROUTE_OFF_POLICY=0` the 49 rows match v0 exactly. The shipped points change only
 `needs_human` and the `low_confidence` reason: on dev + dev_noisy 30 high-risk rows start going to a person and
-207 low-risk rows stop.
+207 low-risk rows stop. These parity counts are historical and do not measure policy `2026-10-17.2`.
+
+The 17 October train-only refinement did not promote a CPU action blend: +0.0060 action accuracy, 95% interval
+[−0.000657, +0.01248], below the pre-registered +0.010 threshold and with a lower bound below zero. The four
+local models remain unchanged. A separate high-risk guard-only confirmation reduced forbidden automatic
+suggestions from 8 to 3 (all-risk count 37 to 32) with 15 additional reviews among 3,004 rows. Its cost comparison
+uses the protocol's stated assumptions; predicted permission support is not proof of actual authorization. See
+[`experiments/refinement/REPORT.md`](../experiments/refinement/REPORT.md). Final full HTTP measurements under the
+current policy pass every development bar; the report separates Linux CPU, M1 hybrid, and confirmation results.
 
 ## Modules and interfaces
 
 ### `triage/gate.py` (input validation and cleaning)
 
 ```python
-ROUTE_FLAGS: frozenset[str]   # flags that force needs_human and cap confidence
+ROUTE_FLAGS: frozenset[str]   # input-gate flags that route and cap confidence; policy reasons are separate
 
 @dataclass(frozen=True)
 class GateResult:
@@ -81,8 +96,11 @@ Flags (strings): `truncated_turns`, `turn_capped`, `marks_capped`, `controls_rem
   are dropped after NFKD (CGJ, variation selectors, accents), Hangul fillers and the blank braille cell become
   spaces, Cyrillic and Greek look-alikes become Latin, and every dash becomes "-". Measured false positives on
   train + dev + dev_noisy (22,300 rows): 0. Still missed on purpose (pinned by tests as normal text): "needs
-  human" with a space, a comma between "ignore" and "instructions"; also not covered: reworded triggers such as
-  "disregard everything above" and a trigger split over two turns.
+  human" with a space, a comma between "ignore" and "instructions", and a trigger split over two turns. A 17 Oct
+  gate-only diagnostic routed 7/10 curated instruction/role/review-override phrasings and 0/10 curated benign
+  controls; it missed operator-roleplay, quoted-override and prior-approval wording. This small probe is not a
+  population recall/false-positive estimate, and a miss alone is not evidence of model compromise
+  (`results/refinement-20261017/gate_paraphrases.json`).
 - `no_known_text`: the customer and agent turns hold letters, but under half of them are Latin (ASCII or Latin
   with accents). The model has no words for such text, so its answer comes from turn counts alone (8 turns of
   Chinese came back 0.854, unrouted). Measured on train + dev + dev_noisy: 0 rows.
@@ -94,14 +112,15 @@ Flags (strings): `truncated_turns`, `turn_capped`, `marks_capped`, `controls_rem
 The policy file is the only place the manager edits. TOML, read with `tomllib` (no extra dependency).
 
 ```toml
-version = "2026-10-14.2"
+version = "2026-10-17.2"
 alias = { "membership-privileges" = "membership" }
+permission_review = { high = 0.90 } # minimum inferred-flow permission mass for a high-risk final action
 [flows]                         # flow -> permitted actions, as published, before alias
 account_access = ["pull-up-account", ...]
 [risk]                          # action -> tier; tiers set the routing threshold
 high = ["offer-refund", "update-order", "update-account", "make-purchase", "promo-code", "make-password"]
 [thresholds]                    # route when confidence < threshold for the action's tier
-high = 0.8883                   # Phase 2: chosen by cost on train fold B (below)
+high = 0.8883                   # historical Phase 2 confidence point
 low = 0.7104
 [[rules]]                       # optional procedure rules
 name = "refund-needs-verification"
@@ -118,11 +137,13 @@ class Policy:
     flow_permitted: dict[str, frozenset[str]]   # alias applied
     risk: dict[str, str]                        # action -> tier ("low" when unlisted)
     thresholds: dict[str, float]
+    permission_review: dict[str, float]  # risk tier -> minimum inferred permission mass; 0 disables
     rules: tuple[Rule, ...]
     def prior_matrix(self, flows: Sequence[str], actions: Sequence[str]) -> np.ndarray  # float32, flows x actions, 1/0
     def masked_actions(self, observed: Sequence[str]) -> frozenset[str]                # actions removed by "mask" rules
     def violations(self, action: str, flow: str, observed: Sequence[str]) -> list[str] # "off_policy", "rule:<name>"
     def threshold_for(self, action: str) -> float
+    def minimum_permission_support(self, action: str) -> float
 
 def load(path) -> Policy                   # validates action and flow names; raises PolicyError with a clear message
 class PolicyStore:                         # thread-safe; current() reloads when the file's mtime changes,
@@ -130,8 +151,8 @@ class PolicyStore:                         # thread-safe; current() reloads when
     def current(self) -> Policy: ...       # and records the error for /healthz
 ```
 
-`scripts/build_policy.py` writes `policy/policy.toml` from the published `guidelines`-derived permitted lists in
-train (identical to the v0 bundle table), with the Phase 2 routing points: high 0.8883, low 0.7104.
+`scripts/build_policy.py` writes the permitted-action lists from the published guidelines-derived train table
+(identical to the v0 bundle table). The thresholds shown above are historical Phase 2 points.
 `experiments/routing/analyse_routing.py` chose them on train fold B (3,966 rows held out from the CPU models,
 out-of-fold CPU confidence, the recorded GPT-6 Luna answers replayed for the LLM step) by cost: a review costs 1,
 and a wrong automatic action costs 10 for a high-risk action and 3 for any other. For each tier it takes the
@@ -143,6 +164,15 @@ sweep over other cost ratios and the dev report are in `experiments/routing/resu
 file's `[thresholds]` note shows the sweep for the manager. `scripts/replay_policy.py --policy NEW.toml` re-scores
 dev + noisy with a changed policy and reports how many actions, routes and violations change (the
 procedure-change drill).
+
+At runtime, permission support for final action `a` is the sum of predicted flow probabilities over flows whose
+policy permits `a`, with the membership alias applied. If it is below that action's risk-tier
+`permission_review` value, the service adds `policy_uncertainty` to flags and route reasons and sets
+`needs_human`. This differs from `off_policy`, which normally checks the flow mapped from the returned intent
+(falling back to the direct flow model's top class if that mapping is missing). It is a model uncertainty
+signal, not proof of case-level authorization. A route caused only by `policy_uncertainty` preserves
+action-correctness confidence; other flag routes still apply the configured cap. Any accepted LLM action that
+differs from the CPU suggestion adds `llm_disagreement` and always routes, regardless of confidence thresholds.
 
 ### `triage/prompts.py`, `triage/retrieval.py`, `triage/llm_action.py` (the LLM action step)
 
@@ -171,7 +201,7 @@ Environment (all optional):
 | `TRIAGE_SECOND_INTENT_P` | `0.6` | flag `second_intent` when the last customer turn alone points to another flow with this probability |
 | `TRIAGE_ROUTE_SECOND_INTENT` | `0` | `1`: `second_intent` routes too |
 | `TRIAGE_ROUTE_OFF_POLICY` | `1` | `1`: `off_policy` routes (decision D1) |
-| `TRIAGE_FLAG_CONF_CAP` | `0.5` | confidence cap for rows routed by a flag |
+| `TRIAGE_FLAG_CONF_CAP` | `0.5` | cap for other flag routes; permission uncertainty alone preserves action confidence |
 
 A bad value in any of these stops start-up: `scripts/reproduce.sh` checks them, and the policy file, before it
 starts the server; the uvicorn app exits with status 3 if the model, policy or settings fail to load.
@@ -233,7 +263,7 @@ FastAPI app built by `create_app(triage=None)`; module-level `app` for uvicorn. 
 until the model is loaded and 200 after, with `Triage.health()`; if loading fails it returns 503 with the
 error type and message, and the module-level `app` exits with status 3. `POST /triage` as the contract says.
 `GET /metrics` returns JSON counters (requests, by status, errors, abstentions, routed, flags, LLM calls by
-status, LLM cost at cached and uncached list price, LLM token sums, latency p50/p95/p99 over the last 10,000
+status and bounded decision (`accepted_agreement`, `accepted_disagreement`, `rejected_by_mask`), LLM cost at cached and uncached list price, LLM token sums, latency p50/p95/p99 over the last 10,000
 requests). The latency is measured inside the app, so
 it leaves out time queued in uvicorn before the handler runs. Malformed JSON or a bad envelope gets 400 with
 `{"error": {"code", "message"}}`; every other valid envelope gets 200 with a schema-valid body, and the response
@@ -245,7 +275,10 @@ idempotency cache (LRU, 10,000 entries) keyed by the policy in force and the SHA
 request body returns the same response for a repeated body without a second LLM call. A policy reload (a new
 Policy object, with or without a new version) empties it, and an answer computed under the old policy is not
 cached. Answers whose LLM step failed (`timeout`, `http_error`, `invalid`, `breaker_open`, `busy`) stay cached
-30 s only, so a retry after the outage gets the LLM's answer.
+30 s only, so a retry after the outage gets the LLM's answer. Replays count as requests (and routed/abstention
+responses when applicable) and as replays, but do not double-count flags, route reasons, or LLM decisions. Log
+labels are cut to 200 characters; prompts, customer
+text and answer text are not logged.
 
 Limits (all fit the published pack, whose largest row is 7,105 bytes):
 

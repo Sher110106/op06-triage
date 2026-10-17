@@ -1,0 +1,48 @@
+{
+ "mode": "hybrid",
+ "repository": "/Users/sher/.t3/projects/work-01/solution",
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.833,
+  "action_acc_clean": 0.837,
+  "action_acc_noisy": 0.8067,
+  "noisy_gap": 0.0303,
+  "matched_noisy_gap": 0.0166,
+  "intent_acc_noisy": 0.65,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.424,
+  "distinct_confidences": 2195,
+  "policy_violation": 0.0839,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "review_rate": 0.2439,
+ "safety": {
+  "automatic": 1739,
+  "forbidden_automatic": 27,
+  "high_risk_forbidden_automatic": 3
+ },
+ "latency_ms": {
+  "p50": 9.335,
+  "p95": 1556.524,
+  "p99": 1972.827,
+  "max": 3747.432,
+  "mean": 306.354
+ },
+ "concurrency": 8,
+ "llm_calls": 460,
+ "llm_cost_usd": 0.09378502,
+ "llm_cost_uncached_usd": 0.2912724,
+ "llm_statuses": {
+  "ok": 423,
+  "abstained": 40
+ }
+}

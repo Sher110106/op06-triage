@@ -1,0 +1,50 @@
+{
+ "mode": "hybrid",
+ "repository": "/Users/sher/.t3/projects/work-01/solution",
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.8361,
+  "action_acc_clean": 0.8385,
+  "action_acc_noisy": 0.82,
+  "noisy_gap": 0.0185,
+  "matched_noisy_gap": -0.0033,
+  "intent_acc_noisy": 0.65,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.4356,
+  "distinct_confidences": 2223,
+  "policy_violation": 0.0839,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "review_rate": 0.2426,
+ "safety": {
+  "automatic": 1742,
+  "forbidden_automatic": 28,
+  "high_risk_forbidden_automatic": 3,
+  "wrong_automatic": 151
+ },
+ "action_only_review_cost_units_per100": 46.391304347826086,
+ "latency_ms": {
+  "p50": 8.578,
+  "p95": 1504.782,
+  "p99": 1859.153,
+  "max": 3119.911,
+  "mean": 296.601
+ },
+ "concurrency": 8,
+ "llm_calls": 460,
+ "llm_cost_usd": 0.09376428,
+ "llm_cost_uncached_usd": 0.2912524,
+ "llm_statuses": {
+  "ok": 421,
+  "abstained": 42
+ }
+}

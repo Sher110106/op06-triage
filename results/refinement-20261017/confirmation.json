@@ -1,0 +1,148 @@
+{
+ "partition": "confirmation, excluded from all fitting and current-round selection",
+ "rows": 3004,
+ "conversations": 1165,
+ "systems": {
+  "reference": {
+   "without_guard": {
+    "rows": 3004,
+    "action_acc": 0.810918774966711,
+    "review_rate": 0.25033288948069243,
+    "auto_accuracy": 0.9178507992895204,
+    "auto_forbidden_count": 37,
+    "auto_high_risk_forbidden_count": 8,
+    "original_cost_per100": 47.70306258322237,
+    "policy_cost_per100": 60.01997336884154,
+    "top70_error_ratio": 0.38477225693677053
+   },
+   "selected_guard": {
+    "rows": 3004,
+    "action_acc": 0.810918774966711,
+    "review_rate": 0.25532623169107854,
+    "auto_accuracy": 0.9181940098345999,
+    "auto_forbidden_count": 32,
+    "auto_high_risk_forbidden_count": 3,
+    "original_cost_per100": 47.53661784287617,
+    "policy_cost_per100": 58.18908122503329,
+    "top70_error_ratio": 0.38477225693677053
+   }
+  },
+  "candidate": {
+   "without_guard": {
+    "rows": 3004,
+    "action_acc": 0.8169107856191744,
+    "review_rate": 0.24467376830892143,
+    "auto_accuracy": 0.9206698986337594,
+    "auto_forbidden_count": 36,
+    "auto_high_risk_forbidden_count": 8,
+    "original_cost_per100": 46.870838881491345,
+    "policy_cost_per100": 58.854860186418115,
+    "top70_error_ratio": 0.36360178100548995
+   },
+   "selected_guard": {
+    "rows": 3004,
+    "action_acc": 0.8169107856191744,
+    "review_rate": 0.25033288948069243,
+    "auto_accuracy": 0.9214031971580817,
+    "auto_forbidden_count": 31,
+    "auto_high_risk_forbidden_count": 3,
+    "original_cost_per100": 46.43808255659121,
+    "policy_cost_per100": 56.757656458055926,
+    "top70_error_ratio": 0.36360178100548995
+   }
+  }
+ },
+ "ci95_paired_conversation_bootstrap": {
+  "action_delta": [
+   -0.0006572047334097687,
+   0.012480410553470602
+  ],
+  "original_cost_delta_per100": [
+   -3.046993301410153,
+   0.4278932939999632
+  ],
+  "policy_cost_delta_per100": [
+   -6.800157068062828,
+   -0.39014358000258254
+  ],
+  "review_delta": [
+   -0.008664285140312837,
+   0.00903426045691408
+  ],
+  "forbidden_auto_rate_delta": [
+   -0.004347862452179731,
+   0.0
+  ]
+ },
+ "contrast_ci95": {
+  "combined": {
+   "action_delta": [
+    -0.0006572047334097687,
+    0.012480410553470602
+   ],
+   "original_cost_delta_per100": [
+    -3.046993301410153,
+    0.4278932939999632
+   ],
+   "policy_cost_delta_per100": [
+    -6.800157068062828,
+    -0.39014358000258254
+   ],
+   "review_delta": [
+    -0.008664285140312837,
+    0.00903426045691408
+   ],
+   "forbidden_auto_rate_delta": [
+    -0.004347862452179731,
+    0.0
+   ]
+  },
+  "reference_guard_only": {
+   "action_delta": [
+    0.0,
+    0.0
+   ],
+   "original_cost_delta_per100": [
+    -1.1091005253471375,
+    0.4995088217347464
+   ],
+   "policy_cost_delta_per100": [
+    -4.477684628804031,
+    0.10101180266274605
+   ],
+   "review_delta": [
+    0.0026211034032299955,
+    0.007815810390870353
+   ],
+   "forbidden_auto_rate_delta": [
+    -0.0036556995679627785,
+    -0.0003298044399484115
+   ]
+  },
+  "candidate_guard_only": {
+   "action_delta": [
+    0.0,
+    0.0
+   ],
+   "original_cost_delta_per100": [
+    -1.615096312442696,
+    0.4668339602297339
+   ],
+   "policy_cost_delta_per100": [
+    -4.691356848195302,
+    -0.1649733882597929
+   ],
+   "review_delta": [
+    0.003033341486813166,
+    0.008464321456634382
+   ],
+   "forbidden_auto_rate_delta": [
+    -0.0032959789057350032,
+    -0.0003354579000335458
+   ]
+  }
+ },
+ "action_change_pass": false,
+ "routing_change_pass": true,
+ "reference_guard_only_pass": true
+}

@@ -1,4 +1,4 @@
-# Memo: the inbox triage service
+# Historical memo: the inbox triage service (14 October 2026)
 
 **To:** Customer-support manager · **From:** Sher Partap Singh · **14 October 2026**
 
@@ -47,7 +47,8 @@ the AI-off figure from the CPU-only dev run. The limits are my guess.
 | AI model named in the log | `openai/gpt-6-luna` | any other name |
 | Off-procedure steps | about 4% | above 8%, or a jump after a policy edit |
 
-Wrong but well-formed AI answers move none of these.
+These original checks do not directly measure whether a well-formed AI answer is correct. The new agreement
+counters help reveal drift, but sampled outcome checks are still needed.
 
 ## The risk that remains, and when to stop
 
@@ -61,3 +62,26 @@ steps (about 1), or if the share sent stays above the line for a day.
 
 <sub>Sources: `results/raw/` `dev-http-llm` (submitted), `dev-http-llm-r1`, `dev-pipeline-cpu`, `dev-http-cpu`;
 EXPERIMENT_LOG P2-1, P4-1, P4-3.</sub>
+
+## 17 October amendment
+
+The figures above describe the 14 October policy and runs. They are historical. Under the current policy
+`2026-10-17.2`, the full development HTTP check gets 83.61% of next actions right and sends 24.26% to review;
+p95 is 1.50 s at eight clients on the M1. It still automatically suggests three high-risk actions forbidden by
+the labelled flow, so the extra guard does not establish permission. The current run costs about $0.126 per
+1,000 messages at uncached list price, excluding compute and staff review.
+
+- Accepted LLM actions that differ from the CPU suggestion always go to a person, regardless of confidence cutoffs.
+- High-risk suggestions also go to a person when the independent flow classifier assigns less than 0.90 probability
+  mass to flows that permit the selected action. This is an uncertainty signal, not proof of actual permission. When
+  this is the only flag-based reason for review, the action-correctness confidence is preserved; that confidence
+  answers a different question.
+- A train-only conversation-held-out comparison did not promote a CPU action blend: its gain was +0.0060, with
+  95% interval −0.000657 to +0.01248, below the pre-set +0.010 promotion bar and with a lower bound below zero.
+  In a separate guard-only confirmation, forbidden automatic suggestions for high-risk actions fell from 8 to 3;
+  all forbidden automatic suggestions fell from 37 to 32, with 15 extra reviews among 3,004 cases. Under the stated
+  cost assumptions, action-only cost changed from 47.7031 to 47.5366 per 100. These small-sample results do not
+  establish actual authorization or hidden-test performance. The CPU action models remain unchanged.
+
+The previous review shares and confidence summaries should not be used as current-default operating rates. See the
+[17 October refinement report](experiments/refinement/REPORT.md) for the split, selection rule, and limitations.

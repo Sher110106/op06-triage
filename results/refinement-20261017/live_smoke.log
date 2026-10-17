@@ -1,0 +1,24 @@
+{"ts":"2026-10-17T17:11:17.633+00:00","request_id":"d05fbb94964d40799b966ee56cb20884","status":200,"latency_ms":2173.12,"flags":[],"route_reasons":["low_confidence"],"llm_status":"ok","llm_decision":"accepted_agreement","llm_latency_ms":2116.5,"llm_cost_usd":0.0008039249999999999,"llm_cost_uncached_usd":0.0006465,"llm_prompt_tokens":6300,"llm_completion_tokens":33,"llm_cached_tokens":0,"llm_cache_write_tokens":6297,"llm_model":"openai/gpt-6-luna","llm_provider":"OpenAI","llm_response_id":"gen-1792257075-5jAEAmTuBk3u2SUgQXAl","policy_version":"2026-10-14.2","needs_human":true,"abstained":false,"replay":false,"error":null,"error_type":null}
+{"ts":"2026-10-17T17:11:17.637+00:00","request_id":"6f3978290c8444da94aa56a1b6a2ef31","status":200,"latency_ms":0.57,"flags":[],"route_reasons":["low_confidence"],"llm_status":null,"llm_decision":null,"llm_latency_ms":null,"llm_cost_usd":null,"llm_cost_uncached_usd":null,"llm_prompt_tokens":null,"llm_completion_tokens":null,"llm_cached_tokens":null,"llm_cache_write_tokens":null,"llm_model":null,"llm_provider":null,"llm_response_id":null,"policy_version":"2026-10-14.2","needs_human":true,"abstained":false,"replay":true,"error":null,"error_type":null}
+{"ts":"2026-10-17T17:11:19.076+00:00","request_id":"0e6ac317b5364961bef8462a78e9cc05","status":200,"latency_ms":1437.34,"flags":[],"route_reasons":["llm_disagreement","low_confidence"],"llm_status":"ok","llm_decision":"accepted_disagreement","llm_latency_ms":1393.3,"llm_cost_usd":0.000220665,"llm_cost_uncached_usd":0.0006466,"llm_prompt_tokens":6306,"llm_completion_tokens":32,"llm_cached_tokens":5074,"llm_cache_write_tokens":1229,"llm_model":"openai/gpt-6-luna","llm_provider":"OpenAI","llm_response_id":"gen-1792257077-K10tWFCloDjZ7R1Y9ZfG","policy_version":"2026-10-14.2","needs_human":true,"abstained":false,"replay":false,"error":null,"error_type":null}
+{"ts":"2026-10-17T17:11:20.459+00:00","request_id":"af91242ee2774f99bdcbfa8741d50181","status":200,"latency_ms":1380.44,"flags":[],"route_reasons":[],"llm_status":"ok","llm_decision":"accepted_agreement","llm_latency_ms":1342.4,"llm_cost_usd":0.00020653999999999998,"llm_cost_uncached_usd":0.0006352,"llm_prompt_tokens":6197,"llm_completion_tokens":31,"llm_cached_tokens":5074,"llm_cache_write_tokens":1120,"llm_model":"openai/gpt-6-luna","llm_provider":"OpenAI","llm_response_id":"gen-1792257079-46li9WuGqispypPusvm4","policy_version":"2026-10-14.2","needs_human":false,"abstained":false,"replay":false,"error":null,"error_type":null}
+{
+ "rows": 3,
+ "llm": {
+  "calls": 3,
+  "by_status": {
+   "ok": 3
+  },
+  "decisions": {
+   "accepted_agreement": 2,
+   "accepted_disagreement": 1
+  },
+  "cost_usd": 0.00123113,
+  "cost_uncached_usd": 0.0019283,
+  "prompt_tokens": 18803,
+  "completion_tokens": 96,
+  "cached_tokens": 10148,
+  "cache_write_tokens": 8646
+ },
+ "replays": 1
+}

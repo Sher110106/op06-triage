@@ -1,7 +1,7 @@
 # OP-06 Triage the Inbox
 
 `POST /triage` reads up to eight turns of a customer-support conversation (ABCD) and returns the customer's
-intent, the next action the written procedure permits, a confidence, and whether a person should take the case.
+intent, a suggested next action checked against the written procedure, a confidence, and whether a person should take the case.
 This file says how it decides, what it scored, how to run it and where it fails. `RUNBOOK.md` covers operation.
 
 ## How it decides
@@ -16,17 +16,38 @@ The request path is `triage/pipeline.py`; `docs/DESIGN.md` is the full contract.
    the intent; a logistic regression picks the action from the text and the actions the agent has already logged.
 3. **Policy prior and confidence.** Action probabilities are weighted by how likely each action is permitted
    under the predicted flow (`policy/policy.toml`). A second model, fit on held-out training rows, predicts
-   whether the chosen action is right; its output is the confidence.
-4. **LLM step** (optional). When CPU confidence is below 0.642841 (about 20% of dev rows) and no gate flag routes
-   the row, GPT-6 Luna picks the next action from the closed list of 30, shown 8 similar training conversations.
-   A usable answer replaces the action, and the confidence becomes the mean of the CPU confidence and 1 (same
-   action) or 0 (different). The LLM never sets the intent or `needs_human`; any failure keeps the CPU answer.
-5. **Routing.** `needs_human` is true when confidence is below the point for the action's risk tier (0.8883 for
-   refunds, order and account changes, purchases, promo codes and passwords; 0.7104 otherwise), when the action
-   is outside the flow's written procedure (`off_policy`), or when a gate flag routes. Flag-routed rows have their
-   confidence capped at 0.5.
+   whether the CPU-selected action is right; its confidence is not a calibrated correctness estimate for an LLM
+   replacement.
+4. **LLM step** (optional). When CPU confidence is below 0.642841 and no gate flag routes the row, GPT-6 Luna picks
+   the next action from the closed list of 30, shown 8 similar training conversations. A usable unmasked answer
+   replaces the action. Every accepted changed action routes with `llm_disagreement`, independent of confidence
+   cutoffs. The LLM never sets the intent; any failure keeps the CPU answer.
+5. **Final policy review.** After the optional LLM step, the service checks the selected action against the final
+   flow distribution. Current policy `2026-10-17.2` requires at least 0.90 probability mass on flows permitting a
+   high-risk action; lower support adds `policy_uncertainty` and routes to a person. This is model-derived support,
+   not proof that the action is permitted in the real case. Existing off-policy and configured procedure rules
+   also route. A `policy_uncertainty`-only route preserves action-correctness confidence; other flag routes cap it
+   at 0.5.
 
-## Results
+## Current results and validation
+
+The table below is the preserved `dev-http-llm` submission measurement under policy `2026-10-14.2`. It is not a
+measurement of the current 17 October routing defaults. The action models and historical prediction files remain
+unchanged; the current permission-support rule and explicit LLM-disagreement route can change routing. A
+permission-uncertainty-only route preserves the distinct action-correctness confidence.
+The current-default full HTTP check passes all development bars: action .8361, gap .0185, top-70 .4356,
+schema 100%, 24.26% reviewed and p95 1.505 s at 8 clients on M1. CPU-only action remains .8117 and top-70 .3760;
+matched Linux p95 is 136.184 ms against the original CPU's 134.946 ms. The guard adds four public-dev reviews
+without catching another forbidden suggestion there. Original canonical files are archived under
+`results/history/2026-10-14/`; their raw runs remain unchanged. Current canonical predictions and
+`results/manifest.json` identify `dev-http-llm-20261017` under the current policy;
+see the [17 October refinement report](experiments/refinement/REPORT.md) for the controlled comparison and limits.
+
+Final Linux validation rebuilt the retrieval index and passed **529 tests with no skips**. A full CPU HTTP
+reproduction also passed all development bars on 2,309 inputs and preserved the canonical hybrid prediction
+and latency files. Logs are in `results/refinement-20261017/op06-completion-*.log`.
+
+### Historical 14 October results
 
 All numbers are on the published development files: dev (2,000 rows) and dev_noisy (300), plus the 9 hostile rows
 in the schema check. Dev helped choose the system, so the hidden test will score lower. The cleanest estimate of
@@ -52,8 +73,9 @@ Intervals are 95%, from a conversation bootstrap.
 Each graded run folder in `results/raw/` holds `report_official.json` (grader output), `report.json` (intervals,
 routing, noise kinds) and, for HTTP runs, `latency_bench.json`. Two kinds differ: `policy-replay-*` hold
 `report.json`, `report.txt` and `meta.json`, and `probe-2026-10-13/` is the archive of the 13 Oct probes, with its
-own `README.md`. `results/manifest.json` claims `dev-http-llm`. The audit's own scorer gives the same numbers for
-the submitted file (`results/audit/score_submitted.txt`). `dev-http-cpu` ran under an earlier policy version that
+own `README.md`. The archived 14 October manifest claims `dev-http-llm`; the current manifest claims
+`dev-http-llm-20261017`. The original audit's scorer confirms the archived submission
+(`results/audit/score_submitted.txt`). `dev-http-cpu` ran under an earlier policy version that
 differs in routing only.
 
 - **Why the second live run.** Its `service_log.jsonl` records each LLM call's tokens and cost; the first run kept
@@ -93,14 +115,17 @@ curl -s localhost:8000/triage -H 'content-type: application/json' \
   -d '{"id": "x-1", "context": [{"speaker": "customer", "text": "where is my order?"}]}'
 ```
 
-**What a rerun overwrites.** Without a run name, `eval` writes `results/raw/dev-pipeline-cpu/` (no key) or
-`dev-pipeline-llm/`, and `http-eval` writes `dev-http-cpu/` (no key) or `dev-http-llm/`, the submitted run.
-`http-eval` always rewrites `results/*.jsonl` and `results/latency_bench.json`; `loadtest` writes the latter
-unless given `--out`. `eval` and `http-eval` rebuild the manifest. `git restore results/` undoes the overwrites;
+**What a rerun overwrites.** Default run names now end in `-20261017`: `dev-pipeline-cpu-20261017` or
+`dev-pipeline-llm-20261017` for `eval`, and `dev-http-cpu-20261017` or `dev-http-llm-20261017` for `http-eval`.
+The 14 October run folders are preserved. `http-eval` replaces canonical `results/*.jsonl` and
+`results/latency_bench.json` only for the run named by `harness.manifest.CLAIM_RUN`; other HTTP runs are
+diagnostics. Standalone `loadtest` writes `results/loadtest-latest.json` unless given `--out`.
+`eval` and `http-eval` rebuild the manifest. `git restore results/` undoes the overwrites;
 delete any new `results/raw/<run>/` folder by hand.
 
 **No key** (the default, `TRIAGE_LLM=auto`): the LLM step is off and the CPU model answers every request. The
-audit's rerun, `TRIAGE_LLM=off scripts/reproduce.sh eval audit-cpu`, matched `dev-pipeline-cpu` byte for byte.
+14 October audit's rerun matched its historical `dev-pipeline-cpu` byte for byte. The current CPU HTTP run
+is `dev-http-cpu-20261017`, with 28.39% reviewed under the additional permission guard.
 
 **With an LLM**, any OpenAI-compatible chat-completions endpoint works:
 
@@ -168,7 +193,7 @@ ruled out on either point, the configuration that remains is the CPU-only one (`
 (`dev-pipeline-cpu`), p95 38 ms over HTTP on the M1 (`dev-http-cpu`, older code and policy). Costs follow
 MODELS.md: uncached list price, cached shown beside it. Dependencies are pinned in `pyproject.toml` and `uv.lock`.
 
-| Measured API spend at list price | Calls | With caching | Uncached |
+| Original 14 October API spend at list price | Calls | With caching | Uncached |
 |---|---|---|---|
 | LLM experiment runs in `results/raw/` (ledger) | 10,646 | $2.68 | $8.71 |
 | The two live service runs, warm-up included | 926 | $0.19 | $0.29 for `dev-http-llm`; not kept for `-r1` |
@@ -180,6 +205,10 @@ $4.45 with caching ($4.59 if the probe's OpenRouter part is counted as billed) a
 recorded parts. The first live run's uncached cost was not recorded; with the audit's estimate of about $0.29 for
 it, the uncached total is about $12.62 (EXPERIMENT_LOG, Spend). The ceiling is US$50.
 
+The 17 October review adds $0.19786692 of gateway-billed cost ($0.5961055 at uncached list price), including
+both review attempts and all live-run warmups. The cumulative uncached estimate is therefore about $13.22.
+The current manifest identifies the extra ledger and avoids counting the promoted final run twice.
+
 ## Hardware
 
 An **Apple M1 laptop** (8 cores, 8 GB, Python 3.12.4) ran the submitted run and every other graded run except
@@ -189,7 +218,20 @@ retrain check, the CPU-only load tests, the thread-scaling check (`linux-threads
 (`encoder-ett32A`); its latency is an upper bound for a quiet machine. The 13 Oct probes used both. No GPU.
 Compute is outside the API budget.
 
-## Known failure modes and limitations
+## Current refinement and limitations
+
+- A grouped train-only comparison used 13,993 fit, 3,003 selection and 3,004 confirmation rows. The CPU action
+  blend gained 0.0060 accuracy with a 95% interval of −0.000657 to +0.01248, below its pre-registered +0.010
+  promotion bar with a non-positive lower bound. The four local models remain unchanged; no CPU blend was promoted.
+- In a separate high-risk guard-only contrast, automatic high-risk forbidden suggestions fell from 8 to 3 and
+  total forbidden automatic suggestions from 37 to 32, with 15 additional reviews among 3,004 cases. Under the
+  stated cost assumptions, original action-only cost changed from 47.7031 to 47.5366 per 100. These are small
+  confirmation-slice results, not a guarantee of real-world permission or hidden-test performance.
+- A small gate-only paraphrase probe routed 7 of 10 curated instruction/role/review-override phrasings and none of
+  10 curated benign controls; it missed operator-roleplay, quoted-override and prior-approval wording. This is not a
+  population recall or false-positive estimate, and a missed phrase alone does not show compromise.
+
+## Other known failure modes and limitations
 
 - **Dev chose the system.** The CPU configuration and the LLM share were picked while looking at dev.
 - **The noisy gap is the bar most at risk** on the hidden test: its dev interval reaches 0.0972 against 0.10, and
@@ -203,11 +245,13 @@ Compute is outside the API budget.
 - **Noise weak spots.** Screenshot descriptions get the intent right half the time; typo rows get the action
   right 72% of the time. The service returns one intent: a second request sets a `second_intent` flag (19 of 50
   `two_intents` rows) that is logged, not routed (EXPERIMENT_LOG P2-1).
-- **Confidence orders errors less well with the LLM step** (top-70 ratio 0.433 against 0.376). A provider that
-  returns wrong but well-formed actions passes every check; each changed action goes to a person, but no counter
-  shows the fault (`experiments/chaos/chaos.md`).
-- **Injected text still moves labels** in 20% to 27% of conversations it is added to; the `injection` flag routes
-  all of them. Reworded triggers ("disregard everything above") are not detected.
+- **The historical confidence score orders errors less well with the LLM step** (top-70 ratio 0.433 against 0.376).
+  A well-formed wrong provider answer can still be adopted; current code routes every accepted disagreement and
+  `/metrics` now counts accepted agreement, accepted disagreement, and mask rejection. Those counters describe
+  decisions, not correctness.
+- **Injected text can still move labels** in the earlier in-context probe; the route flag contains those cases.
+  Detection is incomplete: the small 17 October paraphrase diagnostic missed three of ten curated phrasings
+  (details and limits above).
 - **One worker.** The CPU path served 84 req/s at 8 clients on the busy Linux box and 302 req/s on the M1. The LLM
   step tops out near 5 calls/s per process; past that, most LLM-gated rows keep the CPU answer.
 - **Idle connections.** From reading uvicorn's code, not tested: it has no header timeout, so 256 silent
@@ -218,7 +262,7 @@ Compute is outside the API budget.
   Linux and M1 gave the same examples on 2,300 of 2,300 rows (EXPERIMENT_LOG P3-4, no raw file kept), and 4 rows
   differ from the tested examples only in the order of tied examples. That run also failed a timing test (0.545 s
   against 0.5 s), since changed.
-- **Clean-machine run of the final code: CPU path only.** `git archive` of commit `dafe325`, unpacked on the Linux
+- **14 October clean-machine run: CPU path only.** `git archive` of commit `dafe325`, unpacked on the Linux
   box, passed `scripts/reproduce.sh all` with no API key: exit 0, 512 tests passed, 2 skipped, eval identical to
   `dev-pipeline-cpu`, smoke passed (P5-3, `results/raw/linux-final-check/`). Only the docs and that log changed after
   `dafe325`. The LLM step has not run on a clean machine, since the keys stay on the laptop. `dev-http-cpu` (p95
@@ -241,7 +285,7 @@ Compute is outside the API budget.
 | `models/` | `classical_v0.joblib` ships; `retrieval.joblib` and `retrained/` are built locally |
 | `harness/`, `scripts/`, `tests/` | Grading and manifest; `reproduce.sh` and tools; unit and HTTP tests |
 | `experiments/` | One folder per question, with pre-registrations for `llm_tail/`, `llm_confirm/` and `encoder/` |
-| `results/` | Submitted predictions, `latency_bench.json`, `manifest.json`, `raw/<run>/` for every run, the LLM ledger of every API attempt, the 13 Oct probe archive (`raw/probe-2026-10-13/`), `audit/` |
+| `results/` | Current canonical predictions/latency/manifest; original package under `history/2026-10-14/`; unchanged historical raw runs plus promoted current runs under `raw/`; full 17 Oct evidence in `refinement-20261017/` |
 
 `MEMO.md` is the page for the support manager. `DECISIONS.md` gives the choices, the options rejected and what
 would reverse them. `EXPERIMENT_LOG.md` is dated, dead ends included; its 13 Oct entries are reconstructed.
@@ -255,3 +299,5 @@ Coding agents wrote most of the code from the contract in `docs/DESIGN.md`, ran 
 these documents, this README included, from the run files. A second agent tried to refute each review finding
 before it was fixed (EXPERIMENT_LOG P1-1), and the audit in `results/audit/`, another agent session, recomputed
 the headline numbers with a scorer written from the problem statement. `DECISIONS.md` says which outputs were checked by hand.
+The 17 October refinement was agent-executed with Codex, three Astra reviews and a bounded Claude API critique;
+its report distinguishes automated checks from a human audit.

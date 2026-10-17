@@ -1,0 +1,15 @@
+partitions: [13993, 3003, 3004]
+fold A 13993 rows, fold B 3003 rows
+features built 7s
+intent and flow models 32s (T_i=0.141, T_f=0.279)
+/home/sher/op06/final/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 300 iteration(s) (status=1):
+STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT
+
+Increase the number of iterations to improve the convergence (max_iter=300).
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+action model fit 100s
+{"trained_at": "2026-10-17T22:37:01+0530", "seed": 0, "rows_A": 13993, "rows_B": 3003, "B_action_acc": 0.8152, "route_threshold": 0.8178, "train_seconds": 134.6, "bundle_bytes": 33343518}

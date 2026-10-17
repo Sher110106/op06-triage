@@ -1,0 +1,6 @@
+{
+ "original_run_directory": "refined_hybrid",
+ "archived_directory": "refined_hybrid_capped",
+ "policy_version": "2026-10-17.1",
+ "reason": "Intermediate guard capped action confidence; final version .2 separates policy review from action-correctness confidence. Original predictions and measurements are preserved."
+}

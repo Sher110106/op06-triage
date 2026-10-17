@@ -1,0 +1,3 @@
+{"rows": 20000, "features": 79073, "nnz": 14294925, "build_s": 9.6, "save_s": 8.0, "file_mb": 126.0, "path": "/home/sher/op06/refinement-20261017/models/retrieval.joblib"}
+..                                                                       [100%]
+2 passed in 37.03s

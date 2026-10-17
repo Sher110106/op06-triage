@@ -1,0 +1,128 @@
+{
+ "pred_file": "results/raw/dev-http-llm-20261017/predictions.jsonl",
+ "pred_sha256": "6d53f768b6d7717a9e20536ba6c8a9a38b9df6c4cf28a5c230f8ccd07e33131f",
+ "grader_version": "2.1",
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.8361,
+  "action_acc_clean": 0.8385,
+  "action_acc_noisy": 0.82,
+  "noisy_gap": 0.0185,
+  "matched_noisy_gap": -0.0033,
+  "intent_acc_noisy": 0.65,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.4356,
+  "distinct_confidences": 2223,
+  "policy_violation": 0.0839,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "extras": {
+  "rows": 2300,
+  "excluded": 0,
+  "point": {
+   "intent_acc": 0.7091,
+   "action_acc": 0.8361,
+   "intent_acc_clean": 0.718,
+   "action_acc_clean": 0.8385,
+   "intent_acc_noisy": 0.65,
+   "action_acc_noisy": 0.82,
+   "noisy_gap": 0.0185,
+   "macro_f1": 0.7015,
+   "top70_error_ratio": 0.4356
+  },
+  "ci95_conversation_bootstrap": {
+   "intent_acc": [
+    0.682,
+    0.7361
+   ],
+   "action_acc": [
+    0.8154,
+    0.8563
+   ],
+   "intent_acc_clean": [
+    0.6913,
+    0.7438
+   ],
+   "action_acc_clean": [
+    0.8176,
+    0.8584
+   ],
+   "intent_acc_noisy": [
+    0.5943,
+    0.7052
+   ],
+   "action_acc_noisy": [
+    0.7771,
+    0.8623
+   ],
+   "noisy_gap": [
+    -0.0214,
+    0.0592
+   ],
+   "macro_f1": [
+    0.6582,
+    0.7284
+   ],
+   "top70_error_ratio": [
+    0.3666,
+    0.4959
+   ]
+  },
+  "bootstrap_draws": 2000,
+  "policy_violation_alias": 0.0443,
+  "gold_policy_violation_alias": 0.057,
+  "noise_kinds": {
+   "code_mixed": {
+    "n": 50,
+    "intent_acc": 0.7,
+    "action_acc": 0.76
+   },
+   "empty": {
+    "n": 50,
+    "intent_acc": 0.62,
+    "action_acc": 0.84
+   },
+   "screenshot": {
+    "n": 50,
+    "intent_acc": 0.5,
+    "action_acc": 0.84
+   },
+   "two_intents": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.88
+   },
+   "typo": {
+    "n": 50,
+    "intent_acc": 0.72,
+    "action_acc": 0.76
+   },
+   "very_long": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.84
+   }
+  },
+  "action_acc_at_coverage": {
+   "50%": 0.953,
+   "60%": 0.942,
+   "70%": 0.9286,
+   "80%": 0.9103,
+   "90%": 0.8802,
+   "100%": 0.8361
+  },
+  "needs_human_rate": 0.2426,
+  "action_acc_when_not_routed": 0.9133
+ },
+ "harness_matches_grader": true,
+ "source_pred_file": "results/refinement-20261017/refined_hybrid/predictions.jsonl"
+}

@@ -1,0 +1,140 @@
+{
+ "seed": 20261017,
+ "alpha_grid": [
+  {
+   "alpha": 0.0,
+   "accuracy": 0.8151848151848152
+  },
+  {
+   "alpha": 0.15,
+   "accuracy": 0.8158508158508159
+  },
+  {
+   "alpha": 0.3,
+   "accuracy": 0.8185148185148186
+  },
+  {
+   "alpha": 0.5,
+   "accuracy": 0.8145188145188145
+  }
+ ],
+ "systems": {
+  "reference": {
+   "alpha": 0.0,
+   "thresholds": {
+    "high": 0.7899157963453599,
+    "low": 0.7249717190220553
+   },
+   "guard": 0.9,
+   "variants": [
+    {
+     "guard": 0.0,
+     "rows": 3003,
+     "action_acc": 0.8151848151848152,
+     "review_rate": 0.2624042624042624,
+     "auto_accuracy": 0.927765237020316,
+     "auto_forbidden_count": 31,
+     "auto_high_risk_forbidden_count": 6,
+     "original_cost_per100": 44.32234432234432,
+     "policy_cost_per100": 54.64535464535465,
+     "top70_error_ratio": 0.31661737855838695
+    },
+    {
+     "guard": 0.8,
+     "rows": 3003,
+     "action_acc": 0.8151848151848152,
+     "review_rate": 0.2654012654012654,
+     "auto_accuracy": 0.927470534904805,
+     "auto_forbidden_count": 30,
+     "auto_high_risk_forbidden_count": 5,
+     "original_cost_per100": 44.62204462204462,
+     "policy_cost_per100": 54.612054612054614,
+     "top70_error_ratio": 0.31661737855838695
+    },
+    {
+     "guard": 0.9,
+     "rows": 3003,
+     "action_acc": 0.8151848151848152,
+     "review_rate": 0.26873126873126874,
+     "auto_accuracy": 0.9280510018214936,
+     "auto_forbidden_count": 28,
+     "auto_high_risk_forbidden_count": 3,
+     "original_cost_per100": 44.28904428904429,
+     "policy_cost_per100": 53.613053613053616,
+     "top70_error_ratio": 0.31661737855838695
+    },
+    {
+     "guard": 0.95,
+     "rows": 3003,
+     "action_acc": 0.8151848151848152,
+     "review_rate": 0.2700632700632701,
+     "auto_accuracy": 0.9279197080291971,
+     "auto_forbidden_count": 28,
+     "auto_high_risk_forbidden_count": 3,
+     "original_cost_per100": 44.422244422244425,
+     "policy_cost_per100": 53.74625374625375,
+     "top70_error_ratio": 0.31661737855838695
+    }
+   ]
+  },
+  "candidate": {
+   "alpha": 0.3,
+   "thresholds": {
+    "high": 0.7154532088840445,
+    "low": 0.7346833894672323
+   },
+   "guard": 0.9,
+   "variants": [
+    {
+     "guard": 0.0,
+     "rows": 3003,
+     "action_acc": 0.8185148185148186,
+     "review_rate": 0.2614052614052614,
+     "auto_accuracy": 0.9386834986474302,
+     "auto_forbidden_count": 27,
+     "auto_high_risk_forbidden_count": 6,
+     "original_cost_per100": 42.05794205794206,
+     "policy_cost_per100": 51.048951048951054,
+     "top70_error_ratio": 0.2935919482537384
+    },
+    {
+     "guard": 0.8,
+     "rows": 3003,
+     "action_acc": 0.8185148185148186,
+     "review_rate": 0.2644022644022644,
+     "auto_accuracy": 0.9384336803983703,
+     "auto_forbidden_count": 26,
+     "auto_high_risk_forbidden_count": 5,
+     "original_cost_per100": 42.357642357642355,
+     "policy_cost_per100": 51.01565101565102,
+     "top70_error_ratio": 0.2935919482537384
+    },
+    {
+     "guard": 0.9,
+     "rows": 3003,
+     "action_acc": 0.8185148185148186,
+     "review_rate": 0.2677322677322677,
+     "auto_accuracy": 0.9386084583901774,
+     "auto_forbidden_count": 24,
+     "auto_high_risk_forbidden_count": 3,
+     "original_cost_per100": 42.357642357642355,
+     "policy_cost_per100": 50.349650349650354,
+     "top70_error_ratio": 0.2935919482537384
+    },
+    {
+     "guard": 0.95,
+     "rows": 3003,
+     "action_acc": 0.8185148185148186,
+     "review_rate": 0.2693972693972694,
+     "auto_accuracy": 0.9384685505925251,
+     "auto_forbidden_count": 24,
+     "auto_high_risk_forbidden_count": 3,
+     "original_cost_per100": 42.52414252414252,
+     "policy_cost_per100": 50.51615051615052,
+     "top70_error_ratio": 0.2935919482537384
+    }
+   ]
+  }
+ },
+ "caveat": "Selection calibration is grouped OOF, but temperature and alpha choice used selection outcomes. Confirmation remains excluded."
+}

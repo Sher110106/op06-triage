@@ -847,3 +847,99 @@ fake provider.*
   - **Eval:** identical to `dev-pipeline-cpu`: intent 0.7091, macro-F1 0.7015, action 0.8117, noisy gap 0.0212, top-70 0.376, 28.2% routed.
   - **Smoke:** passed.
   - **Retrain check:** 5 of 2,300 actions differ from the shipped model, 0.8104 against 0.8117. This is the cross-platform effect in P3-1, within the 1% tolerance.
+
+## 17 Oct 2026: independent review and controlled refinement
+
+### R17-1. Re-establish the baseline and reserve a new comparison
+
+- User authorized a full review with Astra, Linux execution on `sher@10.1.18.190`, and up to $10 of new
+  OpenRouter API spend. New credentials are read from a temporary file outside the repository.
+- Original solution commit: `543cfc8`; original prediction files, raw runs and shipped model remain unchanged.
+- Linux baseline suite: 512 passed, 2 skipped (retrieval index absent from the isolated folder), 97.69 seconds.
+- Astra round 1 identified inferred-flow permission risk, heuristic hybrid confidence, threshold-dependent
+  disagreement review, and a plausible state-transition complement. It corrected two possible misreadings:
+  existing B confidence is grouped OOF, and prior hostile testing does include known strings inside dialogues.
+- Protocol written before fitting: `experiments/refinement/PROTOCOL.md`. Fresh conversation-grouped fit /
+  selection / confirmation rows: 13,993 / 3,003 / 3,004; seeds 20261017 and 20261018. All learned components
+  were refit without confirmation. The dataset had already been studied; this is not a pristine hidden test.
+
+### R17-2. Predicted-intent transition blend: rejected
+
+- Fixed candidates: transition weight 0, .15, .30, .50; hierarchical support smoothing 5; marginalization over
+  predicted intent probabilities; one soft policy prior after raw-probability mixing.
+- Selection chose .30: .818515 action accuracy versus .815185.
+- Astra round 2 inspected fitting paths, selection, bootstrap and production changes before confirmation.
+  It accepted execution but required a separate pre-outcome guard-only contrast for any guard-only adoption.
+- Confirmation: reference .810919, blend .816911, gain .005992, paired conversation-bootstrap 95% interval
+  [-.000657, +.012480], 2,000 draws. Fails the fixed +.010 and positive-lower-bound rule. No retuning.
+- The old 86.9% lookup/classifier union uses an oracle gold-intent diagnostic; it is not achievable measured
+  blend performance. Production action model and LLM gate stay unchanged.
+- Source: `results/refinement-20261017/{selection,confirmation}.json`, confirmation prediction files and remote
+  fitting/selection/confirmation logs copied beside them. Linux fitting used one BLAS thread, 134.6 seconds,
+  and hit the existing 300-iteration solver cap, as the original recipe does.
+
+### R17-3. Permission uncertainty: guard-only confirmation
+
+- Selection chose .90 permitted flow-probability mass for high-risk actions. Before opening confirmation,
+  freeze reference/guard versus identical reference/no guard, not only the combined blend/guard result.
+- On 3,004 confirmation rows: automatic suggestions outside labelled-flow permission (alias applied) 37 -> 32;
+  high-risk 8 -> 3; reviews 752 -> 767. Original action-only cost/100 47.7031 -> 47.5366, delta interval
+  [-1.1091, +.4995], so cost saving is not established. Forbidden-automatic rate delta interval
+  [-.003656, -.000330]. The guard-only point limits pass; the separate combined result is retained.
+- Cost assumptions: review 1, wrong automatic high/low-risk action 10/3; guard selection additionally assigns
+  cost 10 to a forbidden automatic suggestion. These are choices, not measured monetary losses.
+- Adopt the additional review rule with explicit limits on transfer: confirmation used a freshly fitted CPU
+  reference and newly fitted cutoffs, not the exact shipped artifact or the full gate/LLM/HTTP path. Three
+  high-risk forbidden suggestions remain on confirmation; predicted flow support does not prove permission.
+
+### R17-4. Real service implementation and a discovered confidence mismatch
+
+- Reproduced an actual escape with a real Triage/model and fake LLM: at zero confidence thresholds, a changed
+  permitted LLM suggestion went out automatically. An explicit `llm_disagreement` reason now forces review.
+  Agreement and mask rejection keep their behavior. Added bounded decision counters with replay deduplication.
+- Added optional validated `permission_review` risk-tier settings. Check the final accepted action against
+  retained direct-flow probabilities, using the request's policy snapshot. Default high-risk minimum is .90.
+- First service implementation reused the flag confidence cap. Linux public-dev HTTP changed CPU top-70 ratio
+  .3760 -> .3824 despite identical action predictions. A real-pipeline regression test reproduced confidence
+  .701195 -> .5 solely due to permission uncertainty. This was not in the controlled prototype.
+- Corrected in policy/code version `2026-10-17.2`: that reason alone preserves action-correctness confidence.
+  Other cap reasons still apply. Focused invariants and guard tests: 12 passed. Final Linux suite: 524 passed,
+  2 retrieval-index tests skipped, 118.30 seconds; final documentation checks: 5 passed.
+- Matched Linux HTTP, 2,309 inputs at 8 clients: action .8117 in both; top-70 .3760 in both. Reference p95
+  134.946 ms, final p95 136.184 ms. Review .2822 -> .2839 (four extra cases). Forbidden automatic suggestions
+  remain 25 total / 3 high-risk: the confirmation safety benefit does not repeat on public dev. Both pass all
+  official dev bars. Initial capped runs are preserved separately, not overwritten.
+
+### R17-5. Additional safety/provider checks and final audit
+
+- Curated gate-only diagnostic: 7/10 new attack-style phrasings routed, 0/10 benign controls routed. Customer
+  text never becomes an observed action in all 20 cases. These are detector/structure checks, not population
+  rates or proof of model compromise/immunity. No regex expansion claimed as a general defense.
+- Bounded Claude Haiku 5.5 API critique: first attempt returned no visible answer (all output spent on provider
+  reasoning), second with reasoning disabled completed. Token costs and the checked response to its
+  findings are saved. One false claim about folded action-label checks was rejected against actual gate code.
+- Three-call real Luna HTTP smoke: all calls successful, two agreements and one reviewed disagreement; replay
+  caused no second call. Full live runs and expense totals are in `experiments/refinement/REPORT.md` and
+  `results/refinement-20261017/`; their values are subsequent regression evidence, not confirmation selection.
+- Astra round 3 found no blocking code defect, verified 12 focused tests and the frozen decisions, and required
+  honest reporting of incomplete transfer, small safety counts and unfitted hybrid confidence. Its report
+  predates the final full-run reconciliation; final measurements are verified by root.
+
+### R17-6. Finish the submission-facing package and Linux reproduction
+
+- The first review handoff left the original 14 October canonical files selected. Archive that complete
+  package under `results/history/2026-10-14/`, preserve every original raw run, and promote the already measured
+  final hybrid to `results/raw/dev-http-llm-20261017/` and the canonical prediction/split/latency files.
+  The current manifest now points at the validated policy-17.2 run, not the historical 83.65% run.
+- Register the matched current Linux CPU measurement as `dev-http-cpu-20261017`. The manifest also references
+  all refinement evidence and separates the extra API budget from the final service run already counted there.
+- Fix a packaging hazard: a diagnostic CPU `http-eval` must not overwrite the hybrid's canonical predictions
+  or latency file while its manifest still claims the hybrid. Only the configured claim run publishes those
+  canonical files; all other runs grade their own predictions. Standalone load tests now default to a separate
+  diagnostic file. New default run names preserve the historical run folders.
+- Rebuild the Linux retrieval index and run the two previously skipped tests: 2 passed. Then execute the real
+  CPU `http-eval completion-http-cpu-20261017` command: 2,309 valid responses, all dev bars pass, canonical
+  prediction/split/latency bytes unchanged. No API call was made.
+- Final complete Linux suite with the rebuilt index and package tests: **529 passed, no skips**, 153.33 seconds.
+  Saved logs and the diagnostic HTTP run are retained. The canonical prediction file was also regraded by the
+  official scorer and agrees with the manifest. No extra API spend during closeout.

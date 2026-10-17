@@ -14,7 +14,7 @@ import threading
 import time
 import tomllib
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
@@ -31,7 +31,7 @@ FLOWS = frozenset({"account_access", "manage_account", "order_issue", "product_d
 LIST_ONLY = frozenset({"boots", "end-conversation", "enter-detail", "jacket", "jeans", "n-a", "notify-internal-team",
                        "policy", "pricing", "select-answer", "shirt", "timing"})
 EFFECTS = ("route", "mask")
-_TOP_KEYS = {"version", "alias", "flows", "risk", "thresholds", "rules"}
+_TOP_KEYS = {"version", "alias", "flows", "risk", "thresholds", "rules", "permission_review"}
 _RULE_KEYS = {"name", "action", "requires_any_observed", "effect"}
 _RULE_NAME = re.compile(r"[A-Za-z0-9_-]+")             # the name shows up in flags and metrics as "rule:<name>"
 
@@ -56,6 +56,7 @@ class Policy:
     risk: dict[str, str]                        # action (alias applied) -> tier; unlisted actions are "low"
     thresholds: dict[str, float]
     rules: tuple[Rule, ...]
+    permission_review: dict[str, float] = field(default_factory=dict)
 
     def _canon(self, action: str) -> str:
         return self.alias.get(action, action)
@@ -88,6 +89,10 @@ class Policy:
 
     def threshold_for(self, action: str) -> float:
         return self.thresholds[self.risk.get(self._canon(action), "low")]
+
+    def minimum_permission_support(self, action: str) -> float:
+        """Minimum inferred-flow permission mass; zero disables this additional review rule."""
+        return self.permission_review.get(self.risk.get(self._canon(action), "low"), 0.0)
 
 
 # ----------------------------------------------------------------------------- loading and checks
@@ -161,6 +166,15 @@ def _parse(data: dict) -> Policy:
                 raise PolicyError(f"action {a!r} is in two risk tiers: {risk[a]!r} and {tier!r}")
             risk[a] = tier
 
+    permission_review = data.get("permission_review", {})
+    if not isinstance(permission_review, dict):
+        raise PolicyError("permission_review must be a table of risk tier = minimum permitted probability")
+    for tier, value in permission_review.items():
+        if tier not in thresholds:
+            raise PolicyError(f"permission_review tier {tier!r} has no threshold")
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or not 0 <= value <= 1:
+            raise PolicyError(f"permission_review {tier!r} must be a number from 0 to 1")
+
     raw_rules = data.get("rules", [])
     if not isinstance(raw_rules, list) or not all(isinstance(r, dict) for r in raw_rules):
         raise PolicyError("rules must be written as [[rules]] sections")
@@ -188,7 +202,8 @@ def _parse(data: dict) -> Policy:
         rules.append(Rule(name, alias.get(action, action), tuple(alias.get(a, a) for a in req), r["effect"]))
 
     return Policy(version=version, alias=dict(alias), flow_permitted=flow_permitted, risk=risk,
-                  thresholds={k: float(v) for k, v in thresholds.items()}, rules=tuple(rules))
+                  thresholds={k: float(v) for k, v in thresholds.items()}, rules=tuple(rules),
+                  permission_review={k: float(v) for k, v in permission_review.items()})
 
 
 def loads(text: str) -> Policy:

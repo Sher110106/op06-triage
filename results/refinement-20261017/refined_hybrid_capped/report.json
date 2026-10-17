@@ -1,0 +1,128 @@
+{
+ "pred_file": "results/refinement-20261017/refined_hybrid_capped/predictions.jsonl",
+ "pred_sha256": "f008b636f37d699e1ff2bcdead3d84f8805fb9c3d345744905fc9e24e61f13cc",
+ "grader_version": "2.1",
+ "official": {
+  "intent_acc": 0.7091,
+  "macro_f1": 0.7015,
+  "action_acc": 0.833,
+  "action_acc_clean": 0.837,
+  "action_acc_noisy": 0.8067,
+  "noisy_gap": 0.0303,
+  "matched_noisy_gap": 0.0166,
+  "intent_acc_noisy": 0.65,
+  "schema_valid_pct": 100.0,
+  "top70_error_ratio": 0.424,
+  "distinct_confidences": 2195,
+  "policy_violation": 0.0839,
+  "gold_policy_violation": 0.0883
+ },
+ "bars": {
+  "intent_accuracy_all": true,
+  "action_accuracy_all": true,
+  "macro_f1_all": true,
+  "schema_valid_pct": true,
+  "noisy_gap": true,
+  "top70_error_ratio": true
+ },
+ "extras": {
+  "rows": 2300,
+  "excluded": 0,
+  "point": {
+   "intent_acc": 0.7091,
+   "action_acc": 0.833,
+   "intent_acc_clean": 0.718,
+   "action_acc_clean": 0.837,
+   "intent_acc_noisy": 0.65,
+   "action_acc_noisy": 0.8067,
+   "noisy_gap": 0.0303,
+   "macro_f1": 0.7015,
+   "top70_error_ratio": 0.424
+  },
+  "ci95_conversation_bootstrap": {
+   "intent_acc": [
+    0.682,
+    0.7361
+   ],
+   "action_acc": [
+    0.8115,
+    0.8538
+   ],
+   "intent_acc_clean": [
+    0.6913,
+    0.7438
+   ],
+   "action_acc_clean": [
+    0.8162,
+    0.8573
+   ],
+   "intent_acc_noisy": [
+    0.5943,
+    0.7052
+   ],
+   "action_acc_noisy": [
+    0.7619,
+    0.8509
+   ],
+   "noisy_gap": [
+    -0.0106,
+    0.072
+   ],
+   "macro_f1": [
+    0.6582,
+    0.7284
+   ],
+   "top70_error_ratio": [
+    0.3614,
+    0.4901
+   ]
+  },
+  "bootstrap_draws": 2000,
+  "policy_violation_alias": 0.0457,
+  "gold_policy_violation_alias": 0.057,
+  "noise_kinds": {
+   "code_mixed": {
+    "n": 50,
+    "intent_acc": 0.7,
+    "action_acc": 0.78
+   },
+   "empty": {
+    "n": 50,
+    "intent_acc": 0.62,
+    "action_acc": 0.82
+   },
+   "screenshot": {
+    "n": 50,
+    "intent_acc": 0.5,
+    "action_acc": 0.82
+   },
+   "two_intents": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.86
+   },
+   "typo": {
+    "n": 50,
+    "intent_acc": 0.72,
+    "action_acc": 0.74
+   },
+   "very_long": {
+    "n": 50,
+    "intent_acc": 0.68,
+    "action_acc": 0.82
+   }
+  },
+  "action_acc_at_coverage": {
+   "50%": 0.953,
+   "60%": 0.942,
+   "70%": 0.9292,
+   "80%": 0.9071,
+   "90%": 0.8778,
+   "100%": 0.833
+  },
+  "needs_human_rate": 0.2439,
+  "action_acc_when_not_routed": 0.9143
+ },
+ "harness_matches_grader": true,
+ "original_pred_file": "results/refinement-20261017/refined_hybrid/predictions.jsonl"
+}
