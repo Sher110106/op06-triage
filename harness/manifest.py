@@ -551,6 +551,15 @@ def main():
     exploration = model_exploration_index()
     if exploration is not None:
         manifest["model_exploration_20261017"] = exploration
+    gpu_cost = ROOT / "results" / "gpu-validation-20261018" / "compute_cost.json"
+    if gpu_cost.exists():
+        manifest["gpu_validation_20261018"] = {
+            "report": "experiments/model_exploration/GPU_RESULTS.md",
+            "protocol": "experiments/model_exploration/GPU_VALIDATION.md",
+            "results": "results/gpu-validation-20261018/",
+            "production_default_changed": False,
+            "compute": read_json(gpu_cost),
+        }
     manifest["checks"] = check(runs, ledger)
     (ROOT / "results" / "manifest.json").write_text(json.dumps(manifest, indent=1))
     print(json.dumps({"runs": len(runs), "kinds": dict(Counter(r["kind"] for r in runs)), "claimed": claimed,

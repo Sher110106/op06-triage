@@ -1,0 +1,125 @@
+{
+  "report": "/home/sher/op06/model-exploration-20261017/results/gpu-validation-20261018/training.json",
+  "stage": "training",
+  "tag": "modernbert_joint",
+  "requested_device": "cuda:0",
+  "started_unix": 1792270325.9172122,
+  "pass": true,
+  "scope": "bounded CUDA operational validation; no model quality claim",
+  "gpu_before": [
+    {
+      "index": 0,
+      "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+      "name": "NVIDIA RTX A6000",
+      "memory_total_mib": 49140,
+      "memory_free_mib": 3624,
+      "driver_version": "595.99.02"
+    }
+  ],
+  "selected_gpu": {
+    "index": 0,
+    "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+    "name": "NVIDIA RTX A6000",
+    "memory_total_mib": 49140,
+    "memory_free_mib": 3624,
+    "driver_version": "595.99.02"
+  },
+  "guard": {
+    "allocator_fraction": 0.055,
+    "required_free_mib": 3470.7,
+    "observed_free_mib": 3624,
+    "passes": true
+  },
+  "runtime": {
+    "torch": "2.14.1+cu130",
+    "torch_cuda": "13.0",
+    "cuda_available": true,
+    "device": "cuda:0",
+    "device_name": "NVIDIA RTX A6000",
+    "threads": 4,
+    "allocator_fraction": 0.055,
+    "memory_headroom_mib": 768
+  },
+  "training_probe": {
+    "updates": 8,
+    "batch_size": 1,
+    "learning_rate": 3e-05,
+    "seed": 20261026,
+    "parameter_device": "cuda:0",
+    "trainable_parameters": 149841224,
+    "optimizer": "AdamW",
+    "foreach": false,
+    "fused": true,
+    "fit_row_ids": [
+      "1459-8",
+      "1636-17",
+      "9795-9",
+      "5120-7",
+      "6326-11",
+      "10400-15",
+      "8270-17",
+      "4998-10"
+    ],
+    "gradient_updates_used_fit_labels_only": true,
+    "selection_or_confirmation_labels_used": false,
+    "finite_losses": [
+      0.492490291595459,
+      2.9324941635131836,
+      0.8401917815208435,
+      0.14828908443450928,
+      2.050354480743408,
+      1.9411323070526123,
+      2.790472984313965,
+      0.275840699672699
+    ],
+    "finite_gradient_norms": [
+      31.389432907104492,
+      110.45589447021484,
+      81.99917602539062,
+      12.71250057220459,
+      64.08042907714844,
+      124.14086151123047,
+      104.65921020507812,
+      31.425445556640625
+    ],
+    "finite_encoder_gradient_norms": [
+      0.23798011243343353,
+      0.22726787626743317,
+      0.24581566452980042,
+      0.2950343191623688,
+      0.17711427807807922,
+      0.2339903712272644,
+      0.25110363960266113,
+      0.25237441062927246
+    ],
+    "parameters_changed": true,
+    "changed_parameter_probes": {
+      "action.weight": {
+        "max_abs_delta": 0.00022653397172689438
+      },
+      "encoder.layers.0.attn.Wqkv.weight": {
+        "max_abs_delta": 0.00023951753973960876
+      }
+    },
+    "checkpoint_saved": false,
+    "quality_claim": false,
+    "elapsed_seconds": 1.1220452149864286,
+    "note": "Eight bounded full-model updates verify CUDA training mechanics only; not comparable to batch-16 CPU training."
+  },
+  "cuda_peak": {
+    "peak_allocated_bytes": 2677527552,
+    "peak_reserved_bytes": 2724200448
+  },
+  "gpu_after": [
+    {
+      "index": 0,
+      "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+      "name": "NVIDIA RTX A6000",
+      "memory_total_mib": 49140,
+      "memory_free_mib": 1892,
+      "driver_version": "595.99.02"
+    }
+  ],
+  "finished_unix": 1792270341.2208765,
+  "elapsed_seconds": 15.303665293031372
+}

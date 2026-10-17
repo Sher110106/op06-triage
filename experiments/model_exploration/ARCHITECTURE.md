@@ -99,7 +99,13 @@ The Luna, Haiku, and Gemini hosted comparison is a separate action-only experime
 
 ## CPU, CUDA, and the word “blend”
 
-The training run described by the protocol used CPU execution because the shared GPU was occupied. The code supports CUDA when a compatible GPU and PyTorch build are available, but CUDA behavior and performance were not validated for this run. Training on a GPU and then serving on CPU is conceptually possible if the saved checkpoint loads correctly on CPU; that is not the measured configuration here.
+The original three-epoch quality experiment used CPU execution. A later [GPU extension](GPU_RESULTS.md)
+loaded the same checkpoint onto the shared A6000, matched the frozen CPU decisions on 100 selection
+rows, and exercised 100 actual HTTP requests. Eight fitting-only full-model optimizer updates also
+worked on CUDA after fused AdamW reduced temporary memory. That was a training mechanics check;
+it did not save a new candidate or replace the completed quality comparison. CPU and CUDA are now
+measured execution options for this experimental backend. The model's failed operating guard still
+applies regardless of which device runs it.
 
 When presenting the candidate ensemble, say “classical/neural probability blend.” Do not say “CPU/CUDA blend”: that would confuse the model sources with the hardware used to execute them.
 

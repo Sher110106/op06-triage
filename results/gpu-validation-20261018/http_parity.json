@@ -1,0 +1,7 @@
+{
+  "rows": 100,
+  "pass": true,
+  "confidence_tolerance": 1e-05,
+  "max_confidence_difference": 2.000000000002e-06,
+  "mismatches": []
+}

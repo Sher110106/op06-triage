@@ -3720,6 +3720,37 @@
    "note": "This phase spend is additional to prior key usage already summarized under spend_usd.refinement_20261017; do not add that earlier usage again."
   }
  },
+ "gpu_validation_20261018": {
+  "report": "experiments/model_exploration/GPU_RESULTS.md",
+  "protocol": "experiments/model_exploration/GPU_VALIDATION.md",
+  "results": "results/gpu-validation-20261018/",
+  "production_default_changed": false,
+  "compute": {
+   "gpu": "NVIDIA RTX A6000",
+   "recorded_stage_wall_seconds": {
+    "checkpoint_probe.json": 15.885,
+    "parity.json": 19.779,
+    "benchmark.json": 19.009,
+    "training_adamw_unfused_oom.json": 14.192010561004281,
+    "training.json": 15.303665293031372,
+    "serve.json": 23.00953452597605
+   },
+   "recorded_stage_wall_seconds_total": 107.1782103800117,
+   "recorded_stage_wall_hours": 0.029771725105558807,
+   "measurement_scope": "Six timed stages, including the failed training attempt and CPU setup within each timer. This is process wall time, not GPU busy time; separate initial tensor smoke and environment setup were not timed.",
+   "rental_equivalent_rate_usd_per_gpu_hour": 0.59,
+   "rate_source": "https://www.runpod.io/pricing",
+   "rate_tier": "Secure Cloud RTX A6000 Pods",
+   "rate_retrieved_date": "2026-10-18",
+   "normalized_recorded_stage_estimate_usd": 0.017565317812279695,
+   "conservative_normalized_total_allowance_gpu_hours": 1,
+   "conservative_normalized_total_allowance_usd": 0.59,
+   "allowance_note": "One whole-card GPU-hour is a conservative accounting allowance for this short extension, including untimed setup, smoke and idle. It is neither a measured GPU-hour count nor a billed charge; no utilization/VRAM-share discount is applied.",
+   "actual_gpu_rental_cash_usd": 0,
+   "model_api_usd": 0,
+   "hardware_electricity_subscription_costs_priced": false
+  }
+ },
  "checks": {
   "raw_paths_checked": 86,
   "all_exist_inside_repo_no_symlinks": true,

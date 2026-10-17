@@ -22,7 +22,8 @@ The practical hypothesis is that contextual text features complement the strong 
 reference. It is not a long-context hypothesis: fitting inputs averaged 94.9 tokens, p95 137,
 maximum 278, all below the 512-token cap. CPU feasibility checks selected 32 threads after
 4/16/32-thread checks measured 3.678/2.063/1.863 seconds per training step. The shared GPU was
-occupied; it was left alone. CUDA remains supported by the scripts but unvalidated in this run.
+occupied; it was left alone. This quality run did not exercise CUDA. The subsequent
+[GPU extension](GPU_RESULTS.md) separately validates CUDA inference, HTTP serving and bounded training.
 
 The independent hosted branch tested Luna, Haiku and Gemini Flash as action-only advisers on
 the same frozen low-confidence cases and eight fit-only retrieved examples. It does not test
@@ -259,3 +260,13 @@ prompts, returned providers/models, successful and failed attempts, usage and re
 retained in the private repository. A final exact-credential scan found no match in 1,713
 deliverable files, and the temporary external credential file was removed after budget closure. Public explainers
 contain aggregate results rather than raw provider requests.
+
+## Subsequent GPU execution
+
+After this comparison finished, the user explicitly authorized GPU use. The shared A6000 had
+enough free memory for a capped process. The saved encoder matched the frozen replay on 100
+selection rows plus ten singleton checks; 100 real CUDA HTTP responses also matched, with maximum
+confidence difference .000002. A bounded eight-update, batch-one full-model training check passed
+using fused AdamW after the ordinary implementation hit the cap. No replacement checkpoint or
+new quality result was selected. See [GPU_RESULTS.md](GPU_RESULTS.md) for timings, memory, the
+preserved failed attempt, commands and limits. The full quality experiment above remains CPU-based.

@@ -9,6 +9,8 @@ ensemble and fresh Luna/Haiku/Flash comparisons. The current defaults remain unc
 improved matched confirmation accuracy but failed its high-risk review guard; Flash's advantage at the current
 four-second deadline remains inconclusive. [The model guide](experiments/model_exploration/ARCHITECTURE.md)
 explains the components and [the experiment runbook](experiments/model_exploration/README.md) reproduces the work.
+The [bounded CUDA validation results](experiments/model_exploration/GPU_RESULTS.md) show the frozen neural
+checkpoint also runs on a shared RTX A6000; they do not change the model-quality decision or current default.
 
 ## How it decides
 

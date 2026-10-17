@@ -1,0 +1,51 @@
+{
+  "stage": "benchmark",
+  "pass": true,
+  "torch": "2.14.1+cu130",
+  "cuda": "13.0",
+  "elapsed_s": 19.009,
+  "allocator_fraction": 0.03,
+  "before_gpu_memory_total_free_util": "49140, 3605, 100",
+  "peak_allocated_bytes": 634838016,
+  "peak_reserved_bytes": 643825664,
+  "result": {
+    "model": {
+      "backend": "neural_ensemble_experiment",
+      "tag": "modernbert_joint",
+      "model": "answerdotai/ModernBERT-base",
+      "revision": "8949b909ec900327062f0ebf497f51aef5e6f0c8",
+      "device": "cuda:0",
+      "threads": 4,
+      "batch_size": 1,
+      "action_classical_weight": 0.5,
+      "intent_classical_weight": 0.5,
+      "temperatures": {
+        "action": 0.9369403670768213,
+        "intent": 0.9210483439574526,
+        "flow": 0.9949817112976874
+      },
+      "calibration": "/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint-calibration.joblib",
+      "frozen_settings": "/home/sher/op06/model-exploration-20261017/results/model-exploration-20261017/modernbert_joint/frozen.json"
+    },
+    "rows": 100,
+    "warmups": 5,
+    "http": false,
+    "latency_ms": {
+      "main_ms": {
+        "p50": 33.7,
+        "p95": 36.42,
+        "max": 37.39
+      },
+      "probe_ms": {
+        "p50": 28.34,
+        "p95": 29.62,
+        "max": 31.36
+      },
+      "including_policy_and_confidence_ms": {
+        "p50": 61.41,
+        "p95": 65.85,
+        "max": 67.41
+      }
+    }
+  }
+}

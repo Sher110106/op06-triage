@@ -243,6 +243,12 @@ Keep the current classical-plus-Luna default. Retain the neural checkpoint and r
 evidence. These are current-round holdouts from previously studied public training data, not hidden-test results.
 Details: [report](experiments/model_exploration/REPORT.md), [case analysis](experiments/model_exploration/FAILURE_ANALYSIS.md).
 
+A subsequent [GPU validation](experiments/model_exploration/GPU_RESULTS.md) used the saved checkpoint on a
+shared A6000: 100 selection cases and ten singleton checks matched the CPU replay, and 100 real HTTP requests
+passed schema/ID/parity checks. Eight fitting-only full-model updates worked with fused AdamW under a memory
+cap after the ordinary optimizer attempt ran out of its allowance. No replacement checkpoint was saved.
+This establishes an additional execution option; it does not reverse the quality/routing decision above.
+
 ## Smaller decisions
 
 - **Routing points by cost per risk tier** (P2-1, `results_routing.json`). A review costs 1, a wrong action 10

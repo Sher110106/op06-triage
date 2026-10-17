@@ -1,0 +1,73 @@
+{
+  "stage": "serve",
+  "tag": "modernbert_joint",
+  "requested_device": "cuda:0",
+  "started_unix": 1792270380.024932,
+  "pass": true,
+  "scope": "bounded CUDA operational validation; no model quality claim",
+  "gpu_before": [
+    {
+      "index": 0,
+      "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+      "name": "NVIDIA RTX A6000",
+      "memory_total_mib": 49140,
+      "memory_free_mib": 3624,
+      "driver_version": "595.99.02"
+    }
+  ],
+  "selected_gpu": {
+    "index": 0,
+    "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+    "name": "NVIDIA RTX A6000",
+    "memory_total_mib": 49140,
+    "memory_free_mib": 3624,
+    "driver_version": "595.99.02"
+  },
+  "guard": {
+    "allocator_fraction": 0.03,
+    "required_free_mib": 2242.2,
+    "observed_free_mib": 3624,
+    "passes": true
+  },
+  "runtime": {
+    "torch": "2.14.1+cu130",
+    "torch_cuda": "13.0",
+    "cuda_available": true,
+    "device": "cuda:0",
+    "device_name": "NVIDIA RTX A6000",
+    "threads": 4,
+    "allocator_fraction": 0.03,
+    "memory_headroom_mib": 768
+  },
+  "serve": {
+    "host": "127.0.0.1",
+    "port": 18767,
+    "workers": 1,
+    "tag": "modernbert_joint",
+    "device": "cuda:0",
+    "threads": 4,
+    "batch_size": 1,
+    "llm_enabled": false,
+    "external_http_client_expected": true,
+    "probe_shutdown_signal": "SIGUSR1",
+    "started_unix": 1792270382.5303242,
+    "finished_unix": 1792270403.0066764,
+    "server_should_exit": true
+  },
+  "cuda_peak": {
+    "peak_allocated_bytes": 634838016,
+    "peak_reserved_bytes": 643825664
+  },
+  "gpu_after": [
+    {
+      "index": 0,
+      "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+      "name": "NVIDIA RTX A6000",
+      "memory_total_mib": 49140,
+      "memory_free_mib": 2688,
+      "driver_version": "595.99.02"
+    }
+  ],
+  "finished_unix": 1792270403.0344648,
+  "elapsed_seconds": 23.00953452597605
+}

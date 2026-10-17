@@ -45,7 +45,7 @@ uv pip install --python .venv/bin/python \
   -r experiments/model_exploration/requirements-neural.txt
 ```
 
-The requirements file pins Transformers 5.19.0 and the tokenizer/runtime dependencies. Install the CPU PyTorch wheel first, as shown. CUDA is supported by the model scripts when a compatible CUDA-enabled PyTorch build and available device are present, but CUDA has not been tested for this experiment. Do not treat the CPU timing or resource measurements as CUDA results.
+The requirements file pins Transformers 5.19.0 and the tokenizer/runtime dependencies. The command above installs the original CPU environment. CUDA was validated separately in an isolated PyTorch `2.14.1+cu130` environment; see [GPU results](GPU_RESULTS.md). Do not treat CPU timing or resource measurements as CUDA results.
 
 Training downloads the model and tokenizer for the exact Hugging Face revision below. Do not substitute a moving branch name when reproducing the run:
 
@@ -139,7 +139,7 @@ The confirmation command compares the reference, encoder, and selected ensemble 
 .venv/bin/python -m experiments.model_exploration.grade_public --tag "$TAG"
 ```
 
-Outputs are written below `results/model-exploration-20261017/<tag>/`. CUDA can be selected with `--device cuda` only when available with a compatible Torch build; this experiment has not validated CUDA behavior or performance.
+Outputs are written below `results/model-exploration-20261017/<tag>/`. CUDA can be selected with `--device cuda` only when available with a compatible Torch build. The validated CUDA parity report uses a device-specific filename such as `runtime_parity_cuda-0.json`; the original CPU `runtime_parity.json` path is preserved.
 
 ## Verify runtime parity
 
@@ -245,4 +245,8 @@ Hosted analysis is offline once the raw attempts are complete. It reports action
 
 `models/model-exploration/` stores checkpoints, tokenizer files, the fresh classical reference, and calibration objects; this directory is ignored by Git. `results/model-exploration-20261017/` stores partitions, logits, predictions, frozen settings, comparison reports, and optional hosted ledgers as private experiment evidence. Raw provider request logs are retained privately and must never be copied to the public explainer. Keep credentials out of source files, documentation, result artifacts, and Git; provide them only through a secure path outside the repository when explicitly running the hosted experiment.
 
-This runbook specifies runnable experiments, not a result claim or production change. A model switch requires the frozen confirmation and operational criteria in `PROTOCOL.md`, service integration, schema/noise checks, and measured HTTP latency and memory on the target hardware. CUDA remains untested, and the hosted model branch is never auto-enabled.
+This runbook specifies runnable experiments, not a result claim or production change. A model switch requires the frozen confirmation and operational criteria in `PROTOCOL.md`, service integration, schema/noise checks, and measured HTTP latency and memory on the target hardware. The bounded CUDA checks did not change the model-quality decision, and the hosted model branch is never auto-enabled.
+
+## CUDA validation
+
+On 18 October, the frozen `modernbert_joint` checkpoint passed batch-1 CUDA parity and a 100-request HTTP check on a shared RTX A6000. A bounded eight-step AdamW probe verified full-model update mechanics using fit rows only; it saved no checkpoint and did not produce a quality result. The high-risk operating guard still fails, so the current CPU-plus-Luna profile remains the default. See [GPU_RESULTS.md](GPU_RESULTS.md) for exact latency, memory, cost normalization, artifacts, and reproduction commands, and [GPU_VALIDATION.md](GPU_VALIDATION.md) for the guardrails and fixed validation scope.

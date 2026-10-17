@@ -1,6 +1,7 @@
 """Compare frozen replay and real inference on the first selection rows, without scoring labels.
 
 python experiments/model_exploration/verify_runtime.py --tag modernbert_joint --limit 100 --threads 2
+python experiments/model_exploration/verify_runtime.py --tag modernbert_joint --device cuda:0 --batch-size 16
 
 Runs no training or provider calls. Reports parity only; confirmation and development partitions
 are never requested. The optional experiment service wrapper is imported only when this CLI runs.
@@ -83,21 +84,37 @@ def _cached_predictions(tag: str, limit: int):
     return rows, predictions
 
 
-def verify(tag: str, limit: int, threads: int) -> dict:
+def _report_path(output_dir: Path, device: str) -> Path:
+    """Keep the historical CPU artifact stable while isolating accelerator evidence."""
+    suffix = "" if device == "cpu" else "_" + device.replace(":", "-").replace("/", "-")
+    return output_dir / f"runtime_parity{suffix}.json"
+
+
+def verify(tag: str, limit: int, threads: int, device: str = "cpu", batch_size: int = 32) -> dict:
     import torch
     from experiments.model_exploration.runtime import NeuralEnsemblePredictor
     from experiments.model_exploration.serve import NeuralTriage
 
+    cuda_available = bool(torch.cuda.is_available())
+    if device.startswith("cuda") and not cuda_available:
+        return {"tag": tag, "partition": "selection", "rows": 0, "threads": threads,
+                "requested_device": device, "requested_batch_size": batch_size,
+                "cuda_available": False, "confidence_tolerance": CONFIDENCE_TOLERANCE,
+                "label_accuracy_scored": False, "llm_enabled": False,
+                "mismatches": [], "error_traces": [], "pass": False,
+                "exception": {"type": "RuntimeError", "message": "CUDA was requested but is not available"}}
     rows, expected = _cached_predictions(tag, limit)
     projected = [project(row) for row in rows]
     report = {"tag": tag, "partition": "selection", "selection_rule": "first rows in saved partition order",
               "rows": len(rows), "singleton_rows": min(10, len(rows)), "threads": threads,
+              "requested_device": device, "requested_batch_size": batch_size,
+              "cuda_available": cuda_available,
               "confidence_tolerance": CONFIDENCE_TOLERANCE, "ids": [row["id"] for row in rows],
               "label_accuracy_scored": False, "llm_enabled": False,
               "max_confidence_diff": {"cached_vs_batch": 0.0, "cached_vs_singleton": 0.0,
                                       "batch_vs_singleton": 0.0},
               "mismatches": [], "error_traces": [], "pass": False}
-    predictor = NeuralEnsemblePredictor(tag, threads=threads, device="cpu", batch_size=32)
+    predictor = NeuralEnsemblePredictor(tag, threads=threads, device=device, batch_size=batch_size)
     runner = None
     try:
         runner = NeuralTriage(predictor)
@@ -145,16 +162,18 @@ def main() -> None:
     parser.add_argument("--tag", required=True)
     parser.add_argument("--limit", type=int, default=100)
     parser.add_argument("--threads", type=int, default=2)
+    parser.add_argument("--device", default="cpu", help="Torch device, for example cpu or cuda:0")
+    parser.add_argument("--batch-size", type=int, default=32)
     args = parser.parse_args()
-    if args.limit < 1 or args.threads < 1:
-        parser.error("--limit and --threads must be positive")
+    if args.limit < 1 or args.threads < 1 or args.batch_size < 1:
+        parser.error("--limit, --threads, and --batch-size must be positive")
     output_dir, _ = N._dirs(args.tag)
     try:
-        report = verify(args.tag, args.limit, args.threads)
+        report = verify(args.tag, args.limit, args.threads, args.device, args.batch_size)
     except Exception as exc:
         report = {"tag": args.tag, "partition": "selection", "pass": False,
                   "label_accuracy_scored": False, "exception": {"type": type(exc).__name__, "message": str(exc)}}
-    path = output_dir / "runtime_parity.json"
+    path = _report_path(output_dir, args.device)
     M.write_json(path, report)
     print(json.dumps({"report": str(path), **report}, indent=2))
     if not report["pass"]:

@@ -1,0 +1,65 @@
+{
+  "report": "/home/sher/op06/model-exploration-20261017/results/gpu-validation-20261018/training.json",
+  "stage": "training",
+  "tag": "modernbert_joint",
+  "requested_device": "cuda:0",
+  "started_unix": 1792270260.4280481,
+  "pass": false,
+  "scope": "bounded CUDA operational validation; no model quality claim",
+  "gpu_before": [
+    {
+      "index": 0,
+      "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+      "name": "NVIDIA RTX A6000",
+      "memory_total_mib": 49140,
+      "memory_free_mib": 3614,
+      "driver_version": "595.99.02"
+    }
+  ],
+  "selected_gpu": {
+    "index": 0,
+    "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+    "name": "NVIDIA RTX A6000",
+    "memory_total_mib": 49140,
+    "memory_free_mib": 3624,
+    "driver_version": "595.99.02"
+  },
+  "guard": {
+    "allocator_fraction": 0.055,
+    "required_free_mib": 3470.7,
+    "observed_free_mib": 3624,
+    "passes": true
+  },
+  "runtime": {
+    "torch": "2.14.1+cu130",
+    "torch_cuda": "13.0",
+    "cuda_available": true,
+    "device": "cuda:0",
+    "device_name": "NVIDIA RTX A6000",
+    "threads": 4,
+    "allocator_fraction": 0.055,
+    "memory_headroom_mib": 768
+  },
+  "exception": {
+    "type": "OutOfMemoryError",
+    "message": "CUDA out of memory. Tried to allocate 148.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 685.75 MiB is free. Process 41349 has 395.27 MiB memory in use. Process 40875 has 266.07 MiB memory in use. Process 710237 has 266.07 MiB memory in use. Process 725144 has 21.09 MiB memory in use. Process 1070579 has 92.34 MiB memory in use. Process 1096424 has 266.07 MiB memory in use. Process 1196736 has 25.34 MiB memory in use. Process 1252640 has 35.84 MiB memory in use. Process 2466589 has 47.09 MiB memory in use. Process 2930563 has 39.67 GiB memory in use. Process 3415519 has 46.84 MiB memory in use. Process 3420022 has 47.09 MiB memory in use. Process 3508130 has 36.41 MiB memory in use. Including non-PyTorch memory, this process has 2.86 GiB memory in use. 2.61 GiB allowed; Of the allocated memory 2.47 GiB is allocated by PyTorch, and 83.59 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+    "is_cuda_oom": true
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/home/sher/op06/model-exploration-20261017/experiments/model_exploration/gpu_validate.py\", line 290, in run\n    report[\"training_probe\"] = _training_probe(torch, tag, device)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sher/op06/model-exploration-20261017/experiments/model_exploration/gpu_validate.py\", line 190, in _training_probe\n    optimizer.step()\n  File \"/home/sher/op06/gpu-validation-20261018/.venv/lib/python3.12/site-packages/torch/optim/optimizer.py\", line 549, in wrapper\n    out = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sher/op06/gpu-validation-20261018/.venv/lib/python3.12/site-packages/torch/optim/optimizer.py\", line 79, in _use_grad\n    ret = func(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sher/op06/gpu-validation-20261018/.venv/lib/python3.12/site-packages/torch/optim/adam.py\", line 248, in step\n    adam(\n  File \"/home/sher/op06/gpu-validation-20261018/.venv/lib/python3.12/site-packages/torch/optim/optimizer.py\", line 157, in maybe_fallback\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sher/op06/gpu-validation-20261018/.venv/lib/python3.12/site-packages/torch/optim/adam.py\", line 970, in adam\n    func(\n  File \"/home/sher/op06/gpu-validation-20261018/.venv/lib/python3.12/site-packages/torch/optim/adam.py\", line 544, in _single_tensor_adam\n    denom = (exp_avg_sq.sqrt() / bias_correction2_sqrt).add_(eps)\n             ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 148.00 MiB. GPU 0 has a total capacity of 47.40 GiB of which 685.75 MiB is free. Process 41349 has 395.27 MiB memory in use. Process 40875 has 266.07 MiB memory in use. Process 710237 has 266.07 MiB memory in use. Process 725144 has 21.09 MiB memory in use. Process 1070579 has 92.34 MiB memory in use. Process 1096424 has 266.07 MiB memory in use. Process 1196736 has 25.34 MiB memory in use. Process 1252640 has 35.84 MiB memory in use. Process 2466589 has 47.09 MiB memory in use. Process 2930563 has 39.67 GiB memory in use. Process 3415519 has 46.84 MiB memory in use. Process 3420022 has 47.09 MiB memory in use. Process 3508130 has 36.41 MiB memory in use. Including non-PyTorch memory, this process has 2.86 GiB memory in use. 2.61 GiB allowed; Of the allocated memory 2.47 GiB is allocated by PyTorch, and 83.59 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n",
+  "cuda_peak": {
+    "peak_allocated_bytes": 2647034368,
+    "peak_reserved_bytes": 2734686208
+  },
+  "gpu_after": [
+    {
+      "index": 0,
+      "uuid": "GPU-dcfa0cb5-d475-7b5b-435a-ed18c60ce1bc",
+      "name": "NVIDIA RTX A6000",
+      "memory_total_mib": 49140,
+      "memory_free_mib": 834,
+      "driver_version": "595.99.02"
+    }
+  ],
+  "finished_unix": 1792270274.620058,
+  "elapsed_seconds": 14.192010561004281
+}
