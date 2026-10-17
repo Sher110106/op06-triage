@@ -1,0 +1,10 @@
+# Optional experiment/serving dependencies, in addition to the root pyproject.toml.
+# The measured Linux run used torch 2.14.1+cpu. Install its CPU wheel first with:
+#   uv pip install 'torch==2.14.1' --index-url https://download.pytorch.org/whl/cpu
+# CUDA is accepted by --device cuda with a compatible CUDA-enabled Torch build;
+# CUDA performance has not been measured by this experiment.
+torch==2.14.1
+transformers==5.19.0
+tokenizers==0.23.3
+safetensors==0.8.0
+huggingface-hub==1.33.0
