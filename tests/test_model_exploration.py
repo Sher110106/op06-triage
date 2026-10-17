@@ -4,7 +4,9 @@ from __future__ import annotations
 import numpy as np
 
 from experiments.model_exploration import neural as N
-from experiments.model_exploration.evaluate import accuracy_rule_pass, exact_paired
+from experiments.model_exploration.evaluate import accuracy_rule_pass, exact_paired, score_rows
+from harness.eval import Scored
+from triage import prompts as P
 
 
 class TokenizerWithoutLegacyBuilder:
@@ -12,6 +14,11 @@ class TokenizerWithoutLegacyBuilder:
     def __call__(self, text, add_special_tokens=True):
         ids = [ord(c) + 10 for c in text]
         return {"input_ids": [1, *ids, 2] if add_special_tokens else ids}
+
+
+def test_hostile_null_targets_are_not_labelled_accuracy_rows():
+    rows = [{"id": "hostile-null", "intent": None, "action": None, "flow": None}]
+    assert score_rows(rows, {}, object()) == {"rows": 1}
 
 
 def test_token_budget_and_gold_fields_are_isolated():
@@ -53,3 +60,30 @@ def test_display_rounding_cannot_pass_the_one_point_rule():
     delta = exact_paired(rows, baseline, candidate, Policy(), draws=100)
     assert np.isclose(delta["action_accuracy"]["diff"], 30 / 3030)
     assert not accuracy_rule_pass(delta)
+
+
+def test_noisy_only_metrics_leave_clean_accuracy_and_gap_undefined():
+    rows = [
+        {"id": "conversation-a-1-noisy", "_group": "noisy", "intent": P.INTENTS[0], "action": P.ACTIONS[0]},
+        {"id": "conversation-b-1-noisy", "_group": "noisy", "intent": P.INTENTS[1], "action": P.ACTIONS[1]},
+    ]
+    preds = {
+        row["id"]: {"id": row["id"], "intent": P.INTENTS[0], "action": P.ACTIONS[0],
+                    "confidence": 0.8, "needs_human": False}
+        for row in rows
+    }
+
+    metrics = Scored(rows, preds).metrics()
+
+    assert metrics["action_acc_clean"] is None
+    assert metrics["action_acc_noisy"] == 0.5
+    assert metrics["noisy_gap"] is None
+
+    clean = {"id": "conversation-clean-1", "_group": "clean",
+             "intent": P.INTENTS[0], "action": P.ACTIONS[0]}
+    mixed_preds = {**preds, clean["id"]: {"id": clean["id"], "intent": clean["intent"],
+                   "action": clean["action"], "confidence": 0.8, "needs_human": False}}
+    mixed = Scored([clean, *rows], mixed_preds).metrics()
+    assert mixed["action_acc_clean"] == 1.0
+    assert mixed["action_acc_noisy"] == 0.5
+    assert mixed["noisy_gap"] == 0.5

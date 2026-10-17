@@ -1,0 +1,116 @@
+{
+ "dev": {
+  "reference": {
+   "intent_acc": 0.7065,
+   "action_acc": 0.813,
+   "intent_acc_clean": 0.7065,
+   "action_acc_clean": 0.813,
+   "macro_f1": 0.6882436939017282,
+   "top70_error_ratio": 0.37433155080213865,
+   "rows": 2000,
+   "reviews": 577,
+   "automatic": 1423,
+   "wrong_automatic": 114,
+   "action_cost_per100": 47.35,
+   "forbidden_automatic": 26,
+   "forbidden_high": 3
+  },
+  "encoder": {
+   "intent_acc": 0.711,
+   "action_acc": 0.818,
+   "intent_acc_clean": 0.711,
+   "action_acc_clean": 0.818,
+   "macro_f1": 0.6839266530412271,
+   "top70_error_ratio": 0.36868131868131887,
+   "rows": 2000,
+   "reviews": 549,
+   "automatic": 1451,
+   "wrong_automatic": 112,
+   "action_cost_per100": 47.75,
+   "forbidden_automatic": 26,
+   "forbidden_high": 3
+  },
+  "ensemble": {
+   "intent_acc": 0.727,
+   "action_acc": 0.833,
+   "intent_acc_clean": 0.727,
+   "action_acc_clean": 0.833,
+   "macro_f1": 0.7111905338627763,
+   "top70_error_ratio": 0.32514970059880244,
+   "rows": 2000,
+   "reviews": 483,
+   "automatic": 1517,
+   "wrong_automatic": 105,
+   "action_cost_per100": 42.35,
+   "forbidden_automatic": 25,
+   "forbidden_high": 2
+  }
+ },
+ "noisy": {
+  "reference": {
+   "intent_acc": 0.64,
+   "action_acc": 0.7866666666666666,
+   "intent_acc_clean": null,
+   "action_acc_clean": null,
+   "intent_acc_noisy": 0.64,
+   "action_acc_noisy": 0.7866666666666666,
+   "noisy_gap": null,
+   "macro_f1": 0.557552347892905,
+   "top70_error_ratio": 0.46882325363338,
+   "rows": 300,
+   "reviews": 132,
+   "automatic": 168,
+   "wrong_automatic": 9,
+   "action_cost_per100": 53.0,
+   "forbidden_automatic": 2,
+   "forbidden_high": 0
+  },
+  "encoder": {
+   "intent_acc": 0.6833333333333333,
+   "action_acc": 0.7566666666666667,
+   "intent_acc_clean": null,
+   "action_acc_clean": null,
+   "intent_acc_noisy": 0.6833333333333333,
+   "action_acc_noisy": 0.7566666666666667,
+   "noisy_gap": null,
+   "macro_f1": 0.5772640499409111,
+   "top70_error_ratio": 0.5285655569256066,
+   "rows": 300,
+   "reviews": 128,
+   "automatic": 172,
+   "wrong_automatic": 16,
+   "action_cost_per100": 68.0,
+   "forbidden_automatic": 3,
+   "forbidden_high": 0
+  },
+  "ensemble": {
+   "intent_acc": 0.68,
+   "action_acc": 0.7966666666666666,
+   "intent_acc_clean": null,
+   "action_acc_clean": null,
+   "intent_acc_noisy": 0.68,
+   "action_acc_noisy": 0.7966666666666666,
+   "noisy_gap": null,
+   "macro_f1": 0.5719671783536542,
+   "top70_error_ratio": 0.42154451549434324,
+   "rows": 300,
+   "reviews": 114,
+   "automatic": 186,
+   "wrong_automatic": 13,
+   "action_cost_per100": 58.0,
+   "forbidden_automatic": 2,
+   "forbidden_high": 0
+  }
+ },
+ "hostile": {
+  "reference": {
+   "rows": 9
+  },
+  "encoder": {
+   "rows": 9
+  },
+  "ensemble": {
+   "rows": 9
+  }
+ }
+}

@@ -221,6 +221,28 @@ change before shipping and monitor `policy_uncertainty`, disagreement and automa
 actual intent and permission remains a separate residual risk. The new comparison is a held-out re-split of a
 previously studied public dataset, not a new hidden test.
 
+## D4. Keep the default after the larger-model comparison (18 October)
+
+We trained a 149M ModernBERT encoder with intent, flow and state-aware action heads, compared it against a
+reference refit on the same conversation groups, and froze a 50/50 probability blend before confirmation.
+On 3,030 rows, action accuracy rose from 80.59% to 84.26% (+3.66 points, grouped 95% interval +2.76 to +4.59).
+Reviews and the assumed 1/10/3 cost fell. High-risk automatic suggestions forbidden under the labelled-flow
+metric rose from two to five, failing the predeclared no-increase guard. The three additions kept the same
+action and intent but became automatic. We did not retune on confirmation or remove conflicting annotations.
+
+The optional neural backend is runnable: all 2,309 public inputs were served at eight clients with no errors,
+1.367-second p95, 2.12-GiB peak server RSS and no model-API calls. It passed all development bars and runtime
+parity; those checks do not override the guard failure. The complete Linux suite passed 546 tests without skips.
+
+The separate hosted comparison selected Flash on 300 selection rows. On a matched 300-row confirmation tail,
+Flash reached 67.0% action accuracy versus Luna's 61.33% with a 30-second deadline. A four-second retrospective
+fallback replay gave 66.0% versus 61.33%, with a paired gain interval touching zero and roughly 9.4 times the
+uncached cost. This does not justify replacing the current Luna profile. No neural-plus-LLM combination was tested.
+
+Keep the current classical-plus-Luna default. Retain the neural checkpoint and raw hosted results as experimental
+evidence. These are current-round holdouts from previously studied public training data, not hidden-test results.
+Details: [report](experiments/model_exploration/REPORT.md), [case analysis](experiments/model_exploration/FAILURE_ANALYSIS.md).
+
 ## Smaller decisions
 
 - **Routing points by cost per risk tier** (P2-1, `results_routing.json`). A review costs 1, a wrong action 10

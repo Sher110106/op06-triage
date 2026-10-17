@@ -1,0 +1,40 @@
+{
+  "model": {
+    "backend": "neural_ensemble_experiment",
+    "tag": "modernbert_joint",
+    "model": "answerdotai/ModernBERT-base",
+    "revision": "8949b909ec900327062f0ebf497f51aef5e6f0c8",
+    "device": "cpu",
+    "threads": 4,
+    "batch_size": 1,
+    "action_classical_weight": 0.5,
+    "intent_classical_weight": 0.5,
+    "temperatures": {
+      "action": 0.9369403670768213,
+      "intent": 0.9210483439574526,
+      "flow": 0.9949817112976874
+    },
+    "calibration": "/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint-calibration.joblib",
+    "frozen_settings": "/home/sher/op06/model-exploration-20261017/results/model-exploration-20261017/modernbert_joint/frozen.json"
+  },
+  "rows": 100,
+  "warmups": 5,
+  "http": false,
+  "latency_ms": {
+    "main_ms": {
+      "p50": 91.18,
+      "p95": 116.49,
+      "max": 137.76
+    },
+    "probe_ms": {
+      "p50": 46.2,
+      "p95": 54.18,
+      "max": 76.58
+    },
+    "including_policy_and_confidence_ms": {
+      "p50": 135.64,
+      "p95": 168.41,
+      "max": 189.93
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+ "format": 1,
+ "model": "openai/gpt-6-luna",
+ "cohort": "/Users/sher/.t3/projects/work-01/solution/results/model-exploration-20261017/cohorts/confirmation.json",
+ "cohort_sha256": "2631c14521e2bd5db0b4925926632283a1580e504032926cf54f77ac0bcb82ca",
+ "split": "confirmation",
+ "purpose": "offline action-only cohort comparison; no calibrated pipeline or production latency claim",
+ "price_snapshot": "results/model-exploration-20261017/api_models.json",
+ "max_spend_usd": 0.5,
+ "max_tokens": 256,
+ "request_profile": {
+  "max_tokens": 256,
+  "reasoning": {
+   "effort": "none"
+  },
+  "temperature": 0
+ },
+ "created_utc": "2026-10-17T20:03:47Z",
+ "meter_before": {
+  "limit": 10.0,
+  "limit_remaining": 7.82738614,
+  "usage": 2.17261386
+ },
+ "phase_spend_before": 1.974746940000001,
+ "already_attempted": 0,
+ "pending": 300,
+ "meter_after_last_attempt": {
+  "limit": 10.0,
+  "limit_remaining": 7.766353505,
+  "usage": 2.233646495
+ },
+ "phase_spend_after_last_attempt": 2.035779575000001,
+ "run_liabilities_usd": 0.19102457499999992,
+ "run_total_reservations_descriptive_usd": 3.4005771999999994
+}

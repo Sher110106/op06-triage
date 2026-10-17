@@ -1,0 +1,95 @@
+{
+ "grader_version": "2.1",
+ "counts": {
+  "clean": 2000,
+  "noisy": 300,
+  "hostile": 9,
+  "predictions": 2309,
+  "missing_predictions": 0
+ },
+ "intent": {
+  "accuracy_all": 0.6978,
+  "accuracy_clean": 0.7065,
+  "accuracy_noisy": 0.64,
+  "macro_f1_all": 0.6749,
+  "macro_f1_clean": 0.6882
+ },
+ "action": {
+  "accuracy_all": 0.8096,
+  "accuracy_clean": 0.813,
+  "accuracy_noisy": 0.7867,
+  "macro_f1_all": 0.754,
+  "matched_clean_accuracy": 0.8033,
+  "matched_noisy_gap": 0.0166,
+  "noisy_gap": 0.0263
+ },
+ "policy": {
+  "predicted_actions_scored": 2300,
+  "violations": 191,
+  "violation_rate": 0.083,
+  "gold_violation_rate": 0.0883
+ },
+ "hostile": {
+  "structural_only": true,
+  "runtime_and_behavior_verified": false,
+  "note": "Prediction files cannot prove absence of crashes, hangs or instruction following; run the service checks."
+ },
+ "schema": {
+  "inputs_including_hostile": 2309,
+  "valid": 2309,
+  "valid_rate_all_inputs": 1.0
+ },
+ "confidence": {
+  "all": {
+   "n": 2300,
+   "kept_in_top70": 1610,
+   "threshold": 0.752968,
+   "overall_accuracy": 0.8096,
+   "top70_accuracy": 0.9242,
+   "distinct_confidences": 2228
+  },
+  "top70_error_ratio": 0.3981
+ },
+ "bars": {
+  "intent_accuracy_all": {
+   "value": 0.6978,
+   "bar": 0.55,
+   "pass": true
+  },
+  "action_accuracy_all": {
+   "value": 0.8096,
+   "bar": 0.55,
+   "pass": true
+  },
+  "macro_f1_all": {
+   "value": 0.6749,
+   "bar": 0.5,
+   "pass": true
+  },
+  "schema_valid_pct": {
+   "value": 100.0,
+   "bar": 100.0,
+   "pass": true
+  },
+  "noisy_gap": {
+   "value": 0.0263,
+   "bar": 0.1,
+   "pass": true
+  },
+  "top70_error_ratio": {
+   "value": 0.3981,
+   "bar": 0.85,
+   "pass": true
+  }
+ },
+ "baseline": {
+  "intent_accuracy": 0.3748,
+  "action_accuracy": 0.3913,
+  "macro_f1": 0.4508,
+  "noisy_gap": 0.0743,
+  "schema_valid_pct": 100.0,
+  "policy_violation_rate": 0.1404,
+  "gold_policy_violation_rate": 0.0883,
+  "top70_error_ratio": 1.0
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "tag": "modernbert_joint",
+ "temperatures": {
+  "action": 0.9369403670768213,
+  "intent": 0.9210483439574526,
+  "flow": 0.9949817112976874
+ },
+ "classical_action_flow_weight": 0.5,
+ "classical_intent_weight": 0.5,
+ "selection_action_by_weight": {
+  "1.0": 0.8152929493545183,
+  "0.75": 0.8272095332671301,
+  "0.5": 0.8326713008937437,
+  "0.25": 0.8242303872889771,
+  "0.0": 0.8113207547169812
+ },
+ "selection_intent_by_weight": {
+  "1.0": 0.7120158887785502,
+  "0.75": 0.7293942403177756,
+  "0.5": 0.7398212512413108,
+  "0.25": 0.7313803376365442,
+  "0.0": 0.7224428997020854
+ },
+ "policy_version": "2026-10-17.2",
+ "primary_contrast": "selection-frozen ensemble vs matched retrained classical",
+ "calibration_note": "Correctness OOF excludes groups only in the final regression; upstream temperatures are shared.",
+ "thresholds": {
+  "reference": {
+   "high": 0.897663,
+   "low": 0.71911
+  },
+  "encoder": {
+   "high": 0.79911,
+   "low": 0.793285
+  },
+  "ensemble": {
+   "high": 0.799597,
+   "low": 0.722496
+  }
+ }
+}

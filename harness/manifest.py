@@ -436,6 +436,53 @@ def claims(run: dict, bench: dict) -> tuple[dict, dict]:
     return claimed, notes
 
 
+def model_exploration_index() -> dict | None:
+    """Add a separate index for the completed neural comparison without changing the canonical claim."""
+    result_dir = ROOT / "results" / "model-exploration-20261017"
+    budget_path = result_dir / "budget_closed.json"
+    selected_path = result_dir / "selected_neural.json"
+    if not budget_path.exists() or not selected_path.exists():
+        return None
+    budget = read_json(budget_path)
+    selected = read_json(selected_path)
+    gain = selected.get("raw_selection_action_gain")
+    minimum_gain = selected.get("minimum_gain")
+    additional_spend = budget.get("new_phase_gateway_spend_usd")
+    uncached = budget.get("uncached_list_estimate_usd")
+    liability = budget.get("accounted_phase_liability_usd")
+    return {
+        "report": "experiments/model_exploration/REPORT.md",
+        "protocol": "experiments/model_exploration/PROTOCOL.md",
+        "results": "results/model-exploration-20261017/",
+        "decision": "retain_existing_production_default",
+        "decision_source": "experiments/model_exploration/REPORT.md#frozen-neural-confirmation-and-deployment-decision",
+        "production_default_changed": False,
+        "neural_checkpoint": selected.get("tag"),
+        "head_refinement": {
+            "candidate_tag": selected.get("refined_tag"),
+            "raw_selection_action_gain": gain,
+            "minimum_gain": minimum_gain,
+            "candidate_used": bool(isinstance(gain, (int, float))
+                                   and isinstance(minimum_gain, (int, float))
+                                   and gain >= minimum_gain),
+            "source": "results/model-exploration-20261017/selected_neural.json",
+        },
+        "budget_closed": {
+            "source": "results/model-exploration-20261017/budget_closed.json",
+            "additional_gateway_spend_usd": round(additional_spend, 8) if additional_spend is not None else None,
+            "returned_call_cost_sum_usd": round(budget["returned_call_cost_sum_usd"], 8),
+            "uncached_list_estimate_usd": round(uncached, 8) if uncached is not None else None,
+            "accounted_phase_liability_usd": round(liability, 9) if liability is not None else None,
+            "unknown_usage_reservations_usd": round(budget["unknown_usage_reservations_usd"], 8),
+            "attempts": budget["attempts"],
+            "phase_self_cap_usd": budget["phase_self_cap_usd"],
+            "additional_to_prior_key_usage": True,
+            "note": ("This phase spend is additional to prior key usage already summarized under "
+                     "spend_usd.refinement_20261017; do not add that earlier usage again."),
+        },
+    }
+
+
 def main():
     ledger, tags = ledger_entry()
     seeds = bundle_seeds()
@@ -501,6 +548,9 @@ def main():
         "note": "Includes negative experiments, controlled confirmation, intermediate and final service runs, "
                 "and the new API budget ledger. Canonical predictions now identify the final validated run.",
     }
+    exploration = model_exploration_index()
+    if exploration is not None:
+        manifest["model_exploration_20261017"] = exploration
     manifest["checks"] = check(runs, ledger)
     (ROOT / "results" / "manifest.json").write_text(json.dumps(manifest, indent=1))
     print(json.dumps({"runs": len(runs), "kinds": dict(Counter(r["kind"] for r in runs)), "claimed": claimed,

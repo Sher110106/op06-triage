@@ -4,6 +4,12 @@
 intent, a suggested next action checked against the written procedure, a confidence, and whether a person should take the case.
 This file says how it decides, what it scored, how to run it and where it fails. `RUNBOOK.md` covers operation.
 
+The [18 October stronger-model report](experiments/model_exploration/REPORT.md) tests a trained ModernBERT
+ensemble and fresh Luna/Haiku/Flash comparisons. The current defaults remain unchanged. The neural candidate
+improved matched confirmation accuracy but failed its high-risk review guard; Flash's advantage at the current
+four-second deadline remains inconclusive. [The model guide](experiments/model_exploration/ARCHITECTURE.md)
+explains the components and [the experiment runbook](experiments/model_exploration/README.md) reproduces the work.
+
 ## How it decides
 
 The request path is `triage/pipeline.py`; `docs/DESIGN.md` is the full contract.

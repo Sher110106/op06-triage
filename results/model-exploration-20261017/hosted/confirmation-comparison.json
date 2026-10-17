@@ -1,0 +1,375 @@
+{
+  "split": "confirmation",
+  "cohort_path": "results/model-exploration-20261017/cohorts/confirmation.json",
+  "cohort_sha256": "2631c14521e2bd5db0b4925926632283a1580e504032926cf54f77ac0bcb82ca",
+  "expected_attempts_per_run": 300,
+  "runs": [
+    {
+      "run_id": "confirmation-luna",
+      "model_requested": "openai/gpt-6-luna",
+      "model_returned_counts": {
+        "openai/gpt-6-luna": 300
+      },
+      "provider_returned_counts": {
+        "OpenAI": 300
+      },
+      "attempted": 300,
+      "accepted_actions": 275,
+      "changed_actions": 157,
+      "model_abstentions": 25,
+      "parse_failures_or_invalid_outputs": 0,
+      "unaccepted_actions_including_failures_and_mask_rejections": 25,
+      "masked_rejections": 0,
+      "status_counts": {
+        "invalid_or_abstained": 25,
+        "ok": 275
+      },
+      "parse_status_counts": {
+        "ok": 300
+      },
+      "error_type_counts": {
+        "invalid_or_abstained": 25
+      },
+      "latency_s": {
+        "p50": 1.4543895836686715,
+        "p95": 1.9849661805783398,
+        "max": 4.863399416906759,
+        "within_production_4s_fraction": 0.9966666666666667,
+        "timed_calls": 300,
+        "missing_calls": 0,
+        "measured_interval": "provider call only; hosted deadline 30s; excludes meter refresh"
+      },
+      "usage_tokens": {
+        "prompt_tokens": {
+          "sum_known": 1857340,
+          "known_count": 300,
+          "missing_count": 0
+        },
+        "completion_tokens": {
+          "sum_known": 10286,
+          "known_count": 300,
+          "missing_count": 0
+        },
+        "total_tokens": {
+          "sum_known": 1867626,
+          "known_count": 300,
+          "missing_count": 0
+        }
+      },
+      "costs_usd": {
+        "gateway_reported": {
+          "known_subtotal": 0.06274974,
+          "known_count": 300,
+          "missing_count": 0,
+          "complete_total": 0.06274974
+        },
+        "list_uncached": {
+          "known_subtotal": 0.190877,
+          "known_count": 300,
+          "missing_count": 0,
+          "complete_total": 0.190877
+        },
+        "reservations_started_total": 3.4005772,
+        "liability_records_total": 0.191024575,
+        "run_gateway_usage_delta": 0.06103263500000011
+      },
+      "selected_tail": {
+        "rows": 300,
+        "conversations": 252,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.44,
+        "hosted_action_accuracy": 0.6133333333333333,
+        "accuracy_diff": 0.17333333333333328,
+        "accuracy_diff_pp": 17.33333333333333,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.10689655172413798,
+          0.23762722426088762
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          10.689655172413797,
+          23.76272242608876
+        ]
+      },
+      "full_split": {
+        "rows": 3030,
+        "conversations": 1165,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.805940594059406,
+        "hosted_action_accuracy": 0.8231023102310231,
+        "accuracy_diff": 0.017161716171617103,
+        "accuracy_diff_pp": 1.7161716171617103,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.010498687664042047,
+          0.02370799676043787
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          1.0498687664042046,
+          2.370799676043787
+        ]
+      },
+      "deadline_4s_action_replay": {
+        "accepted_actions_within_4s": 274,
+        "changed_actions_within_4s": 157,
+        "latency_source": "raw_calls.jsonl latency_s; excludes post-call meter refresh",
+        "interpretation": "offline retrospective action replay; not service latency, provider cancellation, or actual cost",
+        "selected_tail": {
+          "rows": 300,
+          "conversations": 252,
+          "accuracy_unit": "fraction (1.0 = 100%)",
+          "base_action_accuracy": 0.44,
+          "hosted_action_accuracy": 0.6133333333333333,
+          "accuracy_diff": 0.17333333333333328,
+          "accuracy_diff_pp": 17.33333333333333,
+          "paired_conversation_bootstrap_95ci_diff": [
+            0.10689655172413798,
+            0.23762722426088762
+          ],
+          "paired_conversation_bootstrap_95ci_diff_pp": [
+            10.689655172413797,
+            23.76272242608876
+          ]
+        },
+        "full_split": {
+          "rows": 3030,
+          "conversations": 1165,
+          "accuracy_unit": "fraction (1.0 = 100%)",
+          "base_action_accuracy": 0.805940594059406,
+          "hosted_action_accuracy": 0.8231023102310231,
+          "accuracy_diff": 0.017161716171617103,
+          "accuracy_diff_pp": 1.7161716171617103,
+          "paired_conversation_bootstrap_95ci_diff": [
+            0.010498687664042047,
+            0.02370799676043787
+          ],
+          "paired_conversation_bootstrap_95ci_diff_pp": [
+            1.0498687664042046,
+            2.370799676043787
+          ]
+        }
+      },
+      "unqueried_rows_unchanged": 2730,
+      "cohort_sha256": "2631c14521e2bd5db0b4925926632283a1580e504032926cf54f77ac0bcb82ca"
+    },
+    {
+      "run_id": "confirmation-flash-low",
+      "model_requested": "google/gemini-3.8-flash",
+      "model_returned_counts": {
+        "google/gemini-3.8-flash": 300
+      },
+      "provider_returned_counts": {
+        "Google": 300
+      },
+      "attempted": 300,
+      "accepted_actions": 288,
+      "changed_actions": 151,
+      "model_abstentions": 10,
+      "parse_failures_or_invalid_outputs": 2,
+      "unaccepted_actions_including_failures_and_mask_rejections": 12,
+      "masked_rejections": 0,
+      "status_counts": {
+        "invalid_or_abstained": 12,
+        "ok": 288
+      },
+      "parse_status_counts": {
+        "invalid_json": 2,
+        "ok": 298
+      },
+      "error_type_counts": {
+        "invalid_or_abstained": 12
+      },
+      "latency_s": {
+        "p50": 2.466782208532095,
+        "p95": 5.186824185377919,
+        "max": 10.803823125083,
+        "within_production_4s_fraction": 0.8733333333333333,
+        "timed_calls": 300,
+        "missing_calls": 0,
+        "measured_interval": "provider call only; hosted deadline 30s; excludes meter refresh"
+      },
+      "usage_tokens": {
+        "prompt_tokens": {
+          "sum_known": 2087107,
+          "known_count": 300,
+          "missing_count": 0
+        },
+        "completion_tokens": {
+          "sum_known": 15529,
+          "known_count": 300,
+          "missing_count": 0
+        },
+        "total_tokens": {
+          "sum_known": 2102636,
+          "known_count": 300,
+          "missing_count": 0
+        }
+      },
+      "costs_usd": {
+        "gateway_reported": {
+          "known_subtotal": 1.623564,
+          "known_count": 300,
+          "missing_count": 0,
+          "complete_total": 1.623564
+        },
+        "list_uncached": {
+          "known_subtotal": 1.7859204000000002,
+          "known_count": 300,
+          "missing_count": 0,
+          "complete_total": 1.7859204000000002
+        },
+        "reservations_started_total": 13.15769805,
+        "liability_records_total": 1.7859204000000002,
+        "run_gateway_usage_delta": 1.581799105
+      },
+      "selected_tail": {
+        "rows": 300,
+        "conversations": 252,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.44,
+        "hosted_action_accuracy": 0.67,
+        "accuracy_diff": 0.23000000000000004,
+        "accuracy_diff_pp": 23.000000000000004,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.16666666666666669,
+          0.2931091954022988
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          16.666666666666668,
+          29.31091954022988
+        ]
+      },
+      "full_split": {
+        "rows": 3030,
+        "conversations": 1165,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.805940594059406,
+        "hosted_action_accuracy": 0.8287128712871287,
+        "accuracy_diff": 0.02277227722772268,
+        "accuracy_diff_pp": 2.277227722772268,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.016139259130642968,
+          0.02933447286582944
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          1.613925913064297,
+          2.933447286582944
+        ]
+      },
+      "deadline_4s_action_replay": {
+        "accepted_actions_within_4s": 253,
+        "changed_actions_within_4s": 135,
+        "latency_source": "raw_calls.jsonl latency_s; excludes post-call meter refresh",
+        "interpretation": "offline retrospective action replay; not service latency, provider cancellation, or actual cost",
+        "selected_tail": {
+          "rows": 300,
+          "conversations": 252,
+          "accuracy_unit": "fraction (1.0 = 100%)",
+          "base_action_accuracy": 0.44,
+          "hosted_action_accuracy": 0.66,
+          "accuracy_diff": 0.22000000000000003,
+          "accuracy_diff_pp": 22.000000000000004,
+          "paired_conversation_bootstrap_95ci_diff": [
+            0.16224941829246464,
+            0.2772319612098195
+          ],
+          "paired_conversation_bootstrap_95ci_diff_pp": [
+            16.224941829246465,
+            27.723196120981953
+          ]
+        },
+        "full_split": {
+          "rows": 3030,
+          "conversations": 1165,
+          "accuracy_unit": "fraction (1.0 = 100%)",
+          "base_action_accuracy": 0.805940594059406,
+          "hosted_action_accuracy": 0.8277227722772277,
+          "accuracy_diff": 0.02178217821782169,
+          "accuracy_diff_pp": 2.178217821782169,
+          "paired_conversation_bootstrap_95ci_diff": [
+            0.015639759222102163,
+            0.027967934726532515
+          ],
+          "paired_conversation_bootstrap_95ci_diff_pp": [
+            1.5639759222102163,
+            2.7967934726532513
+          ]
+        }
+      },
+      "unqueried_rows_unchanged": 2730,
+      "cohort_sha256": "2631c14521e2bd5db0b4925926632283a1580e504032926cf54f77ac0bcb82ca"
+    }
+  ],
+  "pairwise_hosted_runs": {
+    "confirmation-luna__vs__confirmation-flash-low": {
+      "selected_tail": {
+        "rows": 300,
+        "conversations": 252,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.6133333333333333,
+        "hosted_action_accuracy": 0.67,
+        "accuracy_diff": 0.056666666666666754,
+        "accuracy_diff_pp": 5.666666666666675,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.010135135135135087,
+          0.10561056105610567
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          1.0135135135135087,
+          10.561056105610566
+        ]
+      },
+      "full_split": {
+        "rows": 3030,
+        "conversations": 1165,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.8231023102310231,
+        "hosted_action_accuracy": 0.8287128712871287,
+        "accuracy_diff": 0.0056105610561055785,
+        "accuracy_diff_pp": 0.5610561056105579,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.0009865175928971375,
+          0.010420343313914874
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          0.09865175928971376,
+          1.0420343313914873
+        ]
+      },
+      "deadline_4s_selected_tail": {
+        "rows": 300,
+        "conversations": 252,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.6133333333333333,
+        "hosted_action_accuracy": 0.66,
+        "accuracy_diff": 0.046666666666666745,
+        "accuracy_diff_pp": 4.666666666666675,
+        "paired_conversation_bootstrap_95ci_diff": [
+          0.0,
+          0.09666666666666668
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          0.0,
+          9.666666666666668
+        ]
+      },
+      "deadline_4s_full_split": {
+        "rows": 3030,
+        "conversations": 1165,
+        "accuracy_unit": "fraction (1.0 = 100%)",
+        "base_action_accuracy": 0.8231023102310231,
+        "hosted_action_accuracy": 0.8277227722772277,
+        "accuracy_diff": 0.0046204620462045876,
+        "accuracy_diff_pp": 0.46204620462045876,
+        "paired_conversation_bootstrap_95ci_diff": [
+          -0.0003268000564070006,
+          0.009709052469970858
+        ],
+        "paired_conversation_bootstrap_95ci_diff_pp": [
+          -0.03268000564070006,
+          0.9709052469970858
+        ]
+      }
+    }
+  },
+  "interpretation": "action-only comparison. Failures remain CPU fallbacks; unqueried rows are unchanged. Review/confidence fields are illustrative, not a calibrated production policy.",
+  "created_utc": "2026-10-17T20:31:07+00:00"
+}

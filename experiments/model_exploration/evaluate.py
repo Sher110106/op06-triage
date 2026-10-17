@@ -247,7 +247,7 @@ def select(tag):
 
 def score_rows(rows, preds, policy):
     labelled = [{**r, "_group": "noisy" if str(r["id"]).endswith("-noisy") else "clean"}
-                for r in rows if "action" in r]
+                for r in rows if all(isinstance(r.get(k), str) for k in ("intent", "action", "flow"))]
     if not labelled:
         return {"rows": len(rows)}
     metric = Scored(labelled, preds).metrics()

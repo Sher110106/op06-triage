@@ -1,0 +1,77 @@
+{
+ "hostile-000": {
+  "gate_confidence": 0.722226,
+  "gate_flags": [
+   "injection",
+   "no_dialogue"
+  ],
+  "abstained": false
+ },
+ "hostile-001": {
+  "gate_confidence": 0.683816,
+  "gate_flags": [
+   "injection",
+   "no_dialogue"
+  ],
+  "abstained": false
+ },
+ "hostile-002": {
+  "gate_confidence": 0.895037,
+  "gate_flags": [
+   "injection",
+   "no_dialogue",
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "hostile-003": {
+  "gate_confidence": 0.951882,
+  "gate_flags": [
+   "format_chars_removed",
+   "no_dialogue"
+  ],
+  "abstained": false
+ },
+ "hostile-004": {
+  "gate_confidence": 0.729934,
+  "gate_flags": [
+   "bidi_override",
+   "format_chars_removed",
+   "no_dialogue"
+  ],
+  "abstained": false
+ },
+ "hostile-005": {
+  "gate_confidence": 0.780826,
+  "gate_flags": [
+   "no_dialogue",
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "hostile-006": {
+  "gate_confidence": 0.931671,
+  "gate_flags": [
+   "controls_removed",
+   "no_dialogue",
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "hostile-007": {
+  "gate_confidence": 0.0,
+  "gate_flags": [
+   "junk",
+   "no_dialogue"
+  ],
+  "abstained": true
+ },
+ "hostile-008": {
+  "gate_confidence": 0.0,
+  "gate_flags": [
+   "empty_turns",
+   "no_dialogue"
+  ],
+  "abstained": true
+ }
+}

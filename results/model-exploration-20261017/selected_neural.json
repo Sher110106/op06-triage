@@ -1,0 +1,8 @@
+{
+ "tag": "modernbert_joint",
+ "base_tag": "modernbert_joint",
+ "refined_tag": "modernbert_head",
+ "raw_selection_action_gain": 0.0019860973187686426,
+ "minimum_gain": 0.005,
+ "confirmation_used": false
+}

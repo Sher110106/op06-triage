@@ -1,0 +1,1653 @@
+{
+ "8645-22-noisy": {
+  "gate_confidence": 0.86311,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3188-8-noisy": {
+  "gate_confidence": 0.929041,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9437-23-noisy": {
+  "gate_confidence": 0.29747,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "3489-31-noisy": {
+  "gate_confidence": 0.618813,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3542-4-noisy": {
+  "gate_confidence": 0.955283,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3652-24-noisy": {
+  "gate_confidence": 0.202689,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10268-18-noisy": {
+  "gate_confidence": 0.927643,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "413-17-noisy": {
+  "gate_confidence": 0.915211,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5534-6-noisy": {
+  "gate_confidence": 0.810641,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5551-5-noisy": {
+  "gate_confidence": 0.29967,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "2092-21-noisy": {
+  "gate_confidence": 0.681702,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5859-4-noisy": {
+  "gate_confidence": 0.236527,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "9787-8-noisy": {
+  "gate_confidence": 0.96355,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5730-16-noisy": {
+  "gate_confidence": 0.476988,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9978-7-noisy": {
+  "gate_confidence": 0.843905,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1256-18-noisy": {
+  "gate_confidence": 0.809889,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3305-15-noisy": {
+  "gate_confidence": 0.514169,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3230-11-noisy": {
+  "gate_confidence": 0.935144,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9722-19-noisy": {
+  "gate_confidence": 0.721245,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10022-17-noisy": {
+  "gate_confidence": 0.855615,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9722-11-noisy": {
+  "gate_confidence": 0.84734,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7896-4-noisy": {
+  "gate_confidence": 0.487556,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "9787-19-noisy": {
+  "gate_confidence": 0.372897,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3582-10-noisy": {
+  "gate_confidence": 0.681975,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "917-19-noisy": {
+  "gate_confidence": 0.500209,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2996-7-noisy": {
+  "gate_confidence": 0.977849,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5424-12-noisy": {
+  "gate_confidence": 0.907227,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "9999-13-noisy": {
+  "gate_confidence": 0.607591,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "865-9-noisy": {
+  "gate_confidence": 0.831777,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "8032-28-noisy": {
+  "gate_confidence": 0.445685,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9534-11-noisy": {
+  "gate_confidence": 0.917502,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3898-7-noisy": {
+  "gate_confidence": 0.509582,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7958-19-noisy": {
+  "gate_confidence": 0.626407,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2030-21-noisy": {
+  "gate_confidence": 0.638392,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "9706-12-noisy": {
+  "gate_confidence": 0.688168,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "8857-18-noisy": {
+  "gate_confidence": 0.866293,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10191-25-noisy": {
+  "gate_confidence": 0.675883,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10430-15-noisy": {
+  "gate_confidence": 0.666826,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2851-10-noisy": {
+  "gate_confidence": 0.703244,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9728-15-noisy": {
+  "gate_confidence": 0.7752,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "5660-7-noisy": {
+  "gate_confidence": 0.958118,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2725-11-noisy": {
+  "gate_confidence": 0.86952,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7626-6-noisy": {
+  "gate_confidence": 0.509433,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "773-18-noisy": {
+  "gate_confidence": 0.140443,
+  "gate_flags": [
+   "off_policy",
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "9600-5-noisy": {
+  "gate_confidence": 0.9735,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1150-10-noisy": {
+  "gate_confidence": 0.937163,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "7823-12-noisy": {
+  "gate_confidence": 0.883356,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4387-17-noisy": {
+  "gate_confidence": 0.634591,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7917-14-noisy": {
+  "gate_confidence": 0.619565,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6703-12-noisy": {
+  "gate_confidence": 0.83173,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2711-4-noisy": {
+  "gate_confidence": 0.742829,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6668-4-noisy": {
+  "gate_confidence": 0.405815,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "9294-16-noisy": {
+  "gate_confidence": 0.889051,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6618-5-noisy": {
+  "gate_confidence": 0.662505,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3456-20-noisy": {
+  "gate_confidence": 0.737153,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10024-23-noisy": {
+  "gate_confidence": 0.919917,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "9999-23-noisy": {
+  "gate_confidence": 0.901869,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9721-7-noisy": {
+  "gate_confidence": 0.973567,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "6759-8-noisy": {
+  "gate_confidence": 0.191026,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5784-4-noisy": {
+  "gate_confidence": 0.925969,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "4554-10-noisy": {
+  "gate_confidence": 0.889849,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5360-19-noisy": {
+  "gate_confidence": 0.683144,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4498-12-noisy": {
+  "gate_confidence": 0.844174,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9978-6-noisy": {
+  "gate_confidence": 0.755728,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "4528-5-noisy": {
+  "gate_confidence": 0.880114,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6791-12-noisy": {
+  "gate_confidence": 0.909183,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1151-15-noisy": {
+  "gate_confidence": 0.954675,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7279-6-noisy": {
+  "gate_confidence": 0.963864,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8428-11-noisy": {
+  "gate_confidence": 0.946061,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8633-18-noisy": {
+  "gate_confidence": 0.352963,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "1894-7-noisy": {
+  "gate_confidence": 0.969844,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5793-18-noisy": {
+  "gate_confidence": 0.151241,
+  "gate_flags": [
+   "off_policy",
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "6766-8-noisy": {
+  "gate_confidence": 0.975466,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5891-13-noisy": {
+  "gate_confidence": 0.781714,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7727-8-noisy": {
+  "gate_confidence": 0.971541,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1416-38-noisy": {
+  "gate_confidence": 0.585109,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8005-10-noisy": {
+  "gate_confidence": 0.954288,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6006-10-noisy": {
+  "gate_confidence": 0.90734,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4102-21-noisy": {
+  "gate_confidence": 0.480953,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1958-12-noisy": {
+  "gate_confidence": 0.870595,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4384-6-noisy": {
+  "gate_confidence": 0.931914,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8809-8-noisy": {
+  "gate_confidence": 0.589509,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8699-21-noisy": {
+  "gate_confidence": 0.764271,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7896-13-noisy": {
+  "gate_confidence": 0.59237,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8054-8-noisy": {
+  "gate_confidence": 0.800835,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4642-6-noisy": {
+  "gate_confidence": 0.977854,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7426-20-noisy": {
+  "gate_confidence": 0.812344,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6247-10-noisy": {
+  "gate_confidence": 0.970393,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "10319-5-noisy": {
+  "gate_confidence": 0.970544,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8734-8-noisy": {
+  "gate_confidence": 0.91983,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2131-17-noisy": {
+  "gate_confidence": 0.811112,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "3853-5-noisy": {
+  "gate_confidence": 0.93213,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6016-5-noisy": {
+  "gate_confidence": 0.977281,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2711-10-noisy": {
+  "gate_confidence": 0.149769,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3990-9-noisy": {
+  "gate_confidence": 0.918301,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3825-11-noisy": {
+  "gate_confidence": 0.601063,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7588-7-noisy": {
+  "gate_confidence": 0.847745,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6038-17-noisy": {
+  "gate_confidence": 0.465102,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6052-6-noisy": {
+  "gate_confidence": 0.976819,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "567-17-noisy": {
+  "gate_confidence": 0.707902,
+  "gate_flags": [
+   "empty_turns",
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "5609-10-noisy": {
+  "gate_confidence": 0.924113,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1829-10-noisy": {
+  "gate_confidence": 0.792152,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5807-20-noisy": {
+  "gate_confidence": 0.571304,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2144-20-noisy": {
+  "gate_confidence": 0.253652,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "1121-26-noisy": {
+  "gate_confidence": 0.945299,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5216-18-noisy": {
+  "gate_confidence": 0.923781,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "5597-5-noisy": {
+  "gate_confidence": 0.960618,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9729-16-noisy": {
+  "gate_confidence": 0.49002,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3838-21-noisy": {
+  "gate_confidence": 0.669,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "928-9-noisy": {
+  "gate_confidence": 0.530221,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "756-8-noisy": {
+  "gate_confidence": 0.775668,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1831-8-noisy": {
+  "gate_confidence": 0.935919,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8525-5-noisy": {
+  "gate_confidence": 0.812121,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4957-12-noisy": {
+  "gate_confidence": 0.606073,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6703-16-noisy": {
+  "gate_confidence": 0.621323,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8544-12-noisy": {
+  "gate_confidence": 0.509765,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7715-4-noisy": {
+  "gate_confidence": 0.798058,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2385-17-noisy": {
+  "gate_confidence": 0.898374,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3779-27-noisy": {
+  "gate_confidence": 0.602891,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4769-16-noisy": {
+  "gate_confidence": 0.70232,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9945-9-noisy": {
+  "gate_confidence": 0.961475,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1294-4-noisy": {
+  "gate_confidence": 0.844096,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1676-9-noisy": {
+  "gate_confidence": 0.509887,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "814-19-noisy": {
+  "gate_confidence": 0.813401,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "4198-21-noisy": {
+  "gate_confidence": 0.709396,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9808-6-noisy": {
+  "gate_confidence": 0.97005,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5131-7-noisy": {
+  "gate_confidence": 0.936804,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "930-6-noisy": {
+  "gate_confidence": 0.72416,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4169-15-noisy": {
+  "gate_confidence": 0.845263,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "792-8-noisy": {
+  "gate_confidence": 0.641364,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "4829-11-noisy": {
+  "gate_confidence": 0.830067,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2825-21-noisy": {
+  "gate_confidence": 0.572825,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5724-19-noisy": {
+  "gate_confidence": 0.947519,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3202-13-noisy": {
+  "gate_confidence": 0.921379,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1627-49-noisy": {
+  "gate_confidence": 0.569441,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6082-16-noisy": {
+  "gate_confidence": 0.612062,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "10268-7-noisy": {
+  "gate_confidence": 0.969609,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6977-12-noisy": {
+  "gate_confidence": 0.531141,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2072-17-noisy": {
+  "gate_confidence": 0.919319,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2837-5-noisy": {
+  "gate_confidence": 0.429829,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10236-20-noisy": {
+  "gate_confidence": 0.789368,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "814-22-noisy": {
+  "gate_confidence": 0.607305,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "9499-22-noisy": {
+  "gate_confidence": 0.638791,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2778-11-noisy": {
+  "gate_confidence": 0.944959,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5660-24-noisy": {
+  "gate_confidence": 0.949415,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8089-5-noisy": {
+  "gate_confidence": 0.978731,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4515-11-noisy": {
+  "gate_confidence": 0.958842,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4432-4-noisy": {
+  "gate_confidence": 0.916051,
+  "gate_flags": [
+   "empty_turns",
+   "no_dialogue"
+  ],
+  "abstained": false
+ },
+ "1396-20-noisy": {
+  "gate_confidence": 0.217224,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "177-34-noisy": {
+  "gate_confidence": 0.237764,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "651-4-noisy": {
+  "gate_confidence": 0.597943,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2778-13-noisy": {
+  "gate_confidence": 0.663219,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6716-9-noisy": {
+  "gate_confidence": 0.864424,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7522-8-noisy": {
+  "gate_confidence": 0.941299,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8671-6-noisy": {
+  "gate_confidence": 0.48596,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8525-9-noisy": {
+  "gate_confidence": 0.736008,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9613-15-noisy": {
+  "gate_confidence": 0.934412,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6798-10-noisy": {
+  "gate_confidence": 0.959277,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5251-23-noisy": {
+  "gate_confidence": 0.473792,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7168-15-noisy": {
+  "gate_confidence": 0.45836,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3630-16-noisy": {
+  "gate_confidence": 0.316781,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8484-6-noisy": {
+  "gate_confidence": 0.973775,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3464-11-noisy": {
+  "gate_confidence": 0.548863,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5260-14-noisy": {
+  "gate_confidence": 0.716876,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5610-18-noisy": {
+  "gate_confidence": 0.523759,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4880-36-noisy": {
+  "gate_confidence": 0.423638,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "5453-14-noisy": {
+  "gate_confidence": 0.745381,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4187-9-noisy": {
+  "gate_confidence": 0.896791,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "746-12-noisy": {
+  "gate_confidence": 0.957569,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6202-14-noisy": {
+  "gate_confidence": 0.616558,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6110-8-noisy": {
+  "gate_confidence": 0.912769,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4411-16-noisy": {
+  "gate_confidence": 0.95434,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "4701-7-noisy": {
+  "gate_confidence": 0.643848,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2018-22-noisy": {
+  "gate_confidence": 0.861848,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "7362-8-noisy": {
+  "gate_confidence": 0.959838,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8857-14-noisy": {
+  "gate_confidence": 0.581073,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2996-33-noisy": {
+  "gate_confidence": 0.719049,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "1396-15-noisy": {
+  "gate_confidence": 0.888016,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3472-9-noisy": {
+  "gate_confidence": 0.96086,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3920-23-noisy": {
+  "gate_confidence": 0.480594,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "4387-19-noisy": {
+  "gate_confidence": 0.49242,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1712-10-noisy": {
+  "gate_confidence": 0.753394,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "7362-4-noisy": {
+  "gate_confidence": 0.975174,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3496-17-noisy": {
+  "gate_confidence": 0.885596,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8077-10-noisy": {
+  "gate_confidence": 0.822379,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6586-13-noisy": {
+  "gate_confidence": 0.840018,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3202-7-noisy": {
+  "gate_confidence": 0.974599,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5498-4-noisy": {
+  "gate_confidence": 0.953761,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "581-18-noisy": {
+  "gate_confidence": 0.859559,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5494-12-noisy": {
+  "gate_confidence": 0.410994,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "7205-22-noisy": {
+  "gate_confidence": 0.615943,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3489-9-noisy": {
+  "gate_confidence": 0.965385,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6798-16-noisy": {
+  "gate_confidence": 0.638443,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8290-9-noisy": {
+  "gate_confidence": 0.932959,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "365-46-noisy": {
+  "gate_confidence": 0.41909,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10218-17-noisy": {
+  "gate_confidence": 0.739269,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "7901-13-noisy": {
+  "gate_confidence": 0.917805,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7167-9-noisy": {
+  "gate_confidence": 0.915508,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "2163-5-noisy": {
+  "gate_confidence": 0.960023,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "611-9-noisy": {
+  "gate_confidence": 0.930344,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6899-25-noisy": {
+  "gate_confidence": 0.58259,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4322-11-noisy": {
+  "gate_confidence": 0.930957,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8063-5-noisy": {
+  "gate_confidence": 0.93995,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4769-19-noisy": {
+  "gate_confidence": 0.464909,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4078-8-noisy": {
+  "gate_confidence": 0.948114,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7626-3-noisy": {
+  "gate_confidence": 0.973201,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2155-20-noisy": {
+  "gate_confidence": 0.941019,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8684-14-noisy": {
+  "gate_confidence": 0.410446,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "10568-4-noisy": {
+  "gate_confidence": 0.951152,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5610-13-noisy": {
+  "gate_confidence": 0.868551,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10251-21-noisy": {
+  "gate_confidence": 0.918832,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9907-8-noisy": {
+  "gate_confidence": 0.959673,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8454-10-noisy": {
+  "gate_confidence": 0.953804,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4516-21-noisy": {
+  "gate_confidence": 0.807133,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "5073-7-noisy": {
+  "gate_confidence": 0.954355,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10319-11-noisy": {
+  "gate_confidence": 0.920773,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5993-8-noisy": {
+  "gate_confidence": 0.946118,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4203-5-noisy": {
+  "gate_confidence": 0.943582,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4402-21-noisy": {
+  "gate_confidence": 0.779033,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7853-16-noisy": {
+  "gate_confidence": 0.91333,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "5350-33-noisy": {
+  "gate_confidence": 0.179174,
+  "gate_flags": [
+   "policy_uncertainty"
+  ],
+  "abstained": false
+ },
+ "3779-31-noisy": {
+  "gate_confidence": 0.788761,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10354-14-noisy": {
+  "gate_confidence": 0.475729,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10568-20-noisy": {
+  "gate_confidence": 0.294958,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "129-34-noisy": {
+  "gate_confidence": 0.544071,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3076-21-noisy": {
+  "gate_confidence": 0.749309,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "2335-21-noisy": {
+  "gate_confidence": 0.859627,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6606-5-noisy": {
+  "gate_confidence": 0.876697,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1863-36-noisy": {
+  "gate_confidence": 0.643065,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6569-6-noisy": {
+  "gate_confidence": 0.978397,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4793-5-noisy": {
+  "gate_confidence": 0.970668,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3836-3-noisy": {
+  "gate_confidence": 0.953645,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "4516-9-noisy": {
+  "gate_confidence": 0.93953,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2017-30-noisy": {
+  "gate_confidence": 0.59284,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6139-6-noisy": {
+  "gate_confidence": 0.975394,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7671-5-noisy": {
+  "gate_confidence": 0.978088,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1349-38-noisy": {
+  "gate_confidence": 0.654703,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3019-10-noisy": {
+  "gate_confidence": 0.932666,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "6905-9-noisy": {
+  "gate_confidence": 0.500697,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3219-4-noisy": {
+  "gate_confidence": 0.972604,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2803-14-noisy": {
+  "gate_confidence": 0.206166,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4880-14-noisy": {
+  "gate_confidence": 0.88122,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5486-25-noisy": {
+  "gate_confidence": 0.782576,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3908-13-noisy": {
+  "gate_confidence": 0.957723,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "8892-8-noisy": {
+  "gate_confidence": 0.419106,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5660-14-noisy": {
+  "gate_confidence": 0.400634,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5498-3-noisy": {
+  "gate_confidence": 0.979331,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4002-6-noisy": {
+  "gate_confidence": 0.906584,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8089-18-noisy": {
+  "gate_confidence": 0.780688,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "9569-5-noisy": {
+  "gate_confidence": 0.906189,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "10086-6-noisy": {
+  "gate_confidence": 0.967554,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8481-16-noisy": {
+  "gate_confidence": 0.762112,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4275-16-noisy": {
+  "gate_confidence": 0.670052,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1967-14-noisy": {
+  "gate_confidence": 0.525551,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9099-8-noisy": {
+  "gate_confidence": 0.968318,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4793-9-noisy": {
+  "gate_confidence": 0.645656,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "865-10-noisy": {
+  "gate_confidence": 0.297366,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10251-5-noisy": {
+  "gate_confidence": 0.91699,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "1794-21-noisy": {
+  "gate_confidence": 0.912543,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5830-27-noisy": {
+  "gate_confidence": 0.434204,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3955-4-noisy": {
+  "gate_confidence": 0.970925,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7704-12-noisy": {
+  "gate_confidence": 0.921431,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "9072-17-noisy": {
+  "gate_confidence": 0.421063,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3702-30-noisy": {
+  "gate_confidence": 0.376069,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "9670-5-noisy": {
+  "gate_confidence": 0.295751,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10275-26-noisy": {
+  "gate_confidence": 0.796061,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9929-15-noisy": {
+  "gate_confidence": 0.824027,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5992-12-noisy": {
+  "gate_confidence": 0.931444,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "3702-28-noisy": {
+  "gate_confidence": 0.912493,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1245-28-noisy": {
+  "gate_confidence": 0.327755,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "3990-6-noisy": {
+  "gate_confidence": 0.976032,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10544-7-noisy": {
+  "gate_confidence": 0.969769,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8205-7-noisy": {
+  "gate_confidence": 0.953635,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3519-7-noisy": {
+  "gate_confidence": 0.955217,
+  "gate_flags": [
+   "empty_turns",
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "3101-19-noisy": {
+  "gate_confidence": 0.869477,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8279-19-noisy": {
+  "gate_confidence": 0.328155,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1439-20-noisy": {
+  "gate_confidence": 0.759598,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2362-20-noisy": {
+  "gate_confidence": 0.830538,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "2885-14-noisy": {
+  "gate_confidence": 0.897074,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7421-13-noisy": {
+  "gate_confidence": 0.418444,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "6215-4-noisy": {
+  "gate_confidence": 0.97575,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6759-9-noisy": {
+  "gate_confidence": 0.854396,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "1400-13-noisy": {
+  "gate_confidence": 0.953557,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9004-4-noisy": {
+  "gate_confidence": 0.978568,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "3898-9-noisy": {
+  "gate_confidence": 0.887577,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "8046-18-noisy": {
+  "gate_confidence": 0.811093,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "5807-19-noisy": {
+  "gate_confidence": 0.834723,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7934-22-noisy": {
+  "gate_confidence": 0.447954,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9688-19-noisy": {
+  "gate_confidence": 0.737257,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "9294-6-noisy": {
+  "gate_confidence": 0.976558,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "4190-20-noisy": {
+  "gate_confidence": 0.868044,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ },
+ "6680-25-noisy": {
+  "gate_confidence": 0.796155,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "2797-6-noisy": {
+  "gate_confidence": 0.951764,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "154-16-noisy": {
+  "gate_confidence": 0.522545,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6606-9-noisy": {
+  "gate_confidence": 0.935209,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "6569-9-noisy": {
+  "gate_confidence": 0.949938,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "5852-11-noisy": {
+  "gate_confidence": 0.76148,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "10544-17-noisy": {
+  "gate_confidence": 0.898753,
+  "gate_flags": [
+   "empty_turns"
+  ],
+  "abstained": false
+ },
+ "2778-12-noisy": {
+  "gate_confidence": 0.47848,
+  "gate_flags": [],
+  "abstained": false
+ },
+ "7079-6-noisy": {
+  "gate_confidence": 0.920436,
+  "gate_flags": [
+   "off_policy"
+  ],
+  "abstained": false
+ }
+}

@@ -1,0 +1,72 @@
+{"event":"load_model","model":"answerdotai/ModernBERT-base","revision":"8949b909ec900327062f0ebf497f51aef5e6f0c8","device":"cpu","fit_rows":12999,"selection_rows":2014}
+{"event": "fit_token_lengths", "mean": 94.92014770366951, "p95": 137.0, "max": 278, "at_cap_share": 0.0}
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 11044.58it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+decoder.bias      | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+{"event": "train_progress", "step": 100, "elapsed_min": 3.19, "loss": 8.32827}
+{"event": "train_progress", "step": 200, "elapsed_min": 6.36, "loss": 5.69755}
+{"event": "train_progress", "step": 300, "elapsed_min": 9.59, "loss": 5.5684}
+{"event": "train_progress", "step": 400, "elapsed_min": 12.68, "loss": 4.10799}
+{"event":"selection_eval","step":406,"epoch":0.499,"elapsed_min":12.9,"selection_accuracy":{"intent":0.47368421052631576,"flow":0.7601787487586892,"action":0.5580933465739821},"selection_score":0.676514,"lr":2.6598342782381163e-05}
+{"event":"checkpoint_updated","step":406,"selection_score":0.676514,"path":"/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt"}
+{"event": "train_progress", "step": 500, "elapsed_min": 16.28, "loss": 1.9454}
+{"event": "train_progress", "step": 600, "elapsed_min": 19.5, "loss": 3.39792}
+{"event": "train_progress", "step": 700, "elapsed_min": 22.53, "loss": 2.63766}
+{"event": "train_progress", "step": 800, "elapsed_min": 25.7, "loss": 3.44693}
+{"event":"selection_eval","step":812,"epoch":0.999,"elapsed_min":26.09,"selection_accuracy":{"intent":0.6499503475670307,"flow":0.8227408142999006,"action":0.7174776564051638},"selection_score":0.879965,"lr":2.1286524204099432e-05}
+{"event":"checkpoint_updated","step":812,"selection_score":0.879965,"path":"/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt"}
+{"event": "train_progress", "step": 900, "elapsed_min": 29.63, "loss": 2.15922}
+{"event": "train_progress", "step": 1000, "elapsed_min": 32.66, "loss": 1.48885}
+{"event": "train_progress", "step": 1100, "elapsed_min": 35.75, "loss": 1.61262}
+{"event": "train_progress", "step": 1200, "elapsed_min": 38.72, "loss": 2.92297}
+{"event":"selection_eval","step":1218,"epoch":1.498,"elapsed_min":39.23,"selection_accuracy":{"intent":0.6916583912611718,"flow":0.8450844091360477,"action":0.7765640516385303},"selection_score":0.949479,"lr":1.5974705625817705e-05}
+{"event":"checkpoint_updated","step":1218,"selection_score":0.949479,"path":"/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt"}
+{"event": "train_progress", "step": 1300, "elapsed_min": 42.18, "loss": 2.67558}
+{"event": "train_progress", "step": 1400, "elapsed_min": 45.03, "loss": 1.86013}
+{"event": "train_progress", "step": 1500, "elapsed_min": 48.1, "loss": 1.80773}
+{"event": "train_progress", "step": 1600, "elapsed_min": 51.06, "loss": 1.33152}
+{"event":"selection_eval","step":1624,"epoch":1.998,"elapsed_min":51.75,"selection_accuracy":{"intent":0.7169811320754716,"flow":0.8515392254220456,"action":0.7974180734856008},"selection_score":0.976663,"lr":1.0662887047535979e-05}
+{"event":"checkpoint_updated","step":1624,"selection_score":0.976663,"path":"/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt"}
+{"event": "train_progress", "step": 1700, "elapsed_min": 54.4, "loss": 1.16297}
+{"event": "train_progress", "step": 1800, "elapsed_min": 57.03, "loss": 0.51896}
+{"event": "train_progress", "step": 1900, "elapsed_min": 59.63, "loss": 0.73083}
+{"event": "train_progress", "step": 2000, "elapsed_min": 62.31, "loss": 1.85128}
+{"event":"selection_eval","step":2030,"epoch":2.497,"elapsed_min":63.11,"selection_accuracy":{"intent":0.7214498510427011,"flow":0.862462760675273,"action":0.8118172790466733},"selection_score":0.99218,"lr":5.351068469254252e-06}
+{"event":"checkpoint_updated","step":2030,"selection_score":0.99218,"path":"/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt"}
+{"event": "train_progress", "step": 2100, "elapsed_min": 65.78, "loss": 1.63069}
+{"event": "train_progress", "step": 2200, "elapsed_min": 68.65, "loss": 0.53997}
+{"event": "train_progress", "step": 2300, "elapsed_min": 71.48, "loss": 0.88477}
+{"event": "train_progress", "step": 2400, "elapsed_min": 74.44, "loss": 0.87885}
+{"event":"selection_eval","step":2436,"epoch":2.996,"elapsed_min":75.45,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.817279046673287},"selection_score":0.99789,"lr":3.9249890972525076e-08}
+{"event":"checkpoint_updated","step":2436,"selection_score":0.99789,"path":"/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt"}
+{"event":"selection_eval","step":2439,"epoch":3.0,"elapsed_min":76.22,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.817279046673287},"selection_score":0.99789,"lr":0.0}
+	Command being timed: "/home/sher/op06/probes/probe_encoders/.venv/bin/python -u experiments/model_exploration/neural.py train --revision 8949b909ec900327062f0ebf497f51aef5e6f0c8 --tag modernbert_joint --threads 32 --bs 16 --maxlen 512 --epochs 3 --time-budget-min 90"
+	User time (seconds): 141597.63
+	System time (seconds): 1258.63
+	Percent of CPU this job got: 3063%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:17:43
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 9894904
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5171
+	Minor (reclaiming a frame) page faults: 163566537
+	Voluntary context switches: 1349232
+	Involuntary context switches: 299772
+	Swaps: 0
+	File system inputs: 859880
+	File system outputs: 7066664
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

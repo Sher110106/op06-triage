@@ -61,6 +61,7 @@ def _pool_and_check(model, sequences, state, rows, batch_size, pad_id, device):
     state_t = torch.as_tensor(state, dtype=torch.float32, device=device)
     pooled = None
     max_diff = 0.0
+    processed = 0
     with torch.no_grad():
         for batch_num, batch_ids in enumerate(
             N._batches(sequences, range(len(rows)), batch_size, False, random.Random(SEED))
@@ -79,6 +80,10 @@ def _pool_and_check(model, sequences, state, rows, batch_size, pad_id, device):
                 max_diff = max(float((direct[k] - head[k]).abs().max().cpu()) for k in N.HEADS)
                 if max_diff >= 1e-4:
                     raise RuntimeError(f"cached-feature head path differs from frozen model forward by {max_diff:.6g}")
+            processed += len(batch_ids)
+            if (batch_num + 1) % 100 == 0 or processed == len(rows):
+                print(json.dumps({"event": "feature_cache_progress", "rows": processed,
+                                  "total_rows": len(rows)}), flush=True)
     if pooled is None:
         raise ValueError("cannot cache features for an empty partition")
     return pooled, max_diff

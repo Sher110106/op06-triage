@@ -1,0 +1,5 @@
+{
+  "peak_rss_kib": 2222056,
+  "resident_rss_kib": 1631952,
+  "measurement": "Linux /proc status after full HTTP load; server process only; includes startup peak"
+}

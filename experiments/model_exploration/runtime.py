@@ -209,7 +209,8 @@ def benchmark(tag: str, threads: int, limit: int, device: str = "cpu") -> dict:
               "latency_ms": {key: {"p50": quantile(key, 50), "p95": quantile(key, 95),
                                    "max": round(max(r[key] for r in measurements), 2)}
                              for key in measurements[0]}}
-    out = Path(M.OUT) / tag / "runtime_bench.json"
+    device_label = device.replace(":", "-")
+    out = Path(M.OUT) / tag / f"runtime_bench_{device_label}_threads{threads}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     return result

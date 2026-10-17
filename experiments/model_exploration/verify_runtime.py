@@ -84,6 +84,7 @@ def _cached_predictions(tag: str, limit: int):
 
 
 def verify(tag: str, limit: int, threads: int) -> dict:
+    import torch
     from experiments.model_exploration.runtime import NeuralEnsemblePredictor
     from experiments.model_exploration.serve import NeuralTriage
 
@@ -100,6 +101,9 @@ def verify(tag: str, limit: int, threads: int) -> dict:
     runner = None
     try:
         runner = NeuralTriage(predictor)
+        report["torch_threads_on_request_worker"] = runner._on_cpu(torch.get_num_threads)
+        if report["torch_threads_on_request_worker"] != threads:
+            raise RuntimeError("request worker does not use the requested Torch thread count")
         if runner.llm is not None:
             raise RuntimeError("runtime parity requires the LLM to be disabled")
         report["runtime"] = predictor.metadata

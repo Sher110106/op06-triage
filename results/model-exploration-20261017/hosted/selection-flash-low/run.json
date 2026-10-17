@@ -1,0 +1,34 @@
+{
+ "format": 1,
+ "model": "google/gemini-3.8-flash",
+ "cohort": "/Users/sher/.t3/projects/work-01/solution/results/model-exploration-20261017/cohorts/selection.json",
+ "cohort_sha256": "0302690e4767c35b2d6abe3c1bf5b58851525af43ac585ac865f8e6a88d1c741",
+ "split": "selection",
+ "purpose": "offline action-only cohort comparison; no calibrated pipeline or production latency claim",
+ "price_snapshot": "results/model-exploration-20261017/api_models.json",
+ "max_spend_usd": 2.25,
+ "max_tokens": 1024,
+ "created_utc": "2026-10-17T18:39:50Z",
+ "meter_before": {
+  "limit": 10.0,
+  "limit_remaining": 9.41702164,
+  "usage": 0.58297836
+ },
+ "phase_spend_before": 0.3851114400000011,
+ "already_attempted": 3,
+ "pending": 297,
+ "meter_after_last_attempt": {
+  "limit": 10.0,
+  "limit_remaining": 7.8598551400000005,
+  "usage": 2.14014486
+ },
+ "phase_spend_after_last_attempt": 1.9422779400000003,
+ "run_liabilities_usd": 1.7662375499999996,
+ "run_total_reservations_descriptive_usd": 13.149243000000007,
+ "request_profile": {
+  "max_tokens": 1024,
+  "reasoning": {
+   "effort": "low"
+  }
+ }
+}

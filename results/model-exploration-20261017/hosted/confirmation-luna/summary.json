@@ -1,0 +1,29 @@
+{
+ "purpose": "offline action-only cohort comparison; not a calibrated pipeline or production latency test",
+ "run_id": "confirmation-luna",
+ "model": "openai/gpt-6-luna",
+ "cohort_sha256": "2631c14521e2bd5db0b4925926632283a1580e504032926cf54f77ac0bcb82ca",
+ "selected_rows": 300,
+ "attempted_rows": 300,
+ "new_attempts": 300,
+ "accepted_actions": 275,
+ "changed_actions": 157,
+ "run_liabilities_usd": 0.19102457499999992,
+ "run_total_reservations_descriptive_usd": 3.4005771999999994,
+ "meter_start": {
+  "limit": 10.0,
+  "limit_remaining": 7.82738614,
+  "usage": 2.17261386
+ },
+ "meter_end": {
+  "limit": 10.0,
+  "limit_remaining": 7.766353505,
+  "usage": 2.233646495
+ },
+ "run_gateway_usage_delta": 0.06103263500000011,
+ "phase_gateway_delta": 2.035779575000001,
+ "phase_recorded_liabilities_usd": 2.6093221750000044,
+ "stop_reason": null,
+ "predictions": "results/model-exploration-20261017/hosted/confirmation-luna/predictions_confirmation.jsonl",
+ "raw_calls": "results/model-exploration-20261017/hosted/confirmation-luna/raw_calls.jsonl"
+}

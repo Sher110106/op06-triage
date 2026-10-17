@@ -1,0 +1,23 @@
+{"event":"load_model","model":"answerdotai/ModernBERT-base","revision":"8949b909ec900327062f0ebf497f51aef5e6f0c8","device":"cpu","fit_rows":12999,"selection_rows":2014}
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 11144.67it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+head.dense.weight | UNEXPECTED |  | 
+decoder.bias      | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Traceback (most recent call last):
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 522, in <module>
+    main()
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 518, in main
+    args.func(args)
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 375, in train
+    print(json.dumps({"event": "bench_done", "steps": step, "elapsed_s": round(elapsed, 2),
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/.local/share/uv/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/__init__.py", line 234, in dumps
+    return cls(
+           ^^^^
+TypeError: JSONEncoder.__init__() got an unexpected keyword argument 'flush'

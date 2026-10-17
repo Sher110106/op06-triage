@@ -106,3 +106,23 @@ def test_refinement_spend_is_not_double_counted():
     assert extra["recorded_total_with_cache"] == ledger["recorded_reported_or_cached_list_usd"]
     assert extra["already_in_service_runs_list"] + extra["additional_to_service_runs_list"] == pytest.approx(
         extra["recorded_total_with_cache"], abs=1e-8)
+
+
+def test_model_exploration_index_is_additive_and_closes_its_budget():
+    manifest = json.loads((ROOT / "results" / "manifest.json").read_text())
+    extra = manifest["model_exploration_20261017"]
+    budget = extra["budget_closed"]
+
+    assert extra["report"] == "experiments/model_exploration/REPORT.md"
+    assert extra["protocol"] == "experiments/model_exploration/PROTOCOL.md"
+    assert extra["results"] == "results/model-exploration-20261017/"
+    assert extra["decision"] == "retain_existing_production_default"
+    assert extra["production_default_changed"] is False
+    assert extra["head_refinement"]["candidate_tag"] == "modernbert_head"
+    assert extra["head_refinement"]["candidate_used"] is False
+    assert budget["source"] == "results/model-exploration-20261017/budget_closed.json"
+    assert budget["additional_gateway_spend_usd"] == pytest.approx(3.66106068)
+    assert budget["uncached_list_estimate_usd"] == pytest.approx(4.24029855)
+    assert budget["accounted_phase_liability_usd"] == pytest.approx(4.395242575)
+    assert budget["additional_to_prior_key_usage"] is True
+    assert manifest["claimed_from_run"] == M.CLAIM_RUN

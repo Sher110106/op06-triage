@@ -1,0 +1,36 @@
+{"event":"load_model","model":"answerdotai/ModernBERT-base","revision":"8949b909ec900327062f0ebf497f51aef5e6f0c8","device":"cpu","fit_rows":12999,"selection_rows":2014}
+{"event": "fit_token_lengths", "mean": 94.92014770366951, "p95": 137.0, "max": 278, "at_cap_share": 0.0}
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 4350.23it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+head.dense.weight | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+decoder.bias      | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+{"event":"bench_done","steps":8,"elapsed_s":16.5,"seconds_per_step":2.063,"examples_per_second":7.76,"checkpoint_saved":false}
+	Command being timed: "/home/sher/op06/probes/probe_encoders/.venv/bin/python -u experiments/model_exploration/neural.py train --revision 8949b909ec900327062f0ebf497f51aef5e6f0c8 --tag modernbert_bench --bench 8 --threads 16 --bs 16 --maxlen 512"
+	User time (seconds): 274.18
+	System time (seconds): 30.41
+	Percent of CPU this job got: 474%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:04.14
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 6049164
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3279
+	Minor (reclaiming a frame) page faults: 5673479
+	Voluntary context switches: 47404
+	Involuntary context switches: 1547
+	Swaps: 0
+	File system inputs: 912280
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

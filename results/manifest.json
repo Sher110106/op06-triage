@@ -3692,6 +3692,34 @@
   "historical_submission": "results/history/2026-10-14/",
   "note": "Includes negative experiments, controlled confirmation, intermediate and final service runs, and the new API budget ledger. Canonical predictions now identify the final validated run."
  },
+ "model_exploration_20261017": {
+  "report": "experiments/model_exploration/REPORT.md",
+  "protocol": "experiments/model_exploration/PROTOCOL.md",
+  "results": "results/model-exploration-20261017/",
+  "decision": "retain_existing_production_default",
+  "decision_source": "experiments/model_exploration/REPORT.md#frozen-neural-confirmation-and-deployment-decision",
+  "production_default_changed": false,
+  "neural_checkpoint": "modernbert_joint",
+  "head_refinement": {
+   "candidate_tag": "modernbert_head",
+   "raw_selection_action_gain": 0.0019860973187686426,
+   "minimum_gain": 0.005,
+   "candidate_used": false,
+   "source": "results/model-exploration-20261017/selected_neural.json"
+  },
+  "budget_closed": {
+   "source": "results/model-exploration-20261017/budget_closed.json",
+   "additional_gateway_spend_usd": 3.66106068,
+   "returned_call_cost_sum_usd": 3.66106068,
+   "uncached_list_estimate_usd": 4.24029855,
+   "accounted_phase_liability_usd": 4.395242575,
+   "unknown_usage_reservations_usd": 0.1546425,
+   "attempts": 1504,
+   "phase_self_cap_usd": 5.0,
+   "additional_to_prior_key_usage": true,
+   "note": "This phase spend is additional to prior key usage already summarized under spend_usd.refinement_20261017; do not add that earlier usage again."
+  }
+ },
  "checks": {
   "raw_paths_checked": 86,
   "all_exist_inside_repo_no_symlinks": true,

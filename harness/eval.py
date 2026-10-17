@@ -160,7 +160,9 @@ class Scored:
         if self.noisy.any() and w[self.noisy].sum() > 0:
             out["intent_acc_noisy"] = acc(self.i_ok, self.noisy)
             out["action_acc_noisy"] = acc(self.a_ok, self.noisy)
-            out["noisy_gap"] = out["action_acc_clean"] - out["action_acc_noisy"]
+            clean_action_acc = out["action_acc_clean"]
+            out["noisy_gap"] = (clean_action_acc - out["action_acc_noisy"]
+                                if clean_action_acc is not None else None)
         # macro-F1 over gold classes with weight > 0
         ok = self.i_ok
         tp = np.bincount(self.gi[ok], w[ok], self.n_cls)

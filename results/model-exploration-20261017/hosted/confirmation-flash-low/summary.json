@@ -1,0 +1,29 @@
+{
+ "purpose": "offline action-only cohort comparison; not a calibrated pipeline or production latency test",
+ "run_id": "confirmation-flash-low",
+ "model": "google/gemini-3.8-flash",
+ "cohort_sha256": "2631c14521e2bd5db0b4925926632283a1580e504032926cf54f77ac0bcb82ca",
+ "selected_rows": 300,
+ "attempted_rows": 300,
+ "new_attempts": 300,
+ "accepted_actions": 288,
+ "changed_actions": 151,
+ "run_liabilities_usd": 1.7859204000000006,
+ "run_total_reservations_descriptive_usd": 13.157698050000002,
+ "meter_start": {
+  "limit": 10.0,
+  "limit_remaining": 7.766353505,
+  "usage": 2.233646495
+ },
+ "meter_end": {
+  "limit": 10.0,
+  "limit_remaining": 6.1845544,
+  "usage": 3.8154456
+ },
+ "run_gateway_usage_delta": 1.581799105,
+ "phase_gateway_delta": 3.617578680000001,
+ "phase_recorded_liabilities_usd": 4.3952425750000135,
+ "stop_reason": null,
+ "predictions": "results/model-exploration-20261017/hosted/confirmation-flash-low/predictions_confirmation.jsonl",
+ "raw_calls": "results/model-exploration-20261017/hosted/confirmation-flash-low/raw_calls.jsonl"
+}

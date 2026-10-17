@@ -1,0 +1,110 @@
+{
+  "tag": "modernbert_joint",
+  "model": "answerdotai/ModernBERT-base",
+  "revision": "8949b909ec900327062f0ebf497f51aef5e6f0c8",
+  "device": "cpu",
+  "seed": 20261020,
+  "threads": 32,
+  "max_length": 512,
+  "batch_size": 16,
+  "learning_rate": 3e-05,
+  "epochs_requested": 3.0,
+  "steps": 2439,
+  "elapsed_min": 76.92,
+  "fit_rows": 12999,
+  "selection_rows": 2014,
+  "classes": {
+    "intent": 96,
+    "flow": 10,
+    "action": 30
+  },
+  "best_selection_score": 0.9978897715988083,
+  "selection_evaluations": [
+    {
+      "step": 406,
+      "epoch": 0.499,
+      "elapsed_min": 12.9,
+      "selection_accuracy": {
+        "intent": 0.47368421052631576,
+        "flow": 0.7601787487586892,
+        "action": 0.5580933465739821
+      },
+      "selection_score": 0.676514,
+      "lr": 2.6598342782381163e-05
+    },
+    {
+      "step": 812,
+      "epoch": 0.999,
+      "elapsed_min": 26.09,
+      "selection_accuracy": {
+        "intent": 0.6499503475670307,
+        "flow": 0.8227408142999006,
+        "action": 0.7174776564051638
+      },
+      "selection_score": 0.879965,
+      "lr": 2.1286524204099432e-05
+    },
+    {
+      "step": 1218,
+      "epoch": 1.498,
+      "elapsed_min": 39.23,
+      "selection_accuracy": {
+        "intent": 0.6916583912611718,
+        "flow": 0.8450844091360477,
+        "action": 0.7765640516385303
+      },
+      "selection_score": 0.949479,
+      "lr": 1.5974705625817705e-05
+    },
+    {
+      "step": 1624,
+      "epoch": 1.998,
+      "elapsed_min": 51.75,
+      "selection_accuracy": {
+        "intent": 0.7169811320754716,
+        "flow": 0.8515392254220456,
+        "action": 0.7974180734856008
+      },
+      "selection_score": 0.976663,
+      "lr": 1.0662887047535979e-05
+    },
+    {
+      "step": 2030,
+      "epoch": 2.497,
+      "elapsed_min": 63.11,
+      "selection_accuracy": {
+        "intent": 0.7214498510427011,
+        "flow": 0.862462760675273,
+        "action": 0.8118172790466733
+      },
+      "selection_score": 0.99218,
+      "lr": 5.351068469254252e-06
+    },
+    {
+      "step": 2436,
+      "epoch": 2.996,
+      "elapsed_min": 75.45,
+      "selection_accuracy": {
+        "intent": 0.7224428997020854,
+        "flow": 0.8679245283018868,
+        "action": 0.817279046673287
+      },
+      "selection_score": 0.99789,
+      "lr": 3.9249890972525076e-08
+    },
+    {
+      "step": 2439,
+      "epoch": 3.0,
+      "elapsed_min": 76.22,
+      "selection_accuracy": {
+        "intent": 0.7224428997020854,
+        "flow": 0.8679245283018868,
+        "action": 0.817279046673287
+      },
+      "selection_score": 0.99789,
+      "lr": 0.0
+    }
+  ],
+  "checkpoint": "/home/sher/op06/model-exploration-20261017/models/model-exploration/modernbert_joint/best.pt",
+  "calibration_and_confirmation_used_for_training_or_selection": false
+}

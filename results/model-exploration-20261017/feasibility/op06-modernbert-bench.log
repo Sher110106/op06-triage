@@ -1,0 +1,19 @@
+{"event":"load_model","model":"answerdotai/ModernBERT-base","revision":"8949b909ec900327062f0ebf497f51aef5e6f0c8","device":"cpu","fit_rows":12999,"selection_rows":2014}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Traceback (most recent call last):
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 493, in <module>
+    main()
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 489, in main
+    args.func(args)
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 302, in train
+    fit_sequences = encode_rows(tokenizer, fit_rows, args.max_length)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 93, in encode_rows
+    return [encode_row(tokenizer, row, max_length) for row in rows]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/neural.py", line 85, in encode_row
+    encoded = tokenizer.build_inputs_with_special_tokens(content)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/op06/probes/probe_encoders/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py", line 1306, in __getattr__
+    raise AttributeError(f"{self.__class__.__name__} has no attribute {key}")
+AttributeError: TokenizersBackend has no attribute build_inputs_with_special_tokens

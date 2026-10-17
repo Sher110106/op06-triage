@@ -1,0 +1,18 @@
+{
+  "archive": "modernbert-inference-20261018.tar",
+  "sha256": "523dd618b63798a58c2a4ae4d4117e1298b80a0108d2f4d9ed96d312391d1af8",
+  "bytes": 635136000,
+  "tag": "modernbert_joint",
+  "profile": "frozen classical/neural 50/50; LLM off",
+  "contents": [
+    "models/model-exploration/modernbert_joint",
+    "models/model-exploration/reference.joblib",
+    "models/model-exploration/reference-calibration.joblib",
+    "models/model-exploration/modernbert_joint-calibration.joblib",
+    "results/model-exploration-20261017/modernbert_joint/frozen.json",
+    "results/model-exploration-20261017/selected_neural.json",
+    "results/model-exploration-20261017/hardware.json",
+    "results/model-exploration-20261017/upstream"
+  ],
+  "note": "Inference artifacts; checkpoint quality and production decision are reported separately."
+}

@@ -1,0 +1,29 @@
+{
+ "purpose": "offline action-only cohort comparison; not a calibrated pipeline or production latency test",
+ "run_id": "selection-haiku",
+ "model": "anthropic/claude-haiku-5.5",
+ "cohort_sha256": "0302690e4767c35b2d6abe3c1bf5b58851525af43ac585ac865f8e6a88d1c741",
+ "selected_rows": 3,
+ "attempted_rows": 3,
+ "new_attempts": 3,
+ "accepted_actions": 3,
+ "changed_actions": 1,
+ "run_liabilities_usd": 0.0030727999999999997,
+ "run_total_reservations_descriptive_usd": 0.047344,
+ "meter_start": {
+  "limit": 10.0,
+  "limit_remaining": 9.80213308,
+  "usage": 0.19786692
+ },
+ "meter_end": {
+  "limit": 10.0,
+  "limit_remaining": 9.80091716,
+  "usage": 0.19908284
+ },
+ "run_gateway_usage_delta": 0.0012159200000017023,
+ "phase_gateway_delta": 0.0012159200000017023,
+ "phase_recorded_liabilities_usd": 0.00514335,
+ "stop_reason": null,
+ "predictions": "results/model-exploration-20261017/hosted/selection-haiku/predictions_selection.jsonl",
+ "raw_calls": "results/model-exploration-20261017/hosted/selection-haiku/raw_calls.jsonl"
+}

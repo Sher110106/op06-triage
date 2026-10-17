@@ -1,0 +1,35 @@
+{
+ "format": 1,
+ "model": "anthropic/claude-haiku-5.5",
+ "cohort": "/Users/sher/.t3/projects/work-01/solution/results/model-exploration-20261017/cohorts/selection.json",
+ "cohort_sha256": "0302690e4767c35b2d6abe3c1bf5b58851525af43ac585ac865f8e6a88d1c741",
+ "split": "selection",
+ "purpose": "offline action-only cohort comparison; no calibrated pipeline or production latency claim",
+ "price_snapshot": "results/model-exploration-20261017/api_models.json",
+ "max_spend_usd": 1.5,
+ "max_tokens": 256,
+ "created_utc": "2026-10-17T18:36:10Z",
+ "meter_before": {
+  "limit": 10.0,
+  "limit_remaining": 9.72056504,
+  "usage": 0.27943496
+ },
+ "phase_spend_before": 0.08156804000000051,
+ "already_attempted": 3,
+ "pending": 297,
+ "meter_after_last_attempt": {
+  "limit": 10.0,
+  "limit_remaining": 9.42827384,
+  "usage": 0.57172616
+ },
+ "phase_spend_after_last_attempt": 0.3738592400000016,
+ "run_liabilities_usd": 0.30661619999999995,
+ "run_total_reservations_descriptive_usd": 4.726634000000004,
+ "request_profile": {
+  "max_tokens": 256,
+  "reasoning": {
+   "effort": "none"
+  },
+  "temperature": 0
+ }
+}

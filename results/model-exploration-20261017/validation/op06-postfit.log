@@ -1,0 +1,37 @@
+{"base_training_complete": true, "steps": 2439, "elapsed_min": 76.92}
+{"event": "feature_cache_progress", "rows": 1600, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 3200, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 4800, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 6400, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 8000, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 9600, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 11200, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 12800, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 12999, "total_rows": 12999}
+{"event": "feature_cache_progress", "rows": 1600, "total_rows": 2014}
+{"event": "feature_cache_progress", "rows": 2014, "total_rows": 2014}
+{"event":"head_epoch","epoch":1,"train_loss":0.42953120261322986,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8068520357497517},"selection_score":0.987462760675273}
+{"event":"head_epoch","epoch":2,"train_loss":0.30851581094310654,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8098311817279047},"selection_score":0.990441906653426}
+{"event":"head_epoch","epoch":3,"train_loss":0.26212156998972697,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.810824230387289},"selection_score":0.9914349553128103}
+{"event":"head_epoch","epoch":4,"train_loss":0.220645410432083,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8083416087388282},"selection_score":0.9889523336643495}
+{"event":"head_epoch","epoch":5,"train_loss":0.18612327368037132,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8093346573982125},"selection_score":0.9899453823237339}
+{"event":"head_epoch","epoch":6,"train_loss":0.1594490913885017,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8093346573982125},"selection_score":0.9899453823237339}
+{"event":"head_epoch","epoch":7,"train_loss":0.13341841837017984,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8088381330685204},"selection_score":0.9894488579940417}
+{"event":"head_epoch","epoch":8,"train_loss":0.11353663687777434,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.817279046673287},"selection_score":0.9978897715988083}
+{"event":"head_epoch","epoch":9,"train_loss":0.10087132226027785,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8152929493545183},"selection_score":0.9959036742800397}
+{"event":"head_epoch","epoch":10,"train_loss":0.09042953196530416,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8118172790466733},"selection_score":0.9924280039721947}
+{"event":"head_epoch","epoch":11,"train_loss":0.08587932687432448,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8123138033763655},"selection_score":0.9929245283018868}
+{"event":"head_epoch","epoch":12,"train_loss":0.0700989890735015,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8152929493545183},"selection_score":0.9959036742800397}
+{"event":"head_epoch","epoch":13,"train_loss":0.06267257497609877,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8063555114200596},"selection_score":0.9869662363455809}
+{"event":"head_epoch","epoch":14,"train_loss":0.06609993527894643,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8162859980139027},"selection_score":0.996896722939424}
+{"event":"head_epoch","epoch":15,"train_loss":0.05389250509188133,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8098311817279047},"selection_score":0.990441906653426}
+{"event":"head_epoch","epoch":16,"train_loss":0.05491835401304704,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8068520357497517},"selection_score":0.987462760675273}
+{"event":"head_epoch","epoch":17,"train_loss":0.05010044536879956,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8192651439920556},"selection_score":0.999875868917577}
+{"event":"head_epoch","epoch":18,"train_loss":0.03950354292460318,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8113207547169812},"selection_score":0.9919314796425025}
+{"event":"head_epoch","epoch":19,"train_loss":0.04292551077244896,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8093346573982125},"selection_score":0.9899453823237339}
+{"event":"head_epoch","epoch":20,"train_loss":0.031864229665501856,"selection_accuracy":{"intent":0.7224428997020854,"flow":0.8679245283018868,"action":0.8053624627606752},"selection_score":0.9859731876861966}
+{"event": "head_refinement_complete", "base_score": 0.9978897715988083, "best_score": 0.999875868917577, "gain": 0.0019860973187686426}
+{"event":"predictions_saved","tag":"modernbert_joint","split":"selection","rows":2014,"logits":"/home/sher/op06/model-exploration-20261017/results/model-exploration-20261017/modernbert_joint/logits_selection.npz","ids":"/home/sher/op06/model-exploration-20261017/results/model-exploration-20261017/modernbert_joint/ids_selection.json"}
+{"event":"predictions_saved","tag":"modernbert_joint","split":"calibration","rows":1957,"logits":"/home/sher/op06/model-exploration-20261017/results/model-exploration-20261017/modernbert_joint/logits_calibration.npz","ids":"/home/sher/op06/model-exploration-20261017/results/model-exploration-20261017/modernbert_joint/ids_calibration.json"}
+{"tag": "modernbert_joint", "temperatures": {"action": 0.9369403670768213, "intent": 0.9210483439574526, "flow": 0.9949817112976874}, "classical_action_flow_weight": 0.5, "classical_intent_weight": 0.5, "selection_action_by_weight": {"1.0": 0.8152929493545183, "0.75": 0.8272095332671301, "0.5": 0.8326713008937437, "0.25": 0.8242303872889771, "0.0": 0.8113207547169812}, "selection_intent_by_weight": {"1.0": 0.7120158887785502, "0.75": 0.7293942403177756, "0.5": 0.7398212512413108, "0.25": 0.7313803376365442, "0.0": 0.7224428997020854}, "policy_version": "2026-10-17.2", "primary_contrast": "selection-frozen ensemble vs matched retrained classical", "calibration_note": "Correctness OOF excludes groups only in the final regression; upstream temperatures are shared.", "thresholds": {"reference": {"high": 0.897663, "low": 0.71911}, "encoder": {"high": 0.79911, "low": 0.793285}, "ensemble": {"high": 0.799597, "low": 0.722496}}}
+FROZEN_NEURAL_TAG=modernbert_joint

@@ -2,6 +2,35 @@
 
 This is an optional, reproducible experiment for comparing the current classical reference with a frozen encoder and probability ensemble. It does not change the production model default. Run the commands from the repository root. Generated checkpoints live under the ignored `models/` directory; experiment evidence under `results/` is retained in the private repository.
 
+The completed [report](REPORT.md), [model explanation](ARCHITECTURE.md), and [routing failure analysis](FAILURE_ANALYSIS.md) describe the measured outcome. Both model replacements were declined for the default profile. The neural package remains available for reproducing the experimental backend.
+
+## Use the saved evidence and checkpoint
+
+Saved hosted reports can be audited without a key or another model call:
+
+```bash
+.venv/bin/python -m experiments.model_exploration.analyze_hosted compare \
+  --cohort results/model-exploration-20261017/cohorts/confirmation.json \
+  --runs confirmation-luna confirmation-flash-low \
+  --output results/scratch/hosted-confirmation-audit.json
+```
+
+The inference archive is a prerelease asset in the private repository. Authenticate `gh` with repository access, download it, check its hash, and extract from the repository root:
+
+```bash
+mkdir -p models/model-exploration
+gh release download model-exploration-20261018 --repo Sher110106/op06-triage \
+  --pattern modernbert-inference-20261018.tar --dir models/model-exploration
+printf '%s  %s\n' \
+  523dd618b63798a58c2a4ae4d4117e1298b80a0108d2f4d9ed96d312391d1af8 \
+  models/model-exploration/modernbert-inference-20261018.tar | sha256sum -c -
+tar -xf models/model-exploration/modernbert-inference-20261018.tar
+```
+
+Install the optional environment below, set `TAG=modernbert_joint`, and use the serving command. The archive is 635,136,000 bytes and installs only experiment paths. The default classical bundle stays separate. This checkpoint failed the predeclared high-risk operating guard; reproducing its measurements does not promote it to the default.
+
+For a new training run, use a separate working copy and move the existing `results/model-exploration-20261017/` and `models/model-exploration/` evidence to an archive first. The commands below target those fixed paths. Existing hosted cohorts and frozen selection choices intentionally refuse to be replaced in place. Reuse cached predictions for an audit instead of paying to call the same cases again.
+
 ## Environment
 
 Use Python 3.12, as pinned in the root `pyproject.toml`. The CPU training setup measured for this experiment used 32 threads. Install the normal project and test dependencies first, then the optional neural dependencies:
@@ -107,6 +136,7 @@ The confirmation command compares the reference, encoder, and selected ensemble 
   --tag "$TAG" --splits dev noisy hostile --device cpu --bs 32
 .venv/bin/python -m experiments.model_exploration.evaluate confirm \
   --tag "$TAG" --splits dev noisy hostile
+.venv/bin/python -m experiments.model_exploration.grade_public --tag "$TAG"
 ```
 
 Outputs are written below `results/model-exploration-20261017/<tag>/`. CUDA can be selected with `--device cuda` only when available with a compatible Torch build; this experiment has not validated CUDA behavior or performance.
@@ -128,9 +158,9 @@ Start the experimental service only after training, selection/calibration, and r
 
 ```bash
 TRIAGE_NEURAL_TAG="$TAG" \
-TRIAGE_NEURAL_THREADS=2 \
+TRIAGE_NEURAL_THREADS=4 \
 TRIAGE_NEURAL_DEVICE=cpu \
-uvicorn experiments.model_exploration.serve:app \
+.venv/bin/python -m uvicorn experiments.model_exploration.serve:app \
   --host 127.0.0.1 --port 8000 --workers 1
 ```
 
@@ -142,7 +172,8 @@ In another terminal, run the standard development, noisy, and hostile HTTP load 
 .venv/bin/python scripts/loadtest.py \
   --url http://127.0.0.1:8000 --concurrency 8 --warmup 20 \
   --label "neural-$TAG" \
-  --out "results/model-exploration-20261017/$TAG/http-loadtest.json"
+  --out "results/model-exploration-20261017/$TAG/http-loadtest.json" \
+  --pred-out "results/model-exploration-20261017/$TAG/http-predictions.jsonl"
 ```
 
 The load test checks HTTP status, response schema, echoed IDs, latency, and throughput. It does not decide whether to replace the production model. Keep one model-serving process per candidate; each worker loads a separate model copy.

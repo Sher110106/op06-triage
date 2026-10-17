@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/evaluate.py", line 360, in <module>
+    main()
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/evaluate.py", line 356, in main
+    else: confirm(a.tag, a.splits)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/evaluate.py", line 326, in confirm
+    result[split] = {name: score_rows(rows, p, policy) for name, p in preds.items()}
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/op06/model-exploration-20261017/experiments/model_exploration/evaluate.py", line 253, in score_rows
+    metric = Scored(labelled, preds).metrics()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sher/op06/model-exploration-20261017/harness/eval.py", line 135, in __init__
+    labels = sorted({r["intent"] for r in rows} | {str(p.get("intent")) for p in preds.values()})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'NoneType'

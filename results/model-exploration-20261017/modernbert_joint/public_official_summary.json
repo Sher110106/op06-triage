@@ -1,0 +1,59 @@
+{
+ "reference": {
+  "rows": 2309,
+  "intent_accuracy": 0.6978,
+  "macro_f1": 0.6749,
+  "action_accuracy": 0.8096,
+  "clean_action_accuracy": 0.813,
+  "noisy_action_accuracy": 0.7867,
+  "noisy_gap": 0.0263,
+  "schema_valid_rate": 1.0,
+  "top70_error_ratio": 0.3981,
+  "bars": {
+   "intent_accuracy_all": true,
+   "action_accuracy_all": true,
+   "macro_f1_all": true,
+   "schema_valid_pct": true,
+   "noisy_gap": true,
+   "top70_error_ratio": true
+  }
+ },
+ "encoder": {
+  "rows": 2309,
+  "intent_accuracy": 0.7074,
+  "macro_f1": 0.6753,
+  "action_accuracy": 0.81,
+  "clean_action_accuracy": 0.818,
+  "noisy_action_accuracy": 0.7567,
+  "noisy_gap": 0.0613,
+  "schema_valid_rate": 1.0,
+  "top70_error_ratio": 0.3989,
+  "bars": {
+   "intent_accuracy_all": true,
+   "action_accuracy_all": true,
+   "macro_f1_all": true,
+   "schema_valid_pct": true,
+   "noisy_gap": true,
+   "top70_error_ratio": true
+  }
+ },
+ "ensemble": {
+  "rows": 2309,
+  "intent_accuracy": 0.7209,
+  "macro_f1": 0.7,
+  "action_accuracy": 0.8283,
+  "clean_action_accuracy": 0.833,
+  "noisy_action_accuracy": 0.7967,
+  "noisy_gap": 0.0363,
+  "schema_valid_rate": 1.0,
+  "top70_error_ratio": 0.3326,
+  "bars": {
+   "intent_accuracy_all": true,
+   "action_accuracy_all": true,
+   "macro_f1_all": true,
+   "schema_valid_pct": true,
+   "noisy_gap": true,
+   "top70_error_ratio": true
+  }
+ }
+}

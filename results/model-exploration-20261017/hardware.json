@@ -1,0 +1,14 @@
+{
+  "cpu": {
+    "Architecture": "x86_64",
+    "CPU(s)": "112",
+    "Model name": "Intel(R) Xeon(R) Gold 6330 CPU @ 2.00GHz",
+    "Socket(s)": "2",
+    "Core(s) per socket": "28",
+    "Thread(s) per core": "2"
+  },
+  "ram_bytes": 132343300096,
+  "measured_training_device": "cpu",
+  "training_threads": 32,
+  "cuda_validated": false
+}

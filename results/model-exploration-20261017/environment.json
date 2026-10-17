@@ -1,0 +1,18 @@
+{
+  "python": "3.12.15",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "packages": {
+    "torch": "2.14.1+cpu",
+    "transformers": "5.19.0",
+    "tokenizers": "0.23.3",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "safetensors": "0.8.0",
+    "huggingface-hub": "1.33.0",
+    "fastapi": "0.143.0",
+    "uvicorn": "0.54.0",
+    "httpx": "0.28.1"
+  }
+}

@@ -1,0 +1,3 @@
+Fine-tuned from answerdotai/ModernBERT-base, revision 8949b909ec900327062f0ebf497f51aef5e6f0c8.
+The upstream model card declares Apache-2.0; its pinned README and a copy of the standard Apache license are included.
+Local classifier, calibration and neural weights were produced by the OP-06 model-exploration experiment.
